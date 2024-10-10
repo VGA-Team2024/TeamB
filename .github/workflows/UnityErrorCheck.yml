@@ -1,0 +1,6 @@
+name: Unity Error Check
+on:
+    workflow_dispatch: {}
+jobs:
+    Check:
+        runs-on: self-hosted
