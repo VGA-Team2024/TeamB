@@ -26,4 +26,3 @@ jobs:
                 content = "ワークフロー内からのてすと"
             } | ConvertTo-Json
             Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body $json ${{ secrets.DISCORD_WEBHOOK_URL }}
-        shell: pwsh
