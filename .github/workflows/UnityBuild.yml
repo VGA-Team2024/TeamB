@@ -17,9 +17,9 @@ jobs:
           clean: false
           # LFSを使用するかどうかを指定
           lfs: false
-    #   - name: Build
-    #     # 指定したcmdファイルを実行する
-    #     run: "C:/Users/vantan/Desktop/Runner/unity-build.cmd"
+      - name: Build
+        # 指定したcmdファイルを実行する
+        run: ${{ secrets.UNITY_BUILD_PATH }}unity-build.cmd
       - name: Discord Post
         run: 
             Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"WorkFlow Test`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
