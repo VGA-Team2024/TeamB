@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/Graphics/UI/Test.meta
 Assets/Graphics/UI/Test/
+.idea/
+Assets/ExternalAssets/
