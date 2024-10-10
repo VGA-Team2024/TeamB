@@ -21,12 +21,12 @@ jobs:
     #     # 指定したcmdファイルを実行する
     #     run: "C:/Users/vantan/Desktop/Runner/unity-build.cmd"
       - name: Discord Post
-        run: |
-          curl --request POST \
-               --header "Content-Type: application/json" \
-               --data "{\"content\":\"Hoge\"}" \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
-            # $json = @{
-            #     content = "ワークフロー内からのてすと"
-            # } | ConvertTo-Json
-            # Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body $json ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run:
+            $json = @{
+                content = "ワークフロー内からのてすと"
+            } | ConvertTo-Json
+            Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body $json ${{ secrets.DISCORD_WEBHOOK_URL }}
+        #   curl --request POST \
+        #        --header "Content-Type: application/json" \
+        #        --data "{\"content\":\"Hoge\"}" \
+        #        ${{ secrets.DISCORD_WEBHOOK_URL }}
