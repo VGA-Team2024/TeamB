@@ -1,5 +1,6 @@
 name: Unity Error Check
 on:
+  pull_request:
   workflow_dispatch: {}
 jobs:
   Check:
@@ -15,6 +16,12 @@ jobs:
       shell: cmd
 
     - name: PostMessage
-      if: ${{ success() }}
+      if: ${{ failure() }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
+        SHA: ${{ github.sha }}
+        ACTOR: ${{ github.actor }}
+        TEXT: "コンパイルエラーが発生しました。"
       run:
-        Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"Success`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+        Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"${{ env.TEXT }} :_sikei_:\r${{ env.PULL_REQUEST_URL }}\r`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
