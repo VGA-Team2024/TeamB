@@ -14,6 +14,6 @@ jobs:
       run: ${{ secrets.UNITY_EDITOR_PATH }} -quit -batchmode -projectPath ${{ secrets.UNITY_PROJECT_PATH }}
 
     - name: PostMessage
-      if: ${{ failure() }}
+      if: ${{ success() }}
       run:
-        Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"Compile Error`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+        Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"Success`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
