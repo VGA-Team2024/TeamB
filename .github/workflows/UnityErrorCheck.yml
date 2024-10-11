@@ -11,7 +11,7 @@ jobs:
         clean: false
         lfs: false
     - name: OpenUnity
-      run: ${{ secrets.UNITY_PROJECT_PATH }} -quit -batchmode -projectPath $GITHUB_WORKSPACE
+      run: ${{ secrets.UNITY_EDITOR_PATH }} -quit -batchmode -projectPath ${{ secrets.UNITY_PROJECT_PATH }}
 
     - name: PostMessage
       if: ${{ failure() }}
