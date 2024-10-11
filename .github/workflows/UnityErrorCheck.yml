@@ -1,6 +1,19 @@
-# name: Unity Error Check
-# on:
-#     workflow_dispatch: {}
-# jobs:
-#     Check:
-#     runs-on: self-hosted
+name: Unity Error Check
+on:
+  workflow_dispatch: {}
+jobs:
+  Check:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        clean: false
+        lfs: false
+    - name: OpenUnity
+      run: $UNITY_PATH -quit -batchmode -projectPath $GITHUB_WORKSPACE
+
+    - name: PostMessage
+      if: ${{ failure() }}
+      run:
+        Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"Compile Error`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
