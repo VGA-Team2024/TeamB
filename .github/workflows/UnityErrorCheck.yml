@@ -12,6 +12,7 @@ jobs:
         lfs: false
     - name: OpenUnity
       run: ${{ secrets.UNITY_EDITOR_PATH }} -quit -batchmode -projectPath ${{ secrets.UNITY_PROJECT_PATH }}
+      shell: cmd
 
     - name: PostMessage
       if: ${{ success() }}
