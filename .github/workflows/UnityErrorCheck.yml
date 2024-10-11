@@ -22,6 +22,6 @@ jobs:
         PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
         SHA: ${{ github.sha }}
         ACTOR: ${{ github.actor }}
-        TEXT: "コンパイルエラーが発生しました。"
+        TEXT: "Compile Error"
       run:
         Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"${{ env.TEXT }} :_sikei_:\r${{ env.PULL_REQUEST_URL }}\r`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
