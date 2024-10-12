@@ -4,7 +4,7 @@ using System.Linq;
 
 public class GitHubActionsBuildCommand
 {
-    [MenuItem("Assets/Build Application")]
+    [MenuItem("Assets/Build Application for GitHub Actions")]
     public static void Build()
     {
         //プラットフォーム、オプション
