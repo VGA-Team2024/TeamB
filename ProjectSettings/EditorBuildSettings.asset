@@ -80,6 +80,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mockup/moch_CharmUp.unity
     guid: 75d964bd9b78b014b9e39fd6b4e500ab
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
+    guid: 9deb0cb88b4229f4297ab6798511543b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 7366e43fa3f777f4292c2095e8b63e4c,
       type: 2}
