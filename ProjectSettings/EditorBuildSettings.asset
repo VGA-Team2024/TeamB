@@ -17,4 +17,40 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: AssetsScenes/Mockup/GameExecuterTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Mockup/TalkTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Sample/3DSoundSample.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/System/GameLauncher.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/System/IngameDebug.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Design/Test_BaseScene.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Mockup/TestEmptyScene.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Mockup/GameExecuterTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Sample/3DSoundSample.unity
+    guid: a174e69cd80e78248945d3373b6e48f0
+  - enabled: 1
+    path: Assets/Scenes/System/GameLauncher.unity
+    guid: 8fddd8bd6df26f84eb0ce52c7a3f43e5
+  - enabled: 1
+    path: Assets/Scenes/System/IngameDebug.unity
+    guid: f344c073eba28c247a464cfb6b57ff22
+  - enabled: 1
+    path: Assets/Scenes/Develop/GameExecuterTest.unity
+    guid: d189fba24b7e6c14c859cf4d7b7b719f
   m_configObjects: {}
