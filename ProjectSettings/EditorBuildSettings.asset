@@ -68,4 +68,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Develop/test_debug.unity
     guid: 279ed887d2d97e947ae0782b5e77eb58
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_Exam.unity
+    guid: b01e421d74c91f1439e0f4566194bd71
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_Title.unity
+    guid: d9ca54e8c71836149825a53796f460c9
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_Talk.unity
+    guid: 15693754086e9564d98ce4c460a086da
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_AfterExam.unity
+    guid: 75d964bd9b78b014b9e39fd6b4e500ab
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7366e43fa3f777f4292c2095e8b63e4c,
+      type: 2}

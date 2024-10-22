@@ -9,6 +9,6 @@ public class UITitleView : UIView
 
     public void GameStart()
     {
-
+        SceneLoader.LoadScene("moch_Talk");
     }
 }

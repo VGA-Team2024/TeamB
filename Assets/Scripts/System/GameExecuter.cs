@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,21 +22,31 @@ public class GameExecuter : GameExecuterBase
     }
 
     /// <summary>
-    /// 次のシーン読み込みを試行する
+    /// 次のシーン読み込みをする
     /// </summary>
-    /// <param name="sceneName"></param>
+    /// <param name="currentSceneName"></param>
     /// <returns></returns>
-    public void LoadNextScene(string sceneName)
+    public void LoadNextScene(string currentSceneName)
     {
         var active = SceneManager.GetActiveScene();
 
         var sceneDepends = AssetDatabase.LoadAssetAtPath<SceneDependencies>(SceneDependencies.AssetPath);
 
-        var ind = sceneDepends.GetAll().IndexOf(sceneDepends.GetAll().Where(scene => scene.Name == active.name).First());
-        
+        var ind = sceneDepends.GetAll()
+            .IndexOf(sceneDepends.GetAll().Where(scene => scene.Name == active.name).First());
+
         Debug.Log("Loading:" + sceneDepends.GetAll()[ind + 1].Name);
-        
+
         SceneLoader.LoadSceneSimple(sceneDepends.GetAll()[ind + 1].Name);
+    }
+
+    /// <summary>
+    /// シーン読み込み実行する
+    /// </summary>
+    /// <param name="nextSceneName"></param>
+    public void LoadScene(string nextSceneName)
+    {
+        SceneLoader.LoadSceneSimple(nextSceneName);
     }
 
     public override void InitializeScene()

@@ -16,23 +16,31 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Morning
     AssetPath: Assets/Scenes/Design/Morning.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Night
     AssetPath: Assets/Scenes/Design/Night.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: moch_AfterExam
+    AssetPath: Assets/Scenes/Mockup/moch_AfterExam.unity
     SceneType: 2
   - CanIDebugSelect: 1
-    Name: test_debug
-    AssetPath: Assets/Scenes/Develop/test_debug.unity
-    SceneType: 0
+    Name: moch_Exam
+    AssetPath: Assets/Scenes/Mockup/moch_Exam.unity
+    SceneType: 2
   - CanIDebugSelect: 1
-    Name: GameExecuterTest
-    AssetPath: Assets/Scenes/Mockup/GameExecuterTest.unity
-    SceneType: 0
+    Name: moch_Talk
+    AssetPath: Assets/Scenes/Mockup/moch_Talk.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
+    Name: moch_Title
+    AssetPath: Assets/Scenes/Mockup/moch_Title.unity
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: TalkTest
     AssetPath: Assets/Scenes/Mockup/TalkTest.unity
-    SceneType: 0
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: 3DSoundSample
     AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
