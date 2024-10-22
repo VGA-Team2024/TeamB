@@ -21,13 +21,13 @@ namespace TeamB.UI
             if (tmp > 5)
             {
                 SceneLoader.LoadScene("moch_CharmUp");
+                GameStatics.PrevGameState = GameState.Exam;
             }
             else
             {
                 SceneLoader.LoadScene("moch_SuddenlyEvent");
+                GameStatics.PrevGameState = GameState.Exam;
             }
-
-            GameStatics.PrevGameState = GameState.Exam;
         }
     }
 }

@@ -46,6 +46,10 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Mockup/TalkTest.unity
     SceneType: 2
   - CanIDebugSelect: 1
+    Name: Whack-a-mole
+    AssetPath: Assets/Scenes/Mockup/Whack-a-mole.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
     Name: 3DSoundSample
     AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
     SceneType: 0
