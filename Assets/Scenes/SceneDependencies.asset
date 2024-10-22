@@ -22,9 +22,13 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Design/Night.unity
     SceneType: 2
   - CanIDebugSelect: 1
+    Name: test_debug
+    AssetPath: Assets/Scenes/Develop/test_debug.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
     Name: GameExecuterTest
-    AssetPath: Assets/Scenes/Develop/GameExecuterTest.unity
-    SceneType: 2
+    AssetPath: Assets/Scenes/Mockup/GameExecuterTest.unity
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: TalkTest
     AssetPath: Assets/Scenes/Mockup/TalkTest.unity
