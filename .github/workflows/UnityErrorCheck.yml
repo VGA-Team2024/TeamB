@@ -1,6 +1,27 @@
-# name: Unity Error Check
-# on:
-#     workflow_dispatch: {}
-# jobs:
-#     Check:
-#     runs-on: self-hosted
+name: Unity Error Check
+on:
+  pull_request:
+  workflow_dispatch: {}
+jobs:
+  Check:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        clean: false
+        lfs: false
+    - name: OpenUnity
+      run: ${{ secrets.UNITY_EDITOR_PATH }} -quit -batchmode -projectPath ${{ secrets.UNITY_PROJECT_PATH }}
+      shell: cmd
+
+    - name: PostMessage
+      if: ${{ failure() }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
+        SHA: ${{ github.sha }}
+        ACTOR: ${{ github.actor }}
+        TEXT: "Compile Error"
+      run:
+        Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"${{ env.TEXT }} :_sikei_:\r${{ env.PULL_REQUEST_URL }}\r`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}

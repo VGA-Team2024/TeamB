@@ -1,13 +1,16 @@
 # このGitHub Actionsの名前定義
 name: Unity Build
+
 # このGitHub Actionsが実行されるトリガーを定義
 on:
-    # 手動のみで実行する場合はworkflow_dispatchを指定
-    workflow_dispatch: {}
+  # 手動のみで実行する場合はworkflow_dispatchを指定
+  workflow_dispatch: {}
+
 jobs:
   build:
     # Self-hosted runnerを使用時にはruns-on: self-hostedを指定する    
     runs-on: self-hosted
+
     steps:
       - name: Checkout
         # このGitHub Actionsが実行される前に必要なアクションを指定 (今回はチェックアウトを行うアクション)
@@ -19,7 +22,14 @@ jobs:
           lfs: false
       - name: Build
         # 指定したcmdファイルを実行する
-        run: ${{ secrets.UNITY_BUILD_PATH }}unity-build.cmd
+        # run: ${{ secrets.UNITY_BUILD_PATH }}unity-build.cmd
+        run: exit 1
+
+  message:
+    runs-on: self-hosted
+    needs: build
+    if: ${{ failure()}}
+    steps:
       - name: Discord Post
-        run: 
-            Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"WorkFlow Test`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run:
+          Invoke-WebRequest -Headers @{"Content-Type"="application/json"} -Method Post -Body "{`"content`":`"if Test (fail)`"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
