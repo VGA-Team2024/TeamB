@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MockUp
 {
+	/// <summary>
+	/// モグラたたきのタイムマネージャー
+	/// </summary>
 	public class MiniGameTimeManager : MonoBehaviour, IInitialized
 	{
 		[SerializeField,Range(20f, 30f)] private float _timeLimit;

@@ -6,6 +6,9 @@ using Random = UnityEngine.Random;
 
 namespace MockUp
 {
+	/// <summary>
+	/// もぐらの機能
+	/// </summary>
 	public class Mole : MonoBehaviour
 	{
 		[SerializeField, Header("最初のインターバル")] private RandomMinMax _firstInterval;
@@ -66,12 +69,20 @@ namespace MockUp
 			_sequence.Kill();
 		}
 
+		/// <summary>
+		/// モグラをひっこめて、出てこなくする機能（ゲーム終了時に呼び出す）
+		/// </summary>
 		public void EndMole()
 		{
 			_moleTransform.transform.localPosition = Vector3.zero;
 			_sequence.Kill();
 		}
 
+		/// <summary>
+		/// ランダムな値を返す機能
+		/// </summary>
+		/// <param name="minMax"></param>
+		/// <returns></returns>
 		private float RandomInterval(RandomMinMax minMax)
 		{
 			float rand = Random.Range(minMax.Min, minMax.Max);

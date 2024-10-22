@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace MockUp
 {
+	/// <summary>
+	/// モグラすべてを管理する機能
+	/// </summary>
 	public class MoleController : MonoBehaviour
 	{
 		List<Mole> _moles = new List<Mole>();
@@ -16,6 +19,9 @@ namespace MockUp
 			Initialize();
 		}
 
+		/// <summary>
+		/// モグラ全ての初期化
+		/// </summary>
 		private void MolesInitialize()
 		{
 			_moles = GetComponentsInChildren<Mole>().ToList();
@@ -28,7 +34,10 @@ namespace MockUp
 					_wackManager.OnGameEnd += mole.EndMole;
 			}
 		}
-
+		
+		/// <summary>
+		/// Moleコントローラーの初期化
+		/// </summary>
 		public void Initialize()
 		{
 			_scoreManager = FindObjectOfType<MoleScoreManager>();

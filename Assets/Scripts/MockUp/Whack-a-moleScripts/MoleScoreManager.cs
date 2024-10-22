@@ -1,19 +1,26 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoleScoreManager : MonoBehaviour
+namespace MockUp
 {
-	[SerializeField] private int _upScore;
-	private int _score;
-
-	public event Action<int> OnScoreChanged;
-	public int Score => _score;
-
-	public void ScoreUp()
+	/// <summary>
+	/// モグラたたきのスコアマネージャー
+	/// </summary>
+	public class MoleScoreManager : MonoBehaviour
 	{
-		_score += _upScore;
-		OnScoreChanged?.Invoke(_score);
+		[SerializeField] private int _upScore;
+		private int _getScore;
+
+		public event Action<int> OnScoreChanged;
+		public int GetScore => _getScore;
+
+		/// <summary>
+		/// スコアアップ
+		/// </summary>
+		public void ScoreUp()
+		{
+			_getScore += _upScore;
+			OnScoreChanged?.Invoke(_getScore);
+		}
 	}
 }

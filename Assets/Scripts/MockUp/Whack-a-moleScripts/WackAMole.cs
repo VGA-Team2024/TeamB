@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MockUp
 {
+	/// <summary>
+	/// モグラたたき全体を管理するクラス
+	/// </summary>
 	public class WackAMoleManager : MonoBehaviour
 	{
 		private MiniGameTimeManager _timeManager;
@@ -13,7 +16,10 @@ namespace MockUp
 		public event Action OnGameStart;
 		public event Action OnGameEnd;
 
-
+		
+		/// <summary>
+		/// タイムライン終了時にゲームを開始する
+		/// </summary>
 		public void GameStart()
 		{
 			OnGameStart?.Invoke();
