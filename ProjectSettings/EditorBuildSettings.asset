@@ -65,4 +65,7 @@ EditorBuildSettings:
   - enabled: 1
     path: AssetsScenes/Develop/test_debug.unity
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Develop/test_debug.unity
+    guid: 279ed887d2d97e947ae0782b5e77eb58
   m_configObjects: {}
