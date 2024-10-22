@@ -22,12 +22,16 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Design/Night.unity
     SceneType: 0
   - CanIDebugSelect: 1
-    Name: moch_AfterExam
-    AssetPath: Assets/Scenes/Mockup/moch_AfterExam.unity
+    Name: moch_CharmUp
+    AssetPath: Assets/Scenes/Mockup/moch_CharmUp.unity
     SceneType: 2
   - CanIDebugSelect: 1
     Name: moch_Exam
     AssetPath: Assets/Scenes/Mockup/moch_Exam.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
+    Name: moch_SuddenlyEvent
+    AssetPath: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
     SceneType: 2
   - CanIDebugSelect: 1
     Name: moch_Talk

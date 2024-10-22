@@ -207,7 +207,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1870671764}
         m_TargetAssemblyTypeName: BaseSystem.UI.UIInClassView, BasySystem
-        m_MethodName: GoToExamination
+        m_MethodName: EndClass
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
