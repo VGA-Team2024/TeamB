@@ -17,4 +17,75 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+  - enabled: 1
+    path: AssetsScenes/Mockup/GameExecuterTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Mockup/TalkTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Sample/3DSoundSample.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/System/GameLauncher.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/System/IngameDebug.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Design/Test_BaseScene.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Mockup/TestEmptyScene.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Mockup/GameExecuterTest.unity
+    guid: d189fba24b7e6c14c859cf4d7b7b719f
+  - enabled: 1
+    path: Assets/Scenes/Sample/3DSoundSample.unity
+    guid: a174e69cd80e78248945d3373b6e48f0
+  - enabled: 1
+    path: Assets/Scenes/System/GameLauncher.unity
+    guid: 8fddd8bd6df26f84eb0ce52c7a3f43e5
+  - enabled: 1
+    path: Assets/Scenes/System/IngameDebug.unity
+    guid: f344c073eba28c247a464cfb6b57ff22
+  - enabled: 1
+    path: Assets/Scenes/Mockup/GameExecuterTest.unity
+    guid: d189fba24b7e6c14c859cf4d7b7b719f
+  - enabled: 1
+    path: Assets/Scenes/Develop/GameExecuterTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Mockup/TalkTest.unity
+    guid: 3eab1e268cd8a0d488841deb2e035d5d
+  - enabled: 1
+    path: C:/Users/sugan/UNITYPROJECT/Mahogaku/Assets/Scenes/Develop/test_debug.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: AssetsScenes/Develop/test_debug.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Develop/test_debug.unity
+    guid: 279ed887d2d97e947ae0782b5e77eb58
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_Exam.unity
+    guid: b01e421d74c91f1439e0f4566194bd71
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_Title.unity
+    guid: d9ca54e8c71836149825a53796f460c9
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_Talk.unity
+    guid: 15693754086e9564d98ce4c460a086da
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_CharmUp.unity
+    guid: 75d964bd9b78b014b9e39fd6b4e500ab
+  - enabled: 1
+    path: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
+    guid: 9deb0cb88b4229f4297ab6798511543b
+  - enabled: 1
+    path: Assets/Scenes/Mockup/Whack-a-mole.unity
+    guid: 9669a04221c0d6f4f97be9e21af75fc5
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7366e43fa3f777f4292c2095e8b63e4c,
+      type: 2}
