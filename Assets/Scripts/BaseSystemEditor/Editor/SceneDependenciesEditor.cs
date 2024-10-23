@@ -19,7 +19,7 @@ public class SceneDependenciesEditor : Editor
     //動的生成
     public static void CreateSceneDependencies()
     {
-        string assetRoot = "Assets"; //Application.dataPath;
+        string assetRoot = "Assets/"; //Application.dataPath;
         //既にアセットあるか
         var db = AssetDatabase.LoadAssetAtPath<SceneDependencies>(AssetPath);
         if(db == null)
