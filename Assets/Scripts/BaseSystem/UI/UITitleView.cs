@@ -1,4 +1,5 @@
 ﻿using UISystem;
+using UnityEngine;
 
 public class UITitleView : UIView
 {
@@ -9,6 +10,5 @@ public class UITitleView : UIView
 
     public void GameStart()
     {
-
     }
 }
