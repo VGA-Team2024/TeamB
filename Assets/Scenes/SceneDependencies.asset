@@ -13,55 +13,15 @@ MonoBehaviour:
   m_Name: SceneDependencies
   m_EditorClassIdentifier: 
   _dependencies:
-  - CanIDebugSelect: 1
-    Name: Morning
+  - Name: SampleScene
+    AssetPath: Assets/Scenes/SampleScene.unity
+    SceneType: 0
+  - Name: Morning
     AssetPath: Assets/Scenes/Design/Morning.unity
-    SceneType: 0
-  - CanIDebugSelect: 1
-    Name: Night
+    SceneType: 2
+  - Name: Night
     AssetPath: Assets/Scenes/Design/Night.unity
-    SceneType: 0
-  - CanIDebugSelect: 1
-    Name: moch_CharmUp
-    AssetPath: Assets/Scenes/Mockup/moch_CharmUp.unity
     SceneType: 2
-  - CanIDebugSelect: 1
-    Name: moch_Exam
-    AssetPath: Assets/Scenes/Mockup/moch_Exam.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: moch_SuddenlyEvent
-    AssetPath: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: moch_Talk
-    AssetPath: Assets/Scenes/Mockup/moch_Talk.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: moch_Title
-    AssetPath: Assets/Scenes/Mockup/moch_Title.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: TalkTest
-    AssetPath: Assets/Scenes/Mockup/TalkTest.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: Whack-a-mole
-    AssetPath: Assets/Scenes/Mockup/Whack-a-mole.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: 3DSoundSample
-    AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
-    SceneType: 0
-  - CanIDebugSelect: 1
-    Name: GameLauncher
-    AssetPath: Assets/Scenes/System/GameLauncher.unity
-    SceneType: 0
-  - CanIDebugSelect: 1
-    Name: IngameDebug
-    AssetPath: Assets/Scenes/System/IngameDebug.unity
-    SceneType: 0
-  - CanIDebugSelect: 1
-    Name: IngameSystem
+  - Name: IngameSystem
     AssetPath: Assets/Scenes/System/IngameSystem.unity
     SceneType: 0
