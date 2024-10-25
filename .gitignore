@@ -75,3 +75,8 @@ crashlytics-build.properties
 Assets/ThirdParty/CRI/CRIMW/
 Assets/CRIMW/
 Assets/CRIMW.meta
+Assets/Plugins/Demigiant
+Assets/Plugins/Demigiant.meta
+.idea/
+Assets/Resources/DOTweenSettings.asset
+Assets/Resources/DOTweenSettings.asset.meta
