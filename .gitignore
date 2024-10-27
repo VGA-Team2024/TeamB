@@ -80,3 +80,9 @@ Assets/Plugins/Demigiant.meta
 .idea/
 Assets/Resources/DOTweenSettings.asset
 Assets/Resources/DOTweenSettings.asset.meta
+Assets/Live2D/
+Assets/Live2D.meta
+Assets/csc.rsp
+Assets/csc.rsp.meta
+Assets/mcs.rsp
+Assets/mcs.rsp.meta
