@@ -1,13 +1,12 @@
 name: Unity Error Check
 on:
-  pull_request:
   workflow_dispatch: {}
 jobs:
   Check:
     runs-on: self-hosted
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         clean: false
         lfs: false
