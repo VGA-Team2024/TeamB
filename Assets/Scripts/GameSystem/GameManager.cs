@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MockUp;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
 using TeamB.UI;
@@ -21,8 +20,7 @@ namespace TeamB.GameSystem
         // Start is called before the first frame update
         void Start()
         {
-            // いったんもぐらたたきがミニゲームとして進行するとする
-            var man = GameObject.FindAnyObjectByType<MiniGameTimeManager>();
+            var man = GameObject.FindAnyObjectByType<TimeManager>();
             if (man is not null)
             {
                 man.OnLimit

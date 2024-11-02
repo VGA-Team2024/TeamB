@@ -6,7 +6,7 @@ namespace MockUp
 {
     public class WackAMoleManager : MonoBehaviour
     {
-        private MiniGameTimeManager _timeManager;
+        private TimeManager _timeManager;
         private MoleUI _moleUI;
         private MoleController _moleController;
 
@@ -27,7 +27,7 @@ namespace MockUp
 
         public void Initialized()
         {
-            _timeManager = FindAnyObjectByType<MiniGameTimeManager>();
+            _timeManager = FindAnyObjectByType<TimeManager>();
             _timeManager.OnLimit += GameEnd;
             GetComponents<IInitialized>().ToList().ForEach(x => x.Initialize());
         }

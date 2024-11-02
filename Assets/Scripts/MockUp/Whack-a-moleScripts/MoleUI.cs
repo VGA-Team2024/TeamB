@@ -9,7 +9,7 @@ namespace MockUp
         [SerializeField] Text _scoreText;
         [SerializeField] GameObject _gameOverPanel;
         [SerializeField] Text _gameOverText;
-        MiniGameTimeManager _miniGameTimeManager;
+        TimeManager _miniGameTimeManager;
         MoleScoreManager _moleScoreManager;
         WackAMoleManager _wackAMoleManager;
 
@@ -35,7 +35,7 @@ namespace MockUp
         public void Initialize()
         {
             _moleScoreManager = FindAnyObjectByType<MoleScoreManager>();
-            _miniGameTimeManager = FindAnyObjectByType<MiniGameTimeManager>();
+            _miniGameTimeManager = FindAnyObjectByType<TimeManager>();
             _wackAMoleManager = FindAnyObjectByType<WackAMoleManager>();
 
 

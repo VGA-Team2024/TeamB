@@ -1,4 +1,5 @@
-﻿using TeamB.Data;
+﻿using System.Collections.Generic;
+using TeamB.Data;
 using UnityEngine;
 
 namespace TeamB.GameSystem.Statics
@@ -15,6 +16,11 @@ namespace TeamB.GameSystem.Statics
 
         public static GameState PrevGameState;
 
+        /// <summary>
+        /// 育成キャラの現ステータス
+        /// </summary>
+        public static Dictionary<CharacterType, CharacterStatus> NurturingCharacter = new();
+        
         public static void Log()
         {
             Debug.Log("試験まで残り:" + RemainingDayForExam + "日");

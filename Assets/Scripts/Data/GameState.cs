@@ -12,4 +12,10 @@
         CharmUp,
         SuddenlyEvent,
     }
+
+    public enum BattleState : int
+    {
+        FirstExam,
+        SecondExam,
+    }
 }
