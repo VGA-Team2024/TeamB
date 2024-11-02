@@ -81,5 +81,30 @@ namespace DataManagement
             public SkillData[] Data;
         }
         //
+
+
+        /// <summary>
+        /// キャラクターデータ
+        /// </summary>
+        [Serializable]
+        public class CharacterData
+        {
+            public int Id;
+            public string Name;
+            public string ResourceName;
+            public int Rank;
+            public float Hp;
+            public float HitRate;
+            public float ChantingSpeed;
+            public float MagicATK;
+            public int SkillId;
+        }
+
+        [Serializable]
+        public class CharacterMaster : SpreadSheetDataObject
+        {
+            private int Version;
+            public CharacterData[] Data;
+        }
     }
 }

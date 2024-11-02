@@ -28,6 +28,8 @@ namespace DataManagement
         public abstract string MasterName { get; }
 
         public V this[K id] => _dic.ContainsKey(id) ? _dic[id] : default;
+        
+        public int Count => _dic.Count;
 
         public abstract UniTask Marshal();
 

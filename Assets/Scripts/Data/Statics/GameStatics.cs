@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using DataManagement.SpreadSheet;
 using TeamB.Data;
 using UnityEngine;
+using CharacterMaster = DataManagement.CharacterMaster;
 
 namespace TeamB.GameSystem.Statics
 {
@@ -19,7 +21,7 @@ namespace TeamB.GameSystem.Statics
         /// <summary>
         /// 育成キャラの現ステータス
         /// </summary>
-        public static Dictionary<CharacterType, CharacterStatus> NurturingCharacter = new();
+        public static Dictionary<CharacterType, DataManagement.SpreadSheet.CharacterData> NurturingCharacter = new();
         
         public static void Log()
         {

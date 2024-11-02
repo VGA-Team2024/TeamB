@@ -1,0 +1,1 @@
+public enum CharacterType{character1=1,character2=2,character3=3,character4=4,character5=5,}
