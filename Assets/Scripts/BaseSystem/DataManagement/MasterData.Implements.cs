@@ -1,9 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using static Network.WebRequest;
 using Cysharp.Threading.Tasks;
 
 
@@ -22,6 +18,7 @@ namespace DataManagement
         //マスターデータ読み込みリスト
         static public TextMaster TextMaster { get; private set; }
         static public EnemyMaster EnemyMaster { get; private set; }
+        static public CharacterMaster CharacterMaster { get; private set; }
 
 
         //読み込み処理
@@ -30,11 +27,14 @@ namespace DataManagement
             //マスタ読み込み
             TextMaster = new TextMaster();
             EnemyMaster = new EnemyMaster();
+            CharacterMaster = new CharacterMaster();
+            
 
             await UniTask.WhenAll(new List<UniTask>()
             {
                 TextMaster.Marshal(),
                 EnemyMaster.Marshal(),
+                CharacterMaster.Marshal(),
             });
         }
     }

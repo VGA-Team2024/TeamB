@@ -4,6 +4,7 @@ using SerializableCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -114,14 +115,24 @@ namespace DataManagement
         {
             public int Id;
             public string Name;
+            public string Card;
             public string ResourceName;
+            public float Hp;
+            public float HitRate;
+            public float AttackSpeed;
+            public float ATK;
             public SkillData Skill;
 
             public EnemyData(SpreadSheet.EnemyData data)
             {
                 Id = data.Id;
                 Name = data.Name;
+                Card = data.Card;
                 ResourceName = data.ResourceName;
+                Hp = data.Hp;
+                HitRate = data.HitRate;
+                AttackSpeed = data.AttackSpeed;
+                ATK = data.ATK;
             }
         }
 

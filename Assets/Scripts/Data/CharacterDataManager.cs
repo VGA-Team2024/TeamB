@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using DataManagement;
+using SerializableCollections;
 using TeamB.GameSystem.Statics;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +14,8 @@ namespace TeamB.Data
     /// <summary>
     /// 育成キャラのデータを管理するクラス
     /// </summary>
-    public class CharacterDataManager : MonoBehaviour
+    [DefaultExecutionOrder(-100)]
+    public class CharacterDataManager
     {
         public event Action OnParamUpdated;
 
@@ -22,64 +25,78 @@ namespace TeamB.Data
         public DataManagement.SpreadSheet.CharacterData UpdateParam(CharacterType characterType,
             CharacterStatusType paramType, float value)
         {
-            if (GameStatics.NurturingCharacter[characterType] == null)
+            if (GameStatics.Characters[(int)characterType] == null)
                 return null;
             switch (paramType)
             {
                 case CharacterStatusType.Rank:
-                    GameStatics.NurturingCharacter[characterType].Rank += (int)value;
+                    GameStatics.Characters[(int)characterType].Rank += (int)value;
                     break;
                 case CharacterStatusType.Hp:
-                    GameStatics.NurturingCharacter[characterType].Hp += value;
+                    GameStatics.Characters[(int)characterType].Hp += value;
                     break;
                 case CharacterStatusType.ChantingSpeed:
-                    GameStatics.NurturingCharacter[characterType].ChantingSpeed += value;
+                    GameStatics.Characters[(int)characterType].ChantingSpeed += value;
                     break;
                 case CharacterStatusType.HitRate:
-                    GameStatics.NurturingCharacter[characterType].HitRate += value;
+                    GameStatics.Characters[(int)characterType].HitRate += value;
                     break;
                 case CharacterStatusType.MagicATK:
-                    GameStatics.NurturingCharacter[characterType].MagicATK += value;
+                    GameStatics.Characters[(int)characterType].MagicATK += value;
                     break;
             }
 
             OnParamUpdated?.Invoke();
-            return GameStatics.NurturingCharacter[characterType];
+            return GameStatics.Characters[(int)characterType];
         }
+
 
         /// <summary>
         /// マスターデータの読み込み
         /// </summary>
-        public async UniTask SetUp()
+        [RuntimeInitializeOnLoadMethod]
+        public static async UniTask MasterDataSetUp()
         {
-            FileManager fileManager = new FileManager();
-            DataManagement.SpreadSheet.CharacterMaster masterData =
-                await fileManager.ReadDataAsync<DataManagement.SpreadSheet.CharacterMaster>(GameConsts.CharacterFile,
-                    async obj =>
-                    {
-                        for (int i = 0; i < obj.Data.Length; i++)
-                        {
-                            GameStatics.NurturingCharacter.Add((CharacterType)obj.Data[i].Id, obj.Data[i]);
-                        }
-                    });
+            DataManagement.SpreadSheet.CharacterMaster characterData = await new CharacterMaster().LoadFromFile("Character");
+            for (int i = 0; i < characterData.Data.Length; i++)
+            {
+                GameStatics.Characters.Add(characterData.Data[i].Id, characterData.Data[i]);
+            }
         }
 
 
         /// <summary>
-        /// キャラクターの中身をstringに書き出す
+        /// キャラクターの全ステータスをstring変換
         /// </summary>
         /// <param name="playerStatus"></param>
         /// <returns></returns>
-        public string PrintCharacterData(CharacterType characterType)
+        public static string PrintCharacterData(CharacterType characterType)
         {
             string playerstatus = $"CharacterData\n" +
-                                  $"Name:{GameStatics.NurturingCharacter[characterType].Name},\n" +
-                                  $"HP:{GameStatics.NurturingCharacter[characterType].Hp}" +
-                                  $"Rank:{GameStatics.NurturingCharacter[characterType].Rank},\n" +
-                                  $"HitRate:{GameStatics.NurturingCharacter[characterType].HitRate},\n" +
-                                  $"ChantingSpeed:{GameStatics.NurturingCharacter[characterType].ChantingSpeed},\n" +
-                                  $"MagicalAmount:{GameStatics.NurturingCharacter[characterType].MagicATK},\n";
+                                  $"Name:{GameStatics.Characters[(int)characterType].Name},\n" +
+                                  $"HP:{GameStatics.Characters[(int)characterType].Hp}" +
+                                  $"Rank:{GameStatics.Characters[(int)characterType].Rank},\n" +
+                                  $"HitRate:{GameStatics.Characters[(int)characterType].HitRate},\n" +
+                                  $"ChantingSpeed:{GameStatics.Characters[(int)characterType].ChantingSpeed},\n" +
+                                  $"MagicalAmount:{GameStatics.Characters[(int)characterType].MagicATK},\n";
             return playerstatus;
+        }
+
+        /// <summary>
+        /// 各パラメータ更新の情報
+        /// </summary>
+        /// <param name="characterType"></param>
+        /// <param name="paramType"></param>
+        /// <param name="value"></param>
+        public static string PrintUpdateStatus(CharacterType characterType,
+            CharacterStatusType paramType, float value)
+        {
+            if (GameStatics.Characters[(int)characterType] != null)
+            {
+                string text = $"{GameStatics.Characters[(int)characterType].Name}";
+            }
+
+            return null;
         }
     }
 

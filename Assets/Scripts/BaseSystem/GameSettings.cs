@@ -12,7 +12,7 @@ public class GameSettings
     }
 
     static public string MasterDataAPIURI =>
-        "https://script.google.com/macros/s/AKfycbzP1M83IJKJeJUyk081exwgnLVmuOvqmi6YzMUVLKIrDZH-jzYAcbHzk-SwZ1memlvE-Q/exec";
+        "https://script.google.com/macros/s/AKfycbxEAbCfuD3MfziEM5kKY3UB8ulrMoPg_9vItGk9fzyQWLUvEP25NsfFVaVu8Jt79hogAQ/exec";
 
 
     /// <summary>

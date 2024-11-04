@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using SerializableCollections;
+using UnityEditor;
+using UnityEngine;
 
 namespace DataManagement
 {
     /// <summary>
-    /// キャラクターマスタ
+    /// キャラクターマスタデータ
     /// </summary>
     [Serializable]
     public class CharacterMaster : MasterDataBase<int, CharacterMaster.CharacterData>
     {
         public override string MasterName => "CharacterMaster";
-
         /// <summary>
         /// スキルのデータ
         /// </summary>
@@ -20,6 +22,7 @@ namespace DataManagement
         {
             public int Id;
             public string Name;
+            public string Card;
             public string ResourceName;
             /// <summary>
             /// 等級
@@ -51,6 +54,7 @@ namespace DataManagement
             {
                 Id = data.Id;
                 Name = data.Name;
+                Card = data.Card;
                 ResourceName = data.ResourceName;
                 Rank = data.Rank;
                 Hp = data.Hp;
@@ -70,13 +74,13 @@ namespace DataManagement
             public string Text;
         }
 
-        public async UniTask<DataManagement.CharacterMaster> LoadFromFile(string masterName = "default")
+        public async UniTask<DataManagement.SpreadSheet.CharacterMaster> LoadFromFile(string masterName = "default")
         {
             if(masterName == "default")
             {
                 masterName = MasterName;
             }
-            return await LocalData.LoadAsync<DataManagement.CharacterMaster>(MasterData.GetFileName(masterName));
+            return await LocalData.LoadAsync<DataManagement.SpreadSheet.CharacterMaster>(MasterData.GetFileName(masterName));
         }
         
         public override async UniTask Marshal()
