@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
-using TeamB.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,12 +19,6 @@ namespace TeamB.GameSystem
         // Start is called before the first frame update
         void Start()
         {
-            var man = GameObject.FindAnyObjectByType<TimeManager>();
-            if (man is not null)
-            {
-                man.OnLimit
-                    += () => { GameObject.FindAnyObjectByType<InExamUIView>().ExitExam(); };
-            }
         }
 
         // Update is called once per frame

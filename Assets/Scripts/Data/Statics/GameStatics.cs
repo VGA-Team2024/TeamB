@@ -19,13 +19,34 @@ namespace TeamB.GameSystem.Statics
         public static GameState PrevGameState;
 
         /// <summary>
-        /// 育成キャラの現ステータス
+        /// 全キャラの現ステータス
         /// </summary>
-        public static Dictionary<CharacterType, DataManagement.SpreadSheet.CharacterData> NurturingCharacter = new();
+        public static Dictionary<int, DataManagement.SpreadSheet.CharacterData> Characters = new();
+        
+        /// <summary>
+        /// 育成しているキャラの種類
+        /// </summary>
+        public static CharacterType NurturingCharacterType = CharacterType.character1;
+        
+        /// <summary>
+        /// 現在の試験進捗
+        /// </summary>
+        public static ExamState ExamState = ExamState.FirstExam;
+        
+        /// <summary>
+        /// 言語設定
+        /// </summary>
+        public static LanguageType Language = LanguageType.Japanese;
+
+        /// <summary>
+        /// 倍速設定
+        /// </summary>
+        public static float TimeScale = 1.0f;
         
         public static void Log()
         {
             Debug.Log("試験まで残り:" + RemainingDayForExam + "日");
         }
+        
     }
 }

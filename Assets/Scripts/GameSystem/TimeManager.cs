@@ -1,11 +1,15 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour, IInitialized
-{
-    [SerializeField, Range(20f, 30f)] private float _timeLimit;
 
+/// <summary>
+/// 時間管理クラス
+/// </summary>
+public class TimeManager
+{
+    private CancellationTokenSource tokenSource = new CancellationTokenSource();
     public event Action OnStart;
     public event Action<int> OnUpdate;
     public event Action OnLimit;
@@ -14,20 +18,21 @@ public class TimeManager : MonoBehaviour, IInitialized
     /// <summary>
     /// タイマー機能
     /// </summary>
-    public async void TimerUpdate()
+    public async UniTask TimerUpdateAsync(float timeLimit)
     {
         OnStart?.Invoke();
-        for (int i = 0; i < _timeLimit * 100; i++)
+        for (int i = 0; i < timeLimit * 100 && tokenSource != null; i++)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(0.01f));
+            await UniTask.Delay(TimeSpan.FromSeconds(0.01f), cancellationToken: tokenSource.Token);
             OnUpdate?.Invoke(i);
         }
 
         OnLimit?.Invoke();
     }
 
-    public void Initialize()
+    public void Cancel()
     {
-        TimerUpdate();
+        tokenSource.Cancel();
+        tokenSource = null;
     }
 }

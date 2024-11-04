@@ -29,9 +29,3 @@ public interface IPose
     public void InPose();
     public void OutPose();
 }
-
-/// <summary></summary>
-public interface IInitialized
-{
-    public void Initialize();
-}
