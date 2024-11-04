@@ -37,7 +37,7 @@ namespace TeamB.UI
                 GameStatics.RemainingDayForExam = 3;
 
                 _remainingDays.text = _nokori + GameStatics.RemainingDayForExam + "日";
-                SceneLoader.LoadScene("moch_Exam");
+                SceneLoader.LoadScene("Exam");
             }
 
             GameStatics.PrevGameState = GameState.Class;
