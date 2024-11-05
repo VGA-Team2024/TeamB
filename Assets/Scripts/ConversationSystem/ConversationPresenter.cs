@@ -18,9 +18,10 @@ namespace TeamB.ConversationSystem
 
             while (_conversationManager.TryGetConversationEntryData(out var conversationEntry))
             {
+                _conversationView.ResetCharaImages();
                 _conversationView.SetSpeakerText(conversationEntry.Speaker);
-                _conversationView.SetDialogueText(conversationEntry.Dialogue);
                 conversationEntry.Characters.ForEach(x => _conversationView.SetCharacterData(x));
+                await _conversationView.SetDialogueText(conversationEntry.Dialogue);
                 await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
             }
         }
