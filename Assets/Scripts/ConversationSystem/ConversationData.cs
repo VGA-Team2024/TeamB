@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace TeamB.Data
     [CreateAssetMenu(fileName = "ConversationData", menuName = "Conversation/Create Conversation Data", order = 1)]
     public class ConversationData : ScriptableObject
     {
-        public string ConversationName;
+        [Editor.ReadOnly, InspectorVariantName("イベントID")] public string ConversationName;
         public List<ConversationEntry> ConversationEntries = new List<ConversationEntry>();
     }
 
@@ -20,10 +19,9 @@ namespace TeamB.Data
     [System.Serializable]
     public class ConversationEntry
     {
-        public Speaker Speaker;
-        public string Dialogue;
-        public CharacterData Character1;
-        public CharacterData Character2;
+        [Editor.ReadOnly, InspectorVariantName("話者")] public string Speaker;
+        [Editor.ReadOnly, InspectorVariantName("会話")] public string Dialogue;
+        public List<CharacterData> Characters;
     }
 
     /// <summary>
@@ -32,9 +30,9 @@ namespace TeamB.Data
     [System.Serializable]
     public class CharacterData
     {
-        public Speaker CharacterName;
-        public Position Position;
-        public AnimationState Animation;
+        [Editor.ReadOnly, InspectorVariantName("キャラ名")] public string CharacterName;
+        [Editor.ReadOnly, InspectorVariantName("位置")] public Position Position;
+        [Editor.ReadOnly, InspectorVariantName("アニメーション名")] public string Animation;
     }
 
     /// <summary>
@@ -43,20 +41,23 @@ namespace TeamB.Data
     [CreateAssetMenu(fileName = "AnimationStateInfo", menuName = "Conversation/Create AnimationState Data", order = 2)]
     public class AnimationStateInfo : ScriptableObject
     {
-        public Speaker Speaker;
-        public List<AnimationStateData> AnimationStateDatas = new List<AnimationStateData>();
+        public string Speaker;
+        public List<AnimationStateData> AnimationStateData = new List<AnimationStateData>();
     }
 
     [System.Serializable]
     public class AnimationStateData
     {
-        public AnimationState AnimationState;
+        public string AnimationState;
+
         //ToDo: 再生するアニメーションの方式に合わせて直接指定できるようにする
         public string AnimationName;
     }
 
-    public enum Speaker { Speaker1, Speaker2 }
-    public enum Position { Left, Center, Right }
-    public enum AnimationState { Idle, Talking, Action }
+    public enum Position
+    {
+        Left,
+        Middle,
+        Right
+    }
 }
-
