@@ -1,6 +1,6 @@
 {
     "name": "BasySystemEditor",
-    "rootNamespace": "",
+    "rootNamespace": "TeamB",
     "references": [
         "GUID:f26cbda431740a443957853803dee367",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",

@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDebug: 1
-  _sceneName: 3DSoundSample
+  _sceneName: InGameTest
   _base: {fileID: 1315228428}
 --- !u!1 &1315228428
 GameObject:
