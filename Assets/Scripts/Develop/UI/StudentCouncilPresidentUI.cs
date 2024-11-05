@@ -20,8 +20,6 @@ namespace TeamB.Develop
 
         private void OnChanged()
         {
-            DebugManager.Log(
-                $"{GameStatics.Characters[(int)_enemyManager.GetCurrentEnemyData.GetCharacterType].Hp}:{_enemyManager.GetCurrentEnemyData.GetCurrentData.Hp}");
             float ratio = _enemyManager.GetCurrentEnemyData.GetCurrentData.Hp /
                           GameStatics.Characters[(int)_enemyManager.GetCurrentEnemyData.GetCharacterType].Hp;
             _slider.value = ratio;

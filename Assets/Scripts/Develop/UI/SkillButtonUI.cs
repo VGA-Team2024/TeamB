@@ -5,31 +5,34 @@ using System.Linq;
 using TeamB.GameSystem.Statics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace TeamB.Develop
 {
     /// <summary>
     /// スキルのボタンを管理するクラス
     /// </summary>
-    public class SkillUI : MonoBehaviour
+    public class SkillButtonUI : MonoBehaviour
     {
-        [SerializeField] SkillType skillType;
+        [SerializeField] SkillType _skillType;
         private (ISkill skill, Target target, float cost) info;
         SkillManager manager;
 
         private void Awake()
         {
             manager = FindAnyObjectByType<SkillManager>();
-            info = SearchSkill(skillType);
+            info = SearchSkill(_skillType);
         }
 
         public void ButtonClick()
         {
-            if (manager.GetCurrentCost >= info.cost)
+            if (manager.GetCurrentHaveCost >= info.cost)
             {
                 info.skill.Activation(manager.TargetSelect(info.target));
+                manager.CostDecrease(info.cost);
             }
         }
+
 
         /// <summary>
         /// スキル種類からスキル、対象、コストを得る
@@ -43,9 +46,10 @@ namespace TeamB.Develop
             float cost;
             for (int i = 0; i < manager.GetSkillData.Length; i++)
             {
-                for (int n = i + 1; n < manager.GetSkillData[i]._skillState.Length; n++)
+                for (int n = 0; n < manager.GetSkillData[i]._skillState.Length; n++)
                 {
-                    if (manager.GetSkillData[i]._skillState[n].SkillType == skillType && manager.GetSkillData[i]._examState == GameStatics.ExamState)
+                    if (manager.GetSkillData[i]._examState == GameStatics.ExamState &&
+                        manager.GetSkillData[i]._skillState[n].SkillType == skillType)
                     {
                         skill = manager.GetSkillData[i]._skillState[n].Skill;
                         target = manager.GetSkillData[i]._skillState[n].Target;
@@ -54,6 +58,7 @@ namespace TeamB.Develop
                     }
                 }
             }
+
             return (null, Target.None, 0f);
         }
     }

@@ -16,11 +16,9 @@ namespace TeamB.Develop
     public class EnemyManager : MonoBehaviour
     {
         [SerializeReference, SubclassSelector] private IEnemy _currentEnemy;
-        [SerializeField] private float _addSoul = 10;
         
         private WaveManager _waveManager;
         private AllyManager _allyManager;
-        private SoulManager _soulManager;
         private Exam _exam;
 
         public IEnemy GetCurrentEnemyData => _currentEnemy;
@@ -39,7 +37,6 @@ namespace TeamB.Develop
             _exam = FindAnyObjectByType<Exam>();
             _waveManager = FindAnyObjectByType<WaveManager>();
             _allyManager = FindAnyObjectByType<AllyManager>();
-            _soulManager = FindAnyObjectByType<SoulManager>();
             if (_exam)
             {
                 _exam.OnExamStarted += OnExamStart;
@@ -95,7 +92,7 @@ namespace TeamB.Develop
         private void OnNextForm()
         {
             _waveManager.NextWave();
-            _soulManager.AddSoul(_addSoul);
+            
         }
 
 

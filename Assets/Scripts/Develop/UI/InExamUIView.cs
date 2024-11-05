@@ -44,11 +44,9 @@ namespace TeamB.UI
 
         protected override void AwakeCall()
         {
-            _soulManager = FindAnyObjectByType<SoulManager>();
             _waveManager = FindAnyObjectByType<WaveManager>();
             _exam = FindAnyObjectByType<Exam>();
 
-            _soulManager.OnAddSoul += SoulText;
             _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
         }

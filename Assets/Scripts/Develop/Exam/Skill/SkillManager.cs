@@ -12,11 +12,19 @@ namespace TeamB.Develop
         [SerializeField] private SkillData[] skillData;
         [SerializeField] private float _maxCost;
 
+        [SerializeField, Header("1秒に回復するコストの量")]
+        private float _recoveryCost;
+
         private EnemyManager _enemyManager;
         private AllyManager _allyManager;
-        private float _currentCost = 10;
+        private Exam _exam;
+        private float _currentHaveCost;
+
+        public event Action OnCostRecovery;
+
         public SkillData[] GetSkillData => skillData;
-        public float GetCurrentCost => _currentCost;
+        public float GetCurrentHaveCost => _currentHaveCost;
+        public float GetMaxCost => _maxCost;
 
 
         [Serializable]
@@ -39,6 +47,8 @@ namespace TeamB.Develop
         {
             _enemyManager = FindAnyObjectByType<EnemyManager>();
             _allyManager = FindAnyObjectByType<AllyManager>();
+            _exam = FindAnyObjectByType<Exam>();
+            _exam.OnExamUpdated += CostRecovery;
         }
 
         /// <summary>
@@ -58,14 +68,33 @@ namespace TeamB.Develop
                     return null;
             }
         }
+
+        public void CostDecrease(float　consumptionCost)
+        {
+            _currentHaveCost -= consumptionCost;
+        }
+
+        private void CostRecovery(float deltaTime)
+        {
+            if (_currentHaveCost >= _maxCost)
+                return;
+            _currentHaveCost += _recoveryCost * deltaTime;
+            OnCostRecovery?.Invoke();
+
+            if (_currentHaveCost >= _maxCost)
+            {
+                _currentHaveCost = _maxCost;
+            }
+        }
     }
-    
+
     /// <summary>
     /// スキルを実装する時に継承するクラス
     /// </summary>
     public interface ISkill
     {
         public event Action OnChantingSkill;
+
         /// <summary>
         /// スキル発動
         /// </summary>

@@ -33,5 +33,10 @@ namespace TeamB.UI
 
             GameStatics.PrevGameState = GameState.Title;
         }
+
+        public void SceneChange(string sceneName)
+        {
+            SceneLoader.LoadScene(sceneName);
+        }
     }
 }
