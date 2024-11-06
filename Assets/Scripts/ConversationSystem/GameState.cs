@@ -12,4 +12,16 @@
         CharmUp,
         SuddenlyEvent,
     }
+
+    public enum ExamState : int
+    {
+        FirstExam,
+        SecondExam,
+    }
+
+    public enum LanguageType : int
+    {
+        Japanese,
+        English,
+    }
 }
