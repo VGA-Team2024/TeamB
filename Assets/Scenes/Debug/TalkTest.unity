@@ -2127,7 +2127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9ad84bb135c744b87e7cafae180eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeImage: {fileID: 0}
+  _fadeImage: {fileID: 1642924958}
   duration: 1
 --- !u!114 &1642924958
 MonoBehaviour:
@@ -2602,7 +2602,7 @@ GameObject:
   - component: {fileID: 1870671766}
   - component: {fileID: 1870671765}
   m_Layer: 5
-  m_Name: ConversationView
+  m_Name: ClassRoomTalkView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

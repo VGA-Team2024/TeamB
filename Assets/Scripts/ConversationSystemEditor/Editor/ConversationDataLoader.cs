@@ -1,11 +1,8 @@
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Codice.Utils;
 using Cysharp.Threading.Tasks;
 using TeamB.ConversationSystem;
 using TeamB.Data;
@@ -21,15 +18,14 @@ namespace TeamB.Editor
     /// </summary>
     public class ConversationDataLoader : MonoBehaviour
     {
-        private const string URLHeader =
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?ogrid=";
+        private const string URLHeader = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?ogrid=";
         private const string URLFooter = "&output=csv";
         private static string _seatID = "";
         private const string ConversationDataKey = "159610865";
         private const string ClassSelectDataKey = "514427729";
         private const string CharaDataKey = "0";
 
-        public enum LoadDataType
+        private enum LoadDataType
         {
             CharaData,
             ConversationData,
@@ -49,7 +45,7 @@ namespace TeamB.Editor
             _seatID = CharaDataKey;
             GetSpreadsheetDataAsync(LoadDataType.CharaData).Forget();
         }
-        
+
         [MenuItem("ConversationEdit/Load ClassSelect Data")]
         private static void LoadClassSelectData()
         {
@@ -57,10 +53,11 @@ namespace TeamB.Editor
             GetSpreadsheetDataAsync(LoadDataType.ClassSelectData).Forget();
         }
 
-        
+
         //todo: スプシからデータを取る処理とデータを整形する処理を分ける
         private static async UniTask GetSpreadsheetDataAsync(LoadDataType loadDataType)
         {
+            Debug.Log(URLHeader + _seatID + URLFooter);
             using (var request = UnityWebRequest.Get(URLHeader + _seatID + URLFooter))
             {
                 await request.SendWebRequest();
@@ -74,16 +71,16 @@ namespace TeamB.Editor
                     switch (loadDataType)
                     {
                         case LoadDataType.ConversationData:
-                            var conversationDataBuilder = new ConversationDataMaker();
-                            conversationDataBuilder.MakeData(parsedData);
+                            // var conversationDataBuilder = new ConversationDataMaker();
+                            // conversationDataBuilder.MakeData(parsedData);
                             break;
                         case LoadDataType.CharaData:
                             var charaDataBuilder = new CharaDataMaker();
                             charaDataBuilder.MakeData(parsedData);
                             break;
                         case LoadDataType.ClassSelectData:
-                            var classSelectDataMaker = new ClassSelectDataMaker();
-                            classSelectDataMaker.MakeData(parsedData);
+                            // var classSelectDataMaker = new ClassSelectDataMaker();
+                            // classSelectDataMaker.MakeData(parsedData);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -92,6 +89,11 @@ namespace TeamB.Editor
             }
         }
 
+        /// <summary>
+        /// スプシのデータを配列に成形する
+        /// </summary>
+        /// <param name="csvData"></param>
+        /// <returns></returns>
         private static List<string[]> ParseData(string csvData)
         {
             var parseData = new List<string[]>();
@@ -114,95 +116,102 @@ namespace TeamB.Editor
         string LoadDataKey { get; }
         void MakeData(List<string[]> data);
     }
-    
-    /// <summary>
-    /// 会話データの生成処理クラス
-    /// </summary>
-    public class ConversationDataMaker : IConversationDataBuilder
-    {
-        private const int CharaCount = 2;
-        private const int CharaDataCount = 3;
-        private const string SavePath = "Assets/DataAsset/MasterData/ConversationData";
-        public string LoadDataKey => "授業ID";
 
-        public void MakeData(List<string[]> rawData)
-        {
-            if (rawData == null)
-            {
-                Debug.LogError("Error: データがありません");
-                return;
-            }
-            
-            if (rawData[0][0] != LoadDataKey)
-            {
-                Debug.LogError("Error: データがキャラデータのものではありません"　+ rawData[0][0]);
-                return;
-            }
-            
-            ConversationData conversationData = null;
-            for (int i = 1; i < rawData.Count(); i++)  //1行目はヘッダーなので読み飛ばす
-            {
-                if (!string.IsNullOrEmpty(rawData[i][0]))　//1列目がある場合はそれまでの会話データのスクリプタブルオブジェクトを保存して新たな会話データを作成
-                {   
-                    if (conversationData != null)
-                    {
-                        GenerateConversationDataAsset(conversationData);
-                    }
-                    conversationData = ScriptableObject.CreateInstance<ConversationData>(); 
-                    conversationData.ConversationID = rawData[i][0];
-                }
-                
-                if (conversationData == null)
-                {
-                    Debug.LogError("Error: 会話データがありません");
-                    return;
-                }
-                conversationData.ConversationEntries.Add(new ConversationEntry());
-                conversationData.ConversationEntries.Last().Characters = new List<CharacterData>();
-
-                for (var j = 0; j < CharaCount; j++)
-                {
-                    var chara = new CharacterData
-                    {
-                        CharacterName = rawData[i][1 + j * CharaDataCount],
-                        Position = Enum.TryParse(rawData[i][2 + j * CharaDataCount], out Position position) ? position : Position.Left,
-                        Animation = rawData[i][3 + j * CharaDataCount]
-                    };
-                    conversationData.ConversationEntries.Last().Characters.Add(chara);
-                }
-                
-                conversationData.ConversationEntries.Last().Speaker = rawData[i][7];
-                conversationData.ConversationEntries.Last().Dialogue = rawData[i][8];
-                
-                if (i == rawData.Count() - 1)
-                {
-                    GenerateConversationDataAsset(conversationData);
-                }
-            }
-            Debug.Log("会話データの作成が完了しました");
-        }
-
-        private static void GenerateConversationDataAsset(ConversationData conversationData)
-        {
-            if (File.Exists(SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset"))
-            {
-                AssetDatabase.DeleteAsset(SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset");
-            }
-            AssetDatabase.CreateAsset(conversationData, SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset");
-            AssetDatabase.SaveAssets();
-        }
-    }
+    // /// <summary>
+    // /// 会話データの生成処理クラス
+    // /// </summary>
+    // public class ConversationDataMaker : IConversationDataBuilder
+    // {
+    //     private const int CharaCount = 2;
+    //     private const int CharaDataCount = 3;
+    //     private const string SavePath = "Assets/DataAsset/MasterData/ConversationData";
+    //     public string LoadDataKey => "授業ID";
+    //
+    //     public void MakeData(List<string[]> rawData)
+    //     {
+    //         if (rawData == null)
+    //         {
+    //             Debug.LogError("Error: データがありません");
+    //             return;
+    //         }
+    //
+    //         if (rawData[0][0] != LoadDataKey)
+    //         {
+    //             Debug.LogError("Error: データがキャラデータのものではありません"　+ rawData[0][0]);
+    //             return;
+    //         }
+    //
+    //         ConversationData conversationData = null;
+    //         for (int i = 1; i < rawData.Count(); i++) //1行目はヘッダーなので読み飛ばす
+    //         {
+    //             if (!string.IsNullOrEmpty(rawData[i][0]))　//1列目がある場合はそれまでの会話データのスクリプタブルオブジェクトを保存して新たな会話データを作成
+    //             {
+    //                 if (conversationData != null)
+    //                 {
+    //                     GenerateConversationDataAsset(conversationData);
+    //                 }
+    //
+    //                 conversationData = ScriptableObject.CreateInstance<ConversationData>();
+    //                 conversationData.ConversationID = rawData[i][0];
+    //             }
+    //
+    //             if (conversationData == null)
+    //             {
+    //                 Debug.LogError("Error: 会話データがありません");
+    //                 return;
+    //             }
+    //
+    //             conversationData.ConversationEntries.Add(new ConversationEntry());
+    //             conversationData.ConversationEntries.Last().Characters = new List<CharacterData>();
+    //
+    //             for (var j = 0; j < CharaCount; j++)
+    //             {
+    //                 var chara = new CharacterData
+    //                 {
+    //                     CharacterName = rawData[i][1 + j * CharaDataCount],
+    //                     Position = Enum.TryParse(rawData[i][2 + j * CharaDataCount], out Position position)
+    //                         ? position
+    //                         : Position.Left,
+    //                     Animation = rawData[i][3 + j * CharaDataCount]
+    //                 };
+    //                 conversationData.ConversationEntries.Last().Characters.Add(chara);
+    //             }
+    //
+    //             conversationData.ConversationEntries.Last().Speaker = rawData[i][7];
+    //             conversationData.ConversationEntries.Last().Dialogue = rawData[i][8];
+    //
+    //             if (i == rawData.Count() - 1)
+    //             {
+    //                 GenerateConversationDataAsset(conversationData);
+    //             }
+    //         }
+    //
+    //         Debug.Log("会話データの作成が完了しました");
+    //     }
+    //
+    //     private static void GenerateConversationDataAsset(ConversationData conversationData)
+    //     {
+    //         if (File.Exists(SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset"))
+    //         {
+    //             AssetDatabase.DeleteAsset(SavePath + "/" + "ConversationData_" + conversationData.ConversationID +
+    //                                       ".asset");
+    //         }
+    //
+    //         AssetDatabase.CreateAsset(conversationData,
+    //             SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset");
+    //         AssetDatabase.SaveAssets();
+    //     }
+    // }
 
     /// <summary>
     /// 話者のデータの生成処理クラス
     /// </summary>
     public class CharaDataMaker : IConversationDataBuilder
     {
-        private const string ExportPath = "Assets/Scripts/ConversationSystem";
-        private const string FileName = "CharaAnimationEnum";
-        private const string nameSpace = "TeamB.Data";
+        private const string ExportPath = "Assets/DataAsset/MasterData/CharaData";
+        private const string FileHeader = "/ConversationCharaData_";
 
-        public string LoadDataKey => "アニメーション状態一覧";
+        public string LoadDataKey => "キャラ一覧";
 
         public void MakeData(List<string[]> rawData)
         {
@@ -214,54 +223,69 @@ namespace TeamB.Editor
 
             if (rawData[0][0] != LoadDataKey)
             {
-                Debug.LogError("Error: データがキャラデータのものではありません");
+                Debug.LogError("Error: データがキャラデータのものではありません " + rawData[0][0]);
                 return;
             }
 
-            var enumData = new Dictionary<string, (List<string> itemNameList, string summary)>();
-            for (int i = 1; i < rawData.Count; i++) //1行目はヘッダーなので読み飛ばす
+            for (var i = 1; i < rawData.Count; i++) //1行目はヘッダーなので読み飛ばす
             {
                 var data = rawData[i];
-                var enumName = data[0];
-                var enumValues = data.Skip(2).ToList(); //配列名と日本語名は飛ばす
-                enumData.Add(enumName, (enumValues, $"{enumName}のアニメーションEnum"));
-            }
-
-            EnumMaker.Create(FileName, enumData, ExportPath, nameSpace);
-        }
-    }
-    
-    public class ClassSelectDataMaker : IConversationDataBuilder
-    {
-        private const string ExportPath = "Assets/DataAsset/MasterData/ClassSelectData";
-        private const string FileHeader = "/ClassSelectData_";
-        public string LoadDataKey => "授業選択ID";
-
-        public void MakeData(List<string[]> rawData)
-        {
-            if (rawData == null)
-            {
-                Debug.LogError("Error: データがありません");
-                return;
-            }
-            
-            if (rawData[0][0] != LoadDataKey)
-            {
-                Debug.LogError("Error: データがキャラデータのものではありません"　+ rawData[0][0]);
-                return;
-            }
-
-            for (int i = 1; i < rawData.Count; i++)
-            {
-                var classSelectData = ScriptableObject.CreateInstance<ClassSelectData>();
-                classSelectData.ClassSelectID = rawData[i][0];
-                classSelectData.ChoiceTexts = rawData[i].Skip(1).Take(3).ToList();
-                classSelectData.ConversationIDs = rawData[i].Skip(4).Take(3).ToList();
-                classSelectData.RewardTexts = rawData[i].Skip(7).Take(3).ToList();
-                AssetDatabase.CreateAsset(classSelectData, ExportPath + FileHeader + classSelectData.ClassSelectID + ".asset");
+                Debug.Log(rawData[i].First());
+                var conversationCharaData = ScriptableObject.CreateInstance<ConversationCharaData>();
+                conversationCharaData.CharaName = data[0];
+                conversationCharaData.JapaneseCharaName = data[1];
+                foreach (var animName in data.Skip(2).ToList())
+                {
+                    var animDic = new AnimationDictionary
+                    {
+                        AnimationKey = animName
+                    };
+                    conversationCharaData.AnimationDictionary.Add(animDic);
+                }
+                
+                Debug.Log(ExportPath + FileHeader + conversationCharaData.CharaName + ".asset");
+                AssetDatabase.CreateAsset(conversationCharaData,
+                    ExportPath + FileHeader + conversationCharaData.CharaName + ".asset");
                 AssetDatabase.SaveAssets();
             }
         }
     }
+    
+    // /// <summary>
+    // ///　授業選択肢データの生成処理クラス
+    // /// </summary>
+    // public class ClassSelectDataMaker : IConversationDataBuilder
+    // {
+    //     private const string ExportPath = "Assets/DataAsset/MasterData/ClassSelectData";
+    //     private const string FileHeader = "/ClassSelectData_";
+    //     public string LoadDataKey => "授業選択ID";
+    //
+    //     public void MakeData(List<string[]> rawData)
+    //     {
+    //         if (rawData == null)
+    //         {
+    //             Debug.LogError("Error: データがありません");
+    //             return;
+    //         }
+    //
+    //         if (rawData[0][0] != LoadDataKey)
+    //         {
+    //             Debug.LogError("Error: データが授業選択のものではありません"　+ rawData[0][0]);
+    //             return;
+    //         }
+    //
+    //         for (int i = 1; i < rawData.Count; i++)
+    //         {
+    //             var classSelectData = ScriptableObject.CreateInstance<ClassSelectData>();
+    //             classSelectData.ClassSelectID = rawData[i][0];
+    //             classSelectData.ChoiceTexts = rawData[i].Skip(1).Take(3).ToList();
+    //             classSelectData.ConversationIDs = rawData[i].Skip(4).Take(3).ToList();
+    //             classSelectData.RewardTexts = rawData[i].Skip(7).Take(3).ToList();
+    //             AssetDatabase.CreateAsset(classSelectData,
+    //                 ExportPath + FileHeader + classSelectData.ClassSelectID + ".asset");
+    //             AssetDatabase.SaveAssets();
+    //         }
+    //     }
+    // }
 }
 #endif

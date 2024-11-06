@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,14 @@ namespace TeamB.Data
     {
         [Editor.ReadOnly, InspectorVariantName("イベントID")] public string ConversationID;
         [SerializeField, InspectorVariantName("背景")] public Sprite Background;
+        public List<ConversationEntry> ConversationEntries = new List<ConversationEntry>();
+    }
+    
+    [Serializable]
+    public class ClassTalkData
+    {
+        public string ClassTalkEventID;
+        public string BackgroundImage;
         public List<ConversationEntry> ConversationEntries = new List<ConversationEntry>();
     }
 
