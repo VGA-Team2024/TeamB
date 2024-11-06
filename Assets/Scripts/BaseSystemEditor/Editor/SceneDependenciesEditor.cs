@@ -21,11 +21,11 @@ public class SceneDependenciesEditor : Editor
     {
         string assetRoot = "Assets/"; //Application.dataPath;
         //既にアセットあるか
-        var db = AssetDatabase.LoadAssetAtPath<SceneDependencies>(assetRoot + SOAssetPath);
+        var db = AssetDatabase.LoadAssetAtPath<SceneDependencies>(AssetPath);
         if(db == null)
         {
             db = ScriptableObject.CreateInstance<SceneDependencies>();
-            AssetDatabase.CreateAsset(db, assetRoot + SOAssetPath);
+            AssetDatabase.CreateAsset(db, AssetPath);
             //TODO: Addressablesの自動設定(できれば)
         }
 
