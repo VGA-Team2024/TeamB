@@ -9,7 +9,8 @@ namespace TeamB.Data
     [CreateAssetMenu(fileName = "ConversationData", menuName = "Conversation/Create Conversation Data", order = 1)]
     public class ConversationData : ScriptableObject
     {
-        [Editor.ReadOnly, InspectorVariantName("イベントID")] public string ConversationName;
+        [Editor.ReadOnly, InspectorVariantName("イベントID")] public string ConversationID;
+        [SerializeField, InspectorVariantName("背景")] public Sprite Background;
         public List<ConversationEntry> ConversationEntries = new List<ConversationEntry>();
     }
 

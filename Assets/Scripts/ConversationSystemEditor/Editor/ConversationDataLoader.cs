@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Codice.Utils;
 using Cysharp.Threading.Tasks;
+using TeamB.ConversationSystem;
 using TeamB.Data;
 using UnityEditor;
 using UnityEngine;
@@ -20,32 +21,47 @@ namespace TeamB.Editor
     /// </summary>
     public class ConversationDataLoader : MonoBehaviour
     {
-        private const string URL =
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vThKPuoZP1mWXWO35ZRrwerfLE_Qg6eL-BMoL4f5pSuyEacMgtqLYc_N2whIOlK9MRGhgwSdPAAb-oC/pub?output=csv";
+        private const string URLHeader =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?ogrid=";
+        private const string URLFooter = "&output=csv";
+        private static string _seatID = "";
+        private const string ConversationDataKey = "159610865";
+        private const string ClassSelectDataKey = "514427729";
+        private const string CharaDataKey = "0";
 
         public enum LoadDataType
         {
             CharaData,
             ConversationData,
+            ClassSelectData,
         }
 
         [MenuItem("ConversationEdit/Load Conversation Data")]
         private static void LoadConversationData()
         {
+            _seatID = ConversationDataKey;
             GetSpreadsheetDataAsync(LoadDataType.ConversationData).Forget();
         }
 
         [MenuItem("ConversationEdit/Load Chara Data")]
         private static void LoadCharaData()
         {
+            _seatID = CharaDataKey;
             GetSpreadsheetDataAsync(LoadDataType.CharaData).Forget();
+        }
+        
+        [MenuItem("ConversationEdit/Load ClassSelect Data")]
+        private static void LoadClassSelectData()
+        {
+            _seatID = ClassSelectDataKey;
+            GetSpreadsheetDataAsync(LoadDataType.ClassSelectData).Forget();
         }
 
         
         //todo: スプシからデータを取る処理とデータを整形する処理を分ける
         private static async UniTask GetSpreadsheetDataAsync(LoadDataType loadDataType)
         {
-            using (var request = UnityWebRequest.Get(URL))
+            using (var request = UnityWebRequest.Get(URLHeader + _seatID + URLFooter))
             {
                 await request.SendWebRequest();
                 if (request.result != UnityWebRequest.Result.Success)
@@ -64,6 +80,10 @@ namespace TeamB.Editor
                         case LoadDataType.CharaData:
                             var charaDataBuilder = new CharaDataMaker();
                             charaDataBuilder.MakeData(parsedData);
+                            break;
+                        case LoadDataType.ClassSelectData:
+                            var classSelectDataMaker = new ClassSelectDataMaker();
+                            classSelectDataMaker.MakeData(parsedData);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -91,6 +111,7 @@ namespace TeamB.Editor
     /// </summary>
     public interface IConversationDataBuilder
     {
+        string LoadDataKey { get; }
         void MakeData(List<string[]> data);
     }
     
@@ -102,6 +123,8 @@ namespace TeamB.Editor
         private const int CharaCount = 2;
         private const int CharaDataCount = 3;
         private const string SavePath = "Assets/DataAsset/MasterData/ConversationData";
+        public string LoadDataKey => "授業ID";
+
         public void MakeData(List<string[]> rawData)
         {
             if (rawData == null)
@@ -110,8 +133,13 @@ namespace TeamB.Editor
                 return;
             }
             
+            if (rawData[0][0] != LoadDataKey)
+            {
+                Debug.LogError("Error: データがキャラデータのものではありません"　+ rawData[0][0]);
+                return;
+            }
+            
             ConversationData conversationData = null;
-            Debug.Log(rawData.Count());
             for (int i = 1; i < rawData.Count(); i++)  //1行目はヘッダーなので読み飛ばす
             {
                 if (!string.IsNullOrEmpty(rawData[i][0]))　//1列目がある場合はそれまでの会話データのスクリプタブルオブジェクトを保存して新たな会話データを作成
@@ -121,7 +149,7 @@ namespace TeamB.Editor
                         GenerateConversationDataAsset(conversationData);
                     }
                     conversationData = ScriptableObject.CreateInstance<ConversationData>(); 
-                    conversationData.ConversationName = rawData[i][0];
+                    conversationData.ConversationID = rawData[i][0];
                 }
                 
                 if (conversationData == null)
@@ -156,11 +184,11 @@ namespace TeamB.Editor
 
         private static void GenerateConversationDataAsset(ConversationData conversationData)
         {
-            if (File.Exists(SavePath + "/" + "ConversationData_" + conversationData.ConversationName + ".asset"))
+            if (File.Exists(SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset"))
             {
-                AssetDatabase.DeleteAsset(SavePath + "/" + "ConversationData_" + conversationData.ConversationName + ".asset");
+                AssetDatabase.DeleteAsset(SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset");
             }
-            AssetDatabase.CreateAsset(conversationData, SavePath + "/" + "ConversationData_" + conversationData.ConversationName + ".asset");
+            AssetDatabase.CreateAsset(conversationData, SavePath + "/" + "ConversationData_" + conversationData.ConversationID + ".asset");
             AssetDatabase.SaveAssets();
         }
     }
@@ -170,10 +198,11 @@ namespace TeamB.Editor
     /// </summary>
     public class CharaDataMaker : IConversationDataBuilder
     {
-        private const string LoadDataKey = "キャラ一覧";
         private const string ExportPath = "Assets/Scripts/ConversationSystem";
         private const string FileName = "CharaAnimationEnum";
         private const string nameSpace = "TeamB.Data";
+
+        public string LoadDataKey => "アニメーション状態一覧";
 
         public void MakeData(List<string[]> rawData)
         {
@@ -199,6 +228,39 @@ namespace TeamB.Editor
             }
 
             EnumMaker.Create(FileName, enumData, ExportPath, nameSpace);
+        }
+    }
+    
+    public class ClassSelectDataMaker : IConversationDataBuilder
+    {
+        private const string ExportPath = "Assets/DataAsset/MasterData/ClassSelectData";
+        private const string FileHeader = "/ClassSelectData_";
+        public string LoadDataKey => "授業選択ID";
+
+        public void MakeData(List<string[]> rawData)
+        {
+            if (rawData == null)
+            {
+                Debug.LogError("Error: データがありません");
+                return;
+            }
+            
+            if (rawData[0][0] != LoadDataKey)
+            {
+                Debug.LogError("Error: データがキャラデータのものではありません"　+ rawData[0][0]);
+                return;
+            }
+
+            for (int i = 1; i < rawData.Count; i++)
+            {
+                var classSelectData = ScriptableObject.CreateInstance<ClassSelectData>();
+                classSelectData.ClassSelectID = rawData[i][0];
+                classSelectData.ChoiceTexts = rawData[i].Skip(1).Take(3).ToList();
+                classSelectData.ConversationIDs = rawData[i].Skip(4).Take(3).ToList();
+                classSelectData.RewardTexts = rawData[i].Skip(7).Take(3).ToList();
+                AssetDatabase.CreateAsset(classSelectData, ExportPath + FileHeader + classSelectData.ClassSelectID + ".asset");
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 }

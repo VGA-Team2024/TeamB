@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74b47748a95d16e4e85e1f708675e190, type: 3}
-  m_Name: ConversationData_03_Test3
+  m_Name: ConversationData_03_ClassTest3
   m_EditorClassIdentifier: 
-  ConversationName: 03_Test3
+  ConversationID: 03_ClassTest3
+  Background: {fileID: 0}
   ConversationEntries:
   - Speaker: Uejima
     Dialogue: "\u307E\u3060\u307E\u3060\u305F\u304F\u3055\u3093\u8A71\u305B\u308B\u3088\uFF01"

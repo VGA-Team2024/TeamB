@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74b47748a95d16e4e85e1f708675e190, type: 3}
-  m_Name: "ConversationData_\u30C6\u30B9\u30C8"
+  m_Name: ConversationData_01_ClassTest1
   m_EditorClassIdentifier: 
-  ConversationName: "\u30C6\u30B9\u30C8"
+  ConversationID: 01_ClassTest1
+  Background: {fileID: 0}
   ConversationEntries:
   - Speaker: Takashi
     Dialogue: "\u3053\u308C\u306F\u30C6\u30B9\u30C8\u3060\uFF01"

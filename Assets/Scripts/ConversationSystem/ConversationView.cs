@@ -5,15 +5,19 @@ using Cysharp.Threading.Tasks;
 using TeamB.Data;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TeamB.ConversationSystem
 {
     public interface IConversationView
     {
+        void OnOpenConversationView();
+        void OnCloseConversationView();
         void SetSpeakerText(string speaker);
         UniTask SetDialogueText(string dialogue);
         void SetCharacterData(CharacterData characterData);
         void ResetCharaImages();
+        void SetBackground(Sprite background);
     }
     
     [System.Serializable]
@@ -23,7 +27,19 @@ namespace TeamB.ConversationSystem
         [SerializeField] private TextMeshProUGUI _dialogueText;
         [SerializeField] private List<TestCharaImage> _charaImages;
         [SerializeField] private float _textSpeed = 0.1f;
-        
+        [SerializeField] private Image _backgroundImage;
+        [SerializeField] private List<GameObject> _conversationViewObjects;
+
+        public void OnOpenConversationView()
+        {
+            _conversationViewObjects.ForEach(x => x.SetActive(true));
+        }
+
+        public void OnCloseConversationView()
+        {
+            _conversationViewObjects.ForEach(x => x.SetActive(false));
+        }
+
         public void SetSpeakerText(string speaker)
         {
             _speakerText.text = speaker;
@@ -38,7 +54,12 @@ namespace TeamB.ConversationSystem
                 x.gameObject.SetActive(false);
             });
         }
-        
+
+        public void SetBackground(Sprite background)
+        {
+            _backgroundImage.sprite = background;
+        }
+
         public async UniTask SetDialogueText(string dialogue)
         {
             _dialogueText.text = "";
