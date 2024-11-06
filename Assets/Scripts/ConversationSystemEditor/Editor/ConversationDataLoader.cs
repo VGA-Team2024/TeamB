@@ -22,7 +22,7 @@ namespace TeamB.Editor
     public class ConversationDataLoader : MonoBehaviour
     {
         private const string URLHeader =
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vThKPuoZP1mWXWO35ZRrwerfLE_Qg6eL-BMoL4f5pSuyEacMgtqLYc_N2whIOlK9MRGhgwSdPAAb-oC/pub?gid=";
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?ogrid=";
         private const string URLFooter = "&output=csv";
         private static string _seatID = "";
         private const string ConversationDataKey = "159610865";

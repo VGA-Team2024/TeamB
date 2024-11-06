@@ -12,14 +12,13 @@ namespace TeamB.ConversationSystem
         public void FadeIn()
         {
             _fadeImage.color = new Color(0, 0, 0, 1);
-            _fadeImage.DOFade(0, 1.0f);
-            _fadeImage.DOFade(1, 10);
+            _fadeImage.DOFade(0f, duration);
         }
 
-        void Start()
+        public void FadeOut()
         {
-            // 画像を1秒かけて透明にする (alpha: 0)
-            //_fadeImage.DOFade(0f, duration);
+            _fadeImage.color = new Color(0, 0, 0, 0);
+            _fadeImage.DOFade(1f, duration);
         }
     }
 }
