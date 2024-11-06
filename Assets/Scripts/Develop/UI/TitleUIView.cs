@@ -24,11 +24,12 @@ namespace TeamB.UI
             var tmp = Random.Range(1, 10);
             if (tmp > 5)
             {
-                SceneLoader.LoadScene("moch_Talk");
+                SceneLoader.LoadScene("TalkTest");
             }
             else
             {
-                SceneLoader.LoadScene("moch_SuddenlyEvent");
+                //todo: 突発イベントは共通シーンで処理する
+                SceneLoader.LoadScene("TalkTest");
             }
 
             GameStatics.PrevGameState = GameState.Title;

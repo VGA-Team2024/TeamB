@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TeamB.ConversationSystem;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using TeamB.Data;
+using TeamB.GameSystem.Statics;
 
 namespace TeamB.ConversationSystem
 {
@@ -39,6 +41,8 @@ namespace TeamB.ConversationSystem
                 await _conversationView.SetDialogueText(conversationEntry.Dialogue);
                 await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
             }
+            SceneLoader.LoadScene("Exam");
+            GameStatics.PrevGameState = GameState.Class;
         }
     }
 }

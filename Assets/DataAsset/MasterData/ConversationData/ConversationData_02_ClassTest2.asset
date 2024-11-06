@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConversationData_02_ClassTest2
   m_EditorClassIdentifier: 
   ConversationID: 02_ClassTest2
-  Background: {fileID: 0}
+  Background: {fileID: 21300000, guid: d928da6c026142249bc7a039de05ef2c, type: 3}
   ConversationEntries:
   - Speaker: Takashi
     Dialogue: "\u3053\u308C\u306F\u30C6\u30B9\u30C82\u3067\u3059\uFF01"

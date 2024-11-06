@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConversationData_03_ClassTest3
   m_EditorClassIdentifier: 
   ConversationID: 03_ClassTest3
-  Background: {fileID: 0}
+  Background: {fileID: 21300000, guid: d928da6c026142249bc7a039de05ef2c, type: 3}
   ConversationEntries:
   - Speaker: Uejima
     Dialogue: "\u307E\u3060\u307E\u3060\u305F\u304F\u3055\u3093\u8A71\u305B\u308B\u3088\uFF01"
