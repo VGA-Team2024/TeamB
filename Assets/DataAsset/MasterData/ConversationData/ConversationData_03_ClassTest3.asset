@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b47748a95d16e4e85e1f708675e190, type: 3}
+  m_Name: ConversationData_03_ClassTest3
+  m_EditorClassIdentifier: 
+  ConversationID: 03_ClassTest3
+  Background: {fileID: 21300000, guid: d928da6c026142249bc7a039de05ef2c, type: 3}
+  ConversationEntries:
+  - Speaker: Uejima
+    Dialogue: "\u307E\u3060\u307E\u3060\u305F\u304F\u3055\u3093\u8A71\u305B\u308B\u3088\uFF01"
+    Characters:
+    - CharacterName: Uejima
+      Position: 2
+      Animation: Normal
+    - CharacterName: Kasumi
+      Position: 0
+      Animation: Normal
+  - Speaker: Kasumi
+    Dialogue: "\u6CA2\u5C71\u8A71\u305D\u3046\u306D\uFF01"
+    Characters:
+    - CharacterName: Kasumi
+      Position: 1
+      Animation: Normal
+    - CharacterName: Uejima
+      Position: 2
+      Animation: Normal

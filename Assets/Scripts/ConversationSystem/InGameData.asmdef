@@ -1,6 +1,6 @@
 {
     "name": "InGameData",
-    "rootNamespace": "",
+    "rootNamespace": "TeamB.InGameData",
     "references": [
         "GUID:f26cbda431740a443957853803dee367",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
@@ -11,7 +11,10 @@
         "GUID:800597811bcc5d848b15e12807d6de45",
         "GUID:bd6f7e3ec622d1444bbb205e750a56c8",
         "GUID:570000fad695d6a4caf24264af242457",
-        "GUID:6c48ff07c32e4524d91cf0cc26e301c7"
+        "GUID:6c48ff07c32e4524d91cf0cc26e301c7",
+        "GUID:029c1c1b674aaae47a6841a0b89ad80e",
+        "GUID:0b57b5c7d0aeaba47abaacf2968e114c",
+        "GUID:a7c741d940c66b04985f8c7bb67b3246"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
