@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Codice.Client.Common.Threading;
 using DataManagement;
 using TeamB.Data;
 using TeamB.GameSystem;
@@ -14,14 +15,16 @@ namespace TeamB.Develop
     /// 試験シーン全体を管理するクラス
     /// </summary>
     [DefaultExecutionOrder(100)]
-    public class Exam : MonoBehaviour
+    public class Exam : MonoBehaviour, IPose
     {
         [SerializeField] private float _examTime = 45f;
+        private OperationType _operationType;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
         public event Action<float> OnExamUpdated;
         public event Action OnExamEnded;
 
+        public OperationType GetOperationType => _operationType;
         public float GetCurrentTimer => _currentTimer;
         public float GetMaxTime => _examTime;
 
@@ -32,6 +35,7 @@ namespace TeamB.Develop
 
         private void Update()
         {
+            
             OnExamUpdated?.Invoke(Time.deltaTime);
         }
 
@@ -70,5 +74,28 @@ namespace TeamB.Develop
                 _currentTimer += Time.deltaTime;
             }
         }
+
+        public void InPose()
+        {
+            
+        }
+
+        public void OutPose()
+        {
+            
+        }
+    }
+
+    interface IExam
+    {
+        public void OnStartExam();
+        public void OnEndExam();
+    }
+
+    public enum OperationType
+    {
+        Auto,
+        Manual,
+        None
     }
 }

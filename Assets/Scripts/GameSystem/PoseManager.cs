@@ -11,19 +11,25 @@ public class PoseManager : MonoBehaviour
 {
     public event Action OnInPose;
     public event Action OnOutPose;
+    
+    private bool _isInPose;
+    
+    public bool GetIsInPose => _isInPose;
 
     public void StartPose()
     {
         OnInPose?.Invoke();
+        _isInPose = true;
     }
 
     public void StopPose()
     {
         OnOutPose?.Invoke();
+        _isInPose = false;
     }
 }
 
-/// <summary> ポーズ時に処理するクラスに継承する </summary>
+/// <summary> ポーズするオブジェクトがクラスに継承する </summary>
 public interface IPose
 {
     public void InPose();

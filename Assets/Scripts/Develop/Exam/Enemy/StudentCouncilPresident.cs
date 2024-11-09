@@ -9,92 +9,92 @@ using TeamB.GameSystem.Statics;
 
 namespace TeamB.Develop
 {
-    /// <summary>
-    /// 生徒会長の行動を管理するクラス
-    /// </summary>
-    public class StudentCouncilPresident : IEnemy
-    {
-        [SerializeField] CharacterType _characterType;
+	/// <summary>
+	/// 生徒会長の行動を管理するクラス
+	/// </summary>
+	public class StudentCouncilPresident : IEnemy
+	{
+		[SerializeField] CharacterType _characterType;
 
-        private DataManagement.SpreadSheet.CharacterData _currentData;
-        private float _attackTimer;
-        private int _currentForm = 1;
+		private DataManagement.SpreadSheet.CharacterData _currentData;
+		private float _attackTimer;
+		private int _currentForm = 1;
 
-        public event Action OnDeath;
-        public event Action OnAttack;
-        public event Action OnEndAttack;
-        public event Action OnTakeDamage;
-        public event Action OnParamUpdate;
-        public event Action OnNextForm;
+		public event Action OnDeath;
+		public event Action OnAttack;
+		public event Action OnEndAttack;
+		public event Action OnTakeDamage;
+		public event Action OnParamUpdate;
+		public event Action OnNextForm;
 
-        public DataManagement.SpreadSheet.CharacterData GetCurrentData => _currentData;
-        public CharacterType GetCharacterType => _characterType;
-        public int GetCurrentForm => _currentForm;
+		public DataManagement.SpreadSheet.CharacterData GetCurrentData => _currentData;
+		public CharacterType GetCharacterType => _characterType;
+		public int GetCurrentForm => _currentForm;
 
-        public void Initialized()
-        {
-            _currentData = new(GameStatics.Characters[(int)_characterType]);
-        }
+		public void Initialized()
+		{
+			_currentData = new(GameStatics.Characters[(int)_characterType]);
+		}
 
-        public void RegistrationType(CharacterType type)
-        {
-            _characterType = type;
-        }
+		public void RegistrationType(CharacterType type)
+		{
+			_characterType = type;
+		}
 
-        public void Attack<T>(T characters, float deltatime) where T : ICharacter
-        {
-            if (_attackTimer >= _currentData.ChantingSpeed)
-            {
-                OnAttack?.Invoke();
-                DebugManager.Log(
-                    $"{_currentData.Card}は{characters.GetCurrentData.Card}に{_currentData.MagicATK}ダメージ与えた");
-                characters.TakeDamage(_currentData.MagicATK);
-                _attackTimer = 0;
+		public void Attack<T>(T characters, OperationType _, float deltaTime) where T : ICharacter
+		{
+			if (_attackTimer >= _currentData.ChantingSpeed)
+			{
+				OnAttack?.Invoke();
+				DebugManager.Log(
+					$"{_currentData.Card}は{characters.GetCurrentData.Card}に{_currentData.MagicATK}ダメージ与えた");
+				characters.TakeDamage(_currentData.MagicATK);
+				_attackTimer = 0;
 
-                OnEndAttack?.Invoke();
-            }
-            else
-            {
-                _attackTimer += deltatime;
-            }
-        }
+				OnEndAttack?.Invoke();
+			}
+			else
+			{
+				_attackTimer += deltaTime;
+			}
+		}
 
-        public void TakeDamage(float damage)
-        {
-            if (_currentData.Hp <= 0)
-                return;
+		public void TakeDamage(float damage)
+		{
+			if (_currentData.Hp <= 0)
+				return;
 
-            //HPの更新
-            _currentData.Hp -= damage;
-            OnTakeDamage?.Invoke();
+			//HPの更新
+			_currentData.Hp -= damage;
+			OnTakeDamage?.Invoke();
 
-            //形態変化
-            if (_currentData.Hp <= GameStatics.Characters[(int)_characterType].Hp / GameConsts.MaxWave *
-                (GameConsts.MaxWave - GetCurrentForm) && _currentData.Hp > 0)
-            {
-                _currentForm++;
-                OnNextForm?.Invoke();
-            }
+			//形態変化
+			if (_currentData.Hp <= GameStatics.Characters[(int)_characterType].Hp / GameConsts.MaxWave *
+			    (GameConsts.MaxWave - GetCurrentForm) && _currentData.Hp > 0)
+			{
+				_currentForm++;
+				OnNextForm?.Invoke();
+			}
 
-            //死亡時処理
-            if (_currentData.Hp <= 0)
-            {
-                OnDeath?.Invoke();
-            }
-        }
+			//死亡時処理
+			if (_currentData.Hp <= 0)
+			{
+				OnDeath?.Invoke();
+			}
+		}
 
-        public void AttackCancel()
-        {
-        }
+		public void AttackCancel()
+		{
+		}
 
-        public void Dispose()
-        {
-            OnDeath = default;
-            OnParamUpdate = default;
-            OnAttack = default;
-            OnTakeDamage = default;
-            OnEndAttack = default;
-            OnNextForm = default;
-        }
-    }
+		public void Dispose()
+		{
+			OnDeath = default;
+			OnParamUpdate = default;
+			OnAttack = default;
+			OnTakeDamage = default;
+			OnEndAttack = default;
+			OnNextForm = default;
+		}
+	}
 }
