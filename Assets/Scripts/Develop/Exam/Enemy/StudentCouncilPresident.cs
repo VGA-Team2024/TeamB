@@ -36,18 +36,23 @@ namespace TeamB.Develop
 			_currentData = new(GameStatics.Characters[(int)_characterType]);
 		}
 
+		/// <summary>
+		/// 外からキャラのデータを変更する関数
+		/// </summary>
 		public void RegistrationType(CharacterType type)
 		{
 			_characterType = type;
+			_currentData = new(GameStatics.Characters[(int)_characterType]);
 		}
 
+		/// <summary>
+		/// 攻撃処理
+		/// </summary>
 		public void Attack<T>(T characters, OperationType _, float deltaTime) where T : ICharacter
 		{
 			if (_attackTimer >= _currentData.ChantingSpeed)
 			{
 				OnAttack?.Invoke();
-				DebugManager.Log(
-					$"{_currentData.Card}は{characters.GetCurrentData.Card}に{_currentData.MagicATK}ダメージ与えた");
 				characters.TakeDamage(_currentData.MagicATK);
 				_attackTimer = 0;
 
@@ -59,6 +64,10 @@ namespace TeamB.Develop
 			}
 		}
 
+		/// <summary>
+		/// 受ダメージ処理
+		/// </summary>
+		/// <param name="damage"></param>
 		public void TakeDamage(float damage)
 		{
 			if (_currentData.Hp <= 0)
@@ -68,6 +77,8 @@ namespace TeamB.Develop
 			_currentData.Hp -= damage;
 			OnTakeDamage?.Invoke();
 
+			DebugManager.Log(
+				$"生徒会長は{damage}ダメージ受けた");
 			//形態変化
 			if (_currentData.Hp <= GameStatics.Characters[(int)_characterType].Hp / GameConsts.MaxWave *
 			    (GameConsts.MaxWave - GetCurrentForm) && _currentData.Hp > 0)

@@ -15,10 +15,10 @@ namespace TeamB.Develop
     /// 試験シーン全体を管理するクラス
     /// </summary>
     [DefaultExecutionOrder(100)]
-    public class Exam : MonoBehaviour, IPose
+    public class Exam : MonoBehaviour
     {
         [SerializeField] private float _examTime = 45f;
-        private OperationType _operationType;
+        [SerializeField]　private OperationType _operationType;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
         public event Action<float> OnExamUpdated;
@@ -28,14 +28,13 @@ namespace TeamB.Develop
         public float GetCurrentTimer => _currentTimer;
         public float GetMaxTime => _examTime;
 
-        private async void Awake()
+        private void Awake()
         {
             StartExam();
         }
 
         private void Update()
         {
-            
             OnExamUpdated?.Invoke(Time.deltaTime);
         }
 
@@ -59,6 +58,14 @@ namespace TeamB.Develop
         }
 
         /// <summary>
+        /// 操作方法の変更
+        /// </summary>
+        public void ChangeOperation()
+        {
+            _operationType = _operationType == OperationType.Auto ? OperationType.Manual : OperationType.Auto;
+        }
+
+        /// <summary>
         /// 時間管理
         /// </summary>
         /// <param name="deltaTime"></param>
@@ -74,24 +81,20 @@ namespace TeamB.Develop
                 _currentTimer += Time.deltaTime;
             }
         }
-
-        public void InPose()
-        {
-            
-        }
-
-        public void OutPose()
-        {
-            
-        }
     }
 
+    /// <summary>
+    /// Managerクラスでスタートとエンドをすぐ作る用
+    /// </summary>
     interface IExam
     {
         public void OnStartExam();
         public void OnEndExam();
     }
 
+    /// <summary>
+    /// 操作方法の種類（自動、手動）
+    /// </summary>
     public enum OperationType
     {
         Auto,

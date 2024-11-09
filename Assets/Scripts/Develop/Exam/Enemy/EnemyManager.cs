@@ -79,6 +79,9 @@ namespace TeamB.Develop
 		/// </summary>
 		private bool IsAnnihilation() => _currentEnemy.GetCurrentData.Hp <= 0;
 
+		/// <summary>
+		/// 戦闘開始時処理
+		/// </summary>
 		public void OnStartExam()
 		{
 			_currentEnemy.Initialized();
@@ -87,6 +90,9 @@ namespace TeamB.Develop
 			_exam.OnExamUpdated += EnemiesAttack;
 		}
 
+		/// <summary>
+		/// 戦闘終了時処理
+		/// </summary>
 		public void OnEndExam()
 		{
 			_exam.OnExamStarted -= OnStartExam;

@@ -103,12 +103,10 @@ namespace DataManagement
             public string Name;
             public string Card;
             public string ResourceName;
-            public int Rank;
             public float Hp;
             public float HitRate;
             public float ChantingSpeed;
             public float MagicATK;
-            public int SkillId;
 
             public CharacterData(CharacterData data)
             {
@@ -116,7 +114,6 @@ namespace DataManagement
                 Name = data.Name;
                 Card = data.Card;
                 ResourceName = data.ResourceName;
-                Rank = data.Rank;
                 Hp = data.Hp;
                 HitRate = data.HitRate;
                 ChantingSpeed = data.ChantingSpeed;

@@ -57,28 +57,33 @@ namespace TeamB.Develop
 		public void Dispose();
 	}
 
+	/// <summary>
+	/// 味方クラスが継承するべきインターフェース
+	/// </summary>
 	public interface IAlly : ICharacter
 	{
 		public ActionType GetActionType { get; }
 
 		public void Input(params IInputType[] inputs);
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public void Defense(OperationType operationType, float deltaTime);
 	}
 
+	/// <summary>
+	/// 敵クラスが継承するべきインターフェース
+	/// </summary>
 	public interface IEnemy : ICharacter
 	{
 		public event Action OnNextForm;
 		public int GetCurrentForm { get; }
 	}
 
-	public enum ActiveType
-	{
-		Active,
-		InActive,
-		None
-	}
-
+	/// <summary>
+	/// 入力クラスを作成する時に継承する（paramを使うためのインターフェース）
+	/// </summary>
 	public interface IInputType
 	{
 		public bool IsInput { get; }
