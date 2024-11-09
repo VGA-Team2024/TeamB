@@ -3,8 +3,8 @@ name: TeamUnityBuild
 on:
   workflow_dispatch: {}
   schedule:
-      # UTCなので9時間引いた値 JST換算だと午前3時
-      - cron: '0 18 * * *'
+      # UTCなので9時間引いた値 JST換算だと午前2時
+      - cron: '0 17 * * *'
 
 jobs:
   build:
