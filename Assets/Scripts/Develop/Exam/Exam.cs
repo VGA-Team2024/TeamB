@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Codice.Client.Common.Threading;
 using DataManagement;
 using TeamB.Data;
 using TeamB.GameSystem;
@@ -17,15 +18,17 @@ namespace TeamB.Develop
     public class Exam : MonoBehaviour
     {
         [SerializeField] private float _examTime = 45f;
+        [SerializeField]　private OperationType _operationType;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
         public event Action<float> OnExamUpdated;
         public event Action OnExamEnded;
 
+        public OperationType GetOperationType => _operationType;
         public float GetCurrentTimer => _currentTimer;
         public float GetMaxTime => _examTime;
 
-        private async void Awake()
+        private void Awake()
         {
             StartExam();
         }
@@ -55,6 +58,14 @@ namespace TeamB.Develop
         }
 
         /// <summary>
+        /// 操作方法の変更
+        /// </summary>
+        public void ChangeOperation()
+        {
+            _operationType = _operationType == OperationType.Auto ? OperationType.Manual : OperationType.Auto;
+        }
+
+        /// <summary>
         /// 時間管理
         /// </summary>
         /// <param name="deltaTime"></param>
@@ -70,5 +81,24 @@ namespace TeamB.Develop
                 _currentTimer += Time.deltaTime;
             }
         }
+    }
+
+    /// <summary>
+    /// Managerクラスでスタートとエンドをすぐ作る用
+    /// </summary>
+    interface IExam
+    {
+        public void OnStartExam();
+        public void OnEndExam();
+    }
+
+    /// <summary>
+    /// 操作方法の種類（自動、手動）
+    /// </summary>
+    public enum OperationType
+    {
+        Auto,
+        Manual,
+        None
     }
 }

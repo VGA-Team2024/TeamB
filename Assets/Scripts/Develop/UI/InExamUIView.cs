@@ -5,6 +5,7 @@ using TeamB.GameSystem.Statics;
 using TeamB.InGameData.Data;
 using UISystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace TeamB.UI
@@ -16,9 +17,9 @@ namespace TeamB.UI
     {
         [SerializeField] private Text _soulText;
         [SerializeField] private Text _waveText;
-        [SerializeField] private Text _TimerText;
+        [SerializeField] private Text _timerText;
+        [SerializeField] private Text _operationText;
         
-        SoulManager _soulManager;
         WaveManager _waveManager;
         Exam _exam;
             
@@ -50,12 +51,6 @@ namespace TeamB.UI
             _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
         }
-
-        public void SoulText()
-        {
-            DebugManager.Log(_soulManager.GetCurrentSoul);
-            _soulText.text = $"回収した魂{_soulManager.GetCurrentSoul.ToString("00")}個";
-        }
         public void WaveText()
         {
             DebugManager.Log(_waveManager.GetCurrentWave);
@@ -63,7 +58,12 @@ namespace TeamB.UI
         }
         public void TimerText(float _)
         {
-            _TimerText.text = $"残り{(_exam.GetMaxTime - _exam.GetCurrentTimer).ToString("F2")}秒";
+            _timerText.text = $"残り{(_exam.GetMaxTime - _exam.GetCurrentTimer).ToString("F2")}秒";
+        }
+
+        public void OperationChange()
+        {
+            _operationText.text = _exam.GetOperationType == OperationType.Auto ? "Auto" : "Manual";
         }
     }
 }

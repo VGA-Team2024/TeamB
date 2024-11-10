@@ -17,21 +17,18 @@ namespace TeamB.Data
     [DefaultExecutionOrder(-100)]
     public class CharacterDataManager
     {
-        public event Action OnParamUpdated;
+        public static event Action OnParamUpdated;
 
         private const string filePath = @"Assets\Scripts\Data\CharacterType.cs";
 
         /// <summary> パラメータ更新 </summary>
-        public DataManagement.SpreadSheet.CharacterData UpdateParam(CharacterType characterType,
+        public static DataManagement.SpreadSheet.CharacterData UpdateParam(CharacterType characterType,
             CharacterStatusType paramType, float value)
         {
             if (GameStatics.Characters[(int)characterType] == null)
                 return null;
             switch (paramType)
             {
-                case CharacterStatusType.Rank:
-                    GameStatics.Characters[(int)characterType].Rank += (int)value;
-                    break;
                 case CharacterStatusType.Hp:
                     GameStatics.Characters[(int)characterType].Hp += value;
                     break;
@@ -57,7 +54,8 @@ namespace TeamB.Data
         [RuntimeInitializeOnLoadMethod]
         public static async UniTask MasterDataSetUp()
         {
-            DataManagement.SpreadSheet.CharacterMaster characterData = await new CharacterMaster().LoadFromFile("Character");
+            DataManagement.SpreadSheet.CharacterMaster characterData =
+                await new CharacterMaster().LoadFromFile("Character");
             for (int i = 0; i < characterData.Data.Length; i++)
             {
                 GameStatics.Characters.Add(characterData.Data[i].Id, characterData.Data[i]);
@@ -75,7 +73,6 @@ namespace TeamB.Data
             string playerstatus = $"CharacterData\n" +
                                   $"Name:{GameStatics.Characters[(int)characterType].Name},\n" +
                                   $"HP:{GameStatics.Characters[(int)characterType].Hp}" +
-                                  $"Rank:{GameStatics.Characters[(int)characterType].Rank},\n" +
                                   $"HitRate:{GameStatics.Characters[(int)characterType].HitRate},\n" +
                                   $"ChantingSpeed:{GameStatics.Characters[(int)characterType].ChantingSpeed},\n" +
                                   $"MagicalAmount:{GameStatics.Characters[(int)characterType].MagicATK},\n";
@@ -103,7 +100,6 @@ namespace TeamB.Data
 
     public enum CharacterStatusType
     {
-        Rank,
         Hp,
         HitRate,
         ChantingSpeed,
