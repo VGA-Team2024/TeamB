@@ -22,6 +22,18 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Design/Night.unity
     SceneType: 2
   - CanIDebugSelect: 1
+    Name: Exam
+    AssetPath: Assets/Scenes/Develop/Exam.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
+    Name: Result
+    AssetPath: Assets/Scenes/Develop/Result.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
+    Name: Title
+    AssetPath: Assets/Scenes/Develop/Title.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
     Name: Flappy Bird
     AssetPath: Assets/Scenes/Mockup/Flappy Bird.unity
     SceneType: 2
@@ -42,8 +54,8 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Mockup/moch_Talk.unity
     SceneType: 2
   - CanIDebugSelect: 1
-    Name: moch_Title
-    AssetPath: Assets/Scenes/Mockup/moch_Title.unity
+    Name: Sample
+    AssetPath: Assets/Scenes/Mockup/Sample.unity
     SceneType: 2
   - CanIDebugSelect: 1
     Name: TalkTest
@@ -68,4 +80,4 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: IngameSystem
     AssetPath: Assets/Scenes/System/IngameSystem.unity
-    SceneType: 0
+    SceneType: 2

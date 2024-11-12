@@ -149,7 +149,7 @@ class LocalData
             var json = JsonUtility.ToJson(data);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
 
-            using (FileStream fs = new FileStream(path + "/" + file, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+            using (FileStream fs = new FileStream(path + "/" + file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
 #if RELEASE
         fenc = true;
