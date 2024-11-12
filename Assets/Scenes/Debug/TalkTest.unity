@@ -2718,25 +2718,21 @@ MonoBehaviour:
     RefIds:
     - rid: 6110603068992913408
       type: {class: ConversationManager, ns: TeamB.ConversationSystem, asm: InGameData}
-      data:
-        _currentConversationData: {fileID: 0}
-        _conversationData:
+      data: {_currentConversationData: {fileID: 0}, _conversationData:
         - {fileID: 11400000, guid: 6e3cc85850f516245817b666be39eac4, type: 2}
         - {fileID: 11400000, guid: 33865c607c5da9f4791c079f867a0b07, type: 2}
         - {fileID: 11400000, guid: 4ebd416a211601544b198abb88265f58, type: 2}
+, _currentConversationIndex: 0}
     - rid: 6110603068992913409
       type: {class: ConversationView, ns: TeamB.ConversationSystem, asm: InGameData}
-      data:
-        _speakerText: {fileID: 1028954540}
-        _dialogueText: {fileID: 778951439}
+      data: {_speakerText: {fileID: 1028954540}, _dialogueText: {fileID: 778951439},
         _charaImages:
         - {fileID: 691018826}
         - {fileID: 871142111}
         - {fileID: 1780989908}
-        _textSpeed: 0.1
-        _backgroundImage: {fileID: 1252113044}
-        _conversationViewObjects:
+, _textSpeed: 0.1, _backgroundImage: {fileID: 1252113044}, _conversationViewObjects:
         - {fileID: 2009730421}
+}
 --- !u!114 &1870671765
 MonoBehaviour:
   m_ObjectHideFlags: 0
