@@ -17,7 +17,7 @@ namespace TeamB.Develop
 
         private void Start()
         {
-            if (GameStatics.ExamState == ExamState.FirstExam)
+            if (GameStatics.ExamResult == ExamResult.Clear)
             {
                 _text.text = _passedSentence;
             }
@@ -32,14 +32,25 @@ namespace TeamB.Develop
 
         public void Result()
         {
-            if (GameStatics.ExamState == ExamState.FirstExam)
+            string sceneName = "";
+            switch (GameStatics.ExamState)
             {
-                SceneLoader.LoadScene("moch_Talk");
+                case ExamState.FirstExam:
+                    sceneName = "TalkTest";
+                    break;
+                case ExamState.SecondExam:
+                    if (GameStatics.ExamResult == ExamResult.Clear)
+                        sceneName = "Exam";
+                    else if (GameStatics.ExamResult == ExamResult.Failed)
+                        sceneName = "GameOver";
+                    break;
+                case ExamState.ExamClear:
+                    sceneName = "Title";
+                    break;
             }
-            else
-            {
-                SceneLoader.LoadScene("Title");
-            }
+
+            GameStatics.ExamResult = ExamResult.None;
+            SceneLoader.LoadScene(sceneName);
         }
     }
 }

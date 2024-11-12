@@ -19,6 +19,7 @@ namespace TeamB.Develop
     {
         [SerializeField] private float _examTime = 45f;
         [SerializeField]　private OperationType _operationType;
+        private PoseManager _poseManager;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
         public event Action<float> OnExamUpdated;
@@ -35,7 +36,12 @@ namespace TeamB.Develop
 
         private void Update()
         {
-            OnExamUpdated?.Invoke(Time.deltaTime);
+            if (_poseManager == null)
+                _poseManager = FindObjectOfType<PoseManager>();
+            if (_poseManager && !_poseManager.GetIsInPose)
+            {
+                OnExamUpdated?.Invoke(Time.deltaTime);
+            }
         }
 
         /// <summary>
@@ -43,6 +49,7 @@ namespace TeamB.Develop
         /// </summary>
         private void StartExam()
         {
+            _poseManager = FindObjectOfType<PoseManager>();
             OnExamUpdated += Timer;
             OnExamStarted?.Invoke();
         }
@@ -54,7 +61,6 @@ namespace TeamB.Develop
         {
             OnExamEnded?.Invoke();
             DebugManager.Log("Exam Ended");
-            SceneLoader.LoadScene("Result");
         }
 
         /// <summary>
@@ -73,13 +79,42 @@ namespace TeamB.Develop
         {
             if (_currentTimer >= _examTime)
             {
-                EndExam();
+                ExamFailure();
                 _currentTimer = 0f;
             }
             else
             {
                 _currentTimer += Time.deltaTime;
             }
+        }
+
+        /// <summary>
+        /// 試験クリア
+        /// </summary>
+        public void ExamClear()
+        {
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.FirstExam:
+                    GameStatics.ExamState = ExamState.SecondExam;
+                    break;
+                case ExamState.SecondExam:
+                    GameStatics.ExamState = ExamState.ExamClear;
+                    break;
+            }
+            GameStatics.ExamResult = ExamResult.Clear;
+            EndExam();
+            SceneLoader.LoadScene("Result");
+        }
+
+        /// <summary>
+        /// 試験失敗
+        /// </summary>
+        public void ExamFailure()
+        {
+            GameStatics.ExamResult = ExamResult.Failed;
+            EndExam();
+            SceneLoader.LoadScene("Result");
         }
     }
 
