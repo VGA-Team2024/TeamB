@@ -13,8 +13,11 @@ namespace TeamB.TalkSystem
 {
     public class TalkView : MonoBehaviour
     {
-        [Header("参照")] [SerializeField] private TalkSystemManager _talkSystemManager = null;
-        [Header("共通")] [SerializeField] private Image _backgroundImage = null;
+        [Header("参照")] 
+        [SerializeField] private TalkSystemManager _talkSystemManager = null;
+        [Header("共通")] 
+        [SerializeField] private Image _backgroundImage = null;
+        [SerializeField] private GameObject _loadingPanel = null;
         [Header("クラス選択肢")] [SerializeField] private Transform _choiceButtonParent = null;
         [SerializeField] private List<ChoiceButton> _classSelectButtonPrefab = null;
         [SerializeField] private Sprite _intuitionParameterIcon;
@@ -79,6 +82,12 @@ namespace TeamB.TalkSystem
                     {
                         _talkSystemManager.GoNextTalk = true;
                     }
+                }).AddTo(_talkSystemManager);
+
+            this.UpdateAsObservable()
+                .Subscribe(_ =>
+                {
+                    _loadingPanel.SetActive(_talkSystemManager.CurrentTalkState == TalkSystemManager.TalkState.Init);
                 }).AddTo(_talkSystemManager);
         }
 

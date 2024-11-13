@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
+using TeamB.Data;
+using TeamB.GameSystem.Statics;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace TeamB.TalkSystem
@@ -116,6 +119,8 @@ namespace TeamB.TalkSystem
             }
             //会話終了
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneLoader.LoadScene("Exam");
+            GameStatics.PrevGameState = GameState.Exam;
         }
 
         private async UniTask InitTalkDataLoader()
@@ -131,7 +136,9 @@ namespace TeamB.TalkSystem
             await _talkDataLoader.LoadClassSelectData();
             await _talkDataLoader.LoadTalkData();
             await _talkDataLoader.LoadChoiceData();
-            ConstantTalkData = Resources.Load<ConstantTalkData>("ConstantTalkData");
+            var loadConstantTalkDataHandle = Addressables.LoadAssetAsync<ConstantTalkData>("TalkData");
+            ConstantTalkData = await loadConstantTalkDataHandle.Task;
+            Debug.Log(ConstantTalkData.CharacterDataList.Count);
         }
 
         private (string choiceId, string dialog) GetChoiceId(string normDialogue)

@@ -38,6 +38,7 @@ namespace TeamB.TalkSystem
     #if UNITY_EDITOR
     public static class ConstantTalkDataEditor
     {
+        private const string FolderPath = "Assets/DataAsset/MasterData" + "/" + nameof(ConstantTalkData);
         private const string FileName = "ConstantTalkData.asset";
         private const string CharacterDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=0&single=true&output=csv";
         private const string BackgroundDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1399808365&single=true&output=csv";
@@ -45,7 +46,8 @@ namespace TeamB.TalkSystem
         [UnityEditor.MenuItem("Tools/TalkSystem/Create ConstantTalkData")]
         public static async void LoadConstantTalkData()
         {
-            var savePath = "Assets/Resources" + "/" + nameof(ConstantTalkData) + "/" + FileName;
+            var savePath = FolderPath + "/" + FileName;
+            
             if (File.Exists(savePath))
             {
                 File.Delete(savePath);

@@ -19,19 +19,8 @@ namespace TeamB.UI
         /// ゲームを開始する
         /// </summary>
         public void GameStart()
-        {
-            // 乱数をはじく
-            var tmp = Random.Range(1, 10);
-            if (tmp > 5)
-            {
-                SceneLoader.LoadScene("TalkTest");
-            }
-            else
-            {
-                //todo: 突発イベントは共通シーンで処理する
-                SceneLoader.LoadScene("TalkTest");
-            }
-
+        { 
+            SceneLoader.LoadScene("Talk");
             GameStatics.PrevGameState = GameState.Title;
         }
 
