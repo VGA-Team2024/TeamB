@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MockUp;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
-using TeamB.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,13 +19,6 @@ namespace TeamB.GameSystem
         // Start is called before the first frame update
         void Start()
         {
-            // いったんもぐらたたきがミニゲームとして進行するとする
-            var man = GameObject.FindAnyObjectByType<MiniGameTimeManager>();
-            if (man is not null)
-            {
-                man.OnLimit
-                    += () => { GameObject.FindAnyObjectByType<InExamUIView>().ExitExam(); };
-            }
         }
 
         // Update is called once per frame
