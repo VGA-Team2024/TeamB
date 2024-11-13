@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace TeamB.TalkSystem
         [SerializeField] private Transform _talkChoiceButtonParent = null;
         [SerializeField] private List<ChoiceButton> _talkChoiceButtonPrefab = null;
         [SerializeField] private TextMeshProUGUI _talkChoiceTimerText = null;
+        [SerializeField] private float _choiceTime = 0;
         [Header("会話")] 
         [SerializeField] private Transform _talkPanel = null;
         [SerializeField] private TextMeshProUGUI _talkText = null;
@@ -144,7 +146,7 @@ namespace TeamB.TalkSystem
                 var index = i;
                 _talkChoiceButtonPrefab[i].Button.OnClickAsObservable().Take(1)
                     .Subscribe(_ =>
-                        _talkSystemManager.UniTaskCompletionSource.TrySetResult(((index + 1).ToString(), "")))
+                        _talkSystemManager.UniTaskCompletionSource.TrySetResult(((index + 1).ToString(), _choiceTime.ToString(CultureInfo.CurrentCulture))))
                     .AddTo(_talkSystemManager);
                 SetDialogueText(_talkSystemManager.CurrentTalkEntryData.CurrentValue.JapaneseTalkDialogue).Forget();
             }
@@ -152,12 +154,13 @@ namespace TeamB.TalkSystem
 
         private void CountDown(float time)
         {
+            _choiceTime = time;
             Observable.Interval(TimeSpan.FromSeconds(0.1f)) 
-                .TakeWhile(_ => time >= 0)
+                .TakeWhile(_ => _choiceTime >= 0)
                 .Subscribe(_ =>
                 {
-                    time -= 0.1f;
-                    _talkChoiceTimerText.text = $"残り: {time:F1}秒";
+                    _choiceTime -= 0.1f;
+                    _talkChoiceTimerText.text = $"残り: {_choiceTime:F1}秒";
                 })
                 .AddTo(this);
         }

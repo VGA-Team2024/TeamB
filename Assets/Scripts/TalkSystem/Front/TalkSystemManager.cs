@@ -14,7 +14,7 @@ namespace TeamB.TalkSystem
 {
     public class TalkSystemManager : MonoBehaviour
     {
-        public enum LoadType
+        private enum LoadType
         {
             Local,
             Remote,
@@ -23,6 +23,10 @@ namespace TeamB.TalkSystem
         [SerializeField] private string _talkDataId;
         [SerializeField] private TalkState _currentTalkState = TalkState.Init;
         [SerializeField] private LoadType _loadType = LoadType.Local;
+        [SerializeField] private TalkParameterManager _talkParameterManager = null;
+        [Header("Debug")]
+        [SerializeField] private TalkDebug _talkDebug = null;
+        [SerializeField] private bool _isDebug = true;
         private const string TalkChoiceKey = "[Choice]";
         private const string Pattern = @"\[(.*?)\]";
         private ITalkDataLoader _talkDataLoader = null;
@@ -61,6 +65,10 @@ namespace TeamB.TalkSystem
         {
             _currentTalkState = TalkState.Init;
             await InitTalkDataLoader();
+            if (_isDebug)
+            {
+                _talkDebug.SetDebugButton(_talkDataLoader.GetClassSelectData(), _talkDataLoader.GetTalkData(), _talkDataLoader.GetChoiceData());
+            }
             GoNextTalk = false;
             //選択肢のデータをセット
             _currentTalkState = TalkState.ClassSelect;
@@ -78,6 +86,7 @@ namespace TeamB.TalkSystem
             UniTaskCompletionSource = new UniTaskCompletionSource<(string choiceId, string result)>();
             var choice = await UniTaskCompletionSource.Task;
             CurrentRewardType = (RewardType)Enum.Parse(typeof(RewardType), choice.result);
+            _talkParameterManager.SetRewardType(CurrentRewardType);
             //授業選択肢のデータのロード
             _currentTalkState = TalkState.Talk;
             if (!_talkDataLoader.TryGetTalkData(choice.choiceId, out var talkData))
@@ -101,6 +110,18 @@ namespace TeamB.TalkSystem
                         UniTaskCompletionSource = new UniTaskCompletionSource<(string choiceId, string result)>();
                         //ここで選択肢のデータを元に加算処理をする
                         await UniTask.WhenAny(UniTaskCompletionSource.Task, UniTask.Delay(TimeSpan.FromSeconds(_currentClassChoiceData.Value.ChoiceTime)));
+                        var choiceResult = await UniTaskCompletionSource.Task;
+                        Debug.Log(choiceResult.choiceId);
+                        if (choiceResult.choiceId == _currentClassChoiceData.Value.AnswerIndex.ToString())
+                        {
+                            _talkParameterManager.AddClearCount(1);
+                            _talkParameterManager.AddRestTime(float.Parse(choiceResult.result));
+                            Debug.Log("正解");
+                        }
+                        else
+                        {
+                            Debug.Log("不正解");
+                        }
                     }
                     else
                     {
@@ -118,6 +139,7 @@ namespace TeamB.TalkSystem
                 }
             }
             //会話終了
+            _talkParameterManager.SetReward();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             SceneLoader.LoadScene("Exam");
             GameStatics.PrevGameState = GameState.Exam;
@@ -138,7 +160,6 @@ namespace TeamB.TalkSystem
             await _talkDataLoader.LoadChoiceData();
             var loadConstantTalkDataHandle = Addressables.LoadAssetAsync<ConstantTalkData>("TalkData");
             ConstantTalkData = await loadConstantTalkDataHandle.Task;
-            Debug.Log(ConstantTalkData.CharacterDataList.Count);
         }
 
         private (string choiceId, string dialog) GetChoiceId(string normDialogue)
