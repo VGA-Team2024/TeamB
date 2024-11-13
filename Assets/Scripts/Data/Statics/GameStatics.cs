@@ -41,6 +41,11 @@ namespace TeamB.GameSystem.Statics
         /// 倍速設定
         /// </summary>
         public static float TimeScale = 1.0f;
+
+        /// <summary>
+        /// 試験クリアしたかどうか
+        /// </summary>
+        public static ExamResult ExamResult;
         
         public static void Log()
         {
