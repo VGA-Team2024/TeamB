@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using Cysharp.Threading.Tasks;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace TeamB.Data
@@ -18,11 +17,10 @@ namespace TeamB.Data
         /// <param name="characterData"></param>
         public async UniTask SaveDataAsync<T>(string path, T data)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+            using (StreamWriter wr = new StreamWriter(path, false))
             {
-                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-                byte[] bytes = Encoding.UTF8.GetBytes(json);
-                await fs.WriteAsync(bytes, 0, bytes.Length);
+                string json = JsonUtility.ToJson(data); 
+                await wr.WriteLineAsync(json);  
             }
         }
 
@@ -34,10 +32,11 @@ namespace TeamB.Data
         {
             try
             {
-                string datastr = await File.ReadAllTextAsync(path);
-                T characterData = JsonConvert.DeserializeObject<T>(datastr);
-                onSuccess?.Invoke(characterData);
-                return characterData;
+                StreamReader rd = new StreamReader(path);               // ファイル読み込み指定
+                string json = rd.ReadToEnd();                           // ファイル内容全て読み込む
+                rd.Close();                                             // ファイル閉じる
+                                                                
+                return JsonUtility.FromJson<T>(json); 
             }
             catch (Exception e)
             {

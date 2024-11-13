@@ -1,3 +1,4 @@
+using TeamB.GameSystem;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -11,8 +12,10 @@ namespace TeamB.Develop
 
         private EnemyManager _enemyManager;
         private Exam _exam;
-        DefenseInput _defenseInput = new();
-        AttackInput _attackInput = new();
+        private BuffContainer _buffContainer;
+        private PoseManager _poseManager;
+        private DefenseInput _defenseInput = new();
+        private AttackInput _attackInput = new();
 
         public IAlly GetAllies => _allies;
 
@@ -25,6 +28,7 @@ namespace TeamB.Develop
         {
             _exam = FindAnyObjectByType<Exam>();
             _enemyManager = FindAnyObjectByType<EnemyManager>();
+            _buffContainer = FindAnyObjectByType<BuffContainer>();
 
             _exam.OnExamStarted += OnStartExam;
             _exam.OnExamEnded += OnEndExam;
@@ -50,13 +54,55 @@ namespace TeamB.Develop
         }
 
         /// <summary>
+        /// バフ追加の呼び出し
+        /// </summary>
+        /// <param name="buffType"></param>
+        public void AddBuff(BuffType buffType)
+        {
+            if (_poseManager == null)
+                _poseManager = FindAnyObjectByType<PoseManager>();
+            if (!_poseManager.GetIsInPose)
+                _allies.AddBuff(_buffContainer.GetBuffData((int)buffType));
+        }
+
+        /// <summary>
+        /// バフ解除の呼び出し（持続時間が過ぎたら消える）
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        private void RemoveBuff(float deltaTime)
+        {
+            _allies.RemoveBuff(deltaTime);
+        }
+
+        /// <summary>
+        /// デバフ追加の呼び出し
+        /// </summary>
+        /// <param name="buffType"></param>
+        public void AddDeBuff(BuffType buffType)
+        {
+            if (_poseManager == null)
+                _poseManager = FindAnyObjectByType<PoseManager>();
+            if (!_poseManager.GetIsInPose)
+                _allies.AddDeBuff(_buffContainer.GetBuffData((int)buffType));
+        }
+
+        /// <summary>
+        /// デバフ解除の呼び出し（持続時間が過ぎたら消える）
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        private void RemoveDeBuff(float deltaTime)
+        {
+            _allies.RemoveDeBuff(deltaTime);
+        }
+
+        /// <summary>
         /// 試験開始の処理
         /// </summary>
         public void OnStartExam()
         {
             _exam.OnExamUpdated += OnUpdateExam;
             _allies.Initialized();
-            _allies.OnDeath += () => { _exam.EndExam(); };
+            _allies.OnDeath += _exam.ExamFailure;
         }
 
         /// <summary>
@@ -65,14 +111,22 @@ namespace TeamB.Develop
         private void OnUpdateExam(float deltaTime)
         {
             //入力受付
-            _attackInput.ChangeInput(Input.GetKeyDown(KeyCode.Space));
-            _defenseInput.ChangeInput(Input.GetKeyDown(KeyCode.Space));
             _allies.Input(_attackInput, _defenseInput);
 
             //攻撃の呼び出し
             AlliesAttack(deltaTime);
             //防御の呼び出し
             AlliesDefense(deltaTime);
+            //バフ解除の呼び出し
+            RemoveBuff(deltaTime);
+            //デバフ解除の呼び出し
+            RemoveDeBuff(deltaTime);
+        }
+
+        public void Action(bool isAction)
+        {
+            _attackInput.ChangeInput(isAction);
+            _defenseInput.ChangeInput(isAction);
         }
 
         /// <summary>

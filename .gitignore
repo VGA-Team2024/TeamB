@@ -162,4 +162,15 @@ Assets/Plugins/Demigiant.meta
 Assets/Resources/DOTweenSettings.asset
 Assets/Resources/DOTweenSettings.asset.meta
 >>>>>>> 80ac78347f18fe719f3facdc0ba7a844216573a9
-Assets/TalkSystem/
+Assets/Live2D/Cubism/Framework.meta
+Assets/Live2D/
+Assets/Packages/
+Assets/packages.config.meta
+Assets/packages.config
+Assets/Packages.meta
+Assets/NuGet.config
+Assets/NuGet.config.meta
+Assets/mcs.rsp
+Assets/mcs.rsp.meta
+Assets/csc.rsp.meta
+Assets/csc.rsp
