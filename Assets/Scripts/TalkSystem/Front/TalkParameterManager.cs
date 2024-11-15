@@ -36,7 +36,6 @@ namespace TeamB.TalkSystem
         {
             var charaIndex = (int)GameStatics.NurturingCharacterType;
             var addValue =  _allRestTime / _clearCount;
-            Debug.Log("ATK: " + GameStatics.Characters[charaIndex].MagicATK + " ChantingSpeed: " + GameStatics.Characters[charaIndex].ChantingSpeed + " HitRate: " + GameStatics.Characters[charaIndex].HitRate);
             switch (_rewardType)
             {
                 case RewardType.Intuition:
@@ -52,7 +51,6 @@ namespace TeamB.TalkSystem
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Debug.Log("ATK: " + GameStatics.Characters[charaIndex].MagicATK + " ChantingSpeed: " + GameStatics.Characters[charaIndex].ChantingSpeed + " HitRate: " + GameStatics.Characters[charaIndex].HitRate);
         }
     }
 }
