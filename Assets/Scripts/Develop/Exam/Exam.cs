@@ -116,6 +116,19 @@ namespace TeamB.Develop
             EndExam();
             SceneLoader.LoadScene("Result");
         }
+
+        public void OnEndPose()
+        {
+            if(_poseManager == null)
+                _poseManager = FindAnyObjectByType<PoseManager>();
+            _poseManager.StopPose();
+        }
+        public void OnStartPose()
+        {
+            if(_poseManager == null)
+                _poseManager = FindAnyObjectByType<PoseManager>();
+            _poseManager.StartPose();
+        }
     }
 
     /// <summary>
