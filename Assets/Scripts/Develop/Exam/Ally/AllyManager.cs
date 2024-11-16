@@ -12,6 +12,7 @@ namespace TeamB.Develop
     {
         [SerializeReference, SubclassSelector] private IAlly _allies;
         [SerializeField] GameObject alliesPrefab;
+        [SerializeField] GameObject defencePrefab;
 
         private EnemyManager _enemyManager;
         private Exam _exam;
@@ -36,6 +37,8 @@ namespace TeamB.Develop
             _exam.OnExamStarted += OnStartExam;
             _exam.OnExamEnded += OnEndExam;
             _allies.OnTakeDamage += OnTakeDamage;
+            _allies.OnDefense += OnDefense;
+            _allies.OnEndDefense += OnEndDefense;
         }
 
         private async void OnTakeDamage()
@@ -46,13 +49,24 @@ namespace TeamB.Develop
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
-            
+            if (!alliesPrefab) return;
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
             {
                 sprite.color = new Color(1f, 1, 1, 1);
             }
         }
 
+        private void OnDefense()
+        {
+            defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
+            defencePrefab.SetActive(true);
+        }
+
+        private void OnEndDefense()
+        {
+            defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
+            defencePrefab.SetActive(false);
+        }
 
         /// <summary>
         /// 味方の攻撃呼び出し
