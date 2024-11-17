@@ -80,9 +80,11 @@ namespace TeamB.Develop
 
         public void Initialized()
         {
+            DebugManager.Log($"主人公の攻撃力{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK}");
             _actionType = GameStatics.ExamState == ExamState.FirstExam ? ActionType.Defend : ActionType.Attack;
             _currentData = new(GameStatics.Characters[(int)GameStatics.NurturingCharacterType]);
             _token = new CancellationTokenSource().Token;
+            _percentageReduction  = _percentageReductionBaseValue;
             OnParamUpDate?.Invoke();
         }
 
@@ -115,6 +117,7 @@ namespace TeamB.Develop
                 {
                     OnAttack?.Invoke();
 
+                    DebugManager.Log($"主人公の攻撃力{_currentData.MagicATK}");
                     characters.TakeDamage(TakeBuff(BuffType.GiveDamage,
                         TakeBuff(BuffType.Attack, _currentData.MagicATK)));
                     _attackTimer = 0;
@@ -224,38 +227,26 @@ namespace TeamB.Develop
         /// <returns></returns>
         public float TakeBuff(BuffType buffType, float value)
         {
-            //加算バフ、デバフ
-            foreach (var buff in _haveBuffs.Where(x => x.GetBuffType == buffType))
+            List<IBuff> buffs = _haveBuffs.Where(x => x.GetBuffType == buffType).ToList();
+            if (buffs.Count == 0)
+                return value;
+
+            float buffed = value;
+            
+            foreach (var buff in buffs)
             {
+                //加算バフ、デバフ
                 if (buff.GetCalculationMethod == CalculationMethod.Addition &&
                     buff.GetBuffType == buffType)
-                    value += buff.GetValue;
-            }
-
-            foreach (var Debuff in _haveDeBuffs.Where(x => x.GetBuffType == buffType))
-            {
-                if (Debuff.GetCalculationMethod == CalculationMethod.Addition &&
-                    Debuff.GetBuffType == buffType)
-                    value += Debuff.GetValue;
-            }
-
-            //乗算バフ、デバフ
-            foreach (var buff in _haveBuffs.Where(x => x.GetBuffType == buffType))
-            {
+                    buffed += buff.GetValue;
                 DebugManager.Log($"{buffType.ToString()}バフ");
+                //乗算バフ、デバフ
                 if (buff.GetCalculationMethod == CalculationMethod.Multiplication &&
                     buff.GetBuffType == buffType)
-                    value *= buff.GetValue;
+                    buffed *= buff.GetValue;
             }
 
-            foreach (var Debuff in _haveDeBuffs.Where(x => x.GetBuffType == buffType))
-            {
-                if (Debuff.GetCalculationMethod == CalculationMethod.Multiplication &&
-                    Debuff.GetBuffType == buffType)
-                    value *= Debuff.GetValue;
-            }
-
-            return value;
+            return buffed;
         }
 
 

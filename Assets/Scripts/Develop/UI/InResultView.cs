@@ -36,7 +36,7 @@ namespace TeamB.Develop
             switch (GameStatics.ExamState)
             {
                 case ExamState.FirstExam:
-                    sceneName = "TalkTest";
+                    sceneName = "Talk";
                     break;
                 case ExamState.SecondExam:
                     if (GameStatics.ExamResult == ExamResult.Clear)
@@ -46,6 +46,7 @@ namespace TeamB.Develop
                     break;
                 case ExamState.ExamClear:
                     sceneName = "Title";
+                    GameStatics.ExamState = ExamState.FirstExam;
                     break;
             }
 

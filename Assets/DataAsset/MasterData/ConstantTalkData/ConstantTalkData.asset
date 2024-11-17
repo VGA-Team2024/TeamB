@@ -55,10 +55,34 @@ MonoBehaviour:
       CharaSprite: {fileID: 21300000, guid: 03b8fdae768cdca4da323320ca353f2c, type: 3}
     - StateName: Happy
       CharaSprite: {fileID: 21300000, guid: 03b8fdae768cdca4da323320ca353f2c, type: 3}
+  - CharacterID: Lian
+    JapaneseName: "\u30EA\u30A2\u30F3"
+    TalkDataList:
+    - StateName: Normal
+      CharaSprite: {fileID: 21300000, guid: 741ca652a6b89f743b236c068e6ad453, type: 3}
+    - StateName: Angry
+      CharaSprite: {fileID: 21300000, guid: 741ca652a6b89f743b236c068e6ad453, type: 3}
+    - StateName: sad
+      CharaSprite: {fileID: 21300000, guid: 741ca652a6b89f743b236c068e6ad453, type: 3}
+    - StateName: Happy
+      CharaSprite: {fileID: 21300000, guid: 741ca652a6b89f743b236c068e6ad453, type: 3}
+  - CharacterID: Player
+    JapaneseName: "\u30D7\u30EC\u30A4\u30E4\u30FC"
+    TalkDataList:
+    - StateName: Normal
+      CharaSprite: {fileID: 0}
+    - StateName: Angry
+      CharaSprite: {fileID: 0}
+    - StateName: sad
+      CharaSprite: {fileID: 0}
+    - StateName: Happy
+      CharaSprite: {fileID: 0}
   BackgroundDataList:
   - BackgroundID: "BlueSky\r"
     BackgroundSprite: {fileID: 0}
   - BackgroundID: "Class\r"
-    BackgroundSprite: {fileID: 0}
+    BackgroundSprite: {fileID: 21300000, guid: 641975e431853d34aaa04892c52401af, type: 3}
   - BackgroundID: Corridor
     BackgroundSprite: {fileID: 0}
+  - BackgroundID: Class_Night
+    BackgroundSprite: {fileID: 21300000, guid: 641975e431853d34aaa04892c52401af, type: 3}
