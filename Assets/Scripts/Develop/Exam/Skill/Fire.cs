@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TeamB.Develop
 {
     /// <summary>
-    /// 魔法ファイアのクラス　：サンプルクラス
+    /// 魔法ファイアのクラス：サンプルクラス
     /// これみたいに実装すれば量産できる
     /// </summary>
     public class Fire : ISkill

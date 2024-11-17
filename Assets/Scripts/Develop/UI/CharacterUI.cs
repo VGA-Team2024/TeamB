@@ -8,7 +8,7 @@ namespace TeamB.Develop
 {
     public class CharacterUI : MonoBehaviour
     {
-        [SerializeField] Slider _slider;
+        [SerializeField] Image _slider;
         private AllyManager _allyManager;
 
         private void Awake()
@@ -23,7 +23,7 @@ namespace TeamB.Develop
                 $"{GameStatics.Characters[(int)_allyManager.GetAllies.GetCharacterType].Hp}:{_allyManager.GetAllies.GetCurrentData.Hp}");
             float ratio = _allyManager.GetAllies.GetCurrentData.Hp /
                           GameStatics.Characters[(int)_allyManager.GetAllies.GetCharacterType].Hp;
-            _slider.value = ratio;
+            _slider.fillAmount = ratio;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DataManagement.SpreadSheet;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
@@ -18,6 +19,7 @@ namespace TeamB.Develop
         #region serializeFields
 
         [SerializeReference, SubclassSelector] private IEnemy _currentEnemy;
+        [SerializeField] private GameObject _enemy;
 
         #endregion
 
@@ -49,6 +51,7 @@ namespace TeamB.Develop
             _exam = FindAnyObjectByType<Exam>();
             _waveManager = FindAnyObjectByType<WaveManager>();
             _allyManager = FindAnyObjectByType<AllyManager>();
+            _currentEnemy.OnTakeDamage += OnTakeDamage;
             if (_exam)
             {
                 _exam.OnExamStarted += OnStartExam;
@@ -64,6 +67,16 @@ namespace TeamB.Develop
         private void EnemiesAttack(float deltaTime)
         {
             _currentEnemy.Attack(_allyManager.GetAllies, _exam.GetOperationType, deltaTime);
+        }
+
+        private async void OnTakeDamage()
+        {
+            _enemy.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            if(!_enemy)return;
+            
+            _enemy.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
         }
         
 
