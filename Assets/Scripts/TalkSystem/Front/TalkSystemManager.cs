@@ -14,7 +14,7 @@ namespace TeamB.TalkSystem
 {
     public class TalkSystemManager : MonoBehaviour
     {
-        private enum LoadType
+        public enum LoadType
         {
             Local,
             Remote,
@@ -24,9 +24,6 @@ namespace TeamB.TalkSystem
         [SerializeField] private TalkState _currentTalkState = TalkState.Init;
         [SerializeField] private LoadType _loadType = LoadType.Local;
         [SerializeField] private TalkParameterManager _talkParameterManager = null;
-        [Header("Debug")]
-        [SerializeField] private TalkDebug _talkDebug = null;
-        [SerializeField] private bool _isDebug = true;
         private const string TalkChoiceKey = "[Choice]";
         private const string Pattern = @"\[(.*?)\]";
         private ITalkDataLoader _talkDataLoader = null;
@@ -44,7 +41,7 @@ namespace TeamB.TalkSystem
         public ReadOnlyReactiveProperty<ClassSelectData> CurrentClassSelectData => _currentClassSelectData;
         private ReactiveProperty<ChoiceData> _currentClassChoiceData = new();
         public ReadOnlyReactiveProperty<ChoiceData> CurrentClassChoiceData => _currentClassChoiceData;
-        public RewardType CurrentRewardType { get; private set; } = RewardType.Intuition;
+        private RewardType CurrentRewardType { get; set; } = RewardType.Intuition;
 
         #endregion
 
@@ -65,21 +62,21 @@ namespace TeamB.TalkSystem
         {
             _currentTalkState = TalkState.Init;
             await InitTalkDataLoader();
-            if (_isDebug)
-            {
-                _talkDebug.SetDebugButton(_talkDataLoader.GetClassSelectData(), _talkDataLoader.GetTalkData(), _talkDataLoader.GetChoiceData());
-            }
             GoNextTalk = false;
             //選択肢のデータをセット
             _currentTalkState = TalkState.ClassSelect;
-            if (_talkDataLoader.TryGetClassSelectData(_talkDataId, out var currentClassSelectData))
+            if (_currentClassSelectData.Value == null)
             {
+                if (!_talkDataLoader.TryGetClassSelectData(_talkDataId, out var currentClassSelectData))
+                {
+                    Debug.LogError("ClassSelectData is not found.");
+                    return;
+                }
                 _currentClassSelectData.Value = currentClassSelectData;
             }
             else
             {
-                Debug.LogError("ClassSelectData is not found.");
-                return;
+                _currentClassSelectData.ForceNotify();
             }
 
             //クラス選択
@@ -144,9 +141,25 @@ namespace TeamB.TalkSystem
             SceneLoader.LoadScene("Exam");
             GameStatics.PrevGameState = GameState.Exam;
         }
+        
+        public void SetTalkDataLoader(ITalkDataLoader talkDataLoader)
+        {
+            _talkDataLoader = talkDataLoader;
+        }
+        
+        public void SetClassSelectData(ClassSelectData classSelectData)
+        {
+            _currentClassSelectData.Value = classSelectData;
+        }
 
         private async UniTask InitTalkDataLoader()
         {
+            var loadConstantTalkDataHandle = Addressables.LoadAssetAsync<ConstantTalkData>("TalkData");
+            ConstantTalkData = await loadConstantTalkDataHandle.Task;
+            if (_talkDataLoader != null)
+            {
+                return;
+            }
             if (_loadType == LoadType.Remote)
             {
                 _talkDataLoader = new RemoteTalkDataLoader();
@@ -155,11 +168,9 @@ namespace TeamB.TalkSystem
             {
                 _talkDataLoader = new LocalTalkDataLoader();
             }
-            await _talkDataLoader.LoadClassSelectData();
-            await _talkDataLoader.LoadTalkData();
-            await _talkDataLoader.LoadChoiceData();
-            var loadConstantTalkDataHandle = Addressables.LoadAssetAsync<ConstantTalkData>("TalkData");
-            ConstantTalkData = await loadConstantTalkDataHandle.Task;
+
+            await _talkDataLoader.InitTalkData();
+            
         }
 
         private (string choiceId, string dialog) GetChoiceId(string normDialogue)

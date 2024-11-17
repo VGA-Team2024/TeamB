@@ -10,15 +10,15 @@ namespace TeamB.TalkSystem
 {
     public interface ITalkDataLoader
     {
+        public UniTask InitTalkData();
         public UniTask LoadClassSelectData();
         public UniTask LoadTalkData();
         public UniTask LoadChoiceData();
         public bool TryGetClassSelectData(string id, out ClassSelectData classSelectData);
+        public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData);
         public bool TryGetTalkData(string id, out ClassTalkData talkData);
         public bool TryGetChoiceData(string id, out ChoiceData choiceData);
-        public ClassTalkData[] GetTalkData();
-        public ClassSelectData[] GetClassSelectData();
-        public ChoiceData[] GetChoiceData();
+     
                 
         protected static RewardType GetRewardType(string reward)
         {
@@ -39,6 +39,10 @@ namespace TeamB.TalkSystem
         private HashSet<ClassTalkData> _talkDataCache = new();
         private HashSet<ChoiceData> _choiceDataCache = new();
 
+        public UniTask InitTalkData()
+        {
+            return UniTask.WhenAll(LoadClassSelectData(), LoadTalkData(), LoadChoiceData());
+        }
         public UniTask LoadClassSelectData()
         {
             var path = Path.Combine(Application.streamingAssetsPath, nameof(ClassSelectData));
@@ -92,6 +96,12 @@ namespace TeamB.TalkSystem
             return classSelectData != null;
         }
 
+        public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData)
+        {
+            classSelectData = _classSelectDataCache.ToArray();
+            return classSelectData == null;
+        }
+
         public bool TryGetTalkData(string id, out ClassTalkData talkData)
         {
             talkData = _talkDataCache.FirstOrDefault(data => data.TalkDataId == id);
@@ -102,21 +112,6 @@ namespace TeamB.TalkSystem
         {
             choiceData = _choiceDataCache.FirstOrDefault(data => data.ChoiceId == id);
             return choiceData != null;
-        }
-
-        public ClassTalkData[] GetTalkData()
-        {
-            return _talkDataCache.ToArray();
-        }
-
-        public ClassSelectData[] GetClassSelectData()
-        {
-            return _classSelectDataCache.ToArray();
-        }
-
-        public ChoiceData[] GetChoiceData()
-        {
-            return _choiceDataCache.ToArray();
         }
     }
 
@@ -131,6 +126,11 @@ namespace TeamB.TalkSystem
         private HashSet<ClassSelectData> _classSelectData = new();
         private HashSet<ClassTalkData> _talkData = new();
         private HashSet<ChoiceData> _choiceData = new();
+        
+        public UniTask InitTalkData()
+        {
+            return UniTask.WhenAll(LoadClassSelectData(), LoadTalkData(), LoadChoiceData());
+        }
 
         public async UniTask LoadClassSelectData()
         {
@@ -267,19 +267,10 @@ namespace TeamB.TalkSystem
             return choiceData != null;
         }
 
-        public ClassTalkData[] GetTalkData()
+        public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData)
         {
-            throw new NotImplementedException();
-        }
-
-        public ClassSelectData[] GetClassSelectData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ChoiceData[] GetChoiceData()
-        {
-            throw new NotImplementedException();
+            classSelectData = _classSelectData.ToArray();
+            return classSelectData == null;
         }
     }
 }

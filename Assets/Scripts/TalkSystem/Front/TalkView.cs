@@ -56,6 +56,7 @@ namespace TeamB.TalkSystem
                 .Where(_ => _talkSystemManager.CurrentTalkState == TalkSystemManager.TalkState.ClassSelect)
                 .Subscribe(_ =>
                 {
+                    Debug.Log("ClassSelect");
                     _characterImageParent.gameObject.SetActive(false);
                     _choiceButtonParent.gameObject.SetActive(true);
                     _talkPanel.gameObject.SetActive(false);
@@ -210,7 +211,9 @@ namespace TeamB.TalkSystem
                 Debug.LogError("TalkEntryData is null");
                 return;
             }
-
+            
+            var matchingBackground = _talkSystemManager.ConstantTalkData.BackgroundDataList.FirstOrDefault(x => x.BackgroundID == _talkSystemManager.CurrentTalkEntryData.CurrentValue.TalkBackground);
+            _backgroundImage.sprite = matchingBackground?.BackgroundSprite;
             _talkerNameText.text = _talkSystemManager.CurrentTalkEntryData.CurrentValue.TalkSpeaker;
             var dialogue = _talkSystemManager.CurrentTalkEntryData.CurrentValue.JapaneseTalkDialogue;
             SetDialogueText(dialogue).Forget();
