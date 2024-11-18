@@ -188,7 +188,6 @@ namespace TeamB.GameSystem
     {
         None,
         Multiplication,
-        Addition,
-        Division
+        Addition
     }
 }
