@@ -181,9 +181,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Result
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8ba5ffff940c46046abefc7c3304bb3b, type: 2}
-  m_sharedMaterial: {fileID: -2411588789648535259, guid: 8ba5ffff940c46046abefc7c3304bb3b,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -384,9 +383,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5408\u683C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8ba5ffff940c46046abefc7c3304bb3b, type: 2}
-  m_sharedMaterial: {fileID: -2411588789648535259, guid: 8ba5ffff940c46046abefc7c3304bb3b,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -495,6 +493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isActive: 1
   _viewId: ResultUI
+  _testSkitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
   _text: {fileID: 1085086907}
 --- !u!225 &1124056412
 CanvasGroup:
@@ -934,9 +933,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Next
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8ba5ffff940c46046abefc7c3304bb3b, type: 2}
-  m_sharedMaterial: {fileID: -2411588789648535259, guid: 8ba5ffff940c46046abefc7c3304bb3b,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
