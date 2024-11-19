@@ -1481,7 +1481,7 @@ MonoBehaviour:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a552678fe8af100448abe6afa92c2136
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f154.png
+    m_Address: TestPresidentOfTheStudentCouncil
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture

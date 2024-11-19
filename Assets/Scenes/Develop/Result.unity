@@ -384,6 +384,7 @@ MonoBehaviour:
   _isActive: 1
   _viewId: ResultUI
   _text: {fileID: 1208403894}
+  _testSkitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
 --- !u!225 &1124056412
 CanvasGroup:
   m_ObjectHideFlags: 0

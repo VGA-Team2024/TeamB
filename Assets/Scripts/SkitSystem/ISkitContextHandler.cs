@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace TeamB.SkitSystem
         public bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
         {
             nextSkitContext = _nextSkitContext;
+            _nextSkitContext = null;
             return nextSkitContext != null;
         }
 
@@ -52,7 +54,7 @@ namespace TeamB.SkitSystem
         public SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.Skit;
 
         public UniTaskCompletionSource<(string choiceId, string result)> AwaitForNextUts { get; private set; }
-        private ReactiveProperty<SkitEntryData> _currentSkitEntryData = new();
+        private readonly ReactiveProperty<SkitEntryData> _currentSkitEntryData = new();
         public ReadOnlyReactiveProperty<SkitEntryData> CurrentSkitEntryData => _currentSkitEntryData;
         public async UniTask HandleSkitContext(SkitContext skitContext, ISkitDataLoader skitDataLoader)
         {
@@ -65,8 +67,31 @@ namespace TeamB.SkitSystem
 
             foreach (var skitEntryData in skitData.SkitEntryData)
             {
-                _currentSkitEntryData.Value = skitEntryData;
                 //ここでタグの読み取りなど行う。次に表示するデータ等を含んでいたら_nextSkitContextに代入する
+                //ToDo: タグの読み取りの処理の分離
+                if (skitEntryData.JapaneseTalkDialogue.Contains("[MainCharacter]"))
+                {
+                    skitEntryData.JapaneseTalkDialogue = skitEntryData.JapaneseTalkDialogue.Replace("[MainCharacter]", "リアン");
+                }
+                
+                if (skitEntryData.JapaneseTalkDialogue.Contains("[Skit]"))
+                {
+                    skitEntryData.JapaneseTalkDialogue = skitEntryData.JapaneseTalkDialogue.Replace("[Skit]", "");
+                    var match = Regex.Match(skitEntryData.JapaneseTalkDialogue, @"\[(.*?)\]");
+                    if (!match.Success) return;
+                    var skitId = match.Groups[1].Value;
+                    skitEntryData.JapaneseTalkDialogue = skitEntryData.JapaneseTalkDialogue.Replace($"[{skitId}]", "");
+                    if (skitDataLoader.TryGetSkitData(skitId, out var nextSkitData))
+                    {
+                        _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, nextSkitData);
+                    }
+                    else
+                    {
+                        Debug.LogError("SkitDataが見つかりませんでした");
+                    }
+                }
+                
+                _currentSkitEntryData.Value = skitEntryData;
                 AwaitForNextUts = new UniTaskCompletionSource<(string choiceId, string result)>();
                 await AwaitForNextUts.Task;
             }
@@ -74,6 +99,7 @@ namespace TeamB.SkitSystem
         public bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
         {
             nextSkitContext = _nextSkitContext;
+            _nextSkitContext = null;
             return nextSkitContext != null;
         }
     }
@@ -84,6 +110,7 @@ namespace TeamB.SkitSystem
         public bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
         {
             nextSkitContext = _nextSkitContext;
+            _nextSkitContext = null;
             return nextSkitContext != null;
         }
 

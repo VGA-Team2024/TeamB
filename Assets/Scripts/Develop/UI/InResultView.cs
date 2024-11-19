@@ -1,6 +1,7 @@
 using DG.Tweening;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
+using TeamB.SkitSystem;
 using UISystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace TeamB.Develop
     public class InResultView : UIView
     {
         [SerializeField] UnityEngine.UI.Text _text;
+        [SerializeField] TestSkitFlagData _testSkitFlagData;
         private string _passedSentence = "合格";
         private string _notPassedSentence = "不合格";
         Vector3 _startScale = new Vector3(300, 300, 300);
@@ -28,6 +30,23 @@ namespace TeamB.Develop
 
             _text.GetComponent<RectTransform>().transform.DOScale(_startScale, 0f);
             _text.GetComponent<RectTransform>().transform.DOScale(Vector3.one, _stampTime).SetEase(Ease.OutCirc);
+            
+            SetTestFlag();
+        }
+
+        /// <summary>
+        /// テスト用のフラグを立てるためのメソッドです。
+        /// </summary>
+        private void SetTestFlag()
+        {
+            if (_testSkitFlagData.Prologue && GameStatics.ExamResult == ExamResult.Clear)
+            {
+                _testSkitFlagData.FirstExamClear = true;
+            }
+            else if (_testSkitFlagData.Prologue && _testSkitFlagData.FirstExamClear && GameStatics.ExamResult == ExamResult.Clear)
+            {
+                _testSkitFlagData.SecondExamClear = true;
+            }
         }
 
         public void Result()
@@ -36,7 +55,7 @@ namespace TeamB.Develop
             switch (GameStatics.ExamState)
             {
                 case ExamState.FirstExam:
-                    sceneName = "Talk";
+                    sceneName = "Skit";
                     break;
                 case ExamState.SecondExam:
                     if (GameStatics.ExamResult == ExamResult.Clear)
@@ -51,7 +70,7 @@ namespace TeamB.Develop
             }
 
             GameStatics.ExamResult = ExamResult.None;
-            SceneLoader.LoadScene(sceneName);
+            SceneLoader.LoadScene("Skit");
         }
     }
 }

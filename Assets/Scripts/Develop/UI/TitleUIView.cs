@@ -24,7 +24,7 @@ namespace TeamB.UI
         /// </summary>
         public void GameStart()
         { 
-            SceneLoader.LoadScene("Talk");
+            SceneLoader.LoadScene("Skit");
             GameStatics.PrevGameState = GameState.Title;
         }
 

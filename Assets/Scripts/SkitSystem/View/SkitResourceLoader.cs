@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace TeamB.SkitSystem
 {
     public class SkitResourceLoader : MonoBehaviour
     {
-        private Dictionary<string, Sprite> _loadedSprites = new Dictionary<string, Sprite>();
+        [SerializeField] private List<SpriteValue> _loadedSprites = new();
         [SerializeField] private string _label = "SkitTexture";
         
         public async UniTask InitializeSkitResourceLoader()
@@ -20,7 +21,11 @@ namespace TeamB.SkitSystem
             {
                 foreach (var sprite in handle.Result)
                 {
-                    _loadedSprites[sprite.name] = sprite; // 名前をキーに辞書に格納
+                    _loadedSprites.Add(new SpriteValue()
+                    {
+                        Key = sprite.name,
+                        Sprite = sprite
+                    }); // 名前をキーに辞書に格納
                 }
             }
             else
@@ -36,13 +41,21 @@ namespace TeamB.SkitSystem
         /// <returns>テクスチャ</returns>
         public Sprite GetSpriteByName(string textureName)
         {
-            if (_loadedSprites.TryGetValue(textureName, out var texture))
+            var spriteValue = _loadedSprites.Find(x => x.Key == textureName);
+            if (spriteValue != null)
             {
-                return texture;
+                return spriteValue.Sprite;
             }
 
             Debug.LogWarning($"Texture with name '{textureName}' not found.");
             return null;
         }
+    }
+    
+    [Serializable]
+    public class SpriteValue
+    {
+        public string Key;
+        public Sprite Sprite;
     }
 }

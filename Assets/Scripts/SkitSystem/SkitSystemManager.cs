@@ -24,10 +24,9 @@ namespace TeamB.SkitSystem
         private readonly HashSet<ISkitContextHandler> _skitContextHandlers = new();
         private ISkitDataLoader _skitDataLoader;
         
-        private async void Start()
+        public void SetTestSkitId(string testSkitId)
         {
-            await Initialize();
-            DoSkitSequence().Forget();
+            _testSkitId = testSkitId;
         }
         
         public void SetSkitContextHandlers(ISkitContextHandler skitContextHandler)
@@ -35,7 +34,7 @@ namespace TeamB.SkitSystem
             _skitContextHandlers.Add(skitContextHandler);
         }
         
-        private async UniTask Initialize()
+        public async UniTask Initialize()
         {
             if (_dataLoadType == DataLoadType.Remote)
             {
@@ -58,7 +57,7 @@ namespace TeamB.SkitSystem
             }
         }
 
-        private async UniTask DoSkitSequence()
+        public async UniTask DoSkitSequence()
         {
             while (_skitContextQueue.Count > 0)
             {
@@ -66,16 +65,32 @@ namespace TeamB.SkitSystem
                 if (currentSkitContext == null)
                 {
                     Debug.LogError("SkitContextがnullです");
-                    _skitContextQueue.Dequeue(); // null要素をスキップしてキューから削除
-                    break;
+                    _skitContextQueue.Dequeue(); // null要素を削除してスキップ
+                    continue;
                 }
-                // 表示する会話データの内容に応じて処理を行う
-                var handleSkitContextType = _skitContextQueue.Peek().SkitContextType;
-                foreach (var skitContextHandler in _skitContextHandlers.Where(skitContextHandler => skitContextHandler.HandleSkitContextType == handleSkitContextType))
+
+                var handleSkitContextType = currentSkitContext.SkitContextType;
+
+                // ハンドラを取得
+                var validHandlers = _skitContextHandlers
+                    .Where(handler => handler.HandleSkitContextType == handleSkitContextType)
+                    .ToList();
+
+                if (!validHandlers.Any())
+                {
+                    Debug.LogError($"SkitContextType {handleSkitContextType} に対応するハンドラが見つかりません");
+                    _skitContextQueue.Dequeue(); // 対応するハンドラがない場合はスキップ
+                    continue;
+                }
+
+                foreach (var skitContextHandler in validHandlers)
                 {
                     try
                     {
+                        // 現在のコンテキストを処理し、デキュー
                         await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue(), _skitDataLoader);
+
+                        // 次のスキットコンテキストがある場合、エンキュー
                         if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContext))
                         {
                             _skitContextQueue.Enqueue(nextSkitContext);
@@ -84,7 +99,7 @@ namespace TeamB.SkitSystem
                     catch (OperationCanceledException)
                     {
                         Debug.Log("処理がキャンセルされました");
-                        return; // キャンセルされた場合は処理を抜ける
+                        return; // キャンセルされた場合は処理を終了
                     }
                 }
             }
