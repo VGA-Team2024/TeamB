@@ -18,9 +18,12 @@ namespace TeamB.Develop
     {
         #region SerializedFields
 
+        [SerializeField] private ParticleSystem _attackParticles;
+        [SerializeField] private ParticleCallBack _particleCallBack;
         [SerializeField] private float _percentageReductionValue = 0.75f;
         [SerializeField] private float _defenceCoolTime = 1f;
         [SerializeField] private float _defenceDurationTime = 1f;
+        [SerializeField] private float _waitAttack;
 
         #endregion
 
@@ -31,6 +34,8 @@ namespace TeamB.Develop
 
         private List<IBuff> _haveBuffs = new();
         private List<IBuff> _haveDeBuffs = new();
+        
+        private ICharacter _character;
 
         private CancellationToken _token;
 
@@ -55,6 +60,7 @@ namespace TeamB.Develop
         public event Action OnEndAttack;
         public event Action OnDefense;
         public event Action OnEndDefense;
+        public event Action OnSuccessDefence;
         public event Action OnTakeDamage;
         public event Action OnAddBuff;
         public event Action OnRemoveBuff;
@@ -76,6 +82,10 @@ namespace TeamB.Develop
 
         public ActionType GetActionType => _actionType;
 
+        public float GetAttackCoolTimer => _attackTimer;
+        public float GetDefenceCoolTimer => _defenceTimer;
+        public float GetDefenceCoolTime => _defenceCoolTime;
+
         #endregion
 
         public void Initialized()
@@ -84,7 +94,8 @@ namespace TeamB.Develop
             _actionType = GameStatics.ExamState == ExamState.FirstExam ? ActionType.Defend : ActionType.Attack;
             _currentData = new(GameStatics.Characters[(int)GameStatics.NurturingCharacterType]);
             _token = new CancellationTokenSource().Token;
-            _percentageReduction  = _percentageReductionBaseValue;
+            _percentageReduction = _percentageReductionBaseValue;
+            
             OnParamUpDate?.Invoke();
         }
 
@@ -101,7 +112,7 @@ namespace TeamB.Develop
         /// <summary>
         /// 攻撃処理
         /// </summary>
-        public void Attack<T>(T characters, OperationType operationType, float deltaTime) where T : ICharacter
+        public async void Attack<T>(T characters, OperationType operationType, float deltaTime) where T : ICharacter
         {
             if (_actionType != ActionType.Attack)
                 return;
@@ -111,16 +122,20 @@ namespace TeamB.Develop
                 //操作方法が自動時、ゲームプレイヤーの入力を待つ
                 if (operationType == OperationType.Manual && !_isAttacking)
                     return;
+                
+                _character = characters;
+                _particleCallBack.OnCallBack -= GiveDamage;
 
+                _attackParticles.Play();
                 float rand = UnityEngine.Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
                 {
                     OnAttack?.Invoke();
 
                     DebugManager.Log($"主人公の攻撃力{_currentData.MagicATK}");
-                    characters.TakeDamage(TakeBuff(BuffType.GiveDamage,
-                        TakeBuff(BuffType.Attack, _currentData.MagicATK)));
                     _attackTimer = 0;
+
+                    _particleCallBack.OnCallBack += GiveDamage;
 
                     OnEndAttack?.Invoke();
                 }
@@ -134,6 +149,12 @@ namespace TeamB.Develop
             {
                 _attackTimer += deltaTime;
             }
+        }
+
+        private void GiveDamage()
+        {
+            _character.TakeDamage(TakeBuff(BuffType.GiveDamage,
+                TakeBuff(BuffType.Attack, _currentData.MagicATK)));
         }
 
         public void AttackCancel()
@@ -152,6 +173,7 @@ namespace TeamB.Develop
             //HPの更新
             _currentData.Hp -= damage * _percentageReduction;
             OnTakeDamage?.Invoke();
+            OnSuccessDefence?.Invoke();
 
             DebugManager.Log(
                 $"主人公は{damage * _percentageReduction}ダメージ受けた");
@@ -232,7 +254,7 @@ namespace TeamB.Develop
                 return value;
 
             float buffed = value;
-            
+
             foreach (var buff in buffs)
             {
                 //加算バフ、デバフ
@@ -288,9 +310,6 @@ namespace TeamB.Develop
         /// <param name="deltaTime"></param>
         public async void Defense(OperationType operationType, float deltaTime)
         {
-            if (_actionType != ActionType.Defend)
-                return;
-
             if (_defenceTimer >= _defenceCoolTime)
             {
                 //操作方法が手動時、プレイヤーの入力を待つ
@@ -318,6 +337,18 @@ namespace TeamB.Develop
             {
                 _defenceTimer += deltaTime;
             }
+        }
+
+        public void StartPose()
+        {
+            if (_attackParticles.isPlaying)
+                _attackParticles.Pause();
+        }
+
+        public void EndPose()
+        {
+            if (_attackParticles.isPlaying)
+                _attackParticles.Play();
         }
     }
 }

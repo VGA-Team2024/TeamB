@@ -5,6 +5,7 @@ using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using TGS2023.BGM;
+using TGS2023.SE;
 using UISystem;
 using UnityEngine;
 
@@ -14,7 +15,6 @@ namespace TeamB.UI
     {
         protected override void AwakeCall()
         {
-            //Awake時にやる処理を書く
             CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
         }
@@ -31,6 +31,11 @@ namespace TeamB.UI
         public void SceneChange(string sceneName)
         {
             SceneLoader.LoadScene(sceneName);
+        }
+
+        public void ClickSound()
+        {
+            CRIAudioManager.SE.Play("SE", nameof(SE.SE_click));
         }
     }
 }

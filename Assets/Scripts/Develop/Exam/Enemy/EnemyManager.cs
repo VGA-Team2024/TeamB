@@ -14,7 +14,7 @@ namespace TeamB.Develop
     /// <summary>
     /// 敵側を管理するクラス
     /// </summary>
-    public class EnemyManager : MonoBehaviour, IExam
+    public class EnemyManager : MonoBehaviour, IExam, IPoseObject
     {
         #region serializeFields
 
@@ -27,6 +27,7 @@ namespace TeamB.Develop
 
         private WaveManager _waveManager;
         private AllyManager _allyManager;
+        private PoseManager _poseManager;
         private Exam _exam;
 
         #endregion
@@ -51,12 +52,24 @@ namespace TeamB.Develop
             _exam = FindAnyObjectByType<Exam>();
             _waveManager = FindAnyObjectByType<WaveManager>();
             _allyManager = FindAnyObjectByType<AllyManager>();
+            _poseManager = FindAnyObjectByType<PoseManager>();
             _currentEnemy.OnTakeDamage += OnTakeDamage;
             if (_exam)
             {
                 _exam.OnExamStarted += OnStartExam;
                 _exam.OnExamEnded += OnEndExam;
             }
+
+            _exam.OnExamUpdated += (_) =>
+            {
+                if (_poseManager == null)
+                {
+                    _poseManager = FindAnyObjectByType<PoseManager>();
+                    _poseManager.OnInPose += StartPose;
+                    _poseManager.OnOutPose += EndPose;
+                    DebugManager.Log("Ally Manager initialized");
+                }
+            };
         }
 
 
@@ -113,6 +126,16 @@ namespace TeamB.Develop
             _exam.OnExamEnded -= OnEndExam;
             _exam.OnExamUpdated -= EnemiesAttack;
             _currentEnemy.Dispose();
+        }
+
+        public void StartPose()
+        {
+            _currentEnemy.StartPose();
+        }
+
+        public void EndPose()
+        {
+            _currentEnemy.EndPose();
         }
     }
 }
