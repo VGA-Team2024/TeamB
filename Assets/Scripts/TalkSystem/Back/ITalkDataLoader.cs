@@ -16,6 +16,9 @@ namespace TeamB.TalkSystem
         public bool TryGetClassSelectData(string id, out ClassSelectData classSelectData);
         public bool TryGetTalkData(string id, out ClassTalkData talkData);
         public bool TryGetChoiceData(string id, out ChoiceData choiceData);
+        public ClassTalkData[] GetTalkData();
+        public ClassSelectData[] GetClassSelectData();
+        public ChoiceData[] GetChoiceData();
                 
         protected static RewardType GetRewardType(string reward)
         {
@@ -100,6 +103,21 @@ namespace TeamB.TalkSystem
             choiceData = _choiceDataCache.FirstOrDefault(data => data.ChoiceId == id);
             return choiceData != null;
         }
+
+        public ClassTalkData[] GetTalkData()
+        {
+            return _talkDataCache.ToArray();
+        }
+
+        public ClassSelectData[] GetClassSelectData()
+        {
+            return _classSelectDataCache.ToArray();
+        }
+
+        public ChoiceData[] GetChoiceData()
+        {
+            return _choiceDataCache.ToArray();
+        }
     }
 
     public class RemoteTalkDataLoader : ITalkDataLoader
@@ -142,8 +160,8 @@ namespace TeamB.TalkSystem
                         TalkReward = ITalkDataLoader.GetRewardType(data[j + 3])
                     };
 
-                    Debug.Log(data[j + 3]);
-                    Debug.Log(ITalkDataLoader.GetRewardType(data[j + 3]));
+                    // Debug.Log(data[j + 3]);
+                    // Debug.Log(ITalkDataLoader.GetRewardType(data[j + 3]));
                     classChoices.Add(classChoiceData);
                 }
 
@@ -214,7 +232,7 @@ namespace TeamB.TalkSystem
                 {
                     ChoiceId = data[0],
                     ChoiceTime = float.Parse(data[1]),
-                    AnswerIndex = data.Length - 1,
+                    AnswerIndex = int.Parse(data[^1]),
                     ChoiceEntries = new ChoiceEntry[ClassRoomChoiceLength]
                 };
                 for (var j = 0; j < ClassRoomChoiceLength ; j++)
@@ -249,6 +267,19 @@ namespace TeamB.TalkSystem
             return choiceData != null;
         }
 
-       
+        public ClassTalkData[] GetTalkData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ClassSelectData[] GetClassSelectData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ChoiceData[] GetChoiceData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

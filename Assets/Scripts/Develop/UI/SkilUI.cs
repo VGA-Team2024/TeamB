@@ -8,7 +8,7 @@ namespace TeamB.Develop
 {
     public class SkilUI : MonoBehaviour
     {
-        [SerializeField] Slider _slider;
+        [SerializeField] Image _slider;
         SkillManager manager;
 
         private void Awake()
@@ -19,7 +19,7 @@ namespace TeamB.Develop
 
         public void CostSliderChanged()
         {
-            _slider.value = manager.GetCurrentHaveCost / manager.GetMaxCost;
+            _slider.fillAmount = manager.GetCurrentHaveCost / manager.GetMaxCost;
         }
     }
 }
