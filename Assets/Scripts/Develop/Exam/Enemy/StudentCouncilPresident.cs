@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DataManagement;
 using DataManagement.SpreadSheet;
 using TeamB.Data;
@@ -18,7 +19,10 @@ namespace TeamB.Develop
     {
         #region serializeFields
 
-        [SerializeField] CharacterType _characterType;
+        [SerializeField] private CharacterType _characterType;
+        [SerializeField] private ParticleSystem _attackParticle;
+        [SerializeField] private ParticleCallBack _attackParticleCallBack;
+        [SerializeField] private float _waitAttack;
 
         #endregion
 
@@ -27,6 +31,7 @@ namespace TeamB.Develop
         private DataManagement.SpreadSheet.CharacterData _currentData;
         private List<IBuff> _haveBuffs = new();
         private List<IBuff> _haveDeBuffs = new();
+        private ICharacter _targetCharacter;
         private float _attackTimer;
         private int _currentForm = 1;
 
@@ -74,18 +79,21 @@ namespace TeamB.Develop
         /// <summary>
         /// 攻撃処理
         /// </summary>
-        public void Attack<T>(T characters, OperationType _, float deltaTime) where T : ICharacter
+        public async void Attack<T>(T characters, OperationType _, float deltaTime) where T : ICharacter
         {
             if (_attackTimer >= TakeBuff(BuffType.CastingSpeed, _currentData.ChantingSpeed))
             {
+                _targetCharacter = characters;
+                _attackParticleCallBack.OnCallBack -= GiveDamage;
                 float rand = UnityEngine.Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
                 {
                     OnAttack?.Invoke();
                  
-                    characters.TakeDamage(TakeBuff(BuffType.De_GiveDamage, TakeBuff(BuffType.GiveDamage,
-                        TakeBuff(BuffType.Attack, _currentData.MagicATK))));
                     _attackTimer = 0;
+                    _attackParticle.Play();
+
+                    _attackParticleCallBack.OnCallBack += GiveDamage;
 
                     OnEndAttack?.Invoke();
                 }
@@ -99,6 +107,12 @@ namespace TeamB.Develop
             {
                 _attackTimer += deltaTime;
             }
+        }
+
+        private void GiveDamage()
+        {
+            _targetCharacter.TakeDamage(TakeBuff(BuffType.De_GiveDamage, TakeBuff(BuffType.GiveDamage,
+                TakeBuff(BuffType.Attack, _currentData.MagicATK))));
         }
 
         /// <summary>
@@ -234,6 +248,16 @@ namespace TeamB.Develop
             OnTakeDamage = default;
             OnEndAttack = default;
             OnNextForm = default;
+        }
+
+        public void StartPose()
+        {
+            _attackParticle.Pause();
+        }
+
+        public void EndPose()
+        {
+            _attackParticle.Play();
         }
     }
 }
