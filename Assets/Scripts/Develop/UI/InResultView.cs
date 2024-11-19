@@ -39,13 +39,21 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            if (_testSkitFlagData.Prologue && GameStatics.ExamResult == ExamResult.Clear)
+            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
             {
-                _testSkitFlagData.FirstExamClear = true;
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamPassed;
             }
-            else if (_testSkitFlagData.Prologue && _testSkitFlagData.FirstExamClear && GameStatics.ExamResult == ExamResult.Clear)
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
             {
-                _testSkitFlagData.SecondExamClear = true;
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamFailed;
+            }
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
+            {
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamPassed;
+            }
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
+            {
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamFailed;
             }
         }
 

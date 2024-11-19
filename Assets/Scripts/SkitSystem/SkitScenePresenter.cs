@@ -13,11 +13,12 @@ namespace TeamB.SkitSystem
         [SerializeField] private SkitSystemManager _skitSystemManager;
         [SerializeField] private SkitView _skitSceneView;
         [SerializeField] private SkitResourceLoader _skitResourceLoader;
-        [SerializeField] private GameObject _loadingPanel;
+        [SerializeField] private SkitViewFade _loadingPanel;
         [SerializeField] private TestSkitFlagData _testSkitFlagData;
         private async void Awake()
         {
-            _loadingPanel.SetActive(true);
+            _loadingPanel.gameObject.SetActive(true);
+            _loadingPanel.FadeInAsync(true).Forget();
             await _skitResourceLoader.InitializeSkitResourceLoader();
             var classSelectSkitContextHandler = new ClassSelectSkitContextHandler();
             var skitDataHandler = new SkitDataHandler();
@@ -41,36 +42,33 @@ namespace TeamB.SkitSystem
                     skitDataHandler.AwaitForNextUts?.TrySetResult(("", ""));
                 }).AddTo(this);
 
-            if (!_testSkitFlagData.Prologue)
+            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.Prologue)
             {
                 _skitSystemManager.SetTestSkitId("01_prologue1");
-                _testSkitFlagData.Prologue = true;
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
             }
-            else if (_testSkitFlagData.Prologue && _testSkitFlagData.FirstExamClear)
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamPassed)
             {
                 _skitSystemManager.SetTestSkitId("01_FirstExam2");
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExam;
             }
-            else if (_testSkitFlagData.Prologue && !_testSkitFlagData.FirstExamClear)
-            {
-                _skitSystemManager.SetTestSkitId("01_FirstExam3");
-            }
-            else if (_testSkitFlagData.Prologue && _testSkitFlagData.FirstExamClear && _testSkitFlagData.SecondExamClear)
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
             {
                 _skitSystemManager.SetTestSkitId("01_SecondExam2");
             }
-            else
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed)
             {
-                _skitSystemManager.SetTestSkitId("01_SecondExam3");
+                _skitSystemManager.SetTestSkitId("01_FirstExam3");
             }
-            
+   
+
             await _skitSystemManager.Initialize();
-            _loadingPanel.SetActive(false);
+            _loadingPanel.FadeOutAsync();
             _skitSystemManager.DoSkitSequence().Forget();
         }
 
         private void Start()
         {
-            CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
         }

@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10b2c00d694b744aa5444a8bee72c65, type: 3}
   m_Name: TestSkitFlagData
   m_EditorClassIdentifier: 
-  Prologue: 0
-  FirstExamClear: 0
-  SecondExamClear: 0
+  CurrentGameState: 4
