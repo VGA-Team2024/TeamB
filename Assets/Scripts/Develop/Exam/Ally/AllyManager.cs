@@ -2,17 +2,21 @@ using System;
 using Cysharp.Threading.Tasks;
 using TeamB.GameSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TeamB.Develop
 {
     /// <summary>
     /// 試験シーンの味方を管理するクラス
     /// </summary>
-    public class AllyManager : MonoBehaviour, IExam
+    public class AllyManager : MonoBehaviour, IExam, IPoseObject
     {
         [SerializeReference, SubclassSelector] private IAlly _allies;
-        [SerializeField] GameObject alliesPrefab;
-        [SerializeField] GameObject defencePrefab;
+        [SerializeField] private ParticleSystem _attackBuffParticles;
+        [SerializeField] private ParticleSystem _DefenceBuffParticles;
+        [SerializeField] private GameObject alliesPrefab;
+        [SerializeField] private GameObject _defencePrefab;
+        
 
         private EnemyManager _enemyManager;
         private Exam _exam;
@@ -21,7 +25,12 @@ namespace TeamB.Develop
         private DefenseInput _defenseInput = new();
         private AttackInput _attackInput = new();
 
+        private int _defenceSuccessCount;
+        private int _attackSuccessCount;
+
         public IAlly GetAllies => _allies;
+        public int GetDefenceSuccessCount => _defenceSuccessCount;
+        public int GetAttackSuccessCount => _attackSuccessCount;
 
         private void Awake()
         {
@@ -33,12 +42,24 @@ namespace TeamB.Develop
             _exam = FindAnyObjectByType<Exam>();
             _enemyManager = FindAnyObjectByType<EnemyManager>();
             _buffContainer = FindAnyObjectByType<BuffContainer>();
+            _poseManager = FindAnyObjectByType<PoseManager>();
 
             _exam.OnExamStarted += OnStartExam;
             _exam.OnExamEnded += OnEndExam;
             _allies.OnTakeDamage += OnTakeDamage;
             _allies.OnDefense += OnDefense;
             _allies.OnEndDefense += OnEndDefense;
+            _allies.OnAttack += OnSuccessAttack;
+            _exam.OnExamUpdated += (_) =>
+            {
+                if (_poseManager == null)
+                {
+                    _poseManager = FindAnyObjectByType<PoseManager>();
+                    _poseManager.OnInPose += StartPose;
+                    _poseManager.OnOutPose += EndPose;
+                    DebugManager.Log("Ally Manager initialized");
+                }
+            };
         }
 
         private async void OnTakeDamage()
@@ -58,22 +79,44 @@ namespace TeamB.Develop
 
         private void OnDefense()
         {
-            defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
-            defencePrefab.SetActive(true);
+            if (!_defencePrefab)
+                return;
+            _defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
+            _defencePrefab.SetActive(true);
+            _allies.OnSuccessDefence += OnSuccessDefence;
         }
 
         private void OnEndDefense()
         {
-            defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
-            defencePrefab.SetActive(false);
+            if (!_defencePrefab)
+                return;
+            _defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
+            _defencePrefab.SetActive(false);
+            _allies.OnSuccessDefence -= OnSuccessDefence;
+        }
+
+        private void OnSuccessDefence()
+        {
+            foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
+            {
+                sprite.color = new Color(1, 0.6f, 0, 1);
+            }
+            _defenceSuccessCount++;
+        }
+
+        private void OnSuccessAttack()
+        {
+            _attackSuccessCount++;
         }
 
         /// <summary>
         /// 味方の攻撃呼び出し
         /// </summary>
         /// <param name="deltaTime"></param>
-        private void AlliesAttack(float deltaTime)
+        private async void AlliesAttack(float deltaTime)
         {
+            if (_allies.GetActionType != ActionType.Attack)
+                return;
             _allies.Attack(_enemyManager.GetCurrentEnemyData, _exam.GetOperationType, deltaTime);
         }
 
@@ -92,10 +135,16 @@ namespace TeamB.Develop
         /// <param name="buffType"></param>
         public void AddBuff(BuffType buffType)
         {
-            if (_poseManager == null)
-                _poseManager = FindAnyObjectByType<PoseManager>();
-            if (!_poseManager.GetIsInPose)
-                _allies.AddBuff(_buffContainer.GetBuffData((int)buffType));
+            _allies.AddBuff(_buffContainer.GetBuffData((int)buffType));
+            switch (buffType)
+            {
+                case BuffType.Attack:
+                    _attackBuffParticles.Play();
+                    break;
+                case BuffType.De_GiveDamage:
+                    _DefenceBuffParticles.Play();
+                    break;
+            }
         }
 
         /// <summary>
@@ -133,6 +182,8 @@ namespace TeamB.Develop
         /// </summary>
         public void OnStartExam()
         {
+            if (!_exam)
+                return;
             _exam.OnExamUpdated += OnUpdateExam;
             _allies.Initialized();
             _allies.OnDeath += _exam.ExamFailure;
@@ -156,9 +207,13 @@ namespace TeamB.Develop
             RemoveDeBuff(deltaTime);
         }
 
-        public void Action(bool isAction)
+        public void AttackAction(bool isAction)
         {
             _attackInput.ChangeInput(isAction);
+        }
+
+        public void DefenceAction(bool isAction)
+        {
             _defenseInput.ChangeInput(isAction);
         }
 
@@ -170,6 +225,16 @@ namespace TeamB.Develop
             _exam.OnExamStarted -= OnStartExam;
             _exam.OnExamEnded -= OnEndExam;
             _allies.Dispose();
+        }
+
+        public void StartPose()
+        {
+            _allies.StartPose();
+        }
+
+        public void EndPose()
+        {
+            _allies.EndPose();
         }
     }
 

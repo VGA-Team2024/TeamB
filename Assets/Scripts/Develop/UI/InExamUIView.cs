@@ -3,6 +3,7 @@ using TeamB.Develop;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using TeamB.InGameData.Data;
+using TMPro;
 using UISystem;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,15 +16,19 @@ namespace TeamB.UI
     /// </summary>
     public class InExamUIView : UIView
     {
-        [SerializeField] private Text _soulText;
-        [SerializeField] private Text _waveText;
-        [SerializeField] private Text _timerText;
-        [SerializeField] private Text _operationText;
-        
+        [SerializeField] private TMP_Text _scoreText;
+        [SerializeField] private TMP_Text _waveText;
+        [SerializeField] private TMP_Text _timerText;
+        [SerializeField] private TMP_Text _operationText;
+        [SerializeField] private Image _attackCoolTimeImage;
+        [SerializeField] private Image _DefenceCoolTimeImage;
+        [SerializeField] private GameObject _attackButton;
+
         WaveManager _waveManager;
+        AllyManager _allyManager;
         Exam _exam;
-            
-            
+
+
         /// <summary>
         /// 試験を終えるタイミングで呼び出す
         /// </summary>
@@ -47,15 +52,26 @@ namespace TeamB.UI
         {
             _waveManager = FindAnyObjectByType<WaveManager>();
             _exam = FindAnyObjectByType<Exam>();
+            _allyManager = FindAnyObjectByType<AllyManager>();
 
             _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
+            _exam.OnExamUpdated += AttackCoolTime;
+            _exam.OnExamUpdated += DefenceCoolTime;
+            _allyManager.GetAllies.OnSuccessDefence += ScoreChange;
+            ScoreChange();
+            if (GameStatics.ExamState == ExamState.FirstExam)
+                _attackButton.SetActive(false);
+            else
+                _attackButton.SetActive(true);
         }
+
         public void WaveText()
         {
             DebugManager.Log(_waveManager.GetCurrentWave);
             _waveText.text = $"残り{GameConsts.MaxWave - _waveManager.GetCurrentWave + 1}ウェーブ";
         }
+
         public void TimerText(float _)
         {
             _timerText.text = $"残り{(_exam.GetMaxTime - _exam.GetCurrentTimer).ToString("F2")}秒";
@@ -64,6 +80,37 @@ namespace TeamB.UI
         public void OperationChange()
         {
             _operationText.text = _exam.GetOperationType == OperationType.Auto ? "Auto" : "Manual";
+        }
+
+        public void ScoreChange()
+        {
+            string text = "";
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.FirstExam:
+                    text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
+                    break;
+                case ExamState.SecondExam:
+                    text = $"{_allyManager.GetAttackSuccessCount}回魔法を唱えた";
+                    break;
+            }
+
+            if (_scoreText != null)
+                _scoreText.text = text;
+        }
+
+        public void AttackCoolTime(float _)
+        {
+            float fill = 1 - _allyManager.GetAllies.GetAttackCoolTimer /
+                GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed;
+            _attackCoolTimeImage.fillAmount = fill;
+        }
+
+        public void DefenceCoolTime(float _)
+        {
+            float fill = 1 - _allyManager.GetAllies.GetDefenceCoolTimer /
+                _allyManager.GetAllies.GetDefenceCoolTime;
+            _DefenceCoolTimeImage.fillAmount = fill;
         }
     }
 }

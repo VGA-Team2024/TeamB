@@ -96,12 +96,16 @@ namespace TeamB.Develop
     /// <summary>
     /// 味方クラスが継承するべきインターフェース
     /// </summary>
-    public interface IAlly : ICharacter
+    public interface IAlly : ICharacter, IPoseObject
     {
         public ActionType GetActionType { get; }
 
         public event Action OnDefense;
         public event Action OnEndDefense;
+        public event Action OnSuccessDefence;
+        public float GetAttackCoolTimer { get; }
+        public float GetDefenceCoolTimer { get; }
+        public float GetDefenceCoolTime { get; }
 
         public void Input(params IInputType[] inputs);
 
@@ -114,7 +118,7 @@ namespace TeamB.Develop
     /// <summary>
     /// 敵クラスが継承するべきインターフェース
     /// </summary>
-    public interface IEnemy : ICharacter
+    public interface IEnemy : ICharacter, IPoseObject
     {
         public event Action OnNextForm;
         public int GetCurrentForm { get; }
