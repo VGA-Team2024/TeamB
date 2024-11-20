@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -34,6 +35,7 @@ namespace TeamB.SkitSystem
             _middleCharaImage.gameObject.SetActive(false);
             foreach (var charaData in talkCharaData)
             {
+                Debug.Log(charaData.StandingPosition);
                 var charaImage = charaData.StandingPosition switch
                 {
                     StandingPosition.Left => _leftCharaImage,
@@ -47,6 +49,12 @@ namespace TeamB.SkitSystem
                     Debug.LogWarning("Invalid standing position");
                     continue;
                 }
+                
+                if (string.Equals("", charaData.CharaStateFileName, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                //Debug.Log(charaData.CharaName);    
                 charaImage.sprite = _skitResourceLoader.GetSpriteByName(charaData.CharaStateFileName);
                 charaImage.gameObject.SetActive(true);
             }
