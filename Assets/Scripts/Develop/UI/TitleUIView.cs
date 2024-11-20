@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using TeamB.SkitSystem;
 using TGS2023.BGM;
+using TGS2023.SE;
 using UISystem;
 using UnityEngine;
 
@@ -12,11 +14,13 @@ namespace TeamB.UI
 {
     public class TitleUIView : UIView
     {
+        [SerializeField] private TestSkitFlagData _testSkitFlagData;
         protected override void AwakeCall()
         {
-            //Awake時にやる処理を書く
             CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
+            
+            _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
         }
 
         /// <summary>
@@ -24,13 +28,18 @@ namespace TeamB.UI
         /// </summary>
         public void GameStart()
         { 
-            SceneLoader.LoadScene("Talk");
+            SceneLoader.LoadScene("Skit");
             GameStatics.PrevGameState = GameState.Title;
         }
 
         public void SceneChange(string sceneName)
         {
             SceneLoader.LoadScene(sceneName);
+        }
+
+        public void ClickSound()
+        {
+            CRIAudioManager.SE.Play("SE", nameof(SE.SE_click));
         }
     }
 }

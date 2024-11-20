@@ -33,9 +33,8 @@ public class PoseManager : MonoBehaviour
     }
 }
 
-/// <summary> ポーズするオブジェクトがクラスに継承する </summary>
-public interface IPose
+public interface IPoseObject
 {
-    public void InPose();
-    public void OutPose();
+    public void StartPose();
+    public void EndPose();
 }

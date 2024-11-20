@@ -11,7 +11,7 @@ namespace TeamB.Develop
     /// </summary>
     public class WaveManager : MonoBehaviour
     {
-        private int _currentWave = 0;
+        private int _currentWave = 1;
 
         private Exam _exam;
 
@@ -21,7 +21,6 @@ namespace TeamB.Develop
         private void Awake()
         {
             _exam = FindObjectOfType<Exam>();
-            _exam.OnExamStarted += NextWave;
         }
 
         /// <summary>
