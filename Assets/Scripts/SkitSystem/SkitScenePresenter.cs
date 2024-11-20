@@ -44,30 +44,30 @@ namespace TeamB.SkitSystem
 
             if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.Prologue)
             {
-                _skitSystemManager.SetTestSkitId("01_prologue1");
+                _skitSystemManager.SetTestSkitSceneData("01_prologue1", SkitContext.ContextType.Skit);
                 _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
             }
             else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamPassed)
             {
-                _skitSystemManager.SetTestSkitId("01_FirstExam2");
+                _skitSystemManager.SetTestSkitSceneData("01_FirstExam2", SkitContext.ContextType.Skit);
                 _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExam;
             }
             else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed)
             {
-                _skitSystemManager.SetTestSkitId("01_FirstExam3");
+                _skitSystemManager.SetTestSkitSceneData("01_FirstExam3", SkitContext.ContextType.Skit);
             }
             else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
             {
-                _skitSystemManager.SetTestSkitId("01_SecondExam2");
+                _skitSystemManager.SetTestSkitSceneData("01_SecondExam2", SkitContext.ContextType.Skit);
             }
             else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamFailed)
             {
-                _skitSystemManager.SetTestSkitId("01_SecondExam3");
+                _skitSystemManager.SetTestSkitSceneData("01_SecondExam3", SkitContext.ContextType.Skit);
             }
 
             await _skitSystemManager.Initialize();
-            _loadingPanel.FadeOutAsync();
             _skitSystemManager.DoSkitSequence().Forget();
+            await _loadingPanel.FadeOutAsync();
         }
 
         private void Start()
