@@ -52,15 +52,18 @@ namespace TeamB.SkitSystem
                 _skitSystemManager.SetTestSkitId("01_FirstExam2");
                 _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExam;
             }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
-            {
-                _skitSystemManager.SetTestSkitId("01_SecondExam2");
-            }
             else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed)
             {
                 _skitSystemManager.SetTestSkitId("01_FirstExam3");
             }
-   
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
+            {
+                _skitSystemManager.SetTestSkitId("01_SecondExam2");
+            }
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamFailed)
+            {
+                _skitSystemManager.SetTestSkitId("01_SecondExam3");
+            }
 
             await _skitSystemManager.Initialize();
             _loadingPanel.FadeOutAsync();
