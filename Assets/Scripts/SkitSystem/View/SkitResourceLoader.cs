@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -41,12 +42,14 @@ namespace TeamB.SkitSystem
         /// <returns>テクスチャ</returns>
         public Sprite GetSpriteByName(string textureName)
         {
-            var spriteValue = _loadedSprites.Find(x => x.Key == textureName);
+            textureName = textureName.Trim();
+            var spriteValue = _loadedSprites.FirstOrDefault((x => string.Equals(x.Key, textureName, StringComparison.OrdinalIgnoreCase)));
             if (spriteValue != null)
             {
                 return spriteValue.Sprite;
             }
 
+            
             Debug.LogWarning($"Texture with name '{textureName}' not found.");
             return null;
         }
