@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using TeamB.SkitSystem;
 using TGS2023.BGM;
 using TGS2023.SE;
 using UISystem;
@@ -13,10 +14,13 @@ namespace TeamB.UI
 {
     public class TitleUIView : UIView
     {
+        [SerializeField] private TestSkitFlagData _testSkitFlagData;
         protected override void AwakeCall()
         {
             CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
+            
+            _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
         }
 
         /// <summary>

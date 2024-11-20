@@ -1483,6 +1483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isActive: 1
   _viewId: TitleUI
+  _testSkitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
 --- !u!1001 &1824080974
 PrefabInstance:
   m_ObjectHideFlags: 0
