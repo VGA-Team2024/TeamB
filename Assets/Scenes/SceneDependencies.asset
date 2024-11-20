@@ -34,8 +34,16 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Develop/Exam.unity
     SceneType: 2
   - CanIDebugSelect: 1
+    Name: GameOver
+    AssetPath: Assets/Scenes/Develop/GameOver.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
     Name: Result
     AssetPath: Assets/Scenes/Develop/Result.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
+    Name: Skit
+    AssetPath: Assets/Scenes/Develop/Skit.unity
     SceneType: 2
   - CanIDebugSelect: 1
     Name: Talk
@@ -44,6 +52,10 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Title
     AssetPath: Assets/Scenes/Develop/Title.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: FruitsBasketScene
+    AssetPath: Assets/Scenes/FruitsBasket/FruitsBasketScene.unity
     SceneType: 0
   - CanIDebugSelect: 1
     Name: Flappy Bird
@@ -74,8 +86,16 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Mockup/Whack-a-mole.unity
     SceneType: 2
   - CanIDebugSelect: 1
+    Name: Particle58
+    AssetPath: Assets/Scenes/Particle58/Particle58.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
     Name: 3DSoundSample
     AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: StillPhoto
+    AssetPath: Assets/Scenes/StillPhoto/StillPhoto.unity
     SceneType: 0
   - CanIDebugSelect: 1
     Name: GameLauncher

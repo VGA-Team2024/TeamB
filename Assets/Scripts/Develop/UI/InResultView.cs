@@ -1,6 +1,7 @@
 using DG.Tweening;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
+using TeamB.SkitSystem;
 using TGS2023.BGM;
 using TGS2023.SE;
 using TMPro;
@@ -12,6 +13,7 @@ namespace TeamB.Develop
 {
     public class InResultView : UIView
     {
+        [SerializeField] TestSkitFlagData _testSkitFlagData;
         [SerializeField] TMP_Text _text;
         private string _passedSentence = "合格";
         private string _notPassedSentence = "不合格";
@@ -36,6 +38,31 @@ namespace TeamB.Develop
                 CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
             _text.GetComponent<RectTransform>().transform.DOScale(_startScale, 0f);
             _text.GetComponent<RectTransform>().transform.DOScale(Vector3.one, _stampTime).SetEase(Ease.OutCirc);
+            
+            SetTestFlag();
+        }
+
+        /// <summary>
+        /// テスト用のフラグを立てるためのメソッドです。
+        /// </summary>
+        private void SetTestFlag()
+        {
+            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
+            {
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamPassed;
+            }
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
+            {
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamFailed;
+            }
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
+            {
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamPassed;
+            }
+            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
+            {
+                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamFailed;
+            }
         }
 
         public void Result()
@@ -44,7 +71,7 @@ namespace TeamB.Develop
             switch (GameStatics.ExamState)
             {
                 case ExamState.FirstExam:
-                    sceneName = "Talk";
+                    sceneName = "Skit";
                     break;
                 case ExamState.SecondExam:
                     if (GameStatics.ExamResult == ExamResult.Clear)
@@ -59,7 +86,7 @@ namespace TeamB.Develop
             }
 
             GameStatics.ExamResult = ExamResult.None;
-            SceneLoader.LoadScene(sceneName);
+            SceneLoader.LoadScene("Skit");
         }
 
         public void ClickSound()
