@@ -20,6 +20,7 @@ namespace TeamB.SkitSystem
         
         [SerializeField] private DataLoadType _dataLoadType;
         [SerializeField] private string _testSkitId = "01_prologue1";
+        [SerializeField] private TestSkitFlagData _testSkitFlagData;
         private readonly Queue<SkitContext> _skitContextQueue = new();
         private readonly HashSet<ISkitContextHandler> _skitContextHandlers = new();
         private ISkitDataLoader _skitDataLoader;
@@ -104,8 +105,15 @@ namespace TeamB.SkitSystem
                 }
             }
 
-            // 会話データがなくなったらシーン遷移
-            SceneLoader.LoadScene("Exam");
+            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
+            {
+                SceneLoader.LoadScene("Title");
+            }
+            else
+            {
+                // 会話データがなくなったらシーン遷移
+                SceneLoader.LoadScene("Exam");
+            }
         }
     }
     

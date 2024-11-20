@@ -1430,6 +1430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dataLoadType: 0
   _testSkitId: 01_prologue1
+  _testSkitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
 --- !u!4 &1057636767
 Transform:
   m_ObjectHideFlags: 0
