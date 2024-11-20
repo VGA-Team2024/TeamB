@@ -35,7 +35,6 @@ namespace TeamB.SkitSystem
             _middleCharaImage.gameObject.SetActive(false);
             foreach (var charaData in talkCharaData)
             {
-                Debug.Log(charaData.StandingPosition);
                 var charaImage = charaData.StandingPosition switch
                 {
                     StandingPosition.Left => _leftCharaImage,
@@ -50,11 +49,6 @@ namespace TeamB.SkitSystem
                     continue;
                 }
                 
-                if (string.Equals("", charaData.CharaStateFileName, StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-                //Debug.Log(charaData.CharaName);    
                 charaImage.sprite = _skitResourceLoader.GetSpriteByName(charaData.CharaStateFileName);
                 charaImage.gameObject.SetActive(true);
             }

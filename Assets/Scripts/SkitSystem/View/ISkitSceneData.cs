@@ -94,6 +94,7 @@ namespace TeamB.SkitSystem
 
     public enum StandingPosition
     {
+        None,
         Left,
         Middle,
         Right,
@@ -103,7 +104,7 @@ namespace TeamB.SkitSystem
     public class SkitTalkCharaData
     {
         public string CharaName;
-        public StandingPosition StandingPosition;
+        public StandingPosition StandingPosition = StandingPosition.None;
         public string CharaStateFileName;
     }
     #endregion
