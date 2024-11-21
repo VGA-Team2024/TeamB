@@ -20,14 +20,17 @@ namespace TeamB.SkitSystem
         
         [SerializeField] private DataLoadType _dataLoadType;
         [SerializeField] private string _testSkitId = "01_prologue1";
+        [SerializeField] private SkitContext.ContextType _testSkitContextType = SkitContext.ContextType.Skit;
         [SerializeField] private TestSkitFlagData _testSkitFlagData;
         private readonly Queue<SkitContext> _skitContextQueue = new();
         private readonly HashSet<ISkitContextHandler> _skitContextHandlers = new();
         private ISkitDataLoader _skitDataLoader;
+        public ISkitDataLoader SkitDataLoader => _skitDataLoader;
         
-        public void SetTestSkitId(string testSkitId)
+        public void SetTestSkitSceneData(string testSkitId, SkitContext.ContextType testSkitContextType)
         {
             _testSkitId = testSkitId;
+            _testSkitContextType = testSkitContextType;
         }
         
         public void SetSkitContextHandlers(ISkitContextHandler skitContextHandler)
@@ -47,14 +50,27 @@ namespace TeamB.SkitSystem
             {
                 // TODO:ローカルからデータをロード
             }
-            
-            if (_skitDataLoader.TryGetSkitData(_testSkitId, out var skitData))
+
+            switch (_testSkitContextType)
             {
-                _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.Skit, skitData));
-            }
-            else
-            {
-                Debug.LogError("テスト用のSkitDataが見つかりませんでした");
+                case SkitContext.ContextType.Skit:
+                    if (_skitDataLoader.TryGetSkitData(_testSkitId, out var skitData))
+                    {
+                        _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.Skit, skitData));
+                    }
+                    break;
+                case SkitContext.ContextType.ClassSelect:
+                    if (_skitDataLoader.TryGetClassSelectData(_testSkitId, out var classSelectData))
+                    {
+                        _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.ClassSelect, classSelectData));
+                    }
+                    break;
+                case SkitContext.ContextType.SkitChoice:
+                    if (_skitDataLoader.TryGetSkitChoiceData(_testSkitId, out var skitChoiceData))
+                    {
+                        _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.SkitChoice, skitChoiceData));
+                    }
+                    break;
             }
         }
 

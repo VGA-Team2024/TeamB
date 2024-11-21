@@ -44,13 +44,25 @@ namespace TeamB.SkitSystem
         {
             textureName = textureName.Trim();
             var spriteValue = _loadedSprites.FirstOrDefault((x => string.Equals(x.Key, textureName, StringComparison.OrdinalIgnoreCase)));
-            if (spriteValue != null)
+
+            foreach (var loadedSprite in _loadedSprites)
             {
-                return spriteValue.Sprite;
+                if (loadedSprite.Key == textureName)
+                {
+                    return loadedSprite.Sprite;
+                }
+                else
+                {
+                    Debug.LogWarning($"{textureName} != {loadedSprite.Key}");;
+                }
             }
+            // if (spriteValue != null)
+            // {
+            //     return spriteValue.Sprite;
+            // }
 
             
-            Debug.LogWarning($"Texture with name '{textureName}' not found.");
+            //Debug.LogWarning($"Texture with name '{textureName}' not found.");
             return null;
         }
     }

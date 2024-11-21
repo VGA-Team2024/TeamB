@@ -898,6 +898,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 641975e431853d34aaa04892c52401af
+    m_Address: Conversation
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 658a4bdfe40c85a46af171439ffdcd3e
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f170.png
     m_ReadOnly: 0
@@ -1716,6 +1722,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c02f459f07e156949a217f389f5eea57
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f008.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c098c36c86bea174799b06f8442a9b76
+    m_Address: Conversation_LionNew
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture

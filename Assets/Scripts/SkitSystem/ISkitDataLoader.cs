@@ -17,6 +17,9 @@ namespace TeamB.SkitSystem
         public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData);
         public bool TryGetSkitData(string id, out SkitData skitData);
         public bool TryGetSkitChoiceData(string id, out SkitChoiceData choiceData);
+        public SkitChoiceData[] GetAllSkitChoiceData();
+        public SkitData[] GetAllSkitData();
+        public ClassSelectData[] GetAllClassSelectData();
         private const string JapaneseIntuition = "直観力";
         private const string JapaneseReadingComprehension = "読解力、学力";
         private const string JapaneseConcentration = "集中力";
@@ -180,6 +183,21 @@ namespace TeamB.SkitSystem
         {
             choiceData = _skitChoiceData.FirstOrDefault(x => x.Id == id);
             return choiceData != null;
+        }
+
+        public SkitChoiceData[] GetAllSkitChoiceData()
+        {
+            return _skitChoiceData.ToArray();
+        }
+
+        public SkitData[] GetAllSkitData()
+        {
+            return _skitData.ToArray();
+        }
+
+        public ClassSelectData[] GetAllClassSelectData()
+        {
+            return _classSelectData.ToArray();
         }
 
         public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData)
