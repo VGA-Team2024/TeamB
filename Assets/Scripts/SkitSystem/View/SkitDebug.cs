@@ -15,10 +15,10 @@ namespace TeamB.SkitSystem
         [SerializeField] private RectTransform _skitDebugButtonParent;
         [SerializeField] private Button _skitDebugButtonPrefab;
         [SerializeField] private GameObject _skitDebugPanel;
+        private ISkitDataLoader _skitDataLoader;
+        
         private void Start()
         {
-           
-
             Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Space))
                 .Subscribe(_ =>
                 {
@@ -33,7 +33,7 @@ namespace TeamB.SkitSystem
 
         private void SetDebugPanel()
         {
-            var skitData = _skitSystemManager.SkitDataLoader.GetAllSkitData();
+            var skitData = _skitScenePresenter.SkitDataLoader.GetAllSkitData();
             foreach (Transform child in _skitDebugButtonParent)
             {
                 Destroy(child.gameObject);
@@ -53,13 +53,15 @@ namespace TeamB.SkitSystem
         // Start is called before the first frame update
         private void SetTestSkitId(string testSkitId)
         {
-            _skitSystemManager.SetTestSkitSceneData(testSkitId, SkitContext.ContextType.Skit);
+            if (_skitDataLoader.TryGetSkitData(testSkitId, out var skitData))
+            {
+                _skitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
+            }
         }
 
-        private async void StartSkit()
+        private void StartSkit()
         {
             _skitDebugPanel.SetActive(false);
-            await _skitSystemManager.Initialize();
             _skitSystemManager.DoSkitSequence().Forget();
         }
     }

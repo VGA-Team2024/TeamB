@@ -53,7 +53,7 @@ namespace TeamB.SkitSystem
         
         public UniTask InitTalkData()
         {
-            return UniTask.WhenAll(LoadClassSelectData(), LoadTalkData(), LoadSkitChoiceData());
+            return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData());
         }
 
         private async UniTask LoadClassSelectData()
@@ -86,7 +86,7 @@ namespace TeamB.SkitSystem
             }
         }
 
-        private async UniTask LoadTalkData()
+        private async UniTask LoadSkitData()
         {
             var rawData = await CsvLoader.GetSpreadsheetDataAsync(SkitDataKey);
             if (rawData == null)
@@ -108,11 +108,11 @@ namespace TeamB.SkitSystem
 
                 var skitEntryData = new SkitEntryData();
                 var classTalkCharaData = new List<SkitTalkCharaData>();
-                skitEntryData.TalkSpeaker = rawData[i][1];
-                skitEntryData.TalkBackground = rawData[i][2];
-                skitEntryData.JapaneseTalkDialogue = rawData[i][3];
-                skitEntryData.EnglishTalkDialogue = rawData[i][4];
-                for (var j = 5; j < rawData[i].Length; j += SkitDataLength)
+                skitEntryData.TalkSpeaker = rawData[i][2];
+                skitEntryData.TalkBackground = rawData[i][3];
+                skitEntryData.JapaneseTalkDialogue = rawData[i][4];
+                skitEntryData.EnglishTalkDialogue = rawData[i][5];
+                for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
                 {   // 会話キャラクターデータを作成
                     var eachClassTalkCharaData = new SkitTalkCharaData()
                     {

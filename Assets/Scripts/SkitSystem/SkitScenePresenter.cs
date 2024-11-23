@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -10,64 +8,63 @@ namespace TeamB.SkitSystem
 {
     public class SkitScenePresenter : MonoBehaviour
     {
-        [SerializeField] private SkitSystemManager _skitSystemManager;
+        private enum DataLoadType
+        {
+            Remote,
+            Local
+        }
+        
         [SerializeField] private SkitView _skitSceneView;
         [SerializeField] private SkitResourceLoader _skitResourceLoader;
         [SerializeField] private SkitViewFade _loadingPanel;
-        [SerializeField] private TestSkitFlagData _testSkitFlagData;
+        [SerializeField] private SkitFlagData _skitFlagData;
+        [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
+        private SkitSystemManager _skitSystemManager;
+        public ISkitDataLoader SkitDataLoader;
+
         private async void Awake()
         {
             _loadingPanel.gameObject.SetActive(true);
             _loadingPanel.FadeInAsync(true).Forget();
+            if (_dataLoadType == DataLoadType.Remote)
+            {
+                // リモートからデータをロード
+                SkitDataLoader = new RemoteSkitDataLoader();
+                await SkitDataLoader.InitTalkData();
+            }
+            else
+            {
+                // TODO:ローカルからデータをロード
+            }
+            
             await _skitResourceLoader.InitializeSkitResourceLoader();
-            var classSelectSkitContextHandler = new ClassSelectSkitContextHandler();
-            var skitDataHandler = new SkitDataHandler();
-            var skitChoiceHandler = new SkitChoiceHandler();
-            _skitSystemManager.SetSkitContextHandlers(classSelectSkitContextHandler);
-            _skitSystemManager.SetSkitContextHandlers(skitDataHandler);
-            _skitSystemManager.SetSkitContextHandlers(skitChoiceHandler);
-            _skitSceneView.SetSkitResourceLoader(_skitResourceLoader);
-
+            _skitSceneView.InitializeSkitView(_skitResourceLoader);
+            var classSelectSkitContextHandler = new ClassSelectSkitContextHandler(SkitDataLoader);
+            var skitDataHandler = new SkitDataHandler(SkitDataLoader);
+            var skitChoiceHandler = new SkitChoiceHandler(SkitDataLoader);
+            var skitContextHandlers = new HashSet<SkitContextHandlerBase>
+            {
+                classSelectSkitContextHandler,
+                skitDataHandler,
+                skitChoiceHandler
+            };
+            var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData);
+            _skitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
             skitDataHandler.CurrentSkitEntryData.Subscribe(skitEntryData =>
             {
                 if (skitEntryData == null) return;
                 _skitSceneView.SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData);
                 _skitSceneView.ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue).Forget();
             }).AddTo(_skitSceneView);
-
             Observable.EveryUpdate()
                 .Where(_ => Input.GetMouseButtonDown(0))
                 .Subscribe(_ =>
                 {
-                    skitDataHandler.AwaitForNextUts?.TrySetResult(("", ""));
+                    //Todo:選択肢入力の際にクリックで進んでしまう問題を解決する
+                    skitDataHandler.AwaitForInput?.TrySetResult(("", ""));
                 }).AddTo(this);
-
-            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.Prologue)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_prologue1", SkitContext.ContextType.Skit);
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamPassed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_FirstExam2", SkitContext.ContextType.Skit);
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExam;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_FirstExam3", SkitContext.ContextType.Skit);
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_SecondExam2", SkitContext.ContextType.Skit);
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamFailed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_SecondExam3", SkitContext.ContextType.Skit);
-            }
-
-            await _skitSystemManager.Initialize();
-            _skitSystemManager.DoSkitSequence().Forget();
             await _loadingPanel.FadeOutAsync();
+            _skitSystemManager.DoSkitSequence().Forget();
         }
 
         private void Start()

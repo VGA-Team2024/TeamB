@@ -3,75 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace TeamB.SkitSystem
 {
     /// <summary>
-    /// 会話シーン全体を管理するクラス
+    /// 会話シーンの進行を処理するクラス
     /// </summary>
-    public class SkitSystemManager : MonoBehaviour
+    public class SkitSystemManager
     {
-        private enum DataLoadType
-        {
-            Remote,
-            Local
-        }
-        
-        [SerializeField] private DataLoadType _dataLoadType;
-        [SerializeField] private string _testSkitId = "01_prologue1";
-        [SerializeField] private SkitContext.ContextType _testSkitContextType = SkitContext.ContextType.Skit;
-        [SerializeField] private TestSkitFlagData _testSkitFlagData;
         private readonly Queue<SkitContext> _skitContextQueue = new();
-        private readonly HashSet<ISkitContextHandler> _skitContextHandlers = new();
-        private ISkitDataLoader _skitDataLoader;
-        public ISkitDataLoader SkitDataLoader => _skitDataLoader;
-        
-        public void SetTestSkitSceneData(string testSkitId, SkitContext.ContextType testSkitContextType)
-        {
-            _testSkitId = testSkitId;
-            _testSkitContextType = testSkitContextType;
-        }
-        
-        public void SetSkitContextHandlers(ISkitContextHandler skitContextHandler)
-        {
-            _skitContextHandlers.Add(skitContextHandler);
-        }
-        
-        public async UniTask Initialize()
-        {
-            if (_dataLoadType == DataLoadType.Remote)
-            {
-                // リモートからデータをロード
-                _skitDataLoader = new RemoteSkitDataLoader();
-                await _skitDataLoader.InitTalkData();
-            }
-            else
-            {
-                // TODO:ローカルからデータをロード
-            }
+        private readonly HashSet<SkitContextHandlerBase> _skitContextHandlers = new();
+        private readonly ISkitSceneCoordinator _skitSceneCoordinator;
 
-            switch (_testSkitContextType)
-            {
-                case SkitContext.ContextType.Skit:
-                    if (_skitDataLoader.TryGetSkitData(_testSkitId, out var skitData))
-                    {
-                        _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.Skit, skitData));
-                    }
-                    break;
-                case SkitContext.ContextType.ClassSelect:
-                    if (_skitDataLoader.TryGetClassSelectData(_testSkitId, out var classSelectData))
-                    {
-                        _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.ClassSelect, classSelectData));
-                    }
-                    break;
-                case SkitContext.ContextType.SkitChoice:
-                    if (_skitDataLoader.TryGetSkitChoiceData(_testSkitId, out var skitChoiceData))
-                    {
-                        _skitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.SkitChoice, skitChoiceData));
-                    }
-                    break;
-            }
+        public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers, ISkitSceneCoordinator skitSceneCoordinator)
+        {
+            _skitContextHandlers.UnionWith(skitContextHandlers);
+            _skitSceneCoordinator = skitSceneCoordinator;
+            _skitContextQueue.Enqueue(_skitSceneCoordinator.GetStartSkitData());
+        }
+        
+        public void SetSkitSceneData(SkitContext testSkitContext)
+        {
+            _skitContextQueue.Enqueue(testSkitContext);
         }
 
         public async UniTask DoSkitSequence()
@@ -105,7 +58,7 @@ namespace TeamB.SkitSystem
                     try
                     {
                         // 現在のコンテキストを処理し、デキュー
-                        await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue(), _skitDataLoader);
+                        await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue());
 
                         // 次のスキットコンテキストがある場合、エンキュー
                         if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContext))
@@ -120,16 +73,9 @@ namespace TeamB.SkitSystem
                     }
                 }
             }
-
-            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
-            {
-                SceneLoader.LoadScene("Title");
-            }
-            else
-            {
-                // 会話データがなくなったらシーン遷移
-                SceneLoader.LoadScene("Exam");
-            }
+            
+            //テスト用
+            _skitSceneCoordinator.EndSkitScene();
         }
     }
     

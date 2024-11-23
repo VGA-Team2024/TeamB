@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace TeamB.SkitSystem
 {
-    [CreateAssetMenu(fileName = "TestSkitFlagData", menuName = "SkitSystem/TestSkitFlagData")]
-    public class TestSkitFlagData : ScriptableObject
+    [CreateAssetMenu(fileName = "SkitFlagData", menuName = "SkitSystem/SkitFlagData")]
+    public class SkitFlagData : ScriptableObject
     {
         public enum GameState
         {

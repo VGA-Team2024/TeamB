@@ -22,7 +22,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private Image _middleCharaImage;
         private CancellationTokenSource _talkCancellationTokenSource;
         
-        public void SetSkitResourceLoader(SkitResourceLoader skitResourceLoader)
+        public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
             _skitResourceLoader = skitResourceLoader;
         }
