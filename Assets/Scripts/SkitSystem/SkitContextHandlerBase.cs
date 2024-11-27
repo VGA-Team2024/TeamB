@@ -123,14 +123,12 @@ namespace TeamB.SkitSystem
 
                 AwaitForEmptyInput = new UniTaskCompletionSource();
                 AwaitForSelect = new UniTaskCompletionSource<string>();
-                Debug.Log($"Call ShowSkit: {skitEntryData.JapaneseTalkDialogue}");
                 if (skitEntryData.JapaneseTalkDialogue.Contains("[Choice]"))
                 {
                     var dialogue = normDialogue.Replace("[Choice]", "");
                     var match = Regex.Match(dialogue, @"\[(.*?)\]");
                     if (!match.Success) return;
                     var skitId = match.Groups[1].Value;
-                    Debug.Log($"Call ShowSkitChoice: {skitId}");
                     if (_skitDataLoader.TryGetSkitChoiceData(skitId, out var choiceData))
                     {
                         var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.ChoiceTime,

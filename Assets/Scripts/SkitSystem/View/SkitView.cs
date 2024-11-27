@@ -37,10 +37,17 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _readingComprehensionText;
         [SerializeField] private TMP_Text _concentrationText;
         private SkitResourceLoader _skitResourceLoader;
+        private string _parameterPoint = "F1";
         
         public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
             _skitResourceLoader = skitResourceLoader;
+            Observable.EveryUpdate().Subscribe(_ =>
+            {
+                _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString(_parameterPoint);
+                _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString(_parameterPoint);
+                _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate.ToString(_parameterPoint);
+            }).AddTo(this);
         }
         
         public async UniTask ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice, UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
@@ -53,10 +60,7 @@ namespace TeamB.SkitSystem
                 Debug.Log("Operation was cancelled.");
                 return;
             }
-            _statusPanel.SetActive(true);   //ステータス設定
-            _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString();
-            _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString();
-            _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString();
+            _statusPanel.SetActive(true);   //ステータス表示
             _restTimePanel.SetActive(true); //残り時間設定
             UpdateRestTimeAsync(time, awaitChoice, awaitEmptyInput, cancellationToken).Forget();
             if (cancellationToken.IsCancellationRequested)

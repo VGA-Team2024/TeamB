@@ -40,7 +40,6 @@ namespace TeamB.SkitSystem
             CancelSkitSequence();
             while (_skitContextQueue.Count > 0)
             {
-                Debug.Log("SkitContextQueueの要素数: " + _skitContextQueue.Count);
                 var currentSkitContext = _skitContextQueue.Peek();
                 if (currentSkitContext == null)
                 {
