@@ -41,6 +41,9 @@ namespace TeamB.SkitSystem
     {
         private SkitContext _nextSkitContext;
         public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.ClassSelect;
+        
+        private readonly ReactiveProperty<ClassSelectData> _currentClassSelectData = new();
+        public ReadOnlyReactiveProperty<ClassSelectData> CurrentClassSelectData => _currentClassSelectData;
 
         public ClassSelectSkitContextHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader)
         {
@@ -56,11 +59,18 @@ namespace TeamB.SkitSystem
         public override async UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token)
         {
             AwaitForSelect = new UniTaskCompletionSource<string>();
-            var result = await AwaitForSelect.Task;
-            //選択した選択肢に対応するデータを取得
-            if (_skitDataLoader.TryGetSkitData(result, out var classSelectData))
+            if (skitContext.SkitSceneData is not ClassSelectData classSelectData)
             {
-                _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, classSelectData);
+                Debug.LogError("ClassSelectDataが見つかりませんでした");
+                return;
+            }
+            _currentClassSelectData.Value = classSelectData;
+            var result = await AwaitForSelect.Task;
+            token.ThrowIfCancellationRequested();
+            //選択した選択肢に対応するデータを取得
+            if (_skitDataLoader.TryGetSkitData(result, out var skitData))
+            {
+                _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, skitData);
             }
             else
             {

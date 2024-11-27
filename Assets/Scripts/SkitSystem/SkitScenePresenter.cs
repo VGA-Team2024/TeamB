@@ -70,13 +70,22 @@ namespace TeamB.SkitSystem
                         skitDataHandler.AwaitForEmptyInput, skitChoiceData.ChoiceTime,
                         SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
-                else
+                else 
                 {
                     _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput, SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
             }).AddTo(_skitSceneView);
+            
+            var classSelectSkitContextHandlerDisposable = classSelectSkitContextHandler.CurrentClassSelectData.Subscribe(result =>
+            {
+                if (result == null) return;
+                _skitSceneView.ShowClassSelect(result, classSelectSkitContextHandler.AwaitForSelect,
+                    SkitSystemManager.CurrentCancellationToken.Token).Forget();
+            }).AddTo(_skitSceneView);
+            
             SkitSystemManager.CurrentCancellationToken?.Token.Register(() =>
             {
+                classSelectSkitContextHandlerDisposable.Dispose();
                 skitDataHandlerDisposable.Dispose();
             });
         }

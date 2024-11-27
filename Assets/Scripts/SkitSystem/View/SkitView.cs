@@ -25,6 +25,11 @@ namespace TeamB.SkitSystem
         [SerializeField] private Image _leftCharaImage;
         [SerializeField] private Image _rightCharaImage;
         [SerializeField] private Image _middleCharaImage;
+        [Header("授業選択肢表示関連")]
+        [SerializeField] private GameObject _classSelectPanel;
+        [SerializeField] private Transform _classSelectButtonParent;
+        [SerializeField] private ClassSelectButton _classSelectButtonPrefab;
+        [SerializeField] private TMP_Text _restDayText;
         [Header("選択肢表示関連")]
         [SerializeField] private SkitChoiceButton _choiceButtonPrefab;
         [SerializeField] private Sprite _correctChoiceSprite;
@@ -49,7 +54,35 @@ namespace TeamB.SkitSystem
                 _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate.ToString(_parameterPoint);
             }).AddTo(this);
         }
-        
+
+        public async UniTask ShowClassSelect(ClassSelectData classSelectData, UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)
+        {
+            SetActiveFalseAllSkitViewObject();
+            SetCharacterAndBackground(classSelectData.BackgroundImageName, null);
+            await ShowDialogue(classSelectData.TalkerName, classSelectData.Dialogue, cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Operation was cancelled.");
+                return;
+            }
+            _classSelectPanel.SetActive(true);
+            _restDayText.text = $"残り{GameStatics.RemainingDayForExam}日";
+            foreach (Transform child in _classSelectButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var classSelectEntry in classSelectData.ClassChoices)
+            {
+                var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
+                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
+                button.ClassSelectButtonComponent.onClick.AddListener(() =>
+                {
+                    awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
+                    _classSelectPanel.SetActive(false);
+                });
+            }
+        }
+     
         public async UniTask ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice, UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
         {
             SetActiveFalseAllSkitViewObject();
