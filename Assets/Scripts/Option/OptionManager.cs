@@ -5,27 +5,25 @@ using UnityEngine.UI;
 
 public class OptionManager : MonoBehaviour
 {
-    [SerializeField] List<Slider> slider = new List<Slider>();
-    [SerializeField] List<AudioSource> audiosource = new List<AudioSource>();
+    [Header("音の調整バー"),SerializeField] List<Slider> slider = new List<Slider>();
+    [Header("音源"),SerializeField] List<AudioSource> audiosource = new List<AudioSource>();
 
-    [SerializeField] GameObject option_canvas;
-    [SerializeField] GameObject display_canvas;
+    [Header("オプション画面"),SerializeField] GameObject option_canvas;
+    [Header("ディスプレイ選択画面"), SerializeField] GameObject display_canvas;
 
-    [SerializeField] GameObject display_prehab;
+    [Header("ディスプレイの選択ボタンをプレハブ化したもの"),SerializeField] GameObject display_prehab;
 
-    [SerializeField] Transform trans;
-
-    [SerializeField] Button option_button;
-
-    int i = 0;
+    [Header("選択ボタンの表示位置"), SerializeField] Transform trans;
 
     [SerializeField] List<DisplayInfo> displaylist = new List<DisplayInfo>();
 
+    [Header("オプションを開くボタン"),SerializeField] Button option_button;
+
     enum Audioname
     {
-        master,
+        se,
         voice,
-        se
+        master
     }
 
     void Start()
@@ -39,8 +37,8 @@ public class OptionManager : MonoBehaviour
         //SEボリュームの音量設定
         slider[(int)Audioname.se].onValueChanged.AddListener(value => audiosource[(int)Audioname.se].volume = value);
 
-        //オプション画面を開くボタン
-        option_button.onClick.AddListener(() => option_canvas.SetActive(true));
+       //オプション画面を開くボタン
+       option_button.onClick.AddListener(() => option_canvas.SetActive(true));
 
         DisplayInt();
     }
@@ -50,6 +48,7 @@ public class OptionManager : MonoBehaviour
     {
         option_canvas.SetActive(false);
     }
+
     //ディスプレイ選択画面からオプション画面に戻る
     public void DisplayBackButton()
     {
@@ -66,8 +65,10 @@ public class OptionManager : MonoBehaviour
 
     void DisplayInt()
     {
+        //ディスプレイの情報を入手
         Screen.GetDisplayLayout(displaylist);
-        Debug.Log(displaylist.Count);
+
+        var i = 0;
 
         foreach (var list in displaylist)
         {
