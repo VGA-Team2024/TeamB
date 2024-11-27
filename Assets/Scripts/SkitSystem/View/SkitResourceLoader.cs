@@ -34,36 +34,24 @@ namespace TeamB.SkitSystem
                 Debug.LogError("Failed to load assets with label: " + _label);
             }
         }
-        
+
         /// <summary>
         /// 特定のテクスチャを取得
         /// </summary>
         /// <param name="textureName">取得したいテクスチャの名前</param>
+        /// <param name="backGroundSprite">取得するテクスチャ</param>
         /// <returns>テクスチャ</returns>
-        public Sprite GetSpriteByName(string textureName)
+        public bool TryGetSpriteByName(string textureName, out Sprite backGroundSprite)
         {
+            if (string.IsNullOrEmpty(textureName))
+            {
+                backGroundSprite = null;
+                return false;
+            }
             textureName = textureName.Trim();
             var spriteValue = _loadedSprites.FirstOrDefault((x => string.Equals(x.Key, textureName, StringComparison.OrdinalIgnoreCase)));
-
-            foreach (var loadedSprite in _loadedSprites)
-            {
-                if (loadedSprite.Key == textureName)
-                {
-                    return loadedSprite.Sprite;
-                }
-                else
-                {
-                    Debug.LogWarning($"{textureName} != {loadedSprite.Key}");;
-                }
-            }
-            // if (spriteValue != null)
-            // {
-            //     return spriteValue.Sprite;
-            // }
-
-            
-            //Debug.LogWarning($"Texture with name '{textureName}' not found.");
-            return null;
+            backGroundSprite = spriteValue?.Sprite;
+            return backGroundSprite != null;
         }
     }
     
