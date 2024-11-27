@@ -11,9 +11,10 @@ namespace TeamB.SkitSystem
     public class SkitDebug : MonoBehaviour
     {
         [SerializeField] private SkitScenePresenter _skitScenePresenter;
-        [SerializeField] private RectTransform _skitDebugButtonParent;
         [SerializeField] private Button _skitDebugButtonPrefab;
         [SerializeField] private GameObject _skitDebugPanel;
+        [SerializeField] private RectTransform _skitDebugButtonParent;
+        [SerializeField] private RectTransform _classSelectButtonParent;
         
         private void Start()
         {
@@ -46,15 +47,38 @@ namespace TeamB.SkitSystem
                     StartSkit();
                 });
             }
+            
+            foreach (Transform child in _classSelectButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var classSelect in _skitScenePresenter.SkitDataLoader.GetAllClassSelectData())
+            {
+                var button = Instantiate(_skitDebugButtonPrefab, _classSelectButtonParent);
+                button.GetComponentInChildren<TMP_Text>().text = classSelect.Id;
+                button.onClick.AddListener(() =>
+                {
+                    SetTestClassSelectId(classSelect.Id);
+                    StartSkit();
+                });
+            }
         }
         
-        // Start is called before the first frame update
         private void SetTestSkitId(string testSkitId)
         {
             if (_skitScenePresenter.SkitDataLoader.TryGetSkitData(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
+            }
+        }
+        
+        private void SetTestClassSelectId(string testSkitId)
+        {
+            if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectData(testSkitId, out var skitData))
+            {
+                _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData));
             }
         }
 

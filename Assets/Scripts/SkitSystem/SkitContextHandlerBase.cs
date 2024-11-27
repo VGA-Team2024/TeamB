@@ -117,10 +117,11 @@ namespace TeamB.SkitSystem
 
                 if (skitEntryData.JapaneseTalkDialogue.Contains("[Skit]"))
                 {
-                    var dialogue = normDialogue.Replace("[Skit]", "");
-                    var match = Regex.Match(dialogue, @"\[(.*?)\]");
+                    normDialogue = normDialogue.Replace("[Skit]", "");
+                    var match = Regex.Match(normDialogue, @"\[(.*?)\]");
                     if (!match.Success) return;
                     var skitId = match.Groups[1].Value;
+                    normDialogue = normDialogue.Replace($"[{skitId}]", "");
                     if (_skitDataLoader.TryGetSkitData(skitId, out var nextSkitData))
                     {
                         _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, nextSkitData);

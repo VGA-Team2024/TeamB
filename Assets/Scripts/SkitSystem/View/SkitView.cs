@@ -288,6 +288,7 @@ namespace TeamB.SkitSystem
             _leftCharaImage.gameObject.SetActive(false);
             _middleCharaImage.gameObject.SetActive(false);
             _choiceButtonParent.gameObject.SetActive(false);
+            _classSelectPanel.SetActive(false);
             _restTimePanel.SetActive(false);
             _statusPanel.SetActive(false);
             _dialoguePanel.SetActive(false);
