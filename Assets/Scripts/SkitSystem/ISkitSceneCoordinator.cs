@@ -27,6 +27,11 @@ namespace TeamB.SkitSystem
         public SkitContext GetStartSkitData()
         {
             SkitData skitSceneData = null;
+            if (_skitDataLoader.TryGetSkitData("02_ClassTest", out skitSceneData))
+            {
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExam;
+            }
+            return new SkitContext(SkitContext.ContextType.Skit, skitSceneData);
             switch (_skitFlagData.CurrentGameState)
             {
                 // 会話シーンの開始時に必要なデータを取得

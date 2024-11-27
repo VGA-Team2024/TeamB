@@ -53,6 +53,7 @@ namespace TeamB.SkitSystem
         {
             if (_skitScenePresenter.SkitDataLoader.TryGetSkitData(testSkitId, out var skitData))
             {
+                _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
             }
         }

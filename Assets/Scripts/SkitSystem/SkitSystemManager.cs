@@ -25,6 +25,11 @@ namespace TeamB.SkitSystem
             _skitContextQueue.Enqueue(_skitSceneCoordinator.GetStartSkitData());
         }
         
+        public void ResetSkitSceneData()
+        {
+            _skitContextQueue.Clear();
+        }
+        
         public void SetSkitSceneData(SkitContext testSkitContext)
         {
             _skitContextQueue.Enqueue(testSkitContext);
@@ -35,6 +40,7 @@ namespace TeamB.SkitSystem
             CancelSkitSequence();
             while (_skitContextQueue.Count > 0)
             {
+                Debug.Log("SkitContextQueueの要素数: " + _skitContextQueue.Count);
                 var currentSkitContext = _skitContextQueue.Peek();
                 if (currentSkitContext == null)
                 {
@@ -77,14 +83,13 @@ namespace TeamB.SkitSystem
         }
         private void CancelSkitSequence()
         {
-            Debug.Log($"CurrentCancellationToken: {CurrentCancellationToken?.IsCancellationRequested} を処理します");
             CurrentCancellationToken?.Cancel();
             _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
             CurrentCancellationToken = new CancellationTokenSource();
-            CurrentCancellationToken?.Token.Register(() =>
-            {
-                Debug.Log("CurrentCancellationTokenがキャンセルされました");
-            });
+            // CurrentCancellationToken?.Token.Register(() =>
+            // {
+            //     Debug.Log("CurrentCancellationTokenがキャンセルされました");
+            // });
         }
         
         public void Dispose()

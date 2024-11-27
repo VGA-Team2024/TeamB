@@ -4466,7 +4466,7 @@ MonoBehaviour:
   _talkerNameText: {fileID: 1286125500}
   _talkerNamePanel: {fileID: 472529618}
   _dialoguePanel: {fileID: 1186185819}
-  _textSpeed: 0.1
+  _textSpeed: 0
   _backgroundImage: {fileID: 1035777098}
   _leftCharaImage: {fileID: 834972603}
   _rightCharaImage: {fileID: 40018432}

@@ -107,12 +107,8 @@ namespace TeamB.SkitSystem
                     skitEntryDataList = new List<SkitEntryData>();
                 }
 
-                var skitEntryData = new SkitEntryData();
                 var classTalkCharaData = new List<SkitTalkCharaData>();
-                skitEntryData.TalkSpeaker = rawData[i][2];
-                skitEntryData.TalkBackground = rawData[i][3];
-                skitEntryData.JapaneseTalkDialogue = rawData[i][4];
-                skitEntryData.EnglishTalkDialogue = rawData[i][5];
+                
                 for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
                 {   // 会話キャラクターデータを作成
                     var eachClassTalkCharaData = new SkitTalkCharaData()
@@ -123,7 +119,7 @@ namespace TeamB.SkitSystem
                     if (!string.IsNullOrEmpty(rawData[i][j + 1])) eachClassTalkCharaData.StandingPosition = Enum.Parse<StandingPosition>(rawData[i][j + 1]);
                     classTalkCharaData.Add(eachClassTalkCharaData);
                 }
-                skitEntryData.TalkCharaData = classTalkCharaData.ToArray();
+                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), rawData[i][2], rawData[i][3], rawData[i][4], rawData[i][5]);
                 skitEntryDataList.Add(skitEntryData);
 
                 if (i != rawData.Count - 1) continue;   // 最後のデータの場合は保存する
@@ -149,17 +145,12 @@ namespace TeamB.SkitSystem
                 var problemDialogue = data[2];
                 var answer = data[3].Trim();
                 var choiceEntries = new List<ChoiceEntry>();
-                for (var j = 4; j < data.Length ; j+= SkitChoiceLength)
+                for (var j = 4; j < data.Length; j += SkitChoiceLength)
                 {
-                    var choiceEntry = new ChoiceEntry
-                    {
-                        ChoiceEntryId = data[j].Trim(),
-                        EnglishChoiceEntryName = data[j].Trim(),
-                        JapaneseChoiceEntryName = data[j + 1].Trim()
-                    };
+                    var choiceEntry = new ChoiceEntry(data[j].Trim(), data[j].Trim(), data[j + 1].Trim());
                     choiceEntries.Add(choiceEntry);
                 }
-              
+
                 var choiceData = new SkitChoiceData(id, limitTime, answer, choiceEntries.ToArray(), problemDialogue);
                 _skitChoiceData.Add(choiceData);
             }
