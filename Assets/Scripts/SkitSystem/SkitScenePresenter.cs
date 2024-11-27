@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
@@ -19,12 +21,11 @@ namespace TeamB.SkitSystem
         [SerializeField] private SkitViewFade _loadingPanel;
         [SerializeField] private SkitFlagData _skitFlagData;
         [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
-        private SkitSystemManager _skitSystemManager;
-        public ISkitDataLoader SkitDataLoader;
+        public SkitSystemManager SkitSystemManager { get; private set; }
+        public ISkitDataLoader SkitDataLoader { get; private set; }
 
         private async void Awake()
         {
-            _loadingPanel.gameObject.SetActive(true);
             _loadingPanel.FadeInAsync(true).Forget();
             if (_dataLoadType == DataLoadType.Remote)
             {
@@ -39,38 +40,53 @@ namespace TeamB.SkitSystem
             
             await _skitResourceLoader.InitializeSkitResourceLoader();
             _skitSceneView.InitializeSkitView(_skitResourceLoader);
+            SetSkitDataHandler();
+            SkitSystemManager.DoSkitSequence().Forget();
+            await _loadingPanel.FadeOutAsync();
+        }
+
+        /// <summary>
+        /// SkitDataHandlerを生成し、SkitSystemManagerに登録する
+        /// </summary>
+        private void SetSkitDataHandler()
+        {
             var classSelectSkitContextHandler = new ClassSelectSkitContextHandler(SkitDataLoader);
             var skitDataHandler = new SkitDataHandler(SkitDataLoader);
-            var skitChoiceHandler = new SkitChoiceHandler(SkitDataLoader);
             var skitContextHandlers = new HashSet<SkitContextHandlerBase>
             {
                 classSelectSkitContextHandler,
                 skitDataHandler,
-                skitChoiceHandler
             };
             var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData);
-            _skitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
+            SkitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
+            
+            // SkitDataHandlerとViewの紐付け
             skitDataHandler.CurrentSkitEntryData.Subscribe(skitEntryData =>
             {
                 if (skitEntryData == null) return;
-                _skitSceneView.SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData);
-                _skitSceneView.ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue).Forget();
-            }).AddTo(_skitSceneView);
-            Observable.EveryUpdate()
-                .Where(_ => Input.GetMouseButtonDown(0))
-                .Subscribe(_ =>
+                if (skitEntryData is SkitChoiceData skitChoiceData)
                 {
-                    //Todo:選択肢入力の際にクリックで進んでしまう問題を解決する
-                    skitDataHandler.AwaitForInput?.TrySetResult(("", ""));
-                }).AddTo(this);
-            await _loadingPanel.FadeOutAsync();
-            _skitSystemManager.DoSkitSequence().Forget();
+                    _skitSceneView.ShowSkitChoice(skitChoiceData, skitDataHandler.AwaitForSelect,
+                        skitDataHandler.AwaitForEmptyInput, skitChoiceData.ChoiceTime,
+                        SkitSystemManager.CurrentCancellationToken.Token);
+                }
+                else
+                {
+                    _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput, SkitSystemManager.CurrentCancellationToken.Token).Forget();
+                }
+            }).AddTo(_skitSceneView);
+     
         }
 
         private void Start()
         {
             CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
+        }
+
+        private void OnDestroy()
+        {
+            SkitSystemManager.Dispose();
         }
     }
 }

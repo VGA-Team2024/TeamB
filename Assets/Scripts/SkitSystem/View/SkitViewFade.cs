@@ -28,6 +28,7 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 0);
                 await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).AsyncWaitForCompletion();
             }
+            _fadeImage.raycastTarget = true;
         }
         
         public async UniTask FadeOutAsync(bool immediate = false)
@@ -42,6 +43,7 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 1);
                 await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).AsyncWaitForCompletion();
             }
+            _fadeImage.raycastTarget = false;
         }
     }
 }

@@ -10,12 +10,10 @@ namespace TeamB.SkitSystem
 {
     public class SkitDebug : MonoBehaviour
     {
-        [SerializeField] private SkitSystemManager _skitSystemManager;
         [SerializeField] private SkitScenePresenter _skitScenePresenter;
         [SerializeField] private RectTransform _skitDebugButtonParent;
         [SerializeField] private Button _skitDebugButtonPrefab;
         [SerializeField] private GameObject _skitDebugPanel;
-        private ISkitDataLoader _skitDataLoader;
         
         private void Start()
         {
@@ -53,16 +51,16 @@ namespace TeamB.SkitSystem
         // Start is called before the first frame update
         private void SetTestSkitId(string testSkitId)
         {
-            if (_skitDataLoader.TryGetSkitData(testSkitId, out var skitData))
+            if (_skitScenePresenter.SkitDataLoader.TryGetSkitData(testSkitId, out var skitData))
             {
-                _skitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
             }
         }
 
         private void StartSkit()
         {
             _skitDebugPanel.SetActive(false);
-            _skitSystemManager.DoSkitSequence().Forget();
+            _skitScenePresenter.SkitSystemManager.DoSkitSequence().Forget();
         }
     }
 }

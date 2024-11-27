@@ -1,24 +1,37 @@
+using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using R3;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace TeamB.SkitSystem
 {
     /// <summary>
-    /// 渡される会話シーンでのデータを処理するインターフェース
+    /// 渡される会話シーンでのデータを処理する基底クラス
     /// </summary>
-    public abstract class SkitContextHandlerBase
+    public abstract class SkitContextHandlerBase : IDisposable
     {
         public abstract SkitContext.ContextType HandleSkitContextType { get; }
         protected ISkitDataLoader _skitDataLoader;
-        public UniTaskCompletionSource<(string choiceId, string result)> AwaitForInput { get; protected set; }
-        public abstract UniTask HandleSkitContext(SkitContext skitContext);
+        public UniTaskCompletionSource AwaitForEmptyInput { get; protected set; }
+        public UniTaskCompletionSource<string> AwaitForSelect { get; protected set; }
+        public abstract UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token);
         public abstract bool TrtGetNextSkitContext(out SkitContext nextSkitContext);
         
         protected SkitContextHandlerBase(ISkitDataLoader skitDataLoader)
         {
             _skitDataLoader = skitDataLoader;
+        }
+        
+        protected virtual void OnDispose() { }
+
+        public void Dispose()
+        {
+            AwaitForEmptyInput?.TrySetCanceled();
+            AwaitForSelect?.TrySetCanceled();
+            OnDispose();
         }
     }
     
@@ -37,12 +50,12 @@ namespace TeamB.SkitSystem
             return nextSkitContext != null;
         }
 
-        public override async UniTask HandleSkitContext(SkitContext skitContext)
+        public override async UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token)
         {
-            AwaitForInput = new UniTaskCompletionSource<(string choiceId, string result)>();
-            var result = await AwaitForInput.Task;
+            AwaitForSelect = new UniTaskCompletionSource<string>();
+            var result = await AwaitForSelect.Task;
             //選択した選択肢に対応するデータを取得
-            if (_skitDataLoader.TryGetSkitData(result.choiceId, out var classSelectData))
+            if (_skitDataLoader.TryGetSkitData(result, out var classSelectData))
             {
                 _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, classSelectData);
             }
@@ -62,10 +75,8 @@ namespace TeamB.SkitSystem
         private readonly ReactiveProperty<SkitEntryData> _currentSkitEntryData = new();
         public ReadOnlyReactiveProperty<SkitEntryData> CurrentSkitEntryData => _currentSkitEntryData;
         
-        public SkitDataHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader)
-        {
-        }
-        public  override async UniTask HandleSkitContext(SkitContext skitContext)
+        public SkitDataHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader) { }
+        public  override async UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token)
         {
             
             if (skitContext.SkitSceneData is not SkitData skitData)
@@ -76,6 +87,11 @@ namespace TeamB.SkitSystem
 
             foreach (var skitEntryData in skitData.SkitEntryData)
             {
+                if (token.IsCancellationRequested)
+                {
+                    Debug.Log("処理がキャンセルされました");
+                    return;
+                }
                 //ここでタグの読み取りなど行う。次に表示するデータ等を含んでいたら_nextSkitContextに代入する
                 //ToDo: タグの読み取りの処理の分離
                 if (skitEntryData.JapaneseTalkDialogue.Contains("[MainCharacter]"))
@@ -100,10 +116,43 @@ namespace TeamB.SkitSystem
                     }
                 }
                 
-                _currentSkitEntryData.Value = skitEntryData;
-       
-                AwaitForInput = new UniTaskCompletionSource<(string choiceId, string result)>();
-                await AwaitForInput.Task;
+                AwaitForEmptyInput = new UniTaskCompletionSource();
+                AwaitForSelect = new UniTaskCompletionSource<string>();
+                if (skitEntryData.JapaneseTalkDialogue.Contains("[Choice]"))
+                {
+                    skitEntryData.JapaneseTalkDialogue = skitEntryData.JapaneseTalkDialogue.Replace("[Choice]", "");
+                    var match = Regex.Match(skitEntryData.JapaneseTalkDialogue, @"\[(.*?)\]");
+                    if (!match.Success) return;
+                    var skitId = match.Groups[1].Value;
+                    skitEntryData.JapaneseTalkDialogue = skitEntryData.JapaneseTalkDialogue.Replace($"[{skitId}]", "");
+                    if (_skitDataLoader.TryGetSkitChoiceData(skitId, out var choiceData))
+                    {
+                        _currentSkitEntryData.Value = choiceData;
+                    }
+                    else
+                    {
+                        Debug.LogError("ChoiceDataが見つかりませんでした");
+                    }
+
+                    var start = DateTime.Now;
+                    var result = await AwaitForSelect.Task.AttachExternalCancellation(token);
+                    if (choiceData.Answer == result)
+                    {
+                        var end = DateTime.Now;
+                        var time = end - start;
+                        SkitRewardManager.Instance.AddRewardValue(choiceData.ChoiceTime - (float)time.TotalSeconds);
+                    }
+                }
+                else
+                {
+                    _currentSkitEntryData.Value = skitEntryData;
+                }
+                await AwaitForEmptyInput.Task.AttachExternalCancellation(token);
+                if (token.IsCancellationRequested)
+                {
+                    Debug.Log("処理がキャンセルされました");
+                    return;
+                }
             }
         }
         public override bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
@@ -112,46 +161,5 @@ namespace TeamB.SkitSystem
             _nextSkitContext = null;
             return nextSkitContext != null;
         }
-
-    }
-    
-    public class SkitChoiceHandler : SkitContextHandlerBase
-    {
-        private SkitContext _nextSkitContext;
-        public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.SkitChoice;
-        
-        public SkitChoiceHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader)
-        {
-        }
-        public override bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
-        {
-            nextSkitContext = _nextSkitContext;
-            _nextSkitContext = null;
-            return nextSkitContext != null;
-        }
-
-        public override async UniTask HandleSkitContext(SkitContext skitContext)
-        {
-            if (skitContext.SkitSceneData is not SkitChoiceData skitChoiceData)
-            {
-                Debug.LogError("SkitChoiceDataが見つかりませんでした");
-                return;
-            }
-
-            AwaitForInput = new UniTaskCompletionSource<(string choiceId, string result)>();
-            var resultTask = AwaitForInput.Task;
-            var delayTask = UniTask.WaitForSeconds(skitChoiceData.ChoiceTime);
-            var startTime = Time.realtimeSinceStartup;
-            var waitResult = await UniTask.WhenAny(resultTask, delayTask);
-            if (waitResult.hasResultLeft && waitResult.result.choiceId == skitChoiceData.Answer)
-            {
-                var elapsedTime = Time.realtimeSinceStartup - startTime;
-                var remainingTime = skitChoiceData.ChoiceTime - elapsedTime;
-                SkitRewardManager.Instance.AddRewardValue(remainingTime);
-            }
-            //もし選択肢データが次の会話データの内容をもっていたら_nextSkitContextに代入する
-        }
-
-     
     }
 }

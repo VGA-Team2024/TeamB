@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,12 +10,14 @@ namespace TeamB.SkitSystem
     /// <summary>
     /// 会話シーンの進行を処理するクラス
     /// </summary>
-    public class SkitSystemManager
+    public class SkitSystemManager : IDisposable
     {
         private readonly Queue<SkitContext> _skitContextQueue = new();
         private readonly HashSet<SkitContextHandlerBase> _skitContextHandlers = new();
         private readonly ISkitSceneCoordinator _skitSceneCoordinator;
+        public CancellationTokenSource CurrentCancellationToken { get; private set; }
 
+        
         public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers, ISkitSceneCoordinator skitSceneCoordinator)
         {
             _skitContextHandlers.UnionWith(skitContextHandlers);
@@ -29,6 +32,7 @@ namespace TeamB.SkitSystem
 
         public async UniTask DoSkitSequence()
         {
+            CancelSkitSequence();
             while (_skitContextQueue.Count > 0)
             {
                 var currentSkitContext = _skitContextQueue.Peek();
@@ -55,29 +59,40 @@ namespace TeamB.SkitSystem
 
                 foreach (var skitContextHandler in validHandlers)
                 {
-                    try
-                    {
-                        // 現在のコンテキストを処理し、デキュー
-                        await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue());
+                    // 現在のコンテキストを処理し、デキュー
+                    await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue(),
+                        CurrentCancellationToken.Token);
 
-                        // 次のスキットコンテキストがある場合、エンキュー
-                        if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContext))
-                        {
-                            _skitContextQueue.Enqueue(nextSkitContext);
-                        }
-                    }
-                    catch (OperationCanceledException)
+                    // 次のスキットコンテキストがある場合、エンキュー
+                    if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContext))
                     {
-                        Debug.Log("処理がキャンセルされました");
-                        return; // キャンセルされた場合は処理を終了
+                        _skitContextQueue.Enqueue(nextSkitContext);
                     }
                 }
             }
             
             //テスト用
+            SkitRewardManager.Instance.ApplyStatus();
             _skitSceneCoordinator.EndSkitScene();
         }
+        private void CancelSkitSequence()
+        {
+            Debug.Log($"CurrentCancellationToken: {CurrentCancellationToken?.IsCancellationRequested} を処理します");
+            CurrentCancellationToken?.Cancel();
+            _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
+            CurrentCancellationToken = new CancellationTokenSource();
+            CurrentCancellationToken?.Token.Register(() =>
+            {
+                Debug.Log("CurrentCancellationTokenがキャンセルされました");
+            });
+        }
+        
+        public void Dispose()
+        {
+            CancelSkitSequence();
+        }
     }
+    
     
     
     public class SkitContext

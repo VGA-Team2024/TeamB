@@ -31,6 +31,7 @@ namespace TeamB.SkitSystem
             {
                 // 会話シーンの開始時に必要なデータを取得
                 case SkitFlagData.GameState.Prologue:
+                case SkitFlagData.GameState.FirstExam:
                 {
                     if (_skitDataLoader.TryGetSkitData("01_prologue1", out skitSceneData))
                     {
@@ -74,6 +75,7 @@ namespace TeamB.SkitSystem
 
                     break;
                 }
+                case SkitFlagData.GameState.SecondExam:
                 default:
                     throw new ArgumentOutOfRangeException();
             }

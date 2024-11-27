@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using R3;
+using TeamB.GameSystem.Statics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,28 +13,137 @@ namespace TeamB.SkitSystem
 {
     public class SkitView : MonoBehaviour
     {
+        [Header("会話表示関連")]
         [SerializeField] private TMP_Text _dialogueText;
         [SerializeField] private TMP_Text _talkerNameText;
         [SerializeField] private GameObject _talkerNamePanel;
+        [SerializeField] private GameObject _dialoguePanel;
         [SerializeField] private float _textSpeed = 0.1f;
+        [Header("背景・キャラ表示関連")]
         [SerializeField] private Image _backgroundImage;
-        [SerializeField] private SkitResourceLoader _skitResourceLoader;
         [SerializeField] private Image _leftCharaImage;
         [SerializeField] private Image _rightCharaImage;
         [SerializeField] private Image _middleCharaImage;
-        private CancellationTokenSource _talkCancellationTokenSource;
+        [Header("選択肢表示関連")]
+        [SerializeField] private SkitChoiceButton _choiceButtonPrefab;
+        [SerializeField] private Sprite _correctChoiceSprite;
+        [SerializeField] private Sprite _missChoiceSprite;
+        [SerializeField] private Transform _choiceButtonParent;
+        [SerializeField] private GameObject _restTimePanel;
+        [SerializeField] private TMP_Text _restTimeText;
+        [SerializeField] private GameObject _statusPanel;
+        [SerializeField] private TMP_Text _intuitionText;
+        [SerializeField] private TMP_Text _readingComprehensionText;
+        [SerializeField] private TMP_Text _concentrationText;
+        private SkitResourceLoader _skitResourceLoader;
         
         public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
             _skitResourceLoader = skitResourceLoader;
         }
-
-        public void SetCharacterAndBackground(string backgroundName, SkitTalkCharaData[] talkCharaData)
+        
+        public void ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice, UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
         {
-            _backgroundImage.sprite = _skitResourceLoader.GetSpriteByName(backgroundName);
+            SetActiveFalseAllSkitViewObject();
+            ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken).Forget();
+            SetCharacterAndBackground(skitChoiceData.TalkBackground, skitChoiceData.TalkCharaData);
+            _statusPanel.SetActive(true);   //ステータス設定
+            _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString();
+            _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString();
+            _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString();
+            _restTimePanel.SetActive(true); //残り時間設定
+            UpdateRestTimeAsync(time, awaitChoice, awaitEmptyInput, cancellationToken).Forget();
+            _choiceButtonParent.gameObject.SetActive(true); //選択肢設定
+            foreach (Transform child in _choiceButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var choiceEntry in skitChoiceData.ChoiceEntries)
+            {
+                var button = Instantiate(_choiceButtonPrefab, _choiceButtonParent);
+                var resultSprite = _missChoiceSprite;
+                if (string.Equals(choiceEntry.EnglishChoiceEntryName, skitChoiceData.Answer))
+                {
+                    resultSprite = _correctChoiceSprite;
+                }
+                button.InitializeSkitChoiceButton( choiceEntry.JapaneseChoiceEntryName, resultSprite);
+
+                button.ChoiceButton.onClick.AddListener( async () =>
+                {
+                    LockAndShowAllChoiceButtonsResult();
+                    awaitChoice.TrySetResult(choiceEntry.EnglishChoiceEntryName);
+                    button.ButtonResultImage.gameObject.SetActive(true);
+                    try
+                    {
+                        // 非同期待機: クリック後に再度クリックを待機
+                        await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: cancellationToken);
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return;
+                        }
+                        awaitEmptyInput.TrySetResult();
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Debug.LogWarning("Operation was cancelled.");
+                    }
+                });
+                button.ButtonResultImage.gameObject.SetActive(false);
+            }
+        }
+        
+        private async UniTask UpdateRestTimeAsync(float time, UniTaskCompletionSource<string> awaitSelect, UniTaskCompletionSource awaitEmptyInput, CancellationToken cancellationToken)
+        {
+            var decimalPoint = "F1";
+            _restTimeText.text = time.ToString(decimalPoint);
+            while (time > 0)
+            {
+                if (awaitSelect.Task.Status == UniTaskStatus.Succeeded || cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+                _restTimeText.text = time.ToString(decimalPoint);
+                await UniTask.Yield();
+                time -= Time.deltaTime;
+                if (time <= 0)
+                {
+                    awaitSelect.TrySetResult("");
+                    _restTimeText.text = "0.0";
+                    LockAndShowAllChoiceButtonsResult();
+                    Debug.Log("Time is up");
+                    await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: destroyCancellationToken);
+                    awaitEmptyInput.TrySetResult();
+                }
+            }
+        }
+        
+        private void LockAndShowAllChoiceButtonsResult()
+        {
+            foreach (Transform child in _choiceButtonParent)
+            {
+                var button = child.GetComponent<SkitChoiceButton>();
+                if (button != null)
+                {
+                    button.ChoiceButton.interactable = false;
+                    button.ButtonResultImage.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        private void SetCharacterAndBackground(string backgroundName, SkitTalkCharaData[] talkCharaData)
+        {
+            if ( _skitResourceLoader.TryGetSpriteByName(backgroundName, out var backGroundSprite))
+            {
+                _backgroundImage.sprite = backGroundSprite;
+            }
             _rightCharaImage.gameObject.SetActive(false);
             _leftCharaImage.gameObject.SetActive(false);
             _middleCharaImage.gameObject.SetActive(false);
+            
+            if (talkCharaData == null)
+            {
+                return;
+            }
             foreach (var charaData in talkCharaData)
             {
                 var charaImage = charaData.StandingPosition switch
@@ -45,19 +156,30 @@ namespace TeamB.SkitSystem
                 
                 if (charaImage == null)
                 {
-                    Debug.LogWarning("Invalid standing position");
                     continue;
                 }
-                
-                charaImage.sprite = _skitResourceLoader.GetSpriteByName(charaData.CharaStateFileName);
+
+                if (!_skitResourceLoader.TryGetSpriteByName(charaData.CharaStateFileName, out var charaSprite)) continue;
+                charaImage.sprite = charaSprite;
                 charaImage.gameObject.SetActive(true);
             }
         }
-        
-        public async UniTask ShowDialogue(string talkerName, string dialogue)
+
+        public async UniTask ShowSkit(SkitEntryData skitEntryData, UniTaskCompletionSource skitAwaitCompletionSource, CancellationToken cancellationToken)
         {
-            _talkCancellationTokenSource?.Cancel();
-            _talkCancellationTokenSource = new CancellationTokenSource();
+            SetActiveFalseAllSkitViewObject();
+            SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData);
+            await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue, cancellationToken);
+            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            skitAwaitCompletionSource?.TrySetResult();
+        }
+
+        private async UniTask ShowDialogue(string talkerName, string dialogue, CancellationToken cancellationToken)
+        {
+            _dialoguePanel.SetActive(true);
+
+            // 話者名の表示制御
             if (string.IsNullOrEmpty(talkerName))
             {
                 _talkerNamePanel.SetActive(false);
@@ -67,12 +189,68 @@ namespace TeamB.SkitSystem
                 _talkerNamePanel.SetActive(true);
                 _talkerNameText.text = talkerName;
             }
+
+            // ダイアログが空の場合の警告
+            if (string.IsNullOrEmpty(dialogue))
+            {
+                Debug.LogWarning("Dialogue is empty");
+                return;
+            }
+
             _dialogueText.text = "";
+
+            var isDialogueComplete = false;
+
+            WaitForSkip().Forget();
+
             foreach (var c in dialogue)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    Debug.Log("ShowDialogue is cancelled");
+                    break;
+                }
+                // スキップ時に全文を即座に表示
+                if (isDialogueComplete)
+                {
+                    _dialogueText.text = dialogue;
+                    break;
+                }
+
                 _dialogueText.text += c;
-                await UniTask.WaitForSeconds(_textSpeed, cancellationToken: _talkCancellationTokenSource.Token);
+                await UniTask.WaitForSeconds(_textSpeed, cancellationToken: cancellationToken);
+            }
+
+            return;
+
+            async UniTaskVoid WaitForSkip() // スキップ待機
+            {
+                await UniTask.Yield(cancellationToken);
+                while (!isDialogueComplete && !cancellationToken.IsCancellationRequested)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        isDialogueComplete = true;
+                        break;
+                    }
+                    await UniTask.Yield(cancellationToken);
+                }
             }
         }
+
+
+        private void SetActiveFalseAllSkitViewObject()
+        {
+            _rightCharaImage.gameObject.SetActive(false);
+            _leftCharaImage.gameObject.SetActive(false);
+            _middleCharaImage.gameObject.SetActive(false);
+            _choiceButtonParent.gameObject.SetActive(false);
+            _restTimePanel.SetActive(false);
+            _statusPanel.SetActive(false);
+            _dialoguePanel.SetActive(false);
+            _talkerNamePanel.SetActive(false);
+        }
+        
+        
     }
 }
