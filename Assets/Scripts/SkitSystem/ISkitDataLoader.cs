@@ -39,12 +39,13 @@ namespace TeamB.SkitSystem
     /// ドライブのスプシからデータを読み込むクラス
     /// </summary>
     public class RemoteSkitDataLoader : ISkitDataLoader
-    {
+    { 
         private const string ClassSelectDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=514427729&single=true&output=csv";
         private const int ClassSelectDataLength = 4;
         private const string SkitDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=159610865&single=true&output=csv";
         private const int SkitDataLength = 3;
         private const string SkitChoiceDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1641370933&single=true&output=csv";
+        
         private const int SkitChoiceLength = 2;
         private string _playerName;
         private HashSet<ClassSelectData> _classSelectData = new();
@@ -53,7 +54,7 @@ namespace TeamB.SkitSystem
         
         public UniTask InitTalkData()
         {
-            return UniTask.WhenAll(LoadClassSelectData(), LoadTalkData(), LoadSkitChoiceData());
+            return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData());
         }
 
         private async UniTask LoadClassSelectData()
@@ -86,7 +87,7 @@ namespace TeamB.SkitSystem
             }
         }
 
-        private async UniTask LoadTalkData()
+        private async UniTask LoadSkitData()
         {
             var rawData = await CsvLoader.GetSpreadsheetDataAsync(SkitDataKey);
             if (rawData == null)
@@ -108,11 +109,11 @@ namespace TeamB.SkitSystem
 
                 var skitEntryData = new SkitEntryData();
                 var classTalkCharaData = new List<SkitTalkCharaData>();
-                skitEntryData.TalkSpeaker = rawData[i][1];
-                skitEntryData.TalkBackground = rawData[i][2];
-                skitEntryData.JapaneseTalkDialogue = rawData[i][3];
-                skitEntryData.EnglishTalkDialogue = rawData[i][4];
-                for (var j = 5; j < rawData[i].Length; j += SkitDataLength)
+                skitEntryData.TalkSpeaker = rawData[i][2];
+                skitEntryData.TalkBackground = rawData[i][3];
+                skitEntryData.JapaneseTalkDialogue = rawData[i][4];
+                skitEntryData.EnglishTalkDialogue = rawData[i][5];
+                for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
                 {   // 会話キャラクターデータを作成
                     var eachClassTalkCharaData = new SkitTalkCharaData()
                     {
@@ -143,24 +144,23 @@ namespace TeamB.SkitSystem
             for (var i = 1; i < rawData.Count; i++)
             {
                 var data = rawData[i];
-                var id = rawData[i][0];
-                var talkerName = rawData[i][1];
-                var backgroundName = rawData[i][2];
-                var dialogue = rawData[i][3];
-                var limitTime = float.Parse(rawData[i][4]);
-                var answerIndex = rawData[i][5];
+                var id = data[0];
+                var limitTime = float.Parse(data[1]);
+                var problemDialogue = data[2];
+                var answer = data[3].Trim();
                 var choiceEntries = new List<ChoiceEntry>();
-                for (var j = 6; j < data[i].Length ; j+= SkitChoiceLength)
+                for (var j = 4; j < data.Length ; j+= SkitChoiceLength)
                 {
                     var choiceEntry = new ChoiceEntry
                     {
-                        ChoiceEntryId = data[j],
-                        EnglishChoiceEntryName = data[j],
-                        JapaneseChoiceEntryName = data[j + 1]
+                        ChoiceEntryId = data[j].Trim(),
+                        EnglishChoiceEntryName = data[j].Trim(),
+                        JapaneseChoiceEntryName = data[j + 1].Trim()
                     };
                     choiceEntries.Add(choiceEntry);
                 }
-                var choiceData = new SkitChoiceData(id, talkerName, backgroundName, dialogue, limitTime, answerIndex, choiceEntries.ToArray());
+              
+                var choiceData = new SkitChoiceData(id, limitTime, answer, choiceEntries.ToArray(), problemDialogue);
                 _skitChoiceData.Add(choiceData);
             }
         }

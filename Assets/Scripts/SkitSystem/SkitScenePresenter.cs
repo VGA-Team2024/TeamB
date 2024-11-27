@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
@@ -10,70 +10,83 @@ namespace TeamB.SkitSystem
 {
     public class SkitScenePresenter : MonoBehaviour
     {
-        [SerializeField] private SkitSystemManager _skitSystemManager;
+        private enum DataLoadType
+        {
+            Remote,
+            Local
+        }
+        
         [SerializeField] private SkitView _skitSceneView;
         [SerializeField] private SkitResourceLoader _skitResourceLoader;
         [SerializeField] private SkitViewFade _loadingPanel;
-        [SerializeField] private TestSkitFlagData _testSkitFlagData;
+        [SerializeField] private SkitFlagData _skitFlagData;
+        [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
+        public SkitSystemManager SkitSystemManager { get; private set; }
+        public ISkitDataLoader SkitDataLoader { get; private set; }
+
         private async void Awake()
         {
-            _loadingPanel.gameObject.SetActive(true);
             _loadingPanel.FadeInAsync(true).Forget();
+            if (_dataLoadType == DataLoadType.Remote)
+            {
+                // リモートからデータをロード
+                SkitDataLoader = new RemoteSkitDataLoader();
+                await SkitDataLoader.InitTalkData();
+            }
+            else
+            {
+                // TODO:ローカルからデータをロード
+            }
+            
             await _skitResourceLoader.InitializeSkitResourceLoader();
-            var classSelectSkitContextHandler = new ClassSelectSkitContextHandler();
-            var skitDataHandler = new SkitDataHandler();
-            var skitChoiceHandler = new SkitChoiceHandler();
-            _skitSystemManager.SetSkitContextHandlers(classSelectSkitContextHandler);
-            _skitSystemManager.SetSkitContextHandlers(skitDataHandler);
-            _skitSystemManager.SetSkitContextHandlers(skitChoiceHandler);
-            _skitSceneView.SetSkitResourceLoader(_skitResourceLoader);
+            _skitSceneView.InitializeSkitView(_skitResourceLoader);
+            SetSkitDataHandler();
+            SkitSystemManager.DoSkitSequence().Forget();
+            await _loadingPanel.FadeOutAsync();
+        }
 
+        /// <summary>
+        /// SkitDataHandlerを生成し、SkitSystemManagerに登録する
+        /// </summary>
+        private void SetSkitDataHandler()
+        {
+            var classSelectSkitContextHandler = new ClassSelectSkitContextHandler(SkitDataLoader);
+            var skitDataHandler = new SkitDataHandler(SkitDataLoader);
+            var skitContextHandlers = new HashSet<SkitContextHandlerBase>
+            {
+                classSelectSkitContextHandler,
+                skitDataHandler,
+            };
+            var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData);
+            SkitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
+            
+            // SkitDataHandlerとViewの紐付け
             skitDataHandler.CurrentSkitEntryData.Subscribe(skitEntryData =>
             {
                 if (skitEntryData == null) return;
-                _skitSceneView.SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData);
-                _skitSceneView.ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue).Forget();
-            }).AddTo(_skitSceneView);
-
-            Observable.EveryUpdate()
-                .Where(_ => Input.GetMouseButtonDown(0))
-                .Subscribe(_ =>
+                if (skitEntryData is SkitChoiceData skitChoiceData)
                 {
-                    skitDataHandler.AwaitForNextUts?.TrySetResult(("", ""));
-                }).AddTo(this);
-
-            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.Prologue)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_prologue1", SkitContext.ContextType.Skit);
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamPassed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_FirstExam2", SkitContext.ContextType.Skit);
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExam;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_FirstExam3", SkitContext.ContextType.Skit);
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamPassed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_SecondExam2", SkitContext.ContextType.Skit);
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamFailed)
-            {
-                _skitSystemManager.SetTestSkitSceneData("01_SecondExam3", SkitContext.ContextType.Skit);
-            }
-
-            await _skitSystemManager.Initialize();
-            _skitSystemManager.DoSkitSequence().Forget();
-            await _loadingPanel.FadeOutAsync();
+                    _skitSceneView.ShowSkitChoice(skitChoiceData, skitDataHandler.AwaitForSelect,
+                        skitDataHandler.AwaitForEmptyInput, skitChoiceData.ChoiceTime,
+                        SkitSystemManager.CurrentCancellationToken.Token);
+                }
+                else
+                {
+                    _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput, SkitSystemManager.CurrentCancellationToken.Token).Forget();
+                }
+            }).AddTo(_skitSceneView);
+     
         }
 
         private void Start()
         {
             CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
+        }
+
+        private void OnDestroy()
+        {
+            SkitSystemManager.Dispose();
         }
     }
 }

@@ -14,13 +14,13 @@ namespace TeamB.UI
 {
     public class TitleUIView : UIView
     {
-        [SerializeField] private TestSkitFlagData _testSkitFlagData;
+        [SerializeField] private SkitFlagData _skitFlagData;
         protected override void AwakeCall()
         {
             CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
             
-            _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExam;
+            _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExam;
         }
 
         /// <summary>

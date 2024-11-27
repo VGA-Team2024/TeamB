@@ -323,6 +323,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23c6c1efd4214f049b9e05d3c0ce9bc6
+    m_Address: Battle_Weapon_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 24a9553a1721a1547a59981903f1e0e9
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f243.png
     m_ReadOnly: 0
@@ -2153,7 +2159,7 @@ MonoBehaviour:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef332a0546be4114e8d99b787223f4de
-    m_Address: Corridor
+    m_Address: Class_Test
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture

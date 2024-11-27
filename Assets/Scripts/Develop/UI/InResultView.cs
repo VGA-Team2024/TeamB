@@ -13,7 +13,7 @@ namespace TeamB.Develop
 {
     public class InResultView : UIView
     {
-        [SerializeField] TestSkitFlagData _testSkitFlagData;
+        [SerializeField] SkitFlagData _skitFlagData;
         [SerializeField] TMP_Text _text;
         private string _passedSentence = "合格";
         private string _notPassedSentence = "不合格";
@@ -47,29 +47,29 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
+            if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
             {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamPassed;
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
             }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
+            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
             {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamFailed;
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamFailed;
             }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
+            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
             {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamPassed;
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
             }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
+            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
             {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamPassed;
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
             }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
+            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
             {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamFailed;
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamFailed;
             }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
+            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
             {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamPassed;
+                _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
             }
         }
 

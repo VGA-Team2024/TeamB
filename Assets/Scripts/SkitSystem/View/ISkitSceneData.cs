@@ -115,32 +115,24 @@ namespace TeamB.SkitSystem
     /// 会話内の各選択肢のデータ
     /// </summary>
     [Serializable]
-    public class SkitChoiceData : ISkitSceneData
+    public class SkitChoiceData : SkitEntryData
     {
         private string _choiceId;
-        private string _talkerName;
-        private string _backgroundImageName;
-        private string _dialogue;
         private float _choiceTime;
         private string _answer;
         private ChoiceEntry[] _choiceEntries;
         public string Id => _choiceId;
-        public string TalkerName => _talkerName;
-        public string Dialogue => _dialogue;
-        public string BackgroundImageName => _backgroundImageName;
         public string Answer => _answer;
         public float ChoiceTime => _choiceTime;
         public ChoiceEntry[] ChoiceEntries => _choiceEntries;
         
-        public SkitChoiceData(string choiceId, string talkerName, string backgroundImageName, string dialogue, float choiceTime, string answer, ChoiceEntry[] choiceEntries)
+        public SkitChoiceData(string choiceId, float choiceTime, string answer, ChoiceEntry[] choiceEntries, string problemDialogue)
         {
             _choiceId = choiceId;
-            _talkerName = talkerName;
-            _backgroundImageName = backgroundImageName;
-            _dialogue = dialogue;
             _choiceTime = choiceTime;
             _answer = answer;
             _choiceEntries = choiceEntries;
+            JapaneseTalkDialogue = problemDialogue;
         }
     }
 
