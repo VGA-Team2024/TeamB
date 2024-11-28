@@ -61,21 +61,33 @@ namespace TeamB.SkitSystem
             SkitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
             
             // SkitDataHandlerとViewの紐付け
-            skitDataHandler.CurrentSkitEntryData.Subscribe(skitEntryData =>
+            var skitDataHandlerDisposable = skitDataHandler.CurrentSkitEntryData.Subscribe(skitEntryData =>
             {
                 if (skitEntryData == null) return;
                 if (skitEntryData is SkitChoiceData skitChoiceData)
                 {
                     _skitSceneView.ShowSkitChoice(skitChoiceData, skitDataHandler.AwaitForSelect,
                         skitDataHandler.AwaitForEmptyInput, skitChoiceData.ChoiceTime,
-                        SkitSystemManager.CurrentCancellationToken.Token);
+                        SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
-                else
+                else 
                 {
                     _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput, SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
             }).AddTo(_skitSceneView);
-     
+            
+            var classSelectSkitContextHandlerDisposable = classSelectSkitContextHandler.CurrentClassSelectData.Subscribe(result =>
+            {
+                if (result == null) return;
+                _skitSceneView.ShowClassSelect(result, classSelectSkitContextHandler.AwaitForSelect,
+                    SkitSystemManager.CurrentCancellationToken.Token).Forget();
+            }).AddTo(_skitSceneView);
+            
+            SkitSystemManager.CurrentCancellationToken?.Token.Register(() =>
+            {
+                classSelectSkitContextHandlerDisposable.Dispose();
+                skitDataHandlerDisposable.Dispose();
+            });
         }
 
         private void Start()
@@ -86,7 +98,7 @@ namespace TeamB.SkitSystem
 
         private void OnDestroy()
         {
-            SkitSystemManager.Dispose();
+            SkitSystemManager?.Dispose();
         }
     }
 }

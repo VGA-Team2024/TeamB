@@ -25,6 +25,11 @@ namespace TeamB.SkitSystem
             _skitContextQueue.Enqueue(_skitSceneCoordinator.GetStartSkitData());
         }
         
+        public void ResetSkitSceneData()
+        {
+            _skitContextQueue.Clear();
+        }
+        
         public void SetSkitSceneData(SkitContext testSkitContext)
         {
             _skitContextQueue.Enqueue(testSkitContext);
@@ -56,7 +61,6 @@ namespace TeamB.SkitSystem
                     _skitContextQueue.Dequeue(); // 対応するハンドラがない場合はスキップ
                     continue;
                 }
-
                 foreach (var skitContextHandler in validHandlers)
                 {
                     // 現在のコンテキストを処理し、デキュー
@@ -73,18 +77,17 @@ namespace TeamB.SkitSystem
             
             //テスト用
             SkitRewardManager.Instance.ApplyStatus();
-            _skitSceneCoordinator.EndSkitScene();
+            //_skitSceneCoordinator.EndSkitScene();
         }
         private void CancelSkitSequence()
         {
-            Debug.Log($"CurrentCancellationToken: {CurrentCancellationToken?.IsCancellationRequested} を処理します");
             CurrentCancellationToken?.Cancel();
             _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
             CurrentCancellationToken = new CancellationTokenSource();
-            CurrentCancellationToken?.Token.Register(() =>
-            {
-                Debug.Log("CurrentCancellationTokenがキャンセルされました");
-            });
+            // CurrentCancellationToken?.Token.Register(() =>
+            // {
+            //     Debug.Log("CurrentCancellationTokenがキャンセルされました");
+            // });
         }
         
         public void Dispose()
