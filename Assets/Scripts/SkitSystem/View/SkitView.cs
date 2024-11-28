@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using R3;
 using TeamB.GameSystem.Statics;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +19,17 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _talkerNameText;
         [SerializeField] private GameObject _talkerNamePanel;
         [SerializeField] private GameObject _dialoguePanel;
-        [SerializeField] private float _textSpeed = 0.1f;
+        [SerializeField, Range(0, 0.2f)] private float _textSpeed = 0.03f;
         [Header("背景・キャラ表示関連")]
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _leftCharaImage;
         [SerializeField] private Image _rightCharaImage;
         [SerializeField] private Image _middleCharaImage;
+        [Header("授業選択肢表示関連")]
+        [SerializeField] private GameObject _classSelectPanel;
+        [SerializeField] private Transform _classSelectButtonParent;
+        [SerializeField] private ClassSelectButton _classSelectButtonPrefab;
+        [SerializeField] private TMP_Text _restDayText;
         [Header("選択肢表示関連")]
         [SerializeField] private SkitChoiceButton _choiceButtonPrefab;
         [SerializeField] private Sprite _correctChoiceSprite;
@@ -36,23 +42,65 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _readingComprehensionText;
         [SerializeField] private TMP_Text _concentrationText;
         private SkitResourceLoader _skitResourceLoader;
+        private string _parameterPoint = "F1";
         
         public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
             _skitResourceLoader = skitResourceLoader;
+            Observable.EveryUpdate().Subscribe(_ =>
+            {
+                _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString(_parameterPoint);
+                _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString(_parameterPoint);
+                _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate.ToString(_parameterPoint);
+            }).AddTo(this);
         }
-        
-        public void ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice, UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
+
+        public async UniTask ShowClassSelect(ClassSelectData classSelectData, UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)
         {
             SetActiveFalseAllSkitViewObject();
-            ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken).Forget();
+            SetCharacterAndBackground(classSelectData.BackgroundImageName, null);
+            await ShowDialogue(classSelectData.TalkerName, classSelectData.Dialogue, cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Operation was cancelled.");
+                return;
+            }
+            _classSelectPanel.SetActive(true);
+            _restDayText.text = $"残り{GameStatics.RemainingDayForExam}日";
+            foreach (Transform child in _classSelectButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var classSelectEntry in classSelectData.ClassChoices)
+            {
+                var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
+                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
+                button.ClassSelectButtonComponent.onClick.AddListener(() =>
+                {
+                    awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
+                    _classSelectPanel.SetActive(false);
+                });
+            }
+        }
+     
+        public async UniTask ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice, UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
+        {
+            SetActiveFalseAllSkitViewObject();
             SetCharacterAndBackground(skitChoiceData.TalkBackground, skitChoiceData.TalkCharaData);
-            _statusPanel.SetActive(true);   //ステータス設定
-            _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString();
-            _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString();
-            _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString();
+            await ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Operation was cancelled.");
+                return;
+            }
+            _statusPanel.SetActive(true);   //ステータス表示
             _restTimePanel.SetActive(true); //残り時間設定
             UpdateRestTimeAsync(time, awaitChoice, awaitEmptyInput, cancellationToken).Forget();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Operation was cancelled.");
+                return;
+            }
             _choiceButtonParent.gameObject.SetActive(true); //選択肢設定
             foreach (Transform child in _choiceButtonParent)
             {
@@ -67,26 +115,21 @@ namespace TeamB.SkitSystem
                     resultSprite = _correctChoiceSprite;
                 }
                 button.InitializeSkitChoiceButton( choiceEntry.JapaneseChoiceEntryName, resultSprite);
-
+            
                 button.ChoiceButton.onClick.AddListener( async () =>
                 {
-                    LockAndShowAllChoiceButtonsResult();
                     awaitChoice.TrySetResult(choiceEntry.EnglishChoiceEntryName);
+                    LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
-                    try
+            
+                    // 非同期待機: クリック後に再度クリックを待機
+                    await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: cancellationToken);
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        // 非同期待機: クリック後に再度クリックを待機
-                        await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: cancellationToken);
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            return;
-                        }
-                        awaitEmptyInput.TrySetResult();
+                        return;
                     }
-                    catch (OperationCanceledException)
-                    {
-                        Debug.LogWarning("Operation was cancelled.");
-                    }
+            
+                    awaitEmptyInput.TrySetResult();
                 });
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
@@ -103,7 +146,8 @@ namespace TeamB.SkitSystem
                     break;
                 }
                 _restTimeText.text = time.ToString(decimalPoint);
-                await UniTask.Yield();
+                await UniTask.Yield(cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
                 time -= Time.deltaTime;
                 if (time <= 0)
                 {
@@ -112,6 +156,7 @@ namespace TeamB.SkitSystem
                     LockAndShowAllChoiceButtonsResult();
                     Debug.Log("Time is up");
                     await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: destroyCancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
                     awaitEmptyInput.TrySetResult();
                 }
             }
@@ -221,8 +266,6 @@ namespace TeamB.SkitSystem
                 await UniTask.WaitForSeconds(_textSpeed, cancellationToken: cancellationToken);
             }
 
-            return;
-
             async UniTaskVoid WaitForSkip() // スキップ待機
             {
                 await UniTask.Yield(cancellationToken);
@@ -245,6 +288,7 @@ namespace TeamB.SkitSystem
             _leftCharaImage.gameObject.SetActive(false);
             _middleCharaImage.gameObject.SetActive(false);
             _choiceButtonParent.gameObject.SetActive(false);
+            _classSelectPanel.SetActive(false);
             _restTimePanel.SetActive(false);
             _statusPanel.SetActive(false);
             _dialoguePanel.SetActive(false);

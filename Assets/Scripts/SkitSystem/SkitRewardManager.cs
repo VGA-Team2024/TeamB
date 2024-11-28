@@ -24,7 +24,7 @@ namespace TeamB.SkitSystem
                 return _instance;
             }
         }
-        private RewardType _currentRewardType;
+        private RewardType _currentRewardType = RewardType.Concentration;
         private float _remainTimeSum;
         private int _correctCount;
 
@@ -50,6 +50,7 @@ namespace TeamB.SkitSystem
         {
             _remainTimeSum += remainTime;
             _correctCount++;
+            ApplyStatus();
         }
         
         public void ApplyStatus()
