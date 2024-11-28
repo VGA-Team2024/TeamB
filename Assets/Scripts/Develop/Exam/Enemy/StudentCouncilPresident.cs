@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
-using DataManagement;
-using DataManagement.SpreadSheet;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using UnityEngine;
 
 namespace TeamB.Develop
 {
@@ -128,8 +124,6 @@ namespace TeamB.Develop
             _currentData.Hp -= damage;
             OnTakeDamage?.Invoke();
 
-            DebugManager.Log(
-                $"生徒会長は{damage}ダメージ受けた");
             //形態変化
             if (_currentData.Hp <= GameStatics.Characters[(int)_characterType].Hp / GameConsts.MaxWave *
                 (GameConsts.MaxWave - GetCurrentForm) && _currentData.Hp > 0)

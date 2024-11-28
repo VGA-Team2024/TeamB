@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -20,7 +18,6 @@ namespace TeamB.Develop
         private void OnParticleSystemStopped()
         {
             OnCallBack?.Invoke();
-            Debug.Log("Particle call back stopped");
         }
     }
 }
