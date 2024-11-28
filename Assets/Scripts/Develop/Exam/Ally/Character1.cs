@@ -206,11 +206,9 @@ namespace TeamB.Develop
         /// <param name="deltaTime"></param>
         public void RemoveBuff(float deltaTime)
         {
-            if (GetHaveBuffs.Count <= 0)
-                return;
             for (var i = 0; i < GetHaveBuffs.Count; i++)
             {
-                if (GetHaveBuffs[i].Timer(deltaTime))
+                if (GetHaveBuffs[i] != null && GetHaveBuffs[i].Timer(deltaTime))
                 {
                     GetHaveBuffs.RemoveAt(i);
                     OnRemoveBuff?.Invoke();

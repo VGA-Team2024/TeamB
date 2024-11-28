@@ -99,7 +99,7 @@ namespace TeamB.Develop
         /// </summary>
         /// <param name="skillType"></param>
         /// <returns></returns>
-        private (ISkill skill, Target target, float cost) SearchSkill(SkillType skillType)
+        public (ISkill skill, Target target, float cost) SearchSkill(SkillType skillType)
         {
             ISkill skill;
             Target target;
