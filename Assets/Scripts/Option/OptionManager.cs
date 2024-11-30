@@ -5,39 +5,39 @@ using UnityEngine.UI;
 
 public class OptionManager : MonoBehaviour
 {
-    [SerializeField] List<Slider> slider = new List<Slider>();
-    [SerializeField] List<AudioSource> audiosource = new List<AudioSource>();
+    [Header("音量調節バー"), SerializeField] List<Slider> slider = new List<Slider>();
 
-    [SerializeField] GameObject option_canvas;
-    [SerializeField] GameObject display_canvas;
+    [Header("オプション画面"), SerializeField] GameObject option_canvas;
+    [Header("ディスプレイ選択画面"), SerializeField] GameObject display_canvas;
 
-    [SerializeField] GameObject display_prehab;
+    [Header("ディスプレイの選択ボタンをプレハブ化したもの"),SerializeField] GameObject display_prefab;
 
-    [SerializeField] Transform trans;
+    [Header("ディスプレイ選択ボタンの座標"), SerializeField] Transform trans;
 
-    [SerializeField] Button option_button;
-
-    int i = 0;
+    [Header("オプション画面を開くボタン"), SerializeField] Button option_button;
 
     [SerializeField] List<DisplayInfo> displaylist = new List<DisplayInfo>();
 
     enum Audioname
     {
-        master,
+        se,
         voice,
-        se
+        master
     }
-
+    void Awake()
+    {
+        CRIAudioManager.Initialize();
+    }
     void Start()
     {
         //マスターボリュームの音量調整
         slider[(int)Audioname.master].onValueChanged.AddListener(value => AudioListener.volume = value);
 
         //ボイスボリュームの音量調整
-        slider[(int)Audioname.voice].onValueChanged.AddListener(value => audiosource[(int)Audioname.voice].volume = value);
+        slider[(int)Audioname.voice].onValueChanged.AddListener(value => CRIAudioManager.BGM.SetVolume(value));
 
         //SEボリュームの音量設定
-        slider[(int)Audioname.se].onValueChanged.AddListener(value => audiosource[(int)Audioname.se].volume = value);
+        slider[(int)Audioname.se].onValueChanged.AddListener(value => CRIAudioManager.BGM.SetVolume(value));
 
         //オプション画面を開くボタン
         option_button.onClick.AddListener(() => option_canvas.SetActive(true));
@@ -50,6 +50,7 @@ public class OptionManager : MonoBehaviour
     {
         option_canvas.SetActive(false);
     }
+
     //ディスプレイ選択画面からオプション画面に戻る
     public void DisplayBackButton()
     {
@@ -66,16 +67,17 @@ public class OptionManager : MonoBehaviour
 
     void DisplayInt()
     {
+        //ディスプレイのデータ取得
         Screen.GetDisplayLayout(displaylist);
-        Debug.Log(displaylist.Count);
+        var i = 0;
 
         foreach (var list in displaylist)
         {
             //プレハブの情報を入手
-            DisplayPrehab disprehab = Instantiate(display_prehab, trans).GetComponent<DisplayPrehab>();
-            disprehab.transform.Translate(0, -30 * i, 0);
-            disprehab.displayname.text = "ディスプレイ" + i;
-            disprehab.displaybutton.onClick.AddListener(() => Screen.MoveMainWindowTo(list, list.workArea.position));
+            DisplayPrefab disprefab = Instantiate(display_prefab, trans).GetComponent<DisplayPrefab>();
+            disprefab.transform.Translate(0, -30 * i, 0);
+            disprefab.displayname.text = "ディスプレイ" + i;
+            disprefab.displaybutton.onClick.AddListener(() => Screen.MoveMainWindowTo(list, list.workArea.position));
             i++;
         }
     }
