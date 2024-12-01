@@ -68,7 +68,6 @@ namespace TeamB.UI
 
         public void WaveText()
         {
-            DebugManager.Log(_waveManager.GetCurrentWave);
             _waveText.text = $"残り{GameConsts.MaxWave - _waveManager.GetCurrentWave + 1}ウェーブ";
         }
 

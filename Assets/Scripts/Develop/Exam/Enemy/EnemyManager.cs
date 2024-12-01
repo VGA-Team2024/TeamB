@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
-using DataManagement.SpreadSheet;
-using TeamB.Data;
-using TeamB.GameSystem.Statics;
-using TeamB.InGameData.Data;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace TeamB.Develop
 {
@@ -43,7 +38,6 @@ namespace TeamB.Develop
             Initialized();
         }
 
-
         /// <summary>
         /// 初期化処理
         /// </summary>
@@ -67,7 +61,6 @@ namespace TeamB.Develop
                     _poseManager = FindAnyObjectByType<PoseManager>();
                     _poseManager.OnInPose += StartPose;
                     _poseManager.OnOutPose += EndPose;
-                    DebugManager.Log("Ally Manager initialized");
                 }
             };
         }

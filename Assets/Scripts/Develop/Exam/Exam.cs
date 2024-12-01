@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Codice.Client.Common.Threading;
-using DataManagement;
 using TeamB.Data;
-using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 namespace TeamB.Develop
 {
@@ -18,7 +13,8 @@ namespace TeamB.Develop
     public class Exam : MonoBehaviour
     {
         [SerializeField] private float _examTime = 45f;
-        [SerializeField]　private OperationType _operationType;
+        [SerializeField] private OperationType _operationType;
+        [SerializeField] private PlayableDirector _winDirector;
         private PoseManager _poseManager;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
@@ -60,7 +56,6 @@ namespace TeamB.Develop
         public void EndExam()
         {
             OnExamEnded?.Invoke();
-            DebugManager.Log("Exam Ended");
         }
 
         /// <summary>
@@ -104,7 +99,8 @@ namespace TeamB.Develop
             }
             GameStatics.ExamResult = ExamResult.Clear;
             EndExam();
-            SceneLoader.LoadScene("Result");
+            OnStartPose();
+            _winDirector.Play();
         }
 
         /// <summary>
@@ -114,6 +110,7 @@ namespace TeamB.Develop
         {
             GameStatics.ExamResult = ExamResult.Failed;
             EndExam();
+            OnStartPose();
             SceneLoader.LoadScene("Result");
         }
 

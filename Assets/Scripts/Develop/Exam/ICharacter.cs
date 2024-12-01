@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System;
-using DataManagement;
-using DataManagement.SpreadSheet;
+using System.Collections.Generic;
 using TeamB.GameSystem;
 
 namespace TeamB.Develop
@@ -100,6 +98,7 @@ namespace TeamB.Develop
     {
         public ActionType GetActionType { get; }
 
+        public event Action OnTakeHeal;
         public event Action OnDefense;
         public event Action OnEndDefense;
         public event Action OnSuccessDefence;

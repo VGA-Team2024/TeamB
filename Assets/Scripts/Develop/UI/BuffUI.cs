@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
+using TeamB.GameSystem;
 using UISystem;
 using UnityEngine;
 
@@ -11,7 +10,6 @@ namespace TeamB.Develop
         [SerializeField] RectTransform _buffPanelPrefab;
         [SerializeField] Vector3 _buffPanelStartOffset;
         [SerializeField] Vector3 _buffPanelEndOffset;
-        
         private PoseManager _poseManager;
         private WaveManager _waveManager;
         

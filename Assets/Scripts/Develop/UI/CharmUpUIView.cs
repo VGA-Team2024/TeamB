@@ -1,8 +1,6 @@
 ﻿using TeamB.Data;
-using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using UISystem;
-using UnityEngine;
 
 namespace TeamB.UI
 {
