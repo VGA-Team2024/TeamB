@@ -7,17 +7,12 @@ namespace TeamB.SkitSystem
     [CreateAssetMenu(fileName = "SkitFlagData", menuName = "SkitSystem/SkitFlagData")]
     public class SkitFlagData : ScriptableObject
     {
-        public enum GameState
-        {
-            Prologue,
-            FirstExam,
-            FirstExamPassed,
-            FirstExamFailed,
-            SecondExam,
-            SecondExamPassed,
-            SecondExamFailed
-        }
-        public GameState CurrentGameState;
+        [SerializeField] private string _currentFlag;
+        public string CurrentFlag => _currentFlag;
         
+        public void SetCurrentFlag(string flag)
+        {
+            _currentFlag = flag;
+        }
     }
 }

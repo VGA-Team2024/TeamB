@@ -66,7 +66,7 @@ namespace TeamB.SkitSystem
         
         private void SetTestSkitId(string testSkitId)
         {
-            if (_skitScenePresenter.SkitDataLoader.TryGetSkitData(testSkitId, out var skitData))
+            if (_skitScenePresenter.SkitDataLoader.TryGetSkitDataById(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
@@ -75,7 +75,7 @@ namespace TeamB.SkitSystem
         
         private void SetTestClassSelectId(string testSkitId)
         {
-            if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectData(testSkitId, out var skitData))
+            if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectDataById(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData));

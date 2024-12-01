@@ -26,71 +26,23 @@ namespace TeamB.SkitSystem
 
         public SkitContext GetStartSkitData()
         {
-            ClassSelectData skitSceneData = null;
-            if (_skitDataLoader.TryGetClassSelectData("03_ClassSelectTest3", out skitSceneData))
+            if (_skitDataLoader.TryGetSkitSceneDataByFlag(_skitFlagData, out var skitSceneData))
             {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExam;
+                switch (skitSceneData)
+                {
+                    case ClassSelectData _:
+                        return new SkitContext(SkitContext.ContextType.ClassSelect, skitSceneData);
+                    case SkitData _:
+                        return new SkitContext(SkitContext.ContextType.Skit, skitSceneData);
+                }
             }
-            return new SkitContext(SkitContext.ContextType.ClassSelect, skitSceneData);
-            // switch (_skitFlagData.CurrentGameState)
-            // {
-            //     // 会話シーンの開始時に必要なデータを取得
-            //     case SkitFlagData.GameState.Prologue:
-            //     case SkitFlagData.GameState.FirstExam:
-            //     {
-            //         if (_skitDataLoader.TryGetSkitData("01_prologue1", out skitSceneData))
-            //         {
-            //             _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExam;
-            //         }
-            //         break;
-            //     }
-            //     case SkitFlagData.GameState.FirstExamPassed:
-            //     {
-            //         if (_skitDataLoader.TryGetSkitData("01_FirstExam2", out skitSceneData))
-            //         {
-            //             _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExam;
-            //         }
-            //
-            //         break;
-            //     }
-            //     case SkitFlagData.GameState.FirstExamFailed:
-            //     {
-            //         if (_skitDataLoader.TryGetSkitData("01_FirstExam3", out skitSceneData))
-            //         {
-            //             _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExam;
-            //         }
-            //
-            //         break;
-            //     }
-            //     case SkitFlagData.GameState.SecondExamPassed:
-            //     {
-            //         if (_skitDataLoader.TryGetSkitData("01_SecondExam2", out skitSceneData))
-            //         {
-            //             _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExam;
-            //         }
-            //
-            //         break;
-            //     }
-            //     case SkitFlagData.GameState.SecondExamFailed:
-            //     {
-            //         if (_skitDataLoader.TryGetSkitData("01_SecondExam3", out skitSceneData))
-            //         {
-            //             _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExam;
-            //         }
-            //
-            //         break;
-            //     }
-            //     case SkitFlagData.GameState.SecondExam:
-            //     default:
-            //         throw new ArgumentOutOfRangeException();
-            // }
-            // return new SkitContext(SkitContext.ContextType.Skit, skitSceneData);
+            throw new ArgumentOutOfRangeException();
         }
 
         public void EndSkitScene()
         {
             // 会話シーンの終了時に必要な処理を行う
-            SceneLoader.LoadScene(_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExamPassed ? "Title" : "Exam");
+            SceneLoader.LoadScene(_skitFlagData.CurrentFlag == "SecondExamClear" ? "Title" : "Exam");
         }
     }
 }
