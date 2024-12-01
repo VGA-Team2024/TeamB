@@ -74,7 +74,7 @@ namespace TeamB.SkitSystem
             }
             else
             {
-                Debug.LogError("ClassSelectDataが見つかりませんでした");
+                Debug.LogError($"ClassSelectData : {result}が見つかりませんでした");
             }
         }
     }
@@ -128,7 +128,7 @@ namespace TeamB.SkitSystem
                     }
                     else
                     {
-                        Debug.LogError("SkitDataが見つかりませんでした");
+                        Debug.LogError($"SkitData : {skitId} が見つかりませんでした");
                     }
                 }
 

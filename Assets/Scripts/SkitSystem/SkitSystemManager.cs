@@ -77,7 +77,7 @@ namespace TeamB.SkitSystem
             
             //テスト用
             SkitRewardManager.Instance.ApplyStatus();
-            //_skitSceneCoordinator.EndSkitScene();
+            _skitSceneCoordinator.EndSkitScene();
         }
         private void CancelSkitSequence()
         {
