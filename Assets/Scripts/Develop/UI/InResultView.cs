@@ -49,30 +49,30 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
-            }
-            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
-            {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamFailed;
-            }
-            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
-            }
-            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
-            }
-            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
-            {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamFailed;
-            }
-            else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
-            }
+            // if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamFailed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamFailed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
+            // }
         }
 
         public void Result()

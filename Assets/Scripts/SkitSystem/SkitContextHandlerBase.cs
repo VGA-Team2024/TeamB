@@ -68,13 +68,13 @@ namespace TeamB.SkitSystem
             var result = await AwaitForSelect.Task;
             token.ThrowIfCancellationRequested();
             //選択した選択肢に対応するデータを取得
-            if (_skitDataLoader.TryGetSkitData(result, out var skitData))
+            if (_skitDataLoader.TryGetSkitDataById(result, out var skitData))
             {
                 _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, skitData);
             }
             else
             {
-                Debug.LogError("ClassSelectDataが見つかりませんでした");
+                Debug.LogError($"ClassSelectData : {result}が見つかりませんでした");
             }
         }
     }
@@ -122,13 +122,13 @@ namespace TeamB.SkitSystem
                     if (!match.Success) return;
                     var skitId = match.Groups[1].Value;
                     normDialogue = normDialogue.Replace($"[{skitId}]", "");
-                    if (_skitDataLoader.TryGetSkitData(skitId, out var nextSkitData))
+                    if (_skitDataLoader.TryGetSkitDataById(skitId, out var nextSkitData))
                     {
                         _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, nextSkitData);
                     }
                     else
                     {
-                        Debug.LogError("SkitDataが見つかりませんでした");
+                        Debug.LogError($"SkitData : {skitId} が見つかりませんでした");
                     }
                 }
 
@@ -140,7 +140,7 @@ namespace TeamB.SkitSystem
                     var match = Regex.Match(dialogue, @"\[(.*?)\]");
                     if (!match.Success) return;
                     var skitId = match.Groups[1].Value;
-                    if (_skitDataLoader.TryGetSkitChoiceData(skitId, out var choiceData))
+                    if (_skitDataLoader.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
                         var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,

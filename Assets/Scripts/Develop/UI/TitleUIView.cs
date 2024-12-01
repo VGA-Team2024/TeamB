@@ -20,7 +20,7 @@ namespace TeamB.UI
             CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
             
-            _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExam;
+            _skitFlagData.SetCurrentFlag("Prologue");
         }
 
         /// <summary>

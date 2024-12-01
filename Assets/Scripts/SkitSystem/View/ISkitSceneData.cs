@@ -10,6 +10,7 @@ namespace TeamB.SkitSystem
     public interface ISkitSceneData
     {
         public string Id { get; }
+        public string Flag { get; }
     }
 
     #region 授業選択肢
@@ -22,6 +23,7 @@ namespace TeamB.SkitSystem
     {
         public ClassChoiceData[] ClassChoices;
         public string Id { get; }
+        public string Flag { get; }
 
         public string TalkerName { get; }
 
@@ -29,10 +31,11 @@ namespace TeamB.SkitSystem
 
         public string BackgroundImageName { get; }
 
-        public ClassSelectData(string classSelectId, string classSelectTalkerName,
+        public ClassSelectData(string classSelectId, string flag, string classSelectTalkerName,
             string classSelectBackgroundImageName, string classSelectDialogue, ClassChoiceData[] classChoices)
         {
             Id = classSelectId;
+            Flag = flag;
             TalkerName = classSelectTalkerName;
             BackgroundImageName = classSelectBackgroundImageName;
             Dialogue = classSelectDialogue;
@@ -72,12 +75,14 @@ namespace TeamB.SkitSystem
     public class SkitData : ISkitSceneData
     {
         public string Id { get; }
+        public string Flag { get; }
 
         public SkitEntryData[] SkitEntryData { get; }
 
-        public SkitData(string skitDataId, SkitEntryData[] skitEntryData)
+        public SkitData(string skitDataId, string flag, SkitEntryData[] skitEntryData)
         {
             Id = skitDataId;
+            Flag = flag;
             SkitEntryData = skitEntryData;
         }
     }
