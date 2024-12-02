@@ -45,6 +45,7 @@ namespace TeamB.SkitSystem
         private const string SkitDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=159610865&single=true&output=csv";
         private const int SkitDataLength = 3;
         private const string SkitChoiceDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1641370933&single=true&output=csv";
+        private const int DefaultLimitTime = 10;
         
         private const int SkitChoiceLength = 2;
         private string _playerName;
@@ -143,7 +144,7 @@ namespace TeamB.SkitSystem
             {
                 var data = rawData[i];
                 var id = data[0];
-                var limitTime = float.Parse(data[1]);
+                var limitTime = string.IsNullOrEmpty(data[1].Trim()) ? DefaultLimitTime : float.Parse(data[1]);
                 var problemDialogue = data[2];
                 var answer = data[3].Trim();
                 var choiceEntries = new List<ChoiceEntry>();
