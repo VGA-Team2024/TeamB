@@ -1,30 +1,43 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using TeamB.GameSystem.Statics;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TeamB.Develop
 {
-	/// <summary>
-	/// スキルのボタンを管理するクラス
-	/// </summary>
-	public class SkillButtonUI : MonoBehaviour
-	{
-		[SerializeField] SkillType _skillType;
-		SkillManager _manager;
+    /// <summary>
+    /// スキルのボタンを管理するクラス
+    /// </summary>
+    public class SkillButtonUI : MonoBehaviour
+    {
+        [SerializeField] SkillType _skillType;
+        [SerializeField] Image _skillImage;
+        SkillManager _manager;
+        private float cost;
 
-		private void Awake()
-		{
-			_manager = FindAnyObjectByType<SkillManager>();
-		}
+        private void Awake()
+        {
+            _manager = FindAnyObjectByType<SkillManager>();
+            cost = _manager.SearchSkill(_skillType).cost;
+        }
 
-		public void ButtonClick()
-		{
-			_manager.ActivationSkill(_skillType);
-		}
-	}
+        private void Update()
+        {
+            if(!_skillImage)
+                return;
+            if (cost <= _manager.GetCurrentHaveCost)
+            {
+                _skillImage.fillAmount = 0f;
+            }
+            else
+            {
+                _skillImage.fillAmount = 1f;
+            }
+        }
+
+        public void ButtonClick()
+        {
+            _manager.ActivationSkill(_skillType);
+            
+        }
+    }
 }

@@ -14,17 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dependencies:
   - CanIDebugSelect: 1
-    Name: TalkTest
-    AssetPath: Assets/Scenes/Mockup/TalkTest.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
     Name: Morning
     AssetPath: Assets/Scenes/Design/Morning.unity
-    SceneType: 2
+    SceneType: 4
   - CanIDebugSelect: 1
     Name: Night
     AssetPath: Assets/Scenes/Design/Night.unity
-    SceneType: 2
+    SceneType: 4
   - CanIDebugSelect: 1
     Name: Credit
     AssetPath: Assets/Scenes/Develop/Credit.unity
@@ -44,10 +40,6 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Skit
     AssetPath: Assets/Scenes/Develop/Skit.unity
-    SceneType: 2
-  - CanIDebugSelect: 1
-    Name: Talk
-    AssetPath: Assets/Scenes/Develop/Talk.unity
     SceneType: 2
   - CanIDebugSelect: 1
     Name: Title
@@ -78,17 +70,17 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
     SceneType: 2
   - CanIDebugSelect: 1
-    Name: moch_Talk
-    AssetPath: Assets/Scenes/Mockup/moch_Talk.unity
-    SceneType: 2
+    Name: Sample
+    AssetPath: Assets/Scenes/Mockup/Sample.unity
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Whack-a-mole
     AssetPath: Assets/Scenes/Mockup/Whack-a-mole.unity
-    SceneType: 2
+    SceneType: 4
   - CanIDebugSelect: 1
     Name: Particle58
     AssetPath: Assets/Scenes/Particle58/Particle58.unity
-    SceneType: 0
+    SceneType: 3
   - CanIDebugSelect: 1
     Name: 3DSoundSample
     AssetPath: Assets/Scenes/Sample/3DSoundSample.unity

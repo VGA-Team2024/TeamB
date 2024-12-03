@@ -2,7 +2,6 @@ using System;
 using Cysharp.Threading.Tasks;
 using TeamB.GameSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TeamB.Develop
 {
@@ -32,9 +31,9 @@ namespace TeamB.Develop
         public int GetDefenceSuccessCount => _defenceSuccessCount;
         public int GetAttackSuccessCount => _attackSuccessCount;
 
-        private void Awake()
+        private async void Awake()
         {
-            Initialized();
+            Initialized(); 
         }
 
         private void Initialized()
@@ -57,7 +56,6 @@ namespace TeamB.Develop
                     _poseManager = FindAnyObjectByType<PoseManager>();
                     _poseManager.OnInPose += StartPose;
                     _poseManager.OnOutPose += EndPose;
-                    DebugManager.Log("Ally Manager initialized");
                 }
             };
         }

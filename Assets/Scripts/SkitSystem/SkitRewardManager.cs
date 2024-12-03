@@ -1,3 +1,4 @@
+using TeamB.GameSystem.Statics;
 using UnityEngine;
 
 namespace TeamB.SkitSystem
@@ -23,7 +24,7 @@ namespace TeamB.SkitSystem
                 return _instance;
             }
         }
-        private RewardType _currentRewardType;
+        private RewardType _currentRewardType = RewardType.Concentration;
         private float _remainTimeSum;
         private int _correctCount;
 
@@ -49,6 +50,7 @@ namespace TeamB.SkitSystem
         {
             _remainTimeSum += remainTime;
             _correctCount++;
+            ApplyStatus();
         }
         
         public void ApplyStatus()
@@ -62,14 +64,17 @@ namespace TeamB.SkitSystem
             {
                 case RewardType.Intuition:
                     //直観力
+                    GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK += rewardValue;
                     Debug.Log($"直観力が{rewardValue}上昇しました");
                     break;
                 case RewardType.ReadingComprehension:
                     //読解力
+                    GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed += rewardValue;
                     Debug.Log($"読解力が{rewardValue}上昇しました");
                     break;
                 case RewardType.Concentration:
                     //集中力
+                    GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK += rewardValue;
                     Debug.Log($"集中力が{rewardValue}上昇しました");
                     break;
             }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TeamB.GameSystem.Statics;
 using UnityEngine;
 using UnityEngine.UI;

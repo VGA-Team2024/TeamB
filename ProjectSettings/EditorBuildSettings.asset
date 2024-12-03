@@ -5,61 +5,55 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Design/Morning.unity
     guid: 0de2f053148d51d4c8255fd5ede95194
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Design/Night.unity
     guid: 3fc4caa4d09689641906dd3861daa8cf
+  - enabled: 1
+    path: Assets/Scenes/Develop/Title.unity
+    guid: d9ca54e8c71836149825a53796f460c9
   - enabled: 1
     path: Assets/Scenes/System/IngameSystem.unity
     guid: 28bbf92597792604b989fbdc7a1fb369
   - enabled: 1
     path: Assets/Scenes/Develop/Credit.unity
     guid: 56dcf48850a059543bbd42326b4d050e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Develop/Exam.unity
     guid: 096892373dc0b904a837f162239c5213
   - enabled: 1
     path: Assets/Scenes/Develop/GameOver.unity
     guid: a2fdc451c97e9024bbba275b6b320230
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Develop/Result.unity
     guid: 6bbe7731d8cc82048a1da94351d89672
   - enabled: 1
     path: Assets/Scenes/Develop/Skit.unity
     guid: 9fa17ac3ab3874a4eb23b0560f9acbff
-  - enabled: 1
-    path: Assets/Scenes/Develop/Talk.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/Develop/Title.unity
-    guid: d9ca54e8c71836149825a53796f460c9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FruitsBasket/FruitsBasketScene.unity
     guid: 9b9a8b87b6cefe04884a9653159ba9c0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mockup/Flappy Bird.unity
     guid: 741903ddc6771fc48a62c15e2d0b5083
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mockup/MatoateScene.unity
     guid: c1f89b06aff38be4fac42641d70399dc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mockup/moch_CharmUp.unity
     guid: 75d964bd9b78b014b9e39fd6b4e500ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mockup/moch_Exam.unity
     guid: c3ba76c0e888a0b468af31911d17a633
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
     guid: 9deb0cb88b4229f4297ab6798511543b
-  - enabled: 1
-    path: Assets/Scenes/Mockup/moch_Talk.unity
-    guid: 15693754086e9564d98ce4c460a086da
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mockup/Whack-a-mole.unity
     guid: 9669a04221c0d6f4f97be9e21af75fc5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Particle58/Particle58.unity
     guid: 7b8a7624de70f3a43a872a49e3640c84
   - enabled: 1
@@ -74,9 +68,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/System/IngameDebug.unity
     guid: f344c073eba28c247a464cfb6b57ff22
-  - enabled: 1
-    path: Assets/Scenes/Mockup/TalkTest.unity
-    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/Mockup/Sample.unity
+    guid: 332816c6874d5eb4c8c13bc98c83e9a6
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 7366e43fa3f777f4292c2095e8b63e4c,
       type: 2}

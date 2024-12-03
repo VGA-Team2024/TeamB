@@ -10,15 +10,14 @@ namespace TeamB.SkitSystem
 {
     public class SkitDebug : MonoBehaviour
     {
-        [SerializeField] private SkitSystemManager _skitSystemManager;
         [SerializeField] private SkitScenePresenter _skitScenePresenter;
-        [SerializeField] private RectTransform _skitDebugButtonParent;
         [SerializeField] private Button _skitDebugButtonPrefab;
         [SerializeField] private GameObject _skitDebugPanel;
+        [SerializeField] private RectTransform _skitDebugButtonParent;
+        [SerializeField] private RectTransform _classSelectButtonParent;
+        
         private void Start()
         {
-           
-
             Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Space))
                 .Subscribe(_ =>
                 {
@@ -33,7 +32,7 @@ namespace TeamB.SkitSystem
 
         private void SetDebugPanel()
         {
-            var skitData = _skitSystemManager.SkitDataLoader.GetAllSkitData();
+            var skitData = _skitScenePresenter.SkitDataLoader.GetAllSkitData();
             foreach (Transform child in _skitDebugButtonParent)
             {
                 Destroy(child.gameObject);
@@ -48,19 +47,45 @@ namespace TeamB.SkitSystem
                     StartSkit();
                 });
             }
+            
+            foreach (Transform child in _classSelectButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var classSelect in _skitScenePresenter.SkitDataLoader.GetAllClassSelectData())
+            {
+                var button = Instantiate(_skitDebugButtonPrefab, _classSelectButtonParent);
+                button.GetComponentInChildren<TMP_Text>().text = classSelect.Id;
+                button.onClick.AddListener(() =>
+                {
+                    SetTestClassSelectId(classSelect.Id);
+                    StartSkit();
+                });
+            }
         }
         
-        // Start is called before the first frame update
         private void SetTestSkitId(string testSkitId)
         {
-            _skitSystemManager.SetTestSkitSceneData(testSkitId, SkitContext.ContextType.Skit);
+            if (_skitScenePresenter.SkitDataLoader.TryGetSkitDataById(testSkitId, out var skitData))
+            {
+                _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
+            }
+        }
+        
+        private void SetTestClassSelectId(string testSkitId)
+        {
+            if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectDataById(testSkitId, out var skitData))
+            {
+                _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData));
+            }
         }
 
-        private async void StartSkit()
+        private void StartSkit()
         {
             _skitDebugPanel.SetActive(false);
-            await _skitSystemManager.Initialize();
-            _skitSystemManager.DoSkitSequence().Forget();
+            _skitScenePresenter.SkitSystemManager.DoSkitSequence().Forget();
         }
     }
 }

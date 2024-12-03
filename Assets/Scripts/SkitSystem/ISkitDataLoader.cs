@@ -13,11 +13,11 @@ namespace TeamB.SkitSystem
     {
         public UniTask InitTalkData();
         public string PlayerName { get; set; }
-        public bool TryGetClassSelectData(string id, out ClassSelectData classSelectData);
-        public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData);
-        public bool TryGetSkitData(string id, out SkitData skitData);
-        public bool TryGetSkitChoiceData(string id, out SkitChoiceData choiceData);
-        public SkitChoiceData[] GetAllSkitChoiceData();
+        public bool TryGetClassSelectDataById(string id, out ClassSelectData classSelectData);
+            
+        public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData);
+        public bool TryGetSkitDataById(string id, out SkitData skitData);
+        public bool TryGetSkitChoiceDataByID(string id, out SkitChoiceData choiceData);
         public SkitData[] GetAllSkitData();
         public ClassSelectData[] GetAllClassSelectData();
         private const string JapaneseIntuition = "直観力";
@@ -39,12 +39,14 @@ namespace TeamB.SkitSystem
     /// ドライブのスプシからデータを読み込むクラス
     /// </summary>
     public class RemoteSkitDataLoader : ISkitDataLoader
-    {
+    { 
         private const string ClassSelectDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=514427729&single=true&output=csv";
         private const int ClassSelectDataLength = 4;
         private const string SkitDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=159610865&single=true&output=csv";
         private const int SkitDataLength = 3;
         private const string SkitChoiceDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1641370933&single=true&output=csv";
+        private const int DefaultLimitTime = 10;
+        
         private const int SkitChoiceLength = 2;
         private string _playerName;
         private HashSet<ClassSelectData> _classSelectData = new();
@@ -53,7 +55,7 @@ namespace TeamB.SkitSystem
         
         public UniTask InitTalkData()
         {
-            return UniTask.WhenAll(LoadClassSelectData(), LoadTalkData(), LoadSkitChoiceData());
+            return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData());
         }
 
         private async UniTask LoadClassSelectData()
@@ -70,7 +72,7 @@ namespace TeamB.SkitSystem
                 var data = rawData[i];
                 var dataLength = data.Length;
                 var classChoices = new List<ClassChoiceData>();
-                for (var j = 4; j < dataLength; j += ClassSelectDataLength)
+                for (var j = 5; j < dataLength; j += ClassSelectDataLength)
                 {
                     var classChoiceData = new ClassChoiceData
                     {
@@ -81,12 +83,12 @@ namespace TeamB.SkitSystem
                     };
                     classChoices.Add(classChoiceData);
                 }
-                var classSelectData = new ClassSelectData(data[0], data[1], data[2], data[3], classChoices.ToArray());
+                var classSelectData = new ClassSelectData(data[0], data[1],data[2], data[3], data[4], classChoices.ToArray());
                 _classSelectData.Add(classSelectData);
             }
         }
 
-        private async UniTask LoadTalkData()
+        private async UniTask LoadSkitData()
         {
             var rawData = await CsvLoader.GetSpreadsheetDataAsync(SkitDataKey);
             if (rawData == null)
@@ -94,25 +96,23 @@ namespace TeamB.SkitSystem
                 Debug.LogError("Failed to load data");
                 return;
             }
-            var skitEntryDataList = new List<SkitEntryData>();
             var currentSkitDataId = rawData[1][0];
+            var currentSkitFlag = rawData[1][1];
+            var skitEntryDataList = new List<SkitEntryData>();
             for (var i = 1; i < rawData.Count; i++)
             {
                 if (i != 1 && rawData[i][0] != "")
                 {   // 会話データのIDが変わったら保存して新しい会話データを作成
-                    var skitData = new SkitData(currentSkitDataId, skitEntryDataList.ToArray());
+                    var skitData = new SkitData(currentSkitDataId, currentSkitFlag, skitEntryDataList.ToArray());
                     currentSkitDataId = rawData[i][0];
+                    currentSkitFlag = rawData[i][1];
                     _skitData.Add(skitData);
                     skitEntryDataList = new List<SkitEntryData>();
                 }
 
-                var skitEntryData = new SkitEntryData();
                 var classTalkCharaData = new List<SkitTalkCharaData>();
-                skitEntryData.TalkSpeaker = rawData[i][1];
-                skitEntryData.TalkBackground = rawData[i][2];
-                skitEntryData.JapaneseTalkDialogue = rawData[i][3];
-                skitEntryData.EnglishTalkDialogue = rawData[i][4];
-                for (var j = 5; j < rawData[i].Length; j += SkitDataLength)
+                
+                for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
                 {   // 会話キャラクターデータを作成
                     var eachClassTalkCharaData = new SkitTalkCharaData()
                     {
@@ -122,11 +122,11 @@ namespace TeamB.SkitSystem
                     if (!string.IsNullOrEmpty(rawData[i][j + 1])) eachClassTalkCharaData.StandingPosition = Enum.Parse<StandingPosition>(rawData[i][j + 1]);
                     classTalkCharaData.Add(eachClassTalkCharaData);
                 }
-                skitEntryData.TalkCharaData = classTalkCharaData.ToArray();
+                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), rawData[i][2], rawData[i][3], rawData[i][4], rawData[i][5]);
                 skitEntryDataList.Add(skitEntryData);
 
                 if (i != rawData.Count - 1) continue;   // 最後のデータの場合は保存する
-                var lastSkitData = new SkitData(currentSkitDataId, skitEntryDataList.ToArray());
+                var lastSkitData = new SkitData(currentSkitDataId, currentSkitFlag, skitEntryDataList.ToArray());
                 _skitData.Add(lastSkitData);
             }
         }
@@ -143,43 +143,43 @@ namespace TeamB.SkitSystem
             for (var i = 1; i < rawData.Count; i++)
             {
                 var data = rawData[i];
-                var id = rawData[i][0];
-                var talkerName = rawData[i][1];
-                var backgroundName = rawData[i][2];
-                var dialogue = rawData[i][3];
-                var limitTime = float.Parse(rawData[i][4]);
-                var answerIndex = rawData[i][5];
+                var id = data[0];
+                var limitTime = string.IsNullOrEmpty(data[1].Trim()) ? DefaultLimitTime : float.Parse(data[1]);
+                var problemDialogue = data[2];
+                var answer = data[3].Trim();
                 var choiceEntries = new List<ChoiceEntry>();
-                for (var j = 6; j < data[i].Length ; j+= SkitChoiceLength)
+                for (var j = 4; j < data.Length; j += SkitChoiceLength)
                 {
-                    var choiceEntry = new ChoiceEntry
-                    {
-                        ChoiceEntryId = data[j],
-                        EnglishChoiceEntryName = data[j],
-                        JapaneseChoiceEntryName = data[j + 1]
-                    };
+                    var choiceEntry = new ChoiceEntry(data[j].Trim(), data[j].Trim(), data[j + 1].Trim());
                     choiceEntries.Add(choiceEntry);
                 }
-                var choiceData = new SkitChoiceData(id, talkerName, backgroundName, dialogue, limitTime, answerIndex, choiceEntries.ToArray());
+
+                var choiceData = new SkitChoiceData(id, limitTime, answer, choiceEntries.ToArray(), problemDialogue);
                 _skitChoiceData.Add(choiceData);
             }
         }
 
         public string PlayerName { get; set; }
 
-        public bool TryGetClassSelectData(string id, out ClassSelectData classSelectData)
+        public bool TryGetClassSelectDataById(string id, out ClassSelectData classSelectData)
         {
             classSelectData = _classSelectData.FirstOrDefault(x => x.Id == id);
             return classSelectData != null;
         }
 
-        public bool TryGetSkitData(string id, out SkitData skitData)
+        public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData)
+        {
+            classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag) ?? (ISkitSceneData)_skitData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
+            return classSelectData != null;
+        }
+
+        public bool TryGetSkitDataById(string id, out SkitData skitData)
         {
             skitData = _skitData.FirstOrDefault(x => x.Id == id);
             return skitData != null;
         }
 
-        public bool TryGetSkitChoiceData(string id, out SkitChoiceData choiceData)
+        public bool TryGetSkitChoiceDataByID(string id, out SkitChoiceData choiceData)
         {
             choiceData = _skitChoiceData.FirstOrDefault(x => x.Id == id);
             return choiceData != null;

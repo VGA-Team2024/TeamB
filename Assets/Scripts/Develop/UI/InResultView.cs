@@ -13,10 +13,9 @@ namespace TeamB.Develop
 {
     public class InResultView : UIView
     {
-        [SerializeField] TestSkitFlagData _testSkitFlagData;
-        [SerializeField] TMP_Text _text;
-        private string _passedSentence = "合格";
-        private string _notPassedSentence = "不合格";
+        [SerializeField] SkitFlagData _skitFlagData;
+        [SerializeField] Image _passImage;
+        [SerializeField] Image _faildImage;
         Vector3 _startScale = new Vector3(300, 300, 300);
         private float _stampTime = 1.5f;
 
@@ -24,11 +23,15 @@ namespace TeamB.Develop
         {
             if (GameStatics.ExamResult == ExamResult.Clear)
             {
-                _text.text = _passedSentence;
+                _passImage.gameObject.SetActive(true);
+                _passImage.GetComponent<RectTransform>().transform.DOScale(_startScale, 0f);
+                _passImage.GetComponent<RectTransform>().transform.DOScale(Vector3.one, _stampTime).SetEase(Ease.OutCirc);
             }
             else
             {
-                _text.text = _notPassedSentence;
+                _faildImage.gameObject.SetActive(true);
+                _faildImage.gameObject.GetComponent<RectTransform>().transform.DOScale(_startScale, 0f);
+                _faildImage.gameObject.GetComponent<RectTransform>().transform.DOScale(Vector3.one, _stampTime).SetEase(Ease.OutCirc);
             }
 
             CRIAudioManager.Initialize();
@@ -36,8 +39,7 @@ namespace TeamB.Develop
                 CRIAudioManager.SE.Play("SE", nameof(SE.SE_GO));
             else
                 CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
-            _text.GetComponent<RectTransform>().transform.DOScale(_startScale, 0f);
-            _text.GetComponent<RectTransform>().transform.DOScale(Vector3.one, _stampTime).SetEase(Ease.OutCirc);
+            
             
             SetTestFlag();
         }
@@ -47,30 +49,30 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamPassed;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
-            {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamFailed;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.FirstExamPassed;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamPassed;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
-            {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamFailed;
-            }
-            else if (_testSkitFlagData.CurrentGameState == TestSkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
-            {
-                _testSkitFlagData.CurrentGameState = TestSkitFlagData.GameState.SecondExamPassed;
-            }
+            // if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamFailed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamFailed;
+            // }
+            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
+            // {
+            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
+            // }
         }
 
         public void Result()
