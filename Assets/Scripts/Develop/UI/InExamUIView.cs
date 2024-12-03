@@ -2,7 +2,6 @@
 using TeamB.Develop;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
-using TeamB.InGameData.Data;
 using TMPro;
 using UISystem;
 using UnityEngine;
