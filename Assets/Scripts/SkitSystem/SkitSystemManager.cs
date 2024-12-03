@@ -104,7 +104,7 @@ namespace TeamB.SkitSystem
         {
             ClassSelect,
             Skit,
-            SkitChoice,
+            Tutorial,
         }
         
         public SkitContext(ContextType skitContextType, ISkitSceneData skitSceneData)

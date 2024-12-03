@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using R3;
+using Unity.VisualScripting;
 using Debug = UnityEngine.Debug;
 
 namespace TeamB.SkitSystem
@@ -41,7 +42,7 @@ namespace TeamB.SkitSystem
     {
         private SkitContext _nextSkitContext;
         public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.ClassSelect;
-        
+
         private readonly ReactiveProperty<ClassSelectData> _currentClassSelectData = new();
         public ReadOnlyReactiveProperty<ClassSelectData> CurrentClassSelectData => _currentClassSelectData;
 
@@ -64,6 +65,7 @@ namespace TeamB.SkitSystem
                 Debug.LogError("ClassSelectDataが見つかりませんでした");
                 return;
             }
+
             _currentClassSelectData.Value = classSelectData;
             var result = await AwaitForSelect.Task;
             token.ThrowIfCancellationRequested();
@@ -183,6 +185,105 @@ namespace TeamB.SkitSystem
             nextSkitContext = _nextSkitContext;
             _nextSkitContext = null;
             return nextSkitContext != null;
+        }
+    }
+
+    public class TutorialHandler : SkitContextHandlerBase
+    {
+        private readonly ReactiveProperty<NormalTutorialData> _tutorialDataAboutGame = new();
+        public ReadOnlyReactiveProperty<NormalTutorialData> TutorialDataAboutGame => _tutorialDataAboutGame;
+        private readonly ReactiveProperty<TutorialChoiceData> _tutorialChoiceData = new();
+        public ReadOnlyReactiveProperty<TutorialChoiceData> TutorialChoiceData => _tutorialChoiceData;
+        private readonly ReactiveProperty<TutorialClassSelectData> _tutorialClassSelectData = new();
+        public ReadOnlyReactiveProperty<TutorialClassSelectData> TutorialClassSelectData => _tutorialClassSelectData;
+        private readonly ReactiveProperty<NormalTutorialData> _tutorialDataAboutSkitChoiceResult = new();
+        public ReadOnlyReactiveProperty<NormalTutorialData> TutorialDataAboutSkitChoiceResult => _tutorialDataAboutSkitChoiceResult;
+
+        public TutorialHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader)
+        {
+        }
+
+        public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.Tutorial;
+
+        public override async UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token)
+        {
+            if (skitContext.SkitSceneData is not TutorialData tutorialData)
+            {
+                Debug.LogError("TutorialDataが見つかりませんでした");
+                return;
+            }
+
+            for (var index = 0; index < tutorialData.JapaneseDialogue.Length; index++)
+            {
+                var dialog = tutorialData.JapaneseDialogue[index];
+                Debug.Log(dialog);
+                if (token.IsCancellationRequested)
+                {
+                    Debug.Log("処理がキャンセルされました");
+                    return;
+                }
+
+                AwaitForEmptyInput = new UniTaskCompletionSource();
+                AwaitForSelect = new UniTaskCompletionSource<string>();
+                var normDialogue = dialog.Trim();
+                if (normDialogue.Contains("ClassSelect"))
+                {
+                    var match = Regex.Match(normDialogue, @"\[ClassSelect:(.+?)\]");
+                    if (!match.Success) return;
+                    var skitId = match.Groups[1].Value;
+                    if (_skitDataLoader.TryGetClassSelectDataById(skitId, out var classSelectData))
+                    {
+                        _tutorialClassSelectData.Value = new TutorialClassSelectData(classSelectData.Id,
+                            classSelectData.Flag, classSelectData.TalkerName, classSelectData.BackgroundImageName,
+                            classSelectData.Dialogue, classSelectData.ClassChoices, normDialogue);
+                    }
+                    else
+                    {
+                        Debug.LogError("ClassSelectDataが見つかりませんでした");
+                    }
+                    await AwaitForSelect.Task.AttachExternalCancellation(token);
+                }
+                else if (normDialogue.Contains("Choice"))
+                {
+                    Debug.Log("Choice");
+                    var match = Regex.Match(normDialogue, @"\[Choice:(.+?)\]");
+                    if (!match.Success) return;
+                    var skitId = match.Groups[1].Value;
+                    if (_skitDataLoader.TryGetSkitChoiceDataByID(skitId, out var choiceData))
+                    {
+                        _tutorialChoiceData.Value = new TutorialChoiceData(choiceData.Id, choiceData.ChoiceTime,
+                            choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
+                            choiceData.TalkCharaData, choiceData.TalkSpeaker, choiceData.EnglishTalkDialogue,
+                            choiceData.TalkBackground,
+                            normDialogue);
+                    }
+                    else
+                    {
+                        Debug.LogError("ChoiceDataが見つかりませんでした");
+                    }
+                    await AwaitForSelect.Task.AttachExternalCancellation(token);
+                }
+                else
+                {
+                    var currentTutorialData = new NormalTutorialData(normDialogue, tutorialData.BackgroundImageName);
+                    if (index == tutorialData.JapaneseDialogue.Length - 1)
+                    {
+                        _tutorialDataAboutSkitChoiceResult.Value = currentTutorialData;
+                    }
+                    else
+                    {
+                        _tutorialDataAboutGame.Value = currentTutorialData;
+                    }
+                    await AwaitForEmptyInput.Task.AttachExternalCancellation(token);
+                }
+            }
+
+        }
+
+        public override bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
+        {
+            nextSkitContext = null;
+            return false;
         }
     }
 }
