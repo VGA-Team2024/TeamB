@@ -15,7 +15,7 @@ namespace TeamB.SkitSystem
             Remote,
             Local
         }
-        
+
         [SerializeField] private SkitView _skitSceneView;
         [SerializeField] private SkitResourceLoader _skitResourceLoader;
         [SerializeField] private SkitViewFade _loadingPanel;
@@ -37,7 +37,7 @@ namespace TeamB.SkitSystem
             {
                 // TODO:ローカルからデータをロード
             }
-            
+
             await _skitResourceLoader.InitializeSkitResourceLoader();
             _skitSceneView.InitializeSkitView(_skitResourceLoader);
             SetSkitDataHandler();
@@ -52,14 +52,16 @@ namespace TeamB.SkitSystem
         {
             var classSelectSkitContextHandler = new ClassSelectSkitContextHandler(SkitDataLoader);
             var skitDataHandler = new SkitDataHandler(SkitDataLoader);
+            var tutorialHandler = new TutorialHandler(SkitDataLoader);
             var skitContextHandlers = new HashSet<SkitContextHandlerBase>
             {
                 classSelectSkitContextHandler,
                 skitDataHandler,
+                tutorialHandler,
             };
             var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData);
             SkitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
-            
+
             // SkitDataHandlerとViewの紐付け
             var skitDataHandlerDisposable = skitDataHandler.CurrentSkitEntryData.Subscribe(skitEntryData =>
             {
@@ -70,27 +72,61 @@ namespace TeamB.SkitSystem
                         skitDataHandler.AwaitForEmptyInput, skitChoiceData.ChoiceTime,
                         SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
-                else 
+                else
                 {
-                    _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput, SkitSystemManager.CurrentCancellationToken.Token).Forget();
+                    _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput,
+                        SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
             }).AddTo(_skitSceneView);
             
-            var classSelectSkitContextHandlerDisposable = classSelectSkitContextHandler.CurrentClassSelectData.Subscribe(result =>
+            var classSelectSkitContextHandlerDisposable = classSelectSkitContextHandler.CurrentClassSelectData
+                .Subscribe(result =>
+                {
+                    if (result == null) return;
+                    _skitSceneView.ShowClassSelect(result, classSelectSkitContextHandler.AwaitForSelect,
+                        SkitSystemManager.CurrentCancellationToken.Token).Forget();
+                }).AddTo(_skitSceneView);
+            
+            var tutorialAboutGameDisposable = tutorialHandler.TutorialDataAboutGame.Subscribe(result =>
             {
                 if (result == null) return;
-                _skitSceneView.ShowClassSelect(result, classSelectSkitContextHandler.AwaitForSelect,
+                _skitSceneView.ShowTutorialAboutGame(result, tutorialHandler.AwaitForEmptyInput,
                     SkitSystemManager.CurrentCancellationToken.Token).Forget();
             }).AddTo(_skitSceneView);
             
+            var tutorialAboutSkitChoiceDisposable = tutorialHandler.TutorialChoiceData.Subscribe(result =>
+            {
+                if (result == null) return;
+                _skitSceneView.ShowTutorialAboutSkitChoice(result, tutorialHandler.AwaitForSelect,
+                    SkitSystemManager.CurrentCancellationToken.Token);
+            }).AddTo(_skitSceneView);
+            
+            var tutorialAboutClassSelectDisposable = tutorialHandler.TutorialClassSelectData.Subscribe(result =>
+            {
+                if (result == null) return;
+                _skitSceneView.ShowTutorialAboutClassSelect(result, tutorialHandler.AwaitForSelect,
+                    SkitSystemManager.CurrentCancellationToken.Token);
+            }).AddTo(_skitSceneView);
+            
+            var tutorialAboutSkitResultDisposable = tutorialHandler.TutorialDataAboutSkitChoiceResult.Subscribe(result =>
+            {
+                if (result == null) return;
+                _skitSceneView.ShowTutorialAboutSkitResult(result, tutorialHandler.AwaitForEmptyInput,
+                    SkitSystemManager.CurrentCancellationToken.Token).Forget();
+            }).AddTo(_skitSceneView);
+
             SkitSystemManager.CurrentCancellationToken?.Token.Register(() =>
             {
                 classSelectSkitContextHandlerDisposable.Dispose();
                 skitDataHandlerDisposable.Dispose();
+                tutorialAboutGameDisposable.Dispose();
+                tutorialAboutSkitChoiceDisposable.Dispose();
+                tutorialAboutClassSelectDisposable.Dispose();
+                tutorialAboutSkitResultDisposable.Dispose();
             });
         }
 
-        private void Start()
+    private void Start()
         {
             CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));

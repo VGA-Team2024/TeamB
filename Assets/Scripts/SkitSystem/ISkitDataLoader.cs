@@ -18,6 +18,7 @@ namespace TeamB.SkitSystem
         public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData);
         public bool TryGetSkitDataById(string id, out SkitData skitData);
         public bool TryGetSkitChoiceDataByID(string id, out SkitChoiceData choiceData);
+        public bool TryGetTutorialDataById(out TutorialData tutorialData, string id = "");
         public SkitData[] GetAllSkitData();
         public ClassSelectData[] GetAllClassSelectData();
         private const string JapaneseIntuition = "直観力";
@@ -46,16 +47,18 @@ namespace TeamB.SkitSystem
         private const int SkitDataLength = 3;
         private const string SkitChoiceDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1641370933&single=true&output=csv";
         private const int DefaultLimitTime = 10;
+        private const string TutorialDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=878141&single=true&output=csv";
         
         private const int SkitChoiceLength = 2;
         private string _playerName;
         private HashSet<ClassSelectData> _classSelectData = new();
         private HashSet<SkitData> _skitData = new();
         private HashSet<SkitChoiceData> _skitChoiceData = new();
+        private HashSet<TutorialData> _tutorialData = new();
         
         public UniTask InitTalkData()
         {
-            return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData());
+            return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData(), LoadTutorialData());
         }
 
         private async UniTask LoadClassSelectData()
@@ -130,6 +133,27 @@ namespace TeamB.SkitSystem
                 _skitData.Add(lastSkitData);
             }
         }
+        
+        public async UniTask LoadTutorialData()
+        {
+            var rawData = await CsvLoader.GetSpreadsheetDataAsync(TutorialDataKey);
+            if (rawData == null)
+            {
+                Debug.LogError("Failed to load data");
+                return;
+            }
+
+            var id = "";
+            var flag = rawData[1][0];
+            var background = rawData[1][1];
+            var dialogueList = new List<string>();
+            for (var i = 1; i < rawData.Count; i++)
+            {
+                var data = rawData[i][2];
+                dialogueList.Add(data);
+            }
+            _tutorialData.Add(new TutorialData(id, flag, dialogueList.ToArray(), background));
+        }
 
         private async UniTask LoadSkitChoiceData()
         {
@@ -183,6 +207,12 @@ namespace TeamB.SkitSystem
         {
             choiceData = _skitChoiceData.FirstOrDefault(x => x.Id == id);
             return choiceData != null;
+        }
+        
+        public bool TryGetTutorialDataById(out TutorialData tutorialData, string id = "")
+        {
+            tutorialData = _tutorialData.FirstOrDefault(x => x.Id == id);
+            return tutorialData != null;
         }
 
         public SkitChoiceData[] GetAllSkitChoiceData()

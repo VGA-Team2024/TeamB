@@ -194,4 +194,57 @@ namespace TeamB.SkitSystem
     }
 
     #endregion
+    
+    #region チュートリアルデータ
+    [Serializable]
+    public class TutorialData : ISkitSceneData
+    {
+        public string Id { get; }
+        public string Flag { get; }
+        public string[] JapaneseDialogue { get; }
+        public string BackgroundImageName { get; }
+        
+        public TutorialData(string tutorialId, string flag, string[] japaneseDialogue, string backgroundImageName)
+        {
+            Id = tutorialId;
+            Flag = flag;
+            JapaneseDialogue = japaneseDialogue;
+            BackgroundImageName = backgroundImageName;
+        }
+    }
+
+    public class TutorialChoiceData : SkitChoiceData
+    {
+        public TutorialChoiceData(string choiceId, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
+            string problemDialogue, SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
+            string englishTalkDialogue, string tutorialDialog) : base(choiceId, choiceTime, answer, choiceEntries,
+            problemDialogue, talkCharaData,
+            talkSpeaker, talkBackground, englishTalkDialogue)
+        {
+        }
+    }
+
+    public class TutorialClassSelectData : ClassSelectData
+    {
+        public TutorialClassSelectData(string classSelectId, string flag, string classSelectTalkerName,
+            string classSelectBackgroundImageName, string classSelectDialogue, ClassChoiceData[] classChoices,
+            string tutorialDialog) : base(classSelectId, flag, classSelectTalkerName, classSelectBackgroundImageName,
+            classSelectDialogue, classChoices)
+        {
+        }
+    }
+
+    public class NormalTutorialData
+    {
+        public string JapaneseDialogue { get; }
+        public string BackgroundImageName { get; }
+        
+        public NormalTutorialData(string japaneseDialogue, string backgroundImageName)
+        {
+            JapaneseDialogue = japaneseDialogue;
+            BackgroundImageName = backgroundImageName;
+        }
+    }
+
+    #endregion
 }

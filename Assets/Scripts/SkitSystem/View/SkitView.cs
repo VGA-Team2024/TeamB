@@ -41,18 +41,110 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _intuitionText;
         [SerializeField] private TMP_Text _readingComprehensionText;
         [SerializeField] private TMP_Text _concentrationText;
+        [Header("チュートリアル用")]
+        [SerializeField] private GameObject _tutorialPanelAboutGame;
+        [SerializeField] private GameObject _tutorialPanelAboutClassSelect;
+        [SerializeField] private GameObject _tutorialPanelAboutSkitChoice;
+        [SerializeField] private GameObject _tutorialPanelAboutSkitResult;
         private SkitResourceLoader _skitResourceLoader;
         private string _parameterPoint = "F1";
         
         public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
             _skitResourceLoader = skitResourceLoader;
-            Observable.EveryUpdate().Subscribe(_ =>
+            var key = (int)GameStatics.NurturingCharacterType;
+            if (GameStatics.Characters.ContainsKey(key))
             {
-                _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString(_parameterPoint);
-                _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString(_parameterPoint);
-                _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate.ToString(_parameterPoint);
-            }).AddTo(this);
+                Observable.EveryUpdate().Subscribe(_ =>
+                {
+                    _intuitionText.text =  GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK.ToString(_parameterPoint);
+                    _readingComprehensionText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed.ToString(_parameterPoint);
+                    _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate.ToString(_parameterPoint);
+                }).AddTo(this);
+            }
+        }
+        
+        public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput, CancellationToken cancellationToken)
+        {
+            SetActiveFalseAllSkitViewObject();
+            SetCharacterAndBackground(tutorialData.BackgroundImageName, null);
+            _tutorialPanelAboutGame.SetActive(true);
+            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken : cancellationToken);
+            emptyInput.TrySetResult();
+            _tutorialPanelAboutGame?.SetActive(false);
+        }
+        
+        public void ShowTutorialAboutClassSelect(TutorialClassSelectData tutorialData, UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)
+        {
+            SetActiveFalseAllSkitViewObject();
+            SetCharacterAndBackground(tutorialData.BackgroundImageName, null);
+            _classSelectPanel.SetActive(true);
+            _tutorialPanelAboutClassSelect.SetActive(true);
+            foreach (Transform child in _classSelectButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var classSelectEntry in tutorialData.ClassChoices)
+            {
+                var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
+                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
+                button.ClassSelectButtonComponent.onClick.AddListener(() =>
+                {
+                    awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
+                    _classSelectPanel.SetActive(false);
+                    _tutorialPanelAboutClassSelect?.SetActive(false);
+                });
+            }
+        }
+        
+        public async UniTask ShowTutorialAboutSkitChoice(TutorialChoiceData tutorialChoiceData, UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)
+        {
+            SetActiveFalseAllSkitViewObject();
+            SetCharacterAndBackground(tutorialChoiceData.TalkBackground, null);
+            _tutorialPanelAboutSkitChoice.SetActive(true);
+            _choiceButtonParent.gameObject.SetActive(true);
+            _statusPanel.SetActive(true);
+            _restTimePanel.SetActive(true);
+            await ShowDialogue(tutorialChoiceData.TalkSpeaker, tutorialChoiceData.JapaneseTalkDialogue, cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Operation was cancelled.");
+                return;
+            }
+            foreach (Transform child in _choiceButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            Debug.Log("ShowTutorialAboutSkitChoice");
+            foreach (var choiceEntry in tutorialChoiceData.ChoiceEntries)
+            {
+                var button = Instantiate(_choiceButtonPrefab, _choiceButtonParent);
+                var resultSprite = _missChoiceSprite;
+                if (string.Equals(choiceEntry.EnglishChoiceEntryName, tutorialChoiceData.Answer))
+                {
+                    resultSprite = _correctChoiceSprite;
+                }
+                button.InitializeSkitChoiceButton( choiceEntry.JapaneseChoiceEntryName, resultSprite);
+            
+                button.ChoiceButton.onClick.AddListener(() =>
+                {
+                    awaitSelect.TrySetResult(tutorialChoiceData.Answer);
+                    LockAndShowAllChoiceButtonsResult();
+                    button.ButtonResultImage.gameObject.SetActive(true);
+                });
+                button.ButtonResultImage.gameObject.SetActive(false);
+            }
+        }
+        
+        public async UniTask ShowTutorialAboutSkitResult(NormalTutorialData tutorialData, UniTaskCompletionSource awaitForEmptyInput, CancellationToken cancellationToken)
+        {
+            SetCharacterAndBackground(tutorialData.BackgroundImageName, null);
+            _tutorialPanelAboutSkitChoice.SetActive(false);
+            _tutorialPanelAboutSkitResult.SetActive(true);
+            _statusPanel.SetActive(true);
+            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken : cancellationToken);
+            awaitForEmptyInput.TrySetResult();
+            _tutorialPanelAboutSkitResult?.SetActive(false);
         }
 
         public async UniTask ShowClassSelect(ClassSelectData classSelectData, UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)

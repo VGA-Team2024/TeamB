@@ -60,6 +60,8 @@ namespace TeamB.SkitSystem
                 return;
             }
             var rewardValue = _remainTimeSum / _correctCount;
+            var key = (int)GameStatics.NurturingCharacterType;
+            if (!GameStatics.Characters.ContainsKey(key)) return;
             switch (_currentRewardType)
             {
                 case RewardType.Intuition:
