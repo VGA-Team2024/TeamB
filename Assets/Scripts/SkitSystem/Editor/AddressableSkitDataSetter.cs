@@ -9,7 +9,8 @@ namespace TeamB.SkitSystem.Editor
     {
         private const string SkitDataLabel = "SkitTexture";
         private const string FolderPath = "Assets/Graphics/Textures/SkitTexture";
-        private const string AssetFilterType = "t:Sprite";
+        private const string AssetFilterTypeSprite = "t:Sprite";
+        private const string AssetFilterTypeTexture2D = "t:Texture2D";
 
         /// <summary>
         /// アセットがインポートされたときに呼び出される
@@ -49,7 +50,7 @@ namespace TeamB.SkitSystem.Editor
                 return;
             }
 
-            var guids = AssetDatabase.FindAssets(AssetFilterType, new[] { FolderPath });
+            var guids = AssetDatabase.FindAssets(AssetFilterTypeSprite, new[] { FolderPath });
             foreach (var guid in guids)
             {
                 var entry = settings.CreateOrMoveEntry(guid, settings.DefaultGroup);
@@ -58,6 +59,31 @@ namespace TeamB.SkitSystem.Editor
                 var fileName = System.IO.Path.GetFileNameWithoutExtension(path);
                 entry.address = fileName;
             }
+            guids = AssetDatabase.FindAssets(AssetFilterTypeTexture2D, new[] { FolderPath });
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+
+                // TextureTypeをSpriteに変更
+                if (importer != null && importer.textureType != TextureImporterType.Sprite)
+                {
+                    importer.textureType = TextureImporterType.Sprite;
+                    importer.SaveAndReimport();
+                    Debug.Log($"TextureTypeをSpriteに変更しました: {path}");
+                }
+
+                // Addressableの設定
+                var entry = settings.CreateOrMoveEntry(guid, settings.DefaultGroup);
+                entry.SetLabel(SkitDataLabel, true);
+
+                // ファイル名をアドレスとして設定
+                var fileName = System.IO.Path.GetFileNameWithoutExtension(path);
+                entry.address = fileName;
+
+                Debug.Log($"Addressableに登録しました: {fileName}");
+            }
+            
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
