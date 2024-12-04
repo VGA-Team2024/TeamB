@@ -37,14 +37,6 @@ namespace TeamB.SkitSystem.Editor
                 hasRelevantChanges = true;
                 break;
             }
-            
-            foreach (var movedFromAsset in movedFromAssetPaths)
-            {
-                if (movedFromAsset.StartsWith(FolderPath))
-                {
-                    RemoveAddressable(movedFromAsset);
-                }
-            }
 
             // フォルダ内に変更があれば処理を実行
             if (hasRelevantChanges)
