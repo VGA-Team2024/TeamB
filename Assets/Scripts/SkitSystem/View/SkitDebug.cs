@@ -15,6 +15,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private GameObject _skitDebugPanel;
         [SerializeField] private RectTransform _skitDebugButtonParent;
         [SerializeField] private RectTransform _classSelectButtonParent;
+        [SerializeField] private RectTransform _tutorialButtonParent;
         
         private void Start()
         {
@@ -62,8 +63,33 @@ namespace TeamB.SkitSystem
                     StartSkit();
                 });
             }
+            
+            foreach (Transform child in _tutorialButtonParent)
+            {
+                Destroy(child.gameObject);
+            }
+            if (_skitScenePresenter.SkitDataLoader.TryGetTutorialDataById(out var tutorial))
+            {
+                var button = Instantiate(_skitDebugButtonPrefab, _tutorialButtonParent);
+                button.GetComponentInChildren<TMP_Text>().text = "tutorial";
+                button.onClick.AddListener(() =>
+                {
+                    SetTestTutorialId();
+                    StartSkit();
+                });
+            }
         }
-        
+
+        private void SetTestTutorialId()
+        {
+            if (_skitScenePresenter.SkitDataLoader.TryGetTutorialDataById(out var tutorialData))
+            {
+                _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Tutorial,
+                    tutorialData));
+            }
+        }
+
         private void SetTestSkitId(string testSkitId)
         {
             if (_skitScenePresenter.SkitDataLoader.TryGetSkitDataById(testSkitId, out var skitData))

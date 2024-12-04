@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.coffee.unmask": "1.4.2",
     "com.cysharp.r3": "https://github.com/Cysharp/R3.git?path=src/R3.Unity/Assets/R3.Unity",
     "com.github-glitchenzo.nugetforunity": "4.1.1",
     "com.unity.addressables": "1.22.2",
@@ -56,7 +57,8 @@
       "name": "package.openupm.com",
       "url": "https://package.openupm.com",
       "scopes": [
-        "com.github-glitchenzo.nugetforunity"
+        "com.github-glitchenzo.nugetforunity",
+        "com.coffee.unmask"
       ]
     }
   ]
