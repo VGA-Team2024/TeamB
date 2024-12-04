@@ -6102,61 +6102,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 724289213}
     m_Modifications:
-    - target: {fileID: 1494158121971211013, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2051610695339868352, guid: e364068388d3a3f459a603584bae5aaa,
         type: 3}
       propertyPath: m_Name
       value: HP
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289419493810695503, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289419493810695503, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: c205f4b7e9517bb429c4a84bc5d73259,
-        type: 3}
-    - target: {fileID: 4289419493810695503, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_Maskable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289419493810695503, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289419493810695503, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_FillCenter
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289419493810695503, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4384998902267104828, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465602968893302589, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 470
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465602968893302589, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7921567390020391414, guid: e364068388d3a3f459a603584bae5aaa,
         type: 3}
@@ -6197,21 +6146,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7921567390020391414, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7921567390020391414, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7921567390020391414, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7921567390020391414, guid: e364068388d3a3f459a603584bae5aaa,
         type: 3}
@@ -6273,14 +6207,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7921567390020391414, guid: e364068388d3a3f459a603584bae5aaa,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4384998902267104828, guid: e364068388d3a3f459a603584bae5aaa, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e364068388d3a3f459a603584bae5aaa, type: 3}
@@ -6666,7 +6594,7 @@ PrefabInstance:
     - target: {fileID: 4491477256517062539, guid: e755433fc2e173d4e90060380f1a57de,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.97
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4491477256517062539, guid: e755433fc2e173d4e90060380f1a57de,
         type: 3}

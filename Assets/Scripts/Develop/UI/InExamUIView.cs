@@ -52,6 +52,8 @@ namespace TeamB.UI
             _waveManager = FindAnyObjectByType<WaveManager>();
             _exam = FindAnyObjectByType<Exam>();
             _allyManager = FindAnyObjectByType<AllyManager>();
+            
+            CRIAudioManager.BGM.Stop();
 
             _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
