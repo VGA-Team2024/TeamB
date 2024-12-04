@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using DG.Tweening;
 using TeamB.Data;
+using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using TeamB.SkitSystem;
 using TGS2023.BGM;
@@ -13,6 +16,7 @@ namespace TeamB.Develop
 {
     public class InResultView : UIView
     {
+        [SerializeField] ExamStateDatas examState;
         [SerializeField] SkitFlagData _skitFlagData;
         [SerializeField] Image _passImage;
         [SerializeField] Image _faildImage;
@@ -49,30 +53,19 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            // if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Clear)
-            // {
-            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
-            // }
-            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExam && GameStatics.ExamResult == ExamResult.Failed)
-            // {
-            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamFailed;
-            // }
-            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.FirstExamFailed && GameStatics.ExamResult == ExamResult.Clear)
-            // {
-            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.FirstExamPassed;
-            // }
-            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Clear)
-            // {
-            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
-            // }
-            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExam && GameStatics.ExamResult == ExamResult.Failed)
-            // {
-            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamFailed;
-            // }
-            // else if (_skitFlagData.CurrentGameState == SkitFlagData.GameState.SecondExamFailed && GameStatics.ExamResult == ExamResult.Clear)
-            // {
-            //     _skitFlagData.CurrentGameState = SkitFlagData.GameState.SecondExamPassed;
-            // }
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.FirstExam:
+                    if (GameStatics.ExamResult == ExamResult.Clear)
+                    {
+                        GameStatics.ExamState = (ExamState)Enum.Parse(typeof(ExamState), examState.Data.Where(x=> x.CurrentState == nameof(ExamState.FirstExam)).First().VictoryState);
+                    }
+                    else
+                    {
+                        
+                    }
+                    break;
+            }
         }
 
         public void Result()

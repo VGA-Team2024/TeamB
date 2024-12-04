@@ -44,7 +44,7 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Title
     AssetPath: Assets/Scenes/Develop/Title.unity
-    SceneType: 0
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: FruitsBasketScene
     AssetPath: Assets/Scenes/FruitsBasket/FruitsBasketScene.unity
