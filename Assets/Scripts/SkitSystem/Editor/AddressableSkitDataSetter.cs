@@ -31,11 +31,28 @@ namespace TeamB.SkitSystem.Editor
                 break;
             }
 
+            foreach (var movedAsset in movedAssets)
+            {
+                if (!movedAsset.StartsWith(FolderPath)) continue;
+                hasRelevantChanges = true;
+                break;
+            }
+            
+            foreach (var movedFromAsset in movedFromAssetPaths)
+            {
+                if (movedFromAsset.StartsWith(FolderPath))
+                {
+                    RemoveAddressable(movedFromAsset);
+                }
+            }
+
             // フォルダ内に変更があれば処理を実行
             if (hasRelevantChanges)
             {
                 SetAddressableSkitData();
             }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         /// <summary>
@@ -80,14 +97,7 @@ namespace TeamB.SkitSystem.Editor
                 // ファイル名をアドレスとして設定
                 var fileName = System.IO.Path.GetFileNameWithoutExtension(path);
                 entry.address = fileName;
-
-                Debug.Log($"Addressableに登録しました: {fileName}");
             }
-            
-
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            Debug.Log("会話シーンのテクスチャの更新が完了しました");
         }
     }
 }
