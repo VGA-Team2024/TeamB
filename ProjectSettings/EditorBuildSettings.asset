@@ -6,15 +6,41 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Design/Morning.unity
-    guid: 0de2f053148d51d4c8255fd5ede95194
-  - enabled: 1
-    path: Assets/Scenes/Design/Night.unity
-    guid: 3fc4caa4d09689641906dd3861daa8cf
+    path: Assets/Scenes/Develop/Title.unity
+    guid: d9ca54e8c71836149825a53796f460c9
   - enabled: 1
     path: Assets/Scenes/System/IngameSystem.unity
     guid: 28bbf92597792604b989fbdc7a1fb369
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+    path: Assets/Scenes/Develop/Credit.unity
+    guid: 56dcf48850a059543bbd42326b4d050e
+  - enabled: 1
+    path: Assets/Scenes/Develop/Exam.unity
+    guid: 096892373dc0b904a837f162239c5213
+  - enabled: 1
+    path: Assets/Scenes/Develop/GameOver.unity
+    guid: a2fdc451c97e9024bbba275b6b320230
+  - enabled: 0
+    path: Assets/Scenes/Develop/Result.unity
+    guid: 6bbe7731d8cc82048a1da94351d89672
+  - enabled: 1
+    path: Assets/Scenes/Develop/Skit.unity
+    guid: 9fa17ac3ab3874a4eb23b0560f9acbff
+  - enabled: 0
+    path: Assets/Scenes/FruitsBasket/FruitsBasketScene.unity
+    guid: 9b9a8b87b6cefe04884a9653159ba9c0
+  - enabled: 1
+    path: Assets/Scenes/Sample/3DSoundSample.unity
+    guid: a174e69cd80e78248945d3373b6e48f0
+  - enabled: 1
+    path: Assets/Scenes/StillPhoto/StillPhoto.unity
+    guid: d03d070924e39644fb22d6594c03de27
+  - enabled: 1
+    path: Assets/Scenes/System/GameLauncher.unity
+    guid: 8fddd8bd6df26f84eb0ce52c7a3f43e5
+  - enabled: 1
+    path: Assets/Scenes/System/IngameDebug.unity
+    guid: f344c073eba28c247a464cfb6b57ff22
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7366e43fa3f777f4292c2095e8b63e4c,
+      type: 2}

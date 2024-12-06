@@ -1,0 +1,19 @@
+{
+    "ConversationName": "Sample Conversation",
+    "ConversationEntries": [
+        {
+            "Speaker": 0,
+            "Dialogue": "Hello, World!",
+            "Character1": {
+                "CharacterName": 0,
+                "Position": 0,
+                "Animation": 0
+            },
+            "Character2": {
+                "CharacterName": 1,
+                "Position": 2,
+                "Animation": 1
+            }
+        }
+    ]
+}
