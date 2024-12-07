@@ -88,15 +88,6 @@ namespace TeamB.Develop
         /// </summary>
         public void ExamClear()
         {
-            switch (GameStatics.ExamState)
-            {
-                case ExamState.FirstExam:
-                    GameStatics.ExamState = ExamState.SecondExam;
-                    break;
-                case ExamState.SecondExam:
-                    GameStatics.ExamState = ExamState.ExamClear;
-                    break;
-            }
             GameStatics.ExamResult = ExamResult.Clear;
             EndExam();
             OnStartPose();

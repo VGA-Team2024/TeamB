@@ -748,6 +748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isActive: 1
   _viewId: ResultUI
+  examState: {fileID: 11400000, guid: bf7b5db2f7a23df4695fd13b250ea83e, type: 2}
   _skitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
   _passImage: {fileID: 88709705}
   _faildImage: {fileID: 1858116796}

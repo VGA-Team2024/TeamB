@@ -17,9 +17,12 @@
     {
         None,
         FirstExam,
+        FirstExamSuccess,
+        FirstExamFail,
         SecondExam,
+        SecondExamSuccess,
+        SecondExamFail,
         ExamClear,
-        AllExams,
     }
 
     public enum ExamResult : int
