@@ -23,6 +23,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
         public SkitSystemManager SkitSystemManager { get; private set; }
         public ISkitDataLoader SkitDataLoader { get; private set; }
+        public SkitFlagData SkitFlagData => _skitFlagData;
 
         private async void Awake()
         {

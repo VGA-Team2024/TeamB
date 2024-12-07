@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TeamB.Develop.Develop;
 using UnityEngine;
+using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace TeamB.SkitSystem
 {
@@ -28,12 +30,13 @@ namespace TeamB.SkitSystem
         {
             if (_skitDataLoader.TryGetSkitSceneDataByFlag(_skitFlagData, out var skitSceneData))
             {
+                Debug.Log(skitSceneData.Id);
                 switch (skitSceneData)
                 {
                     case ClassSelectData _:
-                        return new SkitContext(SkitContext.ContextType.ClassSelect, skitSceneData);
+                        return new SkitContext(SkitContext.ContextType.ClassSelect, skitSceneData, _skitFlagData);
                     case SkitData _:
-                        return new SkitContext(SkitContext.ContextType.Skit, skitSceneData);
+                        return new SkitContext(SkitContext.ContextType.Skit, skitSceneData, _skitFlagData);
                 }
             }
             throw new ArgumentOutOfRangeException();
@@ -42,7 +45,8 @@ namespace TeamB.SkitSystem
         public void EndSkitScene()
         {
             // 会話シーンの終了時に必要な処理を行う
-            SceneLoader.LoadScene(_skitFlagData.CurrentFlag == "SecondExamClear" ? "Title" : "Exam");
+            //SceneLoader.LoadScene(_skitFlagData.CurrentFlag == "SecondExamClear" ? "Title" : "Exam");
+            SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

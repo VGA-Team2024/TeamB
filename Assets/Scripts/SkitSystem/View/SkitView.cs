@@ -211,6 +211,7 @@ namespace TeamB.SkitSystem
                 button.ChoiceButton.onClick.AddListener( async () =>
                 {
                     awaitChoice.TrySetResult(choiceEntry.EnglishChoiceEntryName);
+                    Debug.Log($"選択したもの：{choiceEntry.EnglishChoiceEntryName} 正解:{skitChoiceData.Answer} あなたの結果{(choiceEntry.EnglishChoiceEntryName == skitChoiceData.Answer ? "正解" : "不正解")}");
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
             
