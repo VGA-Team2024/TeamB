@@ -34,7 +34,7 @@ namespace TeamB.SkitSystem
                 csvData.Split(new[] { "\n" },
                     System.StringSplitOptions.RemoveEmptyEntries); //スプレッドシートを1行ずつ配列に格納
 
-            return rows.Select(row => row.Split(',')).ToList();
+            return rows.Select(row => row.Split(',').Select(cell => cell.Trim()).ToArray()).ToList();
         }
     }
 }

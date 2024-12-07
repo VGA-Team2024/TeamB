@@ -82,8 +82,6 @@ namespace DataManagement
     {
         public override string MasterName => "TextMaster";
 
-        //public string this[string key] => _dic.ContainsKey(id) ? _dic[id] : default;
-
         public override async UniTask Marshal()
         {
             //テキストマスタを設定する
