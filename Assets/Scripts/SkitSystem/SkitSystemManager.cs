@@ -107,12 +107,14 @@ namespace TeamB.SkitSystem
             Tutorial,
         }
         
-        public SkitContext(ContextType skitContextType, ISkitSceneData skitSceneData)
+        public SkitContext(ContextType skitContextType, ISkitSceneData skitSceneData, SkitFlagData skitFlagData)
         {
             SkitContextType = skitContextType;
             SkitSceneData = skitSceneData;
+            SkitFlagData = skitFlagData;
         }
- 
+
+        public readonly SkitFlagData SkitFlagData;
         public readonly ContextType SkitContextType;
         public readonly ISkitSceneData SkitSceneData;
     }
