@@ -78,27 +78,21 @@ namespace TeamB.SkitSystem
             {
                 _previousIntuition = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK;
                 _statusUpImage.transform.position = _intuitionText.transform.position;
-                _statusUpImage.gameObject.SetActive(true);
-                _statusUpImage.color = new Color(1, 1, 1, 1);
-                _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
+                MoveStatusUp();
             }
             
             if (!Mathf.Approximately(_previousReadingComprehension, GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed))
             {
                 _previousReadingComprehension = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed;
                 _statusUpImage.transform.position = _readingComprehensionText.transform.position;
-                _statusUpImage.gameObject.SetActive(true);
-                _statusUpImage.color = new Color(1, 1, 1, 1);
-                _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
+                MoveStatusUp();
             }
             
             if (!Mathf.Approximately(_previousConcentration, GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate))
             {
                 _previousConcentration = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate;
                 _statusUpImage.transform.position = _concentrationText.transform.position;
-                _statusUpImage.gameObject.SetActive(true);
-                _statusUpImage.color = new Color(1, 1, 1, 1);
-                _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
+                MoveStatusUp();
             }
             
             _intuitionText.text = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK
@@ -107,11 +101,20 @@ namespace TeamB.SkitSystem
                 .ChantingSpeed.ToString(ParameterPoint);
             _concentrationText.text = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate
                 .ToString(ParameterPoint);
+
+            void MoveStatusUp()
+            {
+                _statusUpImage.gameObject.SetActive(true);
+                _statusUpImage.color = new Color(1, 1, 1, 1);
+                _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
+                _statusUpImage.rectTransform.DOAnchorPosY(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
+            }
         }
 
         private async UniTask GetTapInput(CancellationToken cancellationToken)
         {
             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive, cancellationToken: cancellationToken);
+            Debug.Log($"GetTapInput {_backlogView.IsLogActive} ");
         }
 
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput,
@@ -282,11 +285,8 @@ namespace TeamB.SkitSystem
                     button.ButtonResultImage.gameObject.SetActive(true);
 
                     // 非同期待機: クリック後に再度クリックを待機
-                    await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: cancellationToken);
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
+                    await GetTapInput(cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
 
                     awaitEmptyInput.TrySetResult();
                 });
@@ -406,7 +406,7 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData, cancellationToken);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue, cancellationToken);
-            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken: cancellationToken);
+            await GetTapInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             skitAwaitCompletionSource?.TrySetResult();
         }
