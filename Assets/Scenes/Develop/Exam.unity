@@ -286,7 +286,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 489791967}
   m_Father: {fileID: 277820738}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1360,6 +1361,85 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!1 &489791966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489791967}
+  - component: {fileID: 489791969}
+  - component: {fileID: 489791968}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &489791967
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489791966}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 68108544}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &489791968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489791966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 50
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: "\u3053\u3053\u3067\u30B9\u30C1\u30EB\u8868\u793A"
+--- !u!222 &489791969
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489791966}
+  m_CullTransparentMesh: 1
 --- !u!1 &555384173
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,35 +1755,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buffDatas:
-  - rid: 2212115770586955776
-  - rid: 2212115770586955777
-  - rid: 2212115770586955778
-  - rid: 2212115770586955781
+  - rid: 4936965724547055624
+  - rid: 4936965724547055625
+  - rid: 4936965724547055626
+  - rid: 4936965724547055627
   references:
     version: 2
     RefIds:
-    - rid: 2212115770586955776
-      type: {class: MagicAttackBuff, ns: TeamB.GameSystem, asm: Develop}
+    - rid: 4936965724547055624
+      type: {class: MagicAttackBuff, ns: TeamB.GameSystem, asm: Assembly-CSharp}
       data:
         _buffName: 
         _buffType: 2
         _calculationMethod: 1
         _duration: -1
         _value: 1.25
-        _effect: {fileID: 0}
+        _effect: {fileID: 1409257778}
         _useLimit: 1
-    - rid: 2212115770586955777
-      type: {class: ChantingSpeedBuff, ns: TeamB.GameSystem, asm: Develop}
+    - rid: 4936965724547055625
+      type: {class: ChantingSpeedBuff, ns: TeamB.GameSystem, asm: Assembly-CSharp}
       data:
         _buffName: 
         _buffType: 3
         _calculationMethod: 1
         _duration: -1
         _value: 1.25
-        _effect: {fileID: 1409257778}
+        _effect: {fileID: 0}
         _useLimit: 1
-    - rid: 2212115770586955778
-      type: {class: HitRateBuff, ns: TeamB.GameSystem, asm: Develop}
+    - rid: 4936965724547055626
+      type: {class: HitRateBuff, ns: TeamB.GameSystem, asm: Assembly-CSharp}
       data:
         _buffName: 
         _buffType: 4
@@ -1712,14 +1792,14 @@ MonoBehaviour:
         _value: 1.25
         _effect: {fileID: 0}
         _useLimit: 1
-    - rid: 2212115770586955781
-      type: {class: GiveDamageBuff, ns: TeamB.GameSystem, asm: Develop}
+    - rid: 4936965724547055627
+      type: {class: GiveDamageBuff, ns: TeamB.GameSystem, asm: Assembly-CSharp}
       data:
         _buffName: 
         _buffType: 5
         _calculationMethod: 1
         _duration: 10
-        _value: 1.4
+        _value: 1.25
         _effect: {fileID: 0}
         _useLimit: 1
 --- !u!1 &610163509
@@ -5818,13 +5898,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentEnemy:
-    rid: 2212115237729992710
+    rid: 4936965724547055618
   _enemy: {fileID: 102223225}
   references:
     version: 2
     RefIds:
-    - rid: 2212115237729992710
-      type: {class: StudentCouncilPresident, ns: TeamB.Develop, asm: Develop}
+    - rid: 4936965724547055618
+      type: {class: StudentCouncilPresident, ns: TeamB.Develop, asm: Assembly-CSharp}
       data:
         _characterType: 2
         _attackParticle: {fileID: 275572065}
@@ -6877,7 +6957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allies:
-    rid: 2212115237729992705
+    rid: 4936965724547055617
   _attackBuffParticles: {fileID: 1409257777}
   _DefenceBuffParticles: {fileID: 1128515685}
   alliesPrefab: {fileID: 1133773577}
@@ -6885,15 +6965,15 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2212115237729992705
-      type: {class: Character1, ns: TeamB.Develop, asm: Develop}
+    - rid: 4936965724547055617
+      type: {class: Character1, ns: TeamB.Develop, asm: Assembly-CSharp}
       data:
         _attackParticles: {fileID: 190441572}
         _particleCallBack: {fileID: 190441574}
         _percentageReductionValue: 0.75
-        _defenceCoolTime: 5
+        _defenceCoolTime: 1
         _defenceDuration: 1
-        _waitAttack: 5
+        _waitAttack: 0
 --- !u!4 &2124309694
 Transform:
   m_ObjectHideFlags: 0
@@ -7128,6 +7208,8 @@ MonoBehaviour:
   _examTime: 45
   _operationType: 0
   _winDirector: {fileID: 864101353}
+  _examStateDatas: {fileID: 11400000, guid: bf7b5db2f7a23df4695fd13b250ea83e, type: 2}
+  _skitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
 --- !u!4 &2143643711
 Transform:
   m_ObjectHideFlags: 0
@@ -7160,48 +7242,30 @@ MonoBehaviour:
     _skillState:
     - SkillType: 0
       Skill:
-        rid: 2212115360025935872
+        rid: 4936965724547055619
       Target: 1
       Cost: 2
-    - SkillType: 4
-      Skill:
-        rid: 2212115771836596225
-      Target: 0
-      Cost: 0
-  - _examState: 2
+  - _examState: 4
     _skillState:
     - SkillType: 0
       Skill:
-        rid: 2212115360025935872
+        rid: 4936965724547055622
       Target: 1
       Cost: 2
-    - SkillType: 4
-      Skill:
-        rid: 2212115771836596224
-      Target: 0
-      Cost: 0
   _maxCost: 10
   _recoveryCost: 2
   _playableDirector: {fileID: 870124427}
   references:
     version: 2
     RefIds:
-    - rid: 2212115360025935872
-      type: {class: Fire, ns: TeamB.Develop, asm: Develop}
+    - rid: 4936965724547055619
+      type: {class: Fire, ns: TeamB.Develop, asm: Assembly-CSharp}
       data:
         _damage: 100
-    - rid: 2212115771836596224
-      type: {class: Heal, ns: TeamB.Develop, asm: Develop}
+    - rid: 4936965724547055622
+      type: {class: Fire, ns: TeamB.Develop, asm: Assembly-CSharp}
       data:
-        _value: 30
-        _button: {fileID: 0}
-        _buffUI: {fileID: 655213910}
-    - rid: 2212115771836596225
-      type: {class: Heal, ns: TeamB.Develop, asm: Develop}
-      data:
-        _value: 30
-        _button: {fileID: 0}
-        _buffUI: {fileID: 655213910}
+        _damage: 100
 --- !u!114 &2143643714
 MonoBehaviour:
   m_ObjectHideFlags: 0

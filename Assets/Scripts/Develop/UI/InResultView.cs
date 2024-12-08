@@ -16,11 +16,12 @@ namespace TeamB.Develop
 {
     public class InResultView : UIView
     {
-        [SerializeField] ExamStateDatas examState;
-        [SerializeField] SkitFlagData _skitFlagData;
-        [SerializeField] Image _passImage;
-        [SerializeField] Image _faildImage;
-        Vector3 _startScale = new Vector3(300, 300, 300);
+        [SerializeField] private ExamStateDatas examState;
+        [SerializeField] private SkitFlagData _skitFlagData;
+        [SerializeField] private Image _passImage;
+        [SerializeField] private Image _faildImage;
+        private Vector3 _startScale = new Vector3(300, 300, 300);
+        
         private float _stampTime = 1.5f;
 
         protected override void AwakeCall()
@@ -55,57 +56,14 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            switch (GameStatics.ExamState)
-            {
-                case ExamState.FirstExam:
-                    if (GameStatics.ExamResult == ExamResult.Clear)
-                    {
-                        GameStatics.ExamState = (ExamState)Enum.Parse(typeof(ExamState),
-                            examState.Data.Where(x => x.CurrentState == nameof(ExamState.FirstExam)).First()
-                                .VictoryState);
-                    }
-                    else
-                    {
-                        GameStatics.ExamState = (ExamState)Enum.Parse(typeof(ExamState),
-                            examState.Data.Where(x => x.CurrentState == nameof(ExamState.FirstExam)).First()
-                                .DefeatState);
-                    }
-
-                    break;
-                case ExamState.SecondExam:
-                    if (GameStatics.ExamResult == ExamResult.Clear)
-                    {
-                        GameStatics.ExamState = (ExamState)Enum.Parse(typeof(ExamState),
-                            examState.Data.Where(x => x.CurrentState == nameof(ExamState.SecondExam)).First()
-                                .VictoryState);
-                    }
-                    else
-                    {
-                        GameStatics.ExamState = (ExamState)Enum.Parse(typeof(ExamState),
-                            examState.Data.Where(x => x.CurrentState == nameof(ExamState.SecondExam)).First()
-                                .DefeatState);
-                    }
-
-                    break;
-            }
+            
         }
 
         public void Result()
         {
-            string sceneName = "";
             switch (GameStatics.ExamState)
             {
-                case ExamState.FirstExam:
-                    sceneName = "Skit";
-                    break;
-                case ExamState.SecondExam:
-                    if (GameStatics.ExamResult == ExamResult.Clear)
-                        sceneName = "Exam";
-                    else if (GameStatics.ExamResult == ExamResult.Failed)
-                        sceneName = "Talk";
-                    break;
                 case ExamState.ExamClear:
-                    sceneName = "Title";
                     GameStatics.ExamState = ExamState.FirstExam;
                     break;
             }

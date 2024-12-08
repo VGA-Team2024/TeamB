@@ -8,16 +8,14 @@ namespace TeamB.GameSystem
         menuName = "ScriptableObject/ExamStateData")]
     public class ExamStateDatas : ScriptableObject
     {
-        public int Version;
         public List<ExamStateData> Data = new();
     }
 
     [Serializable]
     public class ExamStateData
     {
-        public string ExamDataID;
         public string CurrentState;
-        public string VictoryState;
-        public string DefeatState;
+        public string ClearState;
+        public string FailureState;
     }
 }

@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b766287ddb543829e0c7293304a3cb8, type: 3}
   m_Name: ExamStateData
   m_EditorClassIdentifier: 
-  Version: 0
-  Data: []
+  Data:
+  - CurrentState: Tutorial
+    ClearState: FirstExam
+    FailureState: "FirstExam\r"
+  - CurrentState: FirstExam
+    ClearState: FirstExamClear
+    FailureState: "FirstExamFailure\r"
+  - CurrentState: SecondExam
+    ClearState: SecondExamClear
+    FailureState: SecondExamFailure
