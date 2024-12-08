@@ -761,6 +761,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d4d56669faa947449bea28656131d37
+    m_Address: Conversation_HonorStudent_Noon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4d74203034bac92499bd5bffcc9374a0
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f048.png
     m_ReadOnly: 0
@@ -1054,12 +1060,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 741ca652a6b89f743b236c068e6ad453
-    m_Address: Conversation_Lian
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74d76d9512af96646b68b91c748f6c70
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f088.png
     m_ReadOnly: 0
@@ -1246,6 +1246,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a6ea35538b05c74bb37cb07108e0870
+    m_Address: Conversation_StandingPicture
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8af98543df8fa364195753bcaf1f5867
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f202.png
     m_ReadOnly: 0
@@ -1338,6 +1344,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 941f93f681b26cb46a583336c1618887
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f076.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94403a8996a8d1b4c86a8129ec77398e
+    m_Address: Conversation_HonorStudent_Night
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
@@ -1732,12 +1744,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c098c36c86bea174799b06f8442a9b76
-    m_Address: Conversation_LionNew
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c0f41f0e91ff71c479e3d78a073f02c9
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f350.png
     m_ReadOnly: 0
@@ -1960,6 +1966,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d50bc71cbdabe56468979309c5906699
+    m_Address: Conversation_MessageWindow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d696f217c8cf5df4b874aa37c19793d1
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f297.png
     m_ReadOnly: 0
@@ -2138,24 +2150,6 @@ MonoBehaviour:
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f281.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 641975e431853d34aaa04892c52401af
-    m_Address: Conversation
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 741ca652a6b89f743b236c068e6ad453
-    m_Address: Conversation_Lian
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c098c36c86bea174799b06f8442a9b76
-    m_Address: Conversation_LionNew
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef332a0546be4114e8d99b787223f4de
     m_Address: Class_Test
