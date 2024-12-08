@@ -44,7 +44,6 @@ namespace TeamB.SkitSystem
             _skitSceneView.InitializeSkitView(_skitResourceLoader);
             SetSkitDataHandler();
             SkitSystemManager.DoSkitSequence().Forget();
-            await _loadingPanel.FadeOutAsync();
         }
 
         /// <summary>

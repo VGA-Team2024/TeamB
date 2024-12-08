@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -21,12 +22,12 @@ namespace TeamB.SkitSystem
             if (immediate)
             {
                 _fadeImage.color = new Color(0, 0, 0, 0);
-                await _fadeImage.DOFade(1, 0).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(1, 0).SetEase(Ease.Linear).SetLink(gameObject).AsyncWaitForCompletion();
             }
             else
             {
                 _fadeImage.color = new Color(0, 0, 0, 0);
-                await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).AsyncWaitForCompletion();
             }
             _fadeImage.raycastTarget = true;
         }
@@ -36,12 +37,12 @@ namespace TeamB.SkitSystem
             if (immediate)
             {
                 _fadeImage.color = new Color(0, 0, 0, 1);
-                await _fadeImage.DOFade(0, 0).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(0, 0).SetEase(Ease.Linear).SetLink(gameObject).AsyncWaitForCompletion();
             }
             else
             {
                 _fadeImage.color = new Color(0, 0, 0, 1);
-                await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).AsyncWaitForCompletion();
             }
             _fadeImage.raycastTarget = false;
         }
