@@ -20,6 +20,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private SkitResourceLoader _skitResourceLoader;
         [SerializeField] private SkitViewFade _loadingPanel;
         [SerializeField] private SkitFlagData _skitFlagData;
+        [SerializeField] private SkitLogViewer _skitLogViewer;
         [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
         public SkitSystemManager SkitSystemManager { get; private set; }
         public ISkitDataLoader SkitDataLoader { get; private set; }
@@ -78,6 +79,7 @@ namespace TeamB.SkitSystem
                     _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput,
                         SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
+                _skitLogViewer.SetLog(skitEntryData);
             }).AddTo(_skitSceneView);
             
             var classSelectSkitContextHandlerDisposable = classSelectSkitContextHandler.CurrentClassSelectData
