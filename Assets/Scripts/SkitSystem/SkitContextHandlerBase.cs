@@ -72,7 +72,7 @@ namespace TeamB.SkitSystem
             //選択した選択肢に対応するデータを取得
             if (_skitDataLoader.TryGetSkitDataById(result, out var skitData))
             {
-                _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, skitData);
+                _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, skitData, skitContext.SkitFlagData);
             }
             else
             {
@@ -89,9 +89,7 @@ namespace TeamB.SkitSystem
         private readonly ReactiveProperty<SkitEntryData> _currentSkitEntryData = new();
         public ReadOnlyReactiveProperty<SkitEntryData> CurrentSkitEntryData => _currentSkitEntryData;
 
-        public SkitDataHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader)
-        {
-        }
+        public SkitDataHandler(ISkitDataLoader skitDataLoader) : base(skitDataLoader) { }
 
         public override async UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token)
         {
@@ -116,6 +114,16 @@ namespace TeamB.SkitSystem
                 {
                     normDialogue = normDialogue.Replace("[MainCharacter]", "リアン");
                 }
+                
+                if (skitEntryData.JapaneseTalkDialogue.Contains("SetFlag"))
+                {
+                    var pattern = @"\[SetFlag:(.*?)\]";
+                    var match = Regex.Match(normDialogue, pattern);
+                    var flagValue = match.Success ? match.Groups[1].Value : null;
+                    skitContext.SkitFlagData.SetCurrentFlag(flagValue);
+                    normDialogue = Regex.Replace(normDialogue, pattern, "");
+                }
+      
 
                 if (skitEntryData.JapaneseTalkDialogue.Contains("[Skit]"))
                 {
@@ -126,7 +134,7 @@ namespace TeamB.SkitSystem
                     normDialogue = normDialogue.Replace($"[{skitId}]", "");
                     if (_skitDataLoader.TryGetSkitDataById(skitId, out var nextSkitData))
                     {
-                        _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, nextSkitData);
+                        _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, nextSkitData, skitContext.SkitFlagData);
                     }
                     else
                     {

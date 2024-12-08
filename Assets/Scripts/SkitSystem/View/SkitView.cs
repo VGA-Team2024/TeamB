@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using R3;
 using TeamB.GameSystem.Statics;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +10,12 @@ namespace TeamB.SkitSystem
 {
     public class SkitView : MonoBehaviour
     {
+        [Header("操作系")]
+        [SerializeField] private Button _skipButton;
+        [SerializeField] private Button _autoButton;
+        [SerializeField] private Button _backLogButton;
+        [SerializeField] private SkitLogViewer _backlogView;
+        [SerializeField] private RectTransform _backLogTextParent;
         [Header("会話表示関連")]
         [SerializeField] private TMP_Text _dialogueText;
         [SerializeField] private TMP_Text _talkerNameText;
@@ -62,6 +64,15 @@ namespace TeamB.SkitSystem
                     _concentrationText.text = GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate.ToString(_parameterPoint);
                 }).AddTo(this);
             }
+            _backLogButton.onClick.AddListener(() =>
+            {
+                _backlogView.SetActivePanel(true);
+            });
+        }
+        
+        private async UniTask GetTapInput(CancellationToken cancellationToken)
+        {
+             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive, cancellationToken: cancellationToken);
         }
         
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput, CancellationToken cancellationToken)
@@ -69,7 +80,7 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             SetCharacterAndBackground(tutorialData.BackgroundImageName, null);
             _tutorialPanelAboutGame.SetActive(true);
-            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken : cancellationToken);
+            await GetTapInput(cancellationToken);
             emptyInput.TrySetResult();
             _tutorialPanelAboutGame?.SetActive(false);
         }
@@ -142,7 +153,7 @@ namespace TeamB.SkitSystem
             _tutorialPanelAboutSkitChoice.SetActive(false);
             _tutorialPanelAboutSkitResult.SetActive(true);
             _statusPanel.SetActive(true);
-            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0), cancellationToken : cancellationToken);
+            await GetTapInput(cancellationToken);
             awaitForEmptyInput.TrySetResult();
             _tutorialPanelAboutSkitResult?.SetActive(false);
         }
@@ -211,6 +222,7 @@ namespace TeamB.SkitSystem
                 button.ChoiceButton.onClick.AddListener( async () =>
                 {
                     awaitChoice.TrySetResult(choiceEntry.EnglishChoiceEntryName);
+                    Debug.Log($"選択したもの：{choiceEntry.EnglishChoiceEntryName} 正解:{skitChoiceData.Answer} あなたの結果{(choiceEntry.EnglishChoiceEntryName == skitChoiceData.Answer ? "正解" : "不正解")}");
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
             
@@ -233,6 +245,11 @@ namespace TeamB.SkitSystem
             _restTimeText.text = time.ToString(decimalPoint);
             while (time > 0)
             {
+                if (_backlogView.IsLogActive)
+                {
+                    await UniTask.Yield(cancellationToken);
+                    continue;
+                }
                 if (awaitSelect.Task.Status == UniTaskStatus.Succeeded || cancellationToken.IsCancellationRequested)
                 {
                     break;

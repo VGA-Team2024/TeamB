@@ -86,7 +86,7 @@ namespace TeamB.SkitSystem
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Tutorial,
-                    tutorialData));
+                    tutorialData, _skitScenePresenter.SkitFlagData));
             }
         }
 
@@ -95,7 +95,7 @@ namespace TeamB.SkitSystem
             if (_skitScenePresenter.SkitDataLoader.TryGetSkitDataById(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
-                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData, _skitScenePresenter.SkitFlagData));
             }
         }
         
@@ -104,7 +104,7 @@ namespace TeamB.SkitSystem
             if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectDataById(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
-                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData));
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData, _skitScenePresenter.SkitFlagData));
             }
         }
 
