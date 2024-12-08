@@ -349,6 +349,11 @@ MonoBehaviour:
   _classSelectButtonName: {fileID: 1413468070420845814}
   _classSelectButton: {fileID: 8863789948154586567}
   _rewardImage: {fileID: 1798815047197048047}
+  _intuitionSprite: {fileID: 21300000, guid: a8bd75b1ff7a97148a393b12b9cf3109, type: 3}
+  _readingComprehensionSprite: {fileID: 21300000, guid: 7998ce1516bb3654a8cb1a22a825dba2,
+    type: 3}
+  _concentrationSprite: {fileID: 21300000, guid: 868782f3805b99f40bb3d6d2e5227c2b,
+    type: 3}
 --- !u!114 &4751157950389753223
 MonoBehaviour:
   m_ObjectHideFlags: 0

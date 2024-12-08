@@ -224,7 +224,6 @@ namespace TeamB.SkitSystem
             for (var index = 0; index < tutorialData.JapaneseDialogue.Length; index++)
             {
                 var dialog = tutorialData.JapaneseDialogue[index];
-                Debug.Log(dialog);
                 if (token.IsCancellationRequested)
                 {
                     Debug.Log("処理がキャンセルされました");

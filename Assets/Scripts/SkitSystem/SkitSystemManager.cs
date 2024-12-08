@@ -16,7 +16,6 @@ namespace TeamB.SkitSystem
         private readonly Queue<SkitContext> _skitContextQueue = new();
         private readonly HashSet<SkitContextHandlerBase> _skitContextHandlers = new();
         private readonly ISkitSceneCoordinator _skitSceneCoordinator;
-        private bool _isFirstSkitContextExecuted = false;
         public CancellationTokenSource CurrentCancellationToken { get; private set; }
 
         
