@@ -39,6 +39,7 @@ namespace TeamB.Develop
         public event Action OnAttack;
         public event Action OnEndAttack;
         public event Action OnTakeDamage;
+        public event Action OnTakeHeal;
         public event Action OnAddBuff;
         public event Action OnRemoveBuff;
         public event Action OnAddDeBuff;
@@ -85,7 +86,7 @@ namespace TeamB.Develop
                 if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
                 {
                     OnAttack?.Invoke();
-                 
+
                     _attackTimer = 0;
                     _attackParticle.Play();
 

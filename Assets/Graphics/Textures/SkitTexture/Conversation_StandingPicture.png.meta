@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Graphics/Textures/SkitTexture/Conversation_StandingPicture_01.png.meta
+guid: 9c23e50c34b9df64fa85ee4bb5349376
+========
 guid: 8a6ea35538b05c74bb37cb07108e0870
+>>>>>>>> 5b8516ac4cbd643610f1d428613454bff96000f2:Assets/Graphics/Textures/SkitTexture/Conversation_StandingPicture.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

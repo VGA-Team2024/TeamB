@@ -79,7 +79,6 @@ namespace TeamB.Develop
         {
             if (!_defencePrefab)
                 return;
-            _defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
             _defencePrefab.SetActive(true);
             _allies.OnSuccessDefence += OnSuccessDefence;
         }
@@ -88,7 +87,6 @@ namespace TeamB.Develop
         {
             if (!_defencePrefab)
                 return;
-            _defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
             _defencePrefab.SetActive(false);
             _allies.OnSuccessDefence -= OnSuccessDefence;
         }

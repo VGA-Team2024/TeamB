@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,9 +10,13 @@ namespace TeamB.GameSystem
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        
+        private void Start()
         {
         }
+
+        
     }
+
+
 }
