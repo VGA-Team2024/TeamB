@@ -2137,149 +2137,28 @@ MonoBehaviour:
   - m_GUID: ebfb3e5cd772f044887cb985157d8a89
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f281.png
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ecca14622bdd3a6498148e56570c08c7
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f122.png
+  - m_GUID: 641975e431853d34aaa04892c52401af
+    m_Address: Conversation
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ed055b299e4da2c4c896f81fab11e1c3
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f334.png
+  - m_GUID: 741ca652a6b89f743b236c068e6ad453
+    m_Address: Conversation_Lian
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ee7a2a5f0ebb04d4290b9659c374f543
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f217.png
+  - m_GUID: c098c36c86bea174799b06f8442a9b76
+    m_Address: Conversation_LionNew
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef332a0546be4114e8d99b787223f4de
     m_Address: Class_Test
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ef37edd6fa540494b81185962290380e
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f276.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ef72d99c129789949b90b6272d1b51de
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f246.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ef96a8790a4f8b64cbd038b4bfdd4aa0
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f016.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f013b55e50f54154698b15eca5cb7d8b
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f010.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f0af28e7af0e38a43a951fd3dd9e8abb
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f053.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f30c9b2cb20ecf1468fe1e02a87210d1
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f231.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f3d20c7726d074644b71c29e6f3cf1b9
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f238.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f415476a8d3d0c640a73980f89b7c5b0
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f149.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f52f29ee2b7f3b942b1fc83fa3d80c04
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f169.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f842fabcd35f78d459e6efc657c5422f
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f030.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f848be170756d574e8f51033821dbcbe
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f108.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f94fdf1beb71ca648b112615f627917e
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f156.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f9955de7e36225b40981cc252ba3135a
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f040.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fa2ad526c9a1e9d448fef30a2149744c
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f174.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fbea1bd38e06661498f95e51ee0119bb
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f199.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fda0fdbb921e82840a0a90e1fba5adcc
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f037.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fdc45b26a8ab8ab42b4274b55e99279f
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f052.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fecb1ab799211f84caf4f5d9844ace00
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f330.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ff34c8148c3835045a9a309333709c8f
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f158.png
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ff89613237d30304fb1ef65bef02473e
-    m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f210.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture

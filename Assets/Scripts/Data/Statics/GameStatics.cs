@@ -46,6 +46,11 @@ namespace TeamB.GameSystem.Statics
         /// 試験クリアしたかどうか
         /// </summary>
         public static ExamResult ExamResult;
+
+        /// <summary>
+        /// 試験結果
+        /// </summary>
+        public static ResultData resultData = new();
         
         public static void Log()
         {
