@@ -58,6 +58,7 @@ namespace TeamB.Develop
         public event Action OnDefense;
         public event Action OnEndDefense;
         public event Action OnSuccessDefence;
+        public event Action OnFailDefence;
         public event Action OnTakeDamage;
         public event Action OnTakeHeal;
         public event Action OnAddBuff;

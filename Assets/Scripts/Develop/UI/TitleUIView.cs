@@ -17,7 +17,6 @@ namespace TeamB.UI
         [SerializeField] private SkitFlagData _skitFlagData;
         protected override void AwakeCall()
         {
-            CRIAudioManager.Initialize();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
             
             _skitFlagData.SetCurrentFlag("Prologue");

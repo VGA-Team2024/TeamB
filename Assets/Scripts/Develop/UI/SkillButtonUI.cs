@@ -27,10 +27,12 @@ namespace TeamB.Develop
             if (cost <= _manager.GetCurrentHaveCost)
             {
                 _skillImage.fillAmount = 0f;
+                _skillImage.gameObject.SetActive(false);
             }
             else
             {
                 _skillImage.fillAmount = 1f;
+                _skillImage.gameObject.SetActive(true);
             }
         }
 

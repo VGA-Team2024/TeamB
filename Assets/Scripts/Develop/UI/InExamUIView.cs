@@ -2,7 +2,6 @@
 using TeamB.Develop;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
-using TeamB.InGameData.Data;
 using TMPro;
 using UISystem;
 using UnityEngine;
@@ -53,6 +52,8 @@ namespace TeamB.UI
             _waveManager = FindAnyObjectByType<WaveManager>();
             _exam = FindAnyObjectByType<Exam>();
             _allyManager = FindAnyObjectByType<AllyManager>();
+            
+            CRIAudioManager.BGM.Stop();
 
             _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;

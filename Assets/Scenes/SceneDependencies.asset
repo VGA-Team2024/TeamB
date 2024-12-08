@@ -16,11 +16,11 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Morning
     AssetPath: Assets/Scenes/Design/Morning.unity
-    SceneType: 4
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Night
     AssetPath: Assets/Scenes/Design/Night.unity
-    SceneType: 4
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Credit
     AssetPath: Assets/Scenes/Develop/Credit.unity
@@ -36,15 +36,15 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Result
     AssetPath: Assets/Scenes/Develop/Result.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Skit
     AssetPath: Assets/Scenes/Develop/Skit.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Title
     AssetPath: Assets/Scenes/Develop/Title.unity
-    SceneType: 0
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: FruitsBasketScene
     AssetPath: Assets/Scenes/FruitsBasket/FruitsBasketScene.unity
@@ -52,7 +52,7 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Flappy Bird
     AssetPath: Assets/Scenes/Mockup/Flappy Bird.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: MatoateScene
     AssetPath: Assets/Scenes/Mockup/MatoateScene.unity
@@ -60,15 +60,15 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: moch_CharmUp
     AssetPath: Assets/Scenes/Mockup/moch_CharmUp.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: moch_Exam
     AssetPath: Assets/Scenes/Mockup/moch_Exam.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: moch_SuddenlyEvent
     AssetPath: Assets/Scenes/Mockup/moch_SuddenlyEvent.unity
-    SceneType: 2
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Sample
     AssetPath: Assets/Scenes/Mockup/Sample.unity
@@ -76,11 +76,11 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: Whack-a-mole
     AssetPath: Assets/Scenes/Mockup/Whack-a-mole.unity
-    SceneType: 4
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: Particle58
     AssetPath: Assets/Scenes/Particle58/Particle58.unity
-    SceneType: 3
+    SceneType: 0
   - CanIDebugSelect: 1
     Name: 3DSoundSample
     AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
@@ -100,4 +100,4 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: IngameSystem
     AssetPath: Assets/Scenes/System/IngameSystem.unity
-    SceneType: 2
+    SceneType: 0
