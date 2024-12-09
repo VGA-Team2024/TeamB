@@ -58,7 +58,6 @@ namespace TeamB.SkitSystem
         [Header("その他")] [SerializeField] private SkitViewFade _skitFadeView;
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
-        private const string ParameterPoint = "F1";
 
         public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
@@ -95,12 +94,9 @@ namespace TeamB.SkitSystem
                 MoveStatusUp();
             }
             
-            _intuitionText.text = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK
-                .ToString(ParameterPoint);
-            _readingComprehensionText.text = GameStatics.Characters[(int)GameStatics.NurturingCharacterType]
-                .ChantingSpeed.ToString(ParameterPoint);
-            _concentrationText.text = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate
-                .ToString(ParameterPoint);
+            _intuitionText.text = $"{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK:F1}";
+            _readingComprehensionText.text = $"{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed:F1}%";
+            _concentrationText.text = $"{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate:F1}%";
 
             void MoveStatusUp()
             {
@@ -144,12 +140,12 @@ namespace TeamB.SkitSystem
             {
                 var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
                 button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
-                button.ClassSelectButtonComponent.onClick.AddListener(() =>
+                button.OnClick += () =>
                 {
                     awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
                     _classSelectPanel.SetActive(false);
                     _tutorialPanelAboutClassSelect?.SetActive(false);
-                });
+                };
             }
         }
 
@@ -187,12 +183,12 @@ namespace TeamB.SkitSystem
 
                 button.InitializeSkitChoiceButton(choiceEntry.JapaneseChoiceEntryName, resultSprite);
 
-                button.ChoiceButton.onClick.AddListener(() =>
+                button.OnClick += () =>
                 {
                     awaitSelect.TrySetResult(tutorialChoiceData.Answer);
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
-                });
+                };
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
         }
@@ -232,11 +228,11 @@ namespace TeamB.SkitSystem
             {
                 var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
                 button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
-                button.ClassSelectButtonComponent.onClick.AddListener(() =>
+                button.OnClick += () =>
                 {
                     awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
                     _classSelectPanel.SetActive(false);
-                });
+                };
             }
         }
 
@@ -278,7 +274,7 @@ namespace TeamB.SkitSystem
 
                 button.InitializeSkitChoiceButton(choiceEntry.JapaneseChoiceEntryName, resultSprite);
 
-                button.ChoiceButton.onClick.AddListener(async () =>
+                button.OnClick += async () =>
                 {
                     awaitChoice.TrySetResult(choiceEntry.EnglishChoiceEntryName);
                     LockAndShowAllChoiceButtonsResult();
@@ -289,7 +285,7 @@ namespace TeamB.SkitSystem
                     cancellationToken.ThrowIfCancellationRequested();
 
                     awaitEmptyInput.TrySetResult();
-                });
+                };
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
         }
@@ -337,7 +333,7 @@ namespace TeamB.SkitSystem
                 var button = child.GetComponent<SkitChoiceButton>();
                 if (button != null)
                 {
-                    button.ChoiceButton.interactable = false;
+                    button.LockButton(true);
                     button.ButtonResultImage.gameObject.SetActive(true);
                 }
             }

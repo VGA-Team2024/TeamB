@@ -19,6 +19,7 @@ namespace TeamB.SkitSystem
 
         public async UniTask FadeInAsync(CancellationToken cancellationToken, bool immediate = false)
         {
+            _fadeImage.gameObject.SetActive(true);
             if (immediate)
             {
                 _fadeImage.color = new Color(0, 0, 0, 0);
@@ -29,7 +30,6 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 0);
                 await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
-            _fadeImage.raycastTarget = true;
         }
         
         public async UniTask FadeOutAsync(CancellationToken cancellationToken, bool immediate = false)
@@ -44,7 +44,7 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 1);
                 await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
-            _fadeImage.raycastTarget = false;
+            _fadeImage.gameObject.SetActive(false);
         }
     }
 }

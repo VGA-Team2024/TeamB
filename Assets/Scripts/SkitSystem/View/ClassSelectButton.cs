@@ -7,21 +7,20 @@ using UnityEngine.UI;
 
 namespace TeamB.SkitSystem
 {
-    public class ClassSelectButton : MonoBehaviour
+    public class ClassSelectButton : SkitSceneButtonBase
     {
         [SerializeField] private TMP_Text _classSelectButtonName;
-        [SerializeField] private Button _classSelectButton;
         [SerializeField] private Image _rewardImage;
         [SerializeField] private Sprite _intuitionSprite;
         [SerializeField] private Sprite _readingComprehensionSprite;
         [SerializeField] private Sprite _concentrationSprite;
         
-        public Button ClassSelectButtonComponent => _classSelectButton;
         
         public void InitializeClassSelectButton(string className, RewardType rewardType)
         {
             _classSelectButtonName.text = className;
             SetRewardImage(rewardType);
+            OnClick += () => SkitRewardManager.Instance.SetRewardType(rewardType);
         }
         
         private void SetRewardImage(RewardType rewardType)

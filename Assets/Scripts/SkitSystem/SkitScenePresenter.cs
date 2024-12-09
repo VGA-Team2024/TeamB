@@ -41,6 +41,11 @@ namespace TeamB.SkitSystem
             await _skitResourceLoader.InitializeSkitResourceLoader();
             _skitSceneView.InitializeSkitView(_skitResourceLoader);
             SetSkitDataHandler();
+            SkitSystemManager.OnSkitEnd += async () =>
+            {
+                await _loadingPanel.FadeInAsync(destroyCancellationToken);
+                Debug.Log("SkitEnd");
+            };
             SkitSystemManager.DoSkitSequence().Forget();
         }
 

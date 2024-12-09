@@ -53,8 +53,8 @@ namespace TeamB.SkitSystem
         public void EndSkitScene()
         {
             // 会話シーンの終了時に必要な処理を行う
-            SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
-            //SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
+            //SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
+            SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace TeamB.SkitSystem
         private readonly HashSet<SkitContextHandlerBase> _skitContextHandlers = new();
         private readonly ISkitSceneCoordinator _skitSceneCoordinator;
         public CancellationTokenSource CurrentCancellationToken { get; private set; }
+        public event Func<UniTask> OnSkitEnd;
 
         
         public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers, ISkitSceneCoordinator skitSceneCoordinator)
@@ -78,6 +79,7 @@ namespace TeamB.SkitSystem
             
             //テスト用
             SkitRewardManager.Instance.ApplyStatus();
+            if (OnSkitEnd != null) await OnSkitEnd.Invoke();
             _skitSceneCoordinator.EndSkitScene();
         }
         private void CancelSkitSequence()

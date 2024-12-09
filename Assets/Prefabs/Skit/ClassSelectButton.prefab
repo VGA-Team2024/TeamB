@@ -346,6 +346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f5b918216584e24ba22ff272e8faea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _button: {fileID: 8863789948154586567}
+  _buttonImage: {fileID: 8388126901848437195}
+  _scale: 1.1
+  _duration: 0.1
+  _ease: 1
   _classSelectButtonName: {fileID: 1413468070420845814}
   _classSelectButton: {fileID: 8863789948154586567}
   _rewardImage: {fileID: 1798815047197048047}
