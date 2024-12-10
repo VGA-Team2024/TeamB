@@ -17,31 +17,40 @@ namespace TeamB.SkitSystem
         [SerializeField] private float _addScale = 0.1f;
         [SerializeField] private float _duration = 0.1f;
         [SerializeField] private Ease _ease = Ease.Linear;
+        [SerializeField] private float _activeColor = 0.66f;
+        private float _defaultScale;
         public event Action OnClick; 
-        public Image ButtonImage => _buttonImage;
-        public Color EnabledColor => new Color(0.7843137f, 0.7843137f, 0.7843137f, 0.5019608f);
 
         private void Awake()
         {
-            _button.OnClickAsObservable().Subscribe( async _ =>
+            _defaultScale = transform.localScale.x;
+            _button.OnClickAsObservable().Subscribe(async _ =>
             {
-                await _buttonImage.rectTransform.DOScale(transform.localScale.x + _addScale, _duration).SetEase(_ease).SetLink(gameObject).ToUniTask(cancellationToken:destroyCancellationToken);
+                await _buttonImage.rectTransform.DOScale(_defaultScale + _addScale, _duration)
+                    .SetEase(_ease).SetLink(gameObject).ToUniTask(cancellationToken: destroyCancellationToken);
                 OnClick?.Invoke();
             }).AddTo(this);
         }
         
+        public void ShowIsActivated(bool isActivated)
+        {
+            _buttonImage.color = isActivated ?  new Color(_activeColor, _activeColor, _activeColor, 1) : new Color(1, 1, 1, 1);
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!_button.interactable) return;
-            _buttonImage.rectTransform.DOScale(transform.localScale.x + _addScale, _duration).SetEase(_ease).SetLink(gameObject);
+            _buttonImage.rectTransform.DOScale(_defaultScale + _addScale, _duration)
+                .SetEase(_ease).SetLink(gameObject);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (!_button.interactable) return;
-            _buttonImage.rectTransform.DOScale(transform.localScale.x - _addScale, _duration).SetEase(_ease).SetLink(gameObject);
+            _buttonImage.rectTransform.DOScale(_defaultScale - _addScale, _duration)
+                .SetEase(_ease).SetLink(gameObject);
         }
-        
+
         public void LockButton(bool isLock)
         {
             _button.interactable = !isLock;

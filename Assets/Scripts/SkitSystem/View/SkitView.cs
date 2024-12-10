@@ -14,7 +14,8 @@ namespace TeamB.SkitSystem
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
         [SerializeField] private SkitSceneButtonBase _autoButton;
-        private bool _isAutoMode;
+        [SerializeField] private bool _isAutoMode;
+        [SerializeField, Range(0, 5)] private float _autoDelaySpeed = 2f;
         [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
         [SerializeField] private RectTransform _backLogTextParent;
@@ -81,12 +82,11 @@ namespace TeamB.SkitSystem
         private void SetAuto()
         {
             _isAutoMode = !_isAutoMode;
-            _autoButton.ButtonImage.color = _isAutoMode ? new Color(0.7843137f, 0.7843137f, 0.7843137f, 0.5019608f) : new Color(1, 1, 1, 1);
+            _autoButton.ShowIsActivated(_isAutoMode);
         }
 
         private void UpdateStatus(float currentValue, TMP_Text statusText, RectTransform goalObject)
         {
-            Debug.Log($"{goalObject.name}ポジション：ローカル{goalObject.localPosition}　アンカー{goalObject.anchoredPosition}　ワールド{goalObject.position}");
             _statusUpImage.rectTransform.anchoredPosition = goalObject.anchoredPosition  - new Vector2(0, 10);
             MoveStatusUp();
             statusText.text = $"{currentValue:F1}";
@@ -105,14 +105,14 @@ namespace TeamB.SkitSystem
             if (_isAutoMode)
             {
                 var elapsedTime = 0f;
-                var delayTime = 2f; // Adjust the delay time as needed
-                while (elapsedTime < delayTime)
+                while (elapsedTime < _autoDelaySpeed)
                 {
                     if (!_isAutoMode)
                     {
                         break;
                     }
                     await UniTask.DelayFrame(1, cancellationToken: cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
                     elapsedTime += Time.deltaTime;
                 }
             }
