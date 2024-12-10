@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -6,7 +5,6 @@ using R3;
 using TeamB.GameSystem.Statics;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TeamB.SkitSystem
@@ -297,7 +295,7 @@ namespace TeamB.SkitSystem
             _restTimeText.text = time.ToString(decimalPoint);
             while (time > 0)
             {
-                if (!_backlogView.IsLogActive)
+                if (_backlogView.IsLogActive)
                 {
                     await UniTask.Yield(cancellationToken);
                     continue;
@@ -308,14 +306,14 @@ namespace TeamB.SkitSystem
                     break;
                 }
 
-                _restTimeText.text = time.ToString(decimalPoint);
+                _restTimeText.text = $"残り{time.ToString(decimalPoint)}秒";
                 await UniTask.Yield(cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
                 time -= Time.deltaTime;
                 if (time <= 0)
                 {
                     awaitSelect.TrySetResult("");
-                    _restTimeText.text = "0.0";
+                    _restTimeText.text = "残り0.0秒";
                     LockAndShowAllChoiceButtonsResult();
                     Debug.Log("Time is up");
                     await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0),
