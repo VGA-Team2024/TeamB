@@ -13,6 +13,7 @@ namespace TeamB.SkitSystem
     {
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
+        [SerializeField] private bool _isSkipMode;
         [SerializeField] private SkitSceneButtonBase _autoButton;
         [SerializeField] private bool _isAutoMode;
         [SerializeField, Range(0, 5)] private float _autoDelaySpeed = 2f;
@@ -76,7 +77,14 @@ namespace TeamB.SkitSystem
             }
             _statusUpImage.gameObject.SetActive(false);
             _backLogButton.OnClick += () => _backlogView.SetActivePanel(true);
+            _skipButton.OnClick += () => SetSkip(!_skipButton.IsActivated);
             _autoButton.OnClick += SetAuto;
+        }
+        
+        private void SetSkip(bool isSkip)
+        {
+            _isSkipMode = isSkip;
+            _skipButton.ShowIsActivated(_isSkipMode);
         }
 
         private void SetAuto()
@@ -102,12 +110,13 @@ namespace TeamB.SkitSystem
 
         private async UniTask GetTapInput(CancellationToken cancellationToken)
         {
+            if (_isSkipMode) return;
             if (_isAutoMode)
             {
                 var elapsedTime = 0f;
                 while (elapsedTime < _autoDelaySpeed)
                 {
-                    if (!_isAutoMode)
+                    if (!_isAutoMode || _backlogView.IsLogActive)
                     {
                         break;
                     }
@@ -116,10 +125,13 @@ namespace TeamB.SkitSystem
                     elapsedTime += Time.deltaTime;
                 }
             }
-
+            
+            if (_isSkipMode) return;
             if (!_isAutoMode)
             {
-                await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive, cancellationToken: cancellationToken);
+                Debug.Log("GetTapInput");
+                await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive || _isAutoMode, cancellationToken: cancellationToken);
+                Debug.Log("GetTapInputEnd");
             }
         }
 
@@ -249,6 +261,7 @@ namespace TeamB.SkitSystem
         public async UniTask ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice,
             UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
         {
+            SetSkip(false);
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitChoiceData.TalkBackground, skitChoiceData.TalkCharaData, cancellationToken);
             await ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken);
@@ -453,7 +466,7 @@ namespace TeamB.SkitSystem
                     break;
                 }
                 // スキップ時に全文を即座に表示
-                if (isDialogueComplete)
+                if (isDialogueComplete || _isSkipMode)
                 {
                     _dialogueText.text = dialogue;
                     break;

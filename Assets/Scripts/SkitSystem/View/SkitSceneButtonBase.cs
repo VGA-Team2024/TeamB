@@ -19,6 +19,8 @@ namespace TeamB.SkitSystem
         [SerializeField] private Ease _ease = Ease.Linear;
         [SerializeField] private float _activeColor = 0.66f;
         private float _defaultScale;
+        private bool _isActivated;
+        public bool IsActivated => _isActivated;
         public event Action OnClick; 
 
         private void Awake()
@@ -35,6 +37,7 @@ namespace TeamB.SkitSystem
         public void ShowIsActivated(bool isActivated)
         {
             _buttonImage.color = isActivated ?  new Color(_activeColor, _activeColor, _activeColor, 1) : new Color(1, 1, 1, 1);
+            _isActivated = isActivated;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
