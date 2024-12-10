@@ -12,9 +12,10 @@ namespace TeamB.SkitSystem
     public class SkitView : MonoBehaviour
     {
         [Header("操作系")]
-        [SerializeField] private Button _skipButton;
-        [SerializeField] private Button _autoButton;
-        [SerializeField] private Button _backLogButton;
+        [SerializeField] private SkitSceneButtonBase _skipButton;
+        [SerializeField] private SkitSceneButtonBase _autoButton;
+        private bool _isAutoMode;
+        [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
         [SerializeField] private RectTransform _backLogTextParent;
         [Header("会話表示関連")] 
@@ -73,7 +74,14 @@ namespace TeamB.SkitSystem
                     .Subscribe(x => UpdateStatus(x, _concentrationText, _concentrationImage.rectTransform)).AddTo(this);
             }
             _statusUpImage.gameObject.SetActive(false);
-            _backLogButton.onClick.AddListener(() => { _backlogView.SetActivePanel(true); });
+            _backLogButton.OnClick += () => _backlogView.SetActivePanel(true);
+            _autoButton.OnClick += SetAuto;
+        }
+
+        private void SetAuto()
+        {
+            _isAutoMode = !_isAutoMode;
+            _autoButton.ButtonImage.color = _isAutoMode ? new Color(0.7843137f, 0.7843137f, 0.7843137f, 0.5019608f) : new Color(1, 1, 1, 1);
         }
 
         private void UpdateStatus(float currentValue, TMP_Text statusText, RectTransform goalObject)
@@ -94,7 +102,25 @@ namespace TeamB.SkitSystem
 
         private async UniTask GetTapInput(CancellationToken cancellationToken)
         {
-            await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive, cancellationToken: cancellationToken);
+            if (_isAutoMode)
+            {
+                var elapsedTime = 0f;
+                var delayTime = 2f; // Adjust the delay time as needed
+                while (elapsedTime < delayTime)
+                {
+                    if (!_isAutoMode)
+                    {
+                        break;
+                    }
+                    await UniTask.DelayFrame(1, cancellationToken: cancellationToken);
+                    elapsedTime += Time.deltaTime;
+                }
+            }
+
+            if (!_isAutoMode)
+            {
+                await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive, cancellationToken: cancellationToken);
+            }
         }
 
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput,

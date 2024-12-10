@@ -2124,6 +2124,7 @@ GameObject:
   - component: {fileID: 318016777}
   - component: {fileID: 318016776}
   - component: {fileID: 318016775}
+  - component: {fileID: 318016778}
   m_Layer: 5
   m_Name: AutoButton
   m_TagString: Untagged
@@ -2177,7 +2178,7 @@ MonoBehaviour:
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
+    m_ColorMultiplier: 3.55
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
@@ -2233,6 +2234,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318016773}
   m_CullTransparentMesh: 1
+--- !u!114 &318016778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318016773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97980e7df0c579a438ed1c89ac3b2aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 318016775}
+  _buttonImage: {fileID: 318016776}
+  _addScale: 0.1
+  _duration: 0.1
+  _ease: 1
 --- !u!1 &381055849
 GameObject:
   m_ObjectHideFlags: 0
@@ -5247,6 +5265,7 @@ GameObject:
   - component: {fileID: 1153800138}
   - component: {fileID: 1153800137}
   - component: {fileID: 1153800136}
+  - component: {fileID: 1153800139}
   m_Layer: 5
   m_Name: LogButton
   m_TagString: Untagged
@@ -5356,6 +5375,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153800134}
   m_CullTransparentMesh: 1
+--- !u!114 &1153800139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153800134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97980e7df0c579a438ed1c89ac3b2aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1153800136}
+  _buttonImage: {fileID: 1153800137}
+  _addScale: 0.1
+  _duration: 0.1
+  _ease: 1
 --- !u!1 &1169881662
 GameObject:
   m_ObjectHideFlags: 0
@@ -8082,6 +8118,7 @@ GameObject:
   - component: {fileID: 1809995360}
   - component: {fileID: 1809995359}
   - component: {fileID: 1809995358}
+  - component: {fileID: 1809995361}
   m_Layer: 5
   m_Name: SkipButton
   m_TagString: Untagged
@@ -8191,6 +8228,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809995356}
   m_CullTransparentMesh: 1
+--- !u!114 &1809995361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809995356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97980e7df0c579a438ed1c89ac3b2aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 1809995358}
+  _buttonImage: {fileID: 1809995359}
+  _addScale: 0.1
+  _duration: 0.1
+  _ease: 1
 --- !u!1 &1822328453
 GameObject:
   m_ObjectHideFlags: 0
@@ -9034,9 +9088,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babcd2bbf7d4bc94cb75de5376493520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipButton: {fileID: 1809995358}
-  _autoButton: {fileID: 318016775}
-  _backLogButton: {fileID: 1153800136}
+  _skipButton: {fileID: 1809995361}
+  _autoButton: {fileID: 318016778}
+  _backLogButton: {fileID: 1153800139}
   _backlogView: {fileID: 2785846}
   _backLogTextParent: {fileID: 899244275}
   _dialogueText: {fileID: 410424971}

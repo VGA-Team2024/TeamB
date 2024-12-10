@@ -14,16 +14,18 @@ namespace TeamB.SkitSystem
     {
         [SerializeField] private Button _button;
         [SerializeField] private Image _buttonImage;
-        [SerializeField] private float _upScale = 1.1f;
+        [SerializeField] private float _addScale = 0.1f;
         [SerializeField] private float _duration = 0.1f;
         [SerializeField] private Ease _ease = Ease.Linear;
         public event Action OnClick; 
+        public Image ButtonImage => _buttonImage;
+        public Color EnabledColor => new Color(0.7843137f, 0.7843137f, 0.7843137f, 0.5019608f);
 
         private void Awake()
         {
             _button.OnClickAsObservable().Subscribe( async _ =>
             {
-                await _buttonImage.rectTransform.DOScale(_upScale, _duration).SetEase(_ease).SetLink(gameObject).ToUniTask(cancellationToken:destroyCancellationToken);
+                await _buttonImage.rectTransform.DOScale(transform.localScale.x + _addScale, _duration).SetEase(_ease).SetLink(gameObject).ToUniTask(cancellationToken:destroyCancellationToken);
                 OnClick?.Invoke();
             }).AddTo(this);
         }
@@ -31,13 +33,13 @@ namespace TeamB.SkitSystem
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!_button.interactable) return;
-            _buttonImage.rectTransform.DOScale(_upScale, _duration).SetEase(_ease).SetLink(gameObject);
+            _buttonImage.rectTransform.DOScale(transform.localScale.x + _addScale, _duration).SetEase(_ease).SetLink(gameObject);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (!_button.interactable) return;
-            _buttonImage.rectTransform.DOScale(1, _duration).SetEase(_ease).SetLink(gameObject);
+            _buttonImage.rectTransform.DOScale(transform.localScale.x - _addScale, _duration).SetEase(_ease).SetLink(gameObject);
         }
         
         public void LockButton(bool isLock)
