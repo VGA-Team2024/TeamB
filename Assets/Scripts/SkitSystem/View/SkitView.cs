@@ -34,7 +34,8 @@ namespace TeamB.SkitSystem
         [SerializeField] private Transform _classSelectButtonParent;
         [SerializeField] private ClassSelectButton _classSelectButtonPrefab;
         [SerializeField] private TMP_Text _restDayText;
-        [Header("選択肢表示関連")] [SerializeField] private SkitChoiceButton _choiceButtonPrefab;
+        [Header("選択肢表示関連")]
+        [SerializeField] private SkitChoiceButton _choiceButtonPrefab;
         [SerializeField] private Sprite _correctChoiceSprite;
         [SerializeField] private Sprite _missChoiceSprite;
         [SerializeField] private Transform _choiceButtonParent;
@@ -44,16 +45,17 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _intuitionText;
         [SerializeField] private TMP_Text _readingComprehensionText;
         [SerializeField] private TMP_Text _concentrationText;
+        [SerializeField] private Image _intuitionImage;
+        [SerializeField] private Image _readingComprehensionImage;
+        [SerializeField] private Image _concentrationImage;
         [SerializeField] private Image _statusUpImage;
-        private float _previousIntuition;
-        private float _previousReadingComprehension;
-        private float _previousConcentration;
         [Header("チュートリアル用")]
         [SerializeField] private GameObject _tutorialPanelAboutGame;
         [SerializeField] private GameObject _tutorialPanelAboutClassSelect;
         [SerializeField] private GameObject _tutorialPanelAboutSkitChoice;
         [SerializeField] private GameObject _tutorialPanelAboutSkitResult;
-        [Header("その他")] [SerializeField] private SkitViewFade _skitFadeView;
+        [Header("その他")]
+        [SerializeField] private SkitViewFade _skitFadeView;
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
 
@@ -63,52 +65,36 @@ namespace TeamB.SkitSystem
             var key = (int)GameStatics.NurturingCharacterType;
             if (GameStatics.Characters.ContainsKey(key))
             {
-                Observable.EveryUpdate().Subscribe(_ => UpdateCharaStatus()).AddTo(this);
+                Observable.EveryValueChanged(GameStatics.Characters[key], value => value.MagicATK)
+                    .Subscribe(x => UpdateStatus(x, _intuitionText, _intuitionImage.rectTransform)).AddTo(this);
+                Observable.EveryValueChanged(GameStatics.Characters[key], value => value.ChantingSpeed)
+                    .Subscribe(x => UpdateStatus(x, _readingComprehensionText, _readingComprehensionImage.rectTransform)).AddTo(this);
+                Observable.EveryValueChanged(GameStatics.Characters[key], value => value.HitRate)
+                    .Subscribe(x => UpdateStatus(x, _concentrationText, _concentrationImage.rectTransform)).AddTo(this);
             }
             _statusUpImage.gameObject.SetActive(false);
             _backLogButton.onClick.AddListener(() => { _backlogView.SetActivePanel(true); });
         }
 
-        private void UpdateCharaStatus()
+        private void UpdateStatus(float currentValue, TMP_Text statusText, RectTransform goalObject)
         {
-            if (!Mathf.Approximately(_previousIntuition, GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK))
-            {
-                _previousIntuition = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK;
-                _statusUpImage.transform.position = _intuitionText.transform.position;
-                MoveStatusUp();
-            }
-            
-            if (!Mathf.Approximately(_previousReadingComprehension, GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed))
-            {
-                _previousReadingComprehension = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed;
-                _statusUpImage.transform.position = _readingComprehensionText.transform.position;
-                MoveStatusUp();
-            }
-            
-            if (!Mathf.Approximately(_previousConcentration, GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate))
-            {
-                _previousConcentration = GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate;
-                _statusUpImage.transform.position = _concentrationText.transform.position;
-                MoveStatusUp();
-            }
-            
-            _intuitionText.text = $"{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].MagicATK:F1}";
-            _readingComprehensionText.text = $"{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed:F1}%";
-            _concentrationText.text = $"{GameStatics.Characters[(int)GameStatics.NurturingCharacterType].HitRate:F1}%";
+            Debug.Log($"{goalObject.name}ポジション：ローカル{goalObject.localPosition}　アンカー{goalObject.anchoredPosition}　ワールド{goalObject.position}");
+            _statusUpImage.rectTransform.anchoredPosition = goalObject.anchoredPosition  - new Vector2(0, 10);
+            MoveStatusUp();
+            statusText.text = $"{currentValue:F1}";
+        }
 
-            void MoveStatusUp()
-            {
-                _statusUpImage.gameObject.SetActive(true);
-                _statusUpImage.color = new Color(1, 1, 1, 1);
-                _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
-                _statusUpImage.rectTransform.DOAnchorPosY(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
-            }
+        private void MoveStatusUp()
+        {
+            _statusUpImage.gameObject.SetActive(true);
+            _statusUpImage.color = new Color(1, 1, 1, 1);
+            _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
+            _statusUpImage.rectTransform.DOAnchorPosY(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
         }
 
         private async UniTask GetTapInput(CancellationToken cancellationToken)
         {
             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive, cancellationToken: cancellationToken);
-            Debug.Log($"GetTapInput {_backlogView.IsLogActive} ");
         }
 
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput,
