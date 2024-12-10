@@ -21,7 +21,6 @@ namespace TeamB.UI
         [SerializeField] private TMP_Text _operationText;
         [SerializeField] private Image _attackCoolTimeImage;
         [SerializeField] private Image _DefenceCoolTimeImage;
-        [SerializeField] private GameObject _attackButton;
 
         WaveManager _waveManager;
         AllyManager _allyManager;
@@ -61,10 +60,6 @@ namespace TeamB.UI
             _exam.OnExamUpdated += DefenceCoolTime;
             _allyManager.GetAllies.OnSuccessDefence += ScoreChange;
             ScoreChange();
-            if (GameStatics.ExamState == ExamState.FirstExam)
-                _attackButton.SetActive(false);
-            else
-                _attackButton.SetActive(true);
         }
 
         public void WaveText()
@@ -87,6 +82,9 @@ namespace TeamB.UI
             string text = "";
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
+                    break;
                 case ExamState.FirstExam:
                     text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
                     break;

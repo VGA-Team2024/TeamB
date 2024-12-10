@@ -83,6 +83,8 @@ namespace TeamB.Develop
             if(!_enemy)return;
             
             _enemy.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            if(_currentEnemy.GetCurrentCondition == AbnormalCondition.Stunned)
+                _enemy.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 0f, 1f);
         }
         
 

@@ -29,6 +29,7 @@ namespace TeamB.Develop
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1160587194&single=true&output=csv";
 
         private PoseManager _poseManager;
+        private AllyManager _allyManager;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
         public event Action<float> OnExamUpdated;
@@ -88,7 +89,19 @@ namespace TeamB.Develop
         {
             if (_currentTimer >= _examTime)
             {
-                ExamFailure();
+                switch (GameStatics.ExamState)
+                {
+                    case ExamState.Tutorial:
+                        ExamFailure();
+                        break;
+                    case ExamState.FirstExam:
+                        ExamClear();
+                        break;
+                    case ExamState.SecondExam:
+                        ExamFailure();
+                        break;
+                }
+
                 _currentTimer = 0f;
             }
             else
@@ -105,22 +118,39 @@ namespace TeamB.Develop
             GameStatics.ExamResult = ExamResult.Clear;
             EndExam();
             OnStartPose();
-            _winDirector.Play();
+            //リザルトデータ
+            GameStatics.resultData.leftoverTime = (int)_currentTimer;
+            GameStatics.resultData.leftoverHp = (int)_allyManager.GetAllies.GetCurrentData.Hp;
+            GameStatics.resultData.defense = _allyManager.GetDefenceSuccessCount;
+            GameStatics.resultData.hit = _allyManager.GetHitCunt;
+            
+
 
             string flagName = String.Empty;
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
+                        .ClearState;
+                    _skitFlagData.SetCurrentFlag(flagName);
+                    GameStatics.ExamState = ExamState.FirstExam;
+                    SceneLoader.LoadScene("Result");
+                    break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
+                    _winDirector.Play();
+                    GameStatics.resultData.firstpass = true;
                     GameStatics.ExamState = ExamState.SecondExam;
                     break;
                 case ExamState.SecondExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
+                    GameStatics.resultData.secondpass = true;
                     GameStatics.ExamState = ExamState.ExamClear;
+                    SceneLoader.LoadScene("Result");
                     break;
             }
         }
@@ -138,6 +168,11 @@ namespace TeamB.Develop
             string flagName = String.Empty;
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
+                        .FailureState;
+                    _skitFlagData.SetCurrentFlag(flagName);
+                    break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .FailureState;
@@ -162,7 +197,8 @@ namespace TeamB.Develop
         {
             if (_poseManager == null)
                 _poseManager = FindAnyObjectByType<PoseManager>();
-            _poseManager.StartPose();
+            if (_poseManager != null)
+                _poseManager.StartPose();
         }
 
         private async void InitialExamData()
@@ -188,7 +224,7 @@ namespace TeamB.Develop
                 };
                 examData.Add(classChoiceData);
             }
-            
+
             _examStateDatas.Data = examData;
         }
     }

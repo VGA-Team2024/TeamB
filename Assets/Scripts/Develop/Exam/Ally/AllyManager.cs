@@ -26,10 +26,12 @@ namespace TeamB.Develop
 
         private int _defenceSuccessCount;
         private int _attackSuccessCount;
+        private int _hitCount;
 
         public IAlly GetAllies => _allies;
         public int GetDefenceSuccessCount => _defenceSuccessCount;
         public int GetAttackSuccessCount => _attackSuccessCount;
+        public int GetHitCunt => _hitCount;
 
         private async void Awake()
         {
@@ -67,6 +69,7 @@ namespace TeamB.Develop
                 sprite.color = new Color(1, 0, 0, 1);
             }
 
+            _hitCount++;
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
             if (!alliesPrefab) return;
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
@@ -111,8 +114,6 @@ namespace TeamB.Develop
         /// <param name="deltaTime"></param>
         private async void AlliesAttack(float deltaTime)
         {
-            if (_allies.GetActionType != ActionType.Attack)
-                return;
             _allies.Attack(_enemyManager.GetCurrentEnemyData, _exam.GetOperationType, deltaTime);
         }
 
