@@ -8,23 +8,25 @@ using UnityEngine.UI;
 
 public class ResultManager : MonoBehaviour
 {
-    [Header("ƒ|ƒCƒ“ƒg“à–ó‚ÌƒeƒLƒXƒgƒ{ƒbƒNƒX"),SerializeField] List<RectTransform> result_obj;
-    [Header("ƒ|ƒCƒ“ƒg“à–ó‚Ì€–Ú"), SerializeField] List<TextMeshProUGUI> result_text;
-    [Header("‡”Û‚ÌƒeƒLƒXƒg"), SerializeField] TextMeshProUGUI pass_Text;
+    [Header("ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½Ìƒeï¿½Lï¿½Xï¿½gï¿½{ï¿½bï¿½Nï¿½X"),SerializeField] List<RectTransform> result_obj;
+    [Header("ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½"), SerializeField] List<TextMeshProUGUI> result_text;
+    [Header("ï¿½ï¿½ï¿½Û‚Ìƒeï¿½Lï¿½Xï¿½g"), SerializeField] Image pass_Image;
+    [SerializeField] Sprite pass_Sprite;
+    [SerializeField] Sprite nopass_Sprite;
 
-    [Header("ƒeƒLƒXƒgƒ{ƒbƒNƒX‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ"), SerializeField] float textAnimTime;
-    [Header("ƒXƒ^ƒ“ƒv‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ"), SerializeField] float stampAnimTime;
+    [Header("ï¿½eï¿½Lï¿½Xï¿½gï¿½{ï¿½bï¿½Nï¿½Xï¿½ÌƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"), SerializeField] float textAnimTime;
+    [Header("ï¿½Xï¿½^ï¿½ï¿½ï¿½vï¿½ÌƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"), SerializeField] float stampAnimTime;
     //[SerializeField] float startTime;
 
     ResultData resultData;
 
-    [Header("ƒXƒ^ƒ“ƒv"), SerializeField] GameObject result_stamp;
+    [Header("ï¿½Xï¿½^ï¿½ï¿½ï¿½v"), SerializeField] GameObject result_stamp;
 
     void Start()
     {
         resultData = GameStatics.resultData;
 
-        //[‰¼]ƒ‰ƒ“ƒ_ƒ€‚ÉŒ±‚ªo‚é‚æ‚¤‚É‚µ‚Ä‚¢‚Ü‚·B
+        //[ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½B
         int round = Random.Range(1, 3);
 
         if(round == 1)
@@ -41,24 +43,24 @@ public class ResultManager : MonoBehaviour
         StartCoroutine(MoveText());
 
     }
-    //1ŸŒ±‚Ìƒ|ƒCƒ“ƒg
+    //1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½g
     void FirstResult()
     {
         resultData.firsttestP = resultData.defense + resultData.leftoverHp - resultData.hit;
-        result_text[0].text = "–hŒä‚µ‚½‰ñ” " + resultData.defense + " ‰ñ";
-        result_text[1].text = "ƒvƒŒƒCƒ„[c‚è‘Ì—Í " + resultData.leftoverHp;
-        result_text[2].text = "”í’e‰ñ” " + resultData.hit + " ‰ñ";
+        result_text[0].text = "é˜²å¾¡å›æ•° " + resultData.defense + " å›";
+        result_text[1].text = "ã®ã“ã‚ŠHP " + resultData.leftoverHp;
+        result_text[2].text = "è¢«å¼¾å›æ•° " + resultData.hit + " å›";
     }
 
-    //2ŸŒ±‚Ìƒ|ƒCƒ“ƒg
+    //2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½g
     void SecondResult()
     {
         resultData.secondtestP = resultData.leftoverTime + resultData.leftoverHp - resultData.defense;
-        result_text[0].text = "c‚èŠÔ " + resultData.leftoverTime + " •b";
-        result_text[1].text = "ƒvƒŒƒCƒ„[c‚è‘Ì—Í " + resultData.leftoverHp;
-        result_text[2].text = "–hŒä‰ñ” " + resultData.defense + " ‰ñ";
+        result_text[0].text = "æ®‹ã‚Šæ™‚é–“ " + resultData.leftoverTime + " ç§’";
+        result_text[1].text = "æ®‹ã‚Šä½“åŠ› " + resultData.leftoverHp;
+        result_text[2].text = "é˜²å¾¡å›æ•° " + resultData.defense + " å›";
     }
-    //‡”Û‚Ì”»’è
+    //ï¿½ï¿½ï¿½Û‚Ì”ï¿½ï¿½ï¿½
     void Result(int _point, bool _pass)
     {
         if(_point > 20)
@@ -68,11 +70,11 @@ public class ResultManager : MonoBehaviour
 
         if (_pass)
         {
-            pass_Text.text = "‡Ši";
+            pass_Image.sprite = pass_Sprite;
         }
         else
         {
-            pass_Text.text = "•s‡Ši";
+            pass_Image.sprite = nopass_Sprite;
         }
     }
 
@@ -83,7 +85,7 @@ public class ResultManager : MonoBehaviour
         var startpos = _rect.localPosition;
         var endpos = new Vector3(300, _rect.localPosition.y, _rect.localPosition.z);
 
-        // ƒAƒjƒ[ƒVƒ‡ƒ“‚ªI—¹‚·‚é‚Ü‚Åƒ‹[ƒv
+        // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Åƒï¿½ï¿½[ï¿½v
         while (Time.time - startTime < textAnimTime)
         {
             float time = (Time.time - startTime) / textAnimTime;
@@ -91,7 +93,7 @@ public class ResultManager : MonoBehaviour
             yield return null;
         }
 
-        //ˆÊ’u‚ğİ’è
+        //ï¿½Ê’uï¿½ï¿½İ’ï¿½
         _rect.localPosition = endpos;
     }
 
@@ -110,7 +112,7 @@ public class ResultManager : MonoBehaviour
 
     }
 
-    //‡”Ô‚ÉƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÀs
+    //ï¿½ï¿½ï¿½Ô‚ÉƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½s
     IEnumerator MoveText()
     {
         yield return StartCoroutine(Move(result_obj[0]));

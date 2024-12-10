@@ -29,6 +29,7 @@ namespace TeamB.Develop
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1160587194&single=true&output=csv";
 
         private PoseManager _poseManager;
+        private AllyManager _allyManager;
         private float _currentTimer = 0f;
         public event Action OnExamStarted;
         public event Action<float> OnExamUpdated;
@@ -117,7 +118,13 @@ namespace TeamB.Develop
             GameStatics.ExamResult = ExamResult.Clear;
             EndExam();
             OnStartPose();
+            //リザルトデータ
+            GameStatics.resultData.leftoverTime = (int)_currentTimer;
+            GameStatics.resultData.leftoverHp = (int)_allyManager.GetAllies.GetCurrentData.Hp;
+            GameStatics.resultData.defense = _allyManager.GetDefenceSuccessCount;
+            GameStatics.resultData.hit = _allyManager.GetHitCunt;
             
+
 
             string flagName = String.Empty;
             switch (GameStatics.ExamState)
@@ -126,22 +133,24 @@ namespace TeamB.Develop
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
-                    SceneLoader.LoadScene("Result");
                     GameStatics.ExamState = ExamState.FirstExam;
+                    SceneLoader.LoadScene("Result");
                     break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
                     _winDirector.Play();
+                    GameStatics.resultData.firstpass = true;
                     GameStatics.ExamState = ExamState.SecondExam;
                     break;
                 case ExamState.SecondExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
-                    SceneLoader.LoadScene("Result");
+                    GameStatics.resultData.secondpass = true;
                     GameStatics.ExamState = ExamState.ExamClear;
+                    SceneLoader.LoadScene("Result");
                     break;
             }
         }
