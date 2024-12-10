@@ -193,7 +193,8 @@ namespace TeamB.SkitSystem
 
         public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData)
         {
-            classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag) ?? (ISkitSceneData)_skitData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
+            classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
+            if (classSelectData !=null) classSelectData = _skitData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
             return classSelectData != null;
         }
 

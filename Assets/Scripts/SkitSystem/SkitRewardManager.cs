@@ -76,7 +76,7 @@ namespace TeamB.SkitSystem
                     break;
                 case RewardType.Concentration:
                     //集中力
-                    GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK += rewardValue;
+                    GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate += rewardValue;
                     Debug.Log($"集中力が{rewardValue}上昇しました");
                     break;
             }

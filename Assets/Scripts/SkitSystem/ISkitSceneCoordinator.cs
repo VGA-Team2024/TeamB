@@ -20,6 +20,10 @@ namespace TeamB.SkitSystem
     {
         private readonly ISkitDataLoader _skitDataLoader;
         private readonly SkitFlagData _skitFlagData;
+        private const string TitleSceneName = "Title";
+        private const string ExamSceneName = "Exam";
+        private const string LastFlag = "SecondExamClear";
+        private const string DefaultId = "Prologue";
         public TestSkitSceneCoordinator(ISkitDataLoader skitDataLoader, SkitFlagData skitFlagData)
         {
             _skitDataLoader = skitDataLoader;
@@ -39,14 +43,18 @@ namespace TeamB.SkitSystem
                         return new SkitContext(SkitContext.ContextType.Skit, skitSceneData, _skitFlagData);
                 }
             }
-            throw new ArgumentOutOfRangeException();
+            Debug.LogError("SkitSceneDataがnullです: " + _skitFlagData.CurrentFlag);
+            _skitDataLoader.TryGetSkitDataById(DefaultId, out var defaultSkitSceneData);
+            {
+                return new SkitContext(SkitContext.ContextType.Skit, defaultSkitSceneData, _skitFlagData);
+            }
         }
 
         public void EndSkitScene()
         {
             // 会話シーンの終了時に必要な処理を行う
-            SceneLoader.LoadScene(_skitFlagData.CurrentFlag == "SecondExamClear" ? "Title" : "Exam");
-            //SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
+            //SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
+            SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

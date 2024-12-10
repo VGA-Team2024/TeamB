@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
@@ -28,7 +26,7 @@ namespace TeamB.SkitSystem
 
         private async void Awake()
         {
-            _loadingPanel.FadeInAsync(true).Forget();
+            _loadingPanel.FadeInAsync(destroyCancellationToken,true).Forget();
             if (_dataLoadType == DataLoadType.Remote)
             {
                 // リモートからデータをロード
@@ -43,8 +41,12 @@ namespace TeamB.SkitSystem
             await _skitResourceLoader.InitializeSkitResourceLoader();
             _skitSceneView.InitializeSkitView(_skitResourceLoader);
             SetSkitDataHandler();
+            SkitSystemManager.OnSkitEnd += async () =>
+            {
+                await _loadingPanel.FadeInAsync(destroyCancellationToken);
+                Debug.Log("SkitEnd");
+            };
             SkitSystemManager.DoSkitSequence().Forget();
-            await _loadingPanel.FadeOutAsync();
         }
 
         /// <summary>
@@ -101,14 +103,14 @@ namespace TeamB.SkitSystem
             {
                 if (result == null) return;
                 _skitSceneView.ShowTutorialAboutSkitChoice(result, tutorialHandler.AwaitForSelect,
-                    SkitSystemManager.CurrentCancellationToken.Token);
+                    SkitSystemManager.CurrentCancellationToken.Token).Forget();
             }).AddTo(_skitSceneView);
             
             var tutorialAboutClassSelectDisposable = tutorialHandler.TutorialClassSelectData.Subscribe(result =>
             {
                 if (result == null) return;
                 _skitSceneView.ShowTutorialAboutClassSelect(result, tutorialHandler.AwaitForSelect,
-                    SkitSystemManager.CurrentCancellationToken.Token);
+                    SkitSystemManager.CurrentCancellationToken.Token).Forget();
             }).AddTo(_skitSceneView);
             
             var tutorialAboutSkitResultDisposable = tutorialHandler.TutorialDataAboutSkitChoiceResult.Subscribe(result =>

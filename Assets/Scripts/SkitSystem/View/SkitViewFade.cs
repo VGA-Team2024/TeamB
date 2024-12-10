@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -16,34 +17,35 @@ namespace TeamB.SkitSystem
         [SerializeField] private GameObject _loadingText;
         [SerializeField] private float _fadeTime = 1.0f;
 
-        public async UniTask FadeInAsync(bool immediate = false)
+        public async UniTask FadeInAsync(CancellationToken cancellationToken, bool immediate = false)
         {
+            _fadeImage.gameObject.SetActive(true);
             if (immediate)
             {
                 _fadeImage.color = new Color(0, 0, 0, 0);
-                await _fadeImage.DOFade(1, 0).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(1, 0).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
             else
             {
                 _fadeImage.color = new Color(0, 0, 0, 0);
-                await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
-            _fadeImage.raycastTarget = true;
         }
         
-        public async UniTask FadeOutAsync(bool immediate = false)
+        public async UniTask FadeOutAsync(CancellationToken cancellationToken, bool immediate = false)
         {
             if (immediate)
             {
                 _fadeImage.color = new Color(0, 0, 0, 1);
-                await _fadeImage.DOFade(0, 0).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(0, 0).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
             else
             {
                 _fadeImage.color = new Color(0, 0, 0, 1);
-                await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).AsyncWaitForCompletion();
+                await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
-            _fadeImage.raycastTarget = false;
+            cancellationToken.ThrowIfCancellationRequested();
+            _fadeImage.gameObject.SetActive(false);
         }
     }
 }
