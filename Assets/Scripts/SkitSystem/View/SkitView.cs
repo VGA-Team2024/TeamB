@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -5,6 +7,7 @@ using R3;
 using TeamB.GameSystem.Statics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TeamB.SkitSystem
@@ -13,9 +16,7 @@ namespace TeamB.SkitSystem
     {
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
-        [SerializeField] private bool _isSkipMode;
         [SerializeField] private SkitSceneButtonBase _autoButton;
-        [SerializeField] private bool _isAutoMode;
         [SerializeField, Range(0, 5)] private float _autoDelaySpeed = 2f;
         [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
@@ -59,8 +60,18 @@ namespace TeamB.SkitSystem
         [SerializeField] private GameObject _tutorialPanelAboutSkitResult;
         [Header("その他")]
         [SerializeField] private SkitViewFade _skitFadeView;
+        [SerializeField] private GraphicRaycaster _graphicRaycaster;
+        [SerializeField] private EventSystem _eventSystem;
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
+        private InputType _inputType;
+        
+        enum InputType
+        {
+            Tap,
+            Auto,
+            Skip
+        }
 
         public void InitializeSkitView(SkitResourceLoader skitResourceLoader)
         {
@@ -77,20 +88,20 @@ namespace TeamB.SkitSystem
             }
             _statusUpImage.gameObject.SetActive(false);
             _backLogButton.OnClick += () => _backlogView.SetActivePanel(true);
-            _skipButton.OnClick += () => SetSkip(!_skipButton.IsActivated);
+            _skipButton.OnClick += SetSkip;
             _autoButton.OnClick += SetAuto;
         }
         
-        private void SetSkip(bool isSkip)
+        private void SetSkip()
         {
-            _isSkipMode = isSkip;
-            _skipButton.ShowIsActivated(_isSkipMode);
+            _inputType = InputType.Skip;
+            _skipButton.ShowIsActivated(_inputType == InputType.Skip);
         }
 
         private void SetAuto()
         {
-            _isAutoMode = !_isAutoMode;
-            _autoButton.ShowIsActivated(_isAutoMode);
+            _inputType = _inputType != InputType.Auto ? InputType.Auto : InputType.Tap;
+            _autoButton.ShowIsActivated(_inputType == InputType.Auto);
         }
 
         private void UpdateStatus(float currentValue, TMP_Text statusText, RectTransform goalObject)
@@ -107,40 +118,80 @@ namespace TeamB.SkitSystem
             _statusUpImage.DOFade(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
             _statusUpImage.rectTransform.DOAnchorPosY(0, 1.0f).SetEase(Ease.Linear).SetLink(gameObject);
         }
-
-        private async UniTask GetTapInput(CancellationToken cancellationToken)
+        
+        private async UniTask GetEmptyInput(CancellationToken cancellationToken)
         {
-            if (_isSkipMode) return;
-            if (_isAutoMode)
+            switch (_inputType)
             {
-                var elapsedTime = 0f;
-                while (elapsedTime < _autoDelaySpeed)
-                {
-                    if (_isSkipMode) return;
-                    if (!_isAutoMode || _backlogView.IsLogActive)
+                case InputType.Tap:
+                    while (true)
                     {
-                        break;
+                        if (_inputType == InputType.Skip) return;
+                        if (_inputType == InputType.Auto)
+                        {
+                            GetEmptyInput(cancellationToken).Forget();
+                            break;
+                        }
+                        if (!_backlogView.IsLogActive && GetMouseButtonDown())
+                        {
+                            break;
+                        }
+                        await UniTask.Yield(cancellationToken: cancellationToken);
                     }
-                    await UniTask.DelayFrame(1, cancellationToken: cancellationToken);
-                    cancellationToken.ThrowIfCancellationRequested();
-                    elapsedTime += Time.deltaTime;
+                    break;
+                case InputType.Auto:
+                    var elapsedTime = 0f;
+                    while (elapsedTime < _autoDelaySpeed)
+                    {
+                        if (_inputType == InputType.Skip) return;
+                        if (_backlogView.IsLogActive)
+                        {
+                            await UniTask.Yield(cancellationToken: cancellationToken);
+                            continue;
+                        }
+                        if (_inputType == InputType.Tap)
+                        {
+                            break;
+                        }
+                        await UniTask.DelayFrame(1, cancellationToken: cancellationToken);
+                        cancellationToken.ThrowIfCancellationRequested();
+                        elapsedTime += Time.deltaTime;
+                    }
+                    break;
+                case InputType.Skip:
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private bool GetMouseButtonDown()
+        {
+            return Input.GetMouseButtonDown(0) && !IsPointerOverButton();
+        }
+        
+        private bool IsPointerOverButton()
+        {
+            // ポインタのデータを作成
+            var pointerData = new PointerEventData(_eventSystem)
+            {
+                position = Input.mousePosition
+            };
+
+            // Raycast結果のリスト
+            var results = new List<RaycastResult>();
+            _graphicRaycaster.Raycast(pointerData, results);
+
+            // リストをチェックし、Buttonコンポーネントを持つか判定
+            foreach (var result in results)
+            {
+                if (result.gameObject.GetComponent<Button>() != null)
+                {
+                    return true; // ボタンがヒットした場合true
                 }
             }
-            
-            if (!_isAutoMode)
-            {
-                Debug.Log("GetTapInput");
-                while (true)
-                {
-                    if (_isSkipMode) return;
-                    if (_isAutoMode || !_backlogView.IsLogActive && Input.GetMouseButtonDown(0))
-                    {
-                        break;
-                    }
-                    await UniTask.Yield(cancellationToken: cancellationToken);
-                }
-                Debug.Log("GetTapInputEnd");
-            }
+
+            return false;
         }
 
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput,
@@ -149,7 +200,7 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(tutorialData.BackgroundImageName, null, cancellationToken);
             _tutorialPanelAboutGame.SetActive(true);
-            await GetTapInput(cancellationToken);
+            await GetEmptyInput(cancellationToken);
             emptyInput.TrySetResult();
             _tutorialPanelAboutGame?.SetActive(false);
         }
@@ -230,7 +281,7 @@ namespace TeamB.SkitSystem
             _tutorialPanelAboutSkitChoice.SetActive(false);
             _tutorialPanelAboutSkitResult.SetActive(true);
             _statusPanel.SetActive(true);
-            await GetTapInput(cancellationToken);
+            await GetEmptyInput(cancellationToken);
             awaitForEmptyInput.TrySetResult();
             _tutorialPanelAboutSkitResult?.SetActive(false);
         }
@@ -269,7 +320,7 @@ namespace TeamB.SkitSystem
         public async UniTask ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice,
             UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
         {
-            SetSkip(false);
+            SetSkip();
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitChoiceData.TalkBackground, skitChoiceData.TalkCharaData, cancellationToken);
             await ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken);
@@ -312,7 +363,7 @@ namespace TeamB.SkitSystem
                     button.ButtonResultImage.gameObject.SetActive(true);
 
                     // 非同期待機: クリック後に再度クリックを待機
-                    await GetTapInput(cancellationToken);
+                    await GetEmptyInput(cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
 
                     awaitEmptyInput.TrySetResult();
@@ -349,7 +400,7 @@ namespace TeamB.SkitSystem
                     _restTimeText.text = "残り0.0秒";
                     LockAndShowAllChoiceButtonsResult();
                     Debug.Log("Time is up");
-                    await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0),
+                    await UniTask.WaitUntil(GetMouseButtonDown,
                         cancellationToken: destroyCancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
                     awaitEmptyInput.TrySetResult();
@@ -433,7 +484,7 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData, cancellationToken);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue, cancellationToken);
-            await GetTapInput(cancellationToken);
+            await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             skitAwaitCompletionSource?.TrySetResult();
         }
@@ -474,7 +525,7 @@ namespace TeamB.SkitSystem
                     break;
                 }
                 // スキップ時に全文を即座に表示
-                if (isDialogueComplete || _isSkipMode)
+                if (isDialogueComplete || _inputType == InputType.Skip)
                 {
                     _dialogueText.text = dialogue;
                     break;
@@ -489,7 +540,7 @@ namespace TeamB.SkitSystem
                 await UniTask.Yield(cancellationToken);
                 while (!isDialogueComplete && !cancellationToken.IsCancellationRequested)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    if (GetMouseButtonDown())
                     {
                         isDialogueComplete = true;
                         break;

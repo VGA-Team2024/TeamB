@@ -9093,7 +9093,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skipButton: {fileID: 1809995361}
   _autoButton: {fileID: 318016778}
-  _isAutoMode: 0
   _autoDelaySpeed: 2
   _backLogButton: {fileID: 1153800139}
   _backlogView: {fileID: 2785846}
@@ -9134,6 +9133,8 @@ MonoBehaviour:
   _tutorialPanelAboutSkitChoice: {fileID: 310934745}
   _tutorialPanelAboutSkitResult: {fileID: 36724622}
   _skitFadeView: {fileID: 425677203}
+  _graphicRaycaster: {fileID: 1942722075}
+  _eventSystem: {fileID: 1432915630}
 --- !u!114 &1942722075
 MonoBehaviour:
   m_ObjectHideFlags: 0
