@@ -30,6 +30,10 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/Develop/Exam.unity
     SceneType: 2
   - CanIDebugSelect: 1
+    Name: ExamTutorial
+    AssetPath: Assets/Scenes/Develop/ExamTutorial.unity
+    SceneType: 2
+  - CanIDebugSelect: 1
     Name: GameOver
     AssetPath: Assets/Scenes/Develop/GameOver.unity
     SceneType: 0
