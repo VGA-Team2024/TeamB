@@ -130,7 +130,14 @@ namespace TeamB.SkitSystem
             if (!_isAutoMode)
             {
                 Debug.Log("GetTapInput");
-                await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0) && !_backlogView.IsLogActive || _isAutoMode, cancellationToken: cancellationToken);
+                while (true)
+                {
+                    if (_isAutoMode || !_backlogView.IsLogActive && Input.GetMouseButtonDown(0))
+                    {
+                        break;
+                    }
+                    await UniTask.Yield(cancellationToken: cancellationToken);
+                }
                 Debug.Log("GetTapInputEnd");
             }
         }
