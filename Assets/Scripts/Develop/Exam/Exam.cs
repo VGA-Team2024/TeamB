@@ -90,6 +90,9 @@ namespace TeamB.Develop
             {
                 switch (GameStatics.ExamState)
                 {
+                    case ExamState.Tutorial:
+                        ExamFailure();
+                        break;
                     case ExamState.FirstExam:
                         ExamClear();
                         break;
@@ -114,21 +117,30 @@ namespace TeamB.Develop
             GameStatics.ExamResult = ExamResult.Clear;
             EndExam();
             OnStartPose();
-            _winDirector.Play();
+            
 
             string flagName = String.Empty;
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
+                        .ClearState;
+                    _skitFlagData.SetCurrentFlag(flagName);
+                    SceneLoader.LoadScene("Result");
+                    GameStatics.ExamState = ExamState.FirstExam;
+                    break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
+                    _winDirector.Play();
                     GameStatics.ExamState = ExamState.SecondExam;
                     break;
                 case ExamState.SecondExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
+                    SceneLoader.LoadScene("Result");
                     GameStatics.ExamState = ExamState.ExamClear;
                     break;
             }
@@ -147,6 +159,11 @@ namespace TeamB.Develop
             string flagName = String.Empty;
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
+                        .FailureState;
+                    _skitFlagData.SetCurrentFlag(flagName);
+                    break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .FailureState;

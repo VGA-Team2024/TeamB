@@ -169,6 +169,9 @@ namespace TeamB.Develop
             {
                 switch (GameStatics.ExamState)
                 {
+                    case ExamState.Tutorial:
+                        OnDeath?.Invoke();
+                        break;
                     case ExamState.FirstExam:
                         _currentCondition = AbnormalCondition.Stunned;
                         OnDown?.Invoke();

@@ -95,7 +95,6 @@ namespace TeamB.Develop
 
         public void Initialized()
         {
-            GetActionType = GameStatics.ExamState == ExamState.FirstExam ? ActionType.Defend : ActionType.Attack;
             GetCurrentData = new CharacterData(GameStatics.Characters[(int)GameStatics.NurturingCharacterType]);
             _token = new CancellationTokenSource().Token;
             _percentageReduction = _percentageReductionBaseValue;
@@ -324,6 +323,7 @@ namespace TeamB.Develop
                 if (operationType == OperationType.Manual && !_isDefending)
                     return;
 
+                
                 OnDefense?.Invoke();
                 //軽減率の変更
                 _percentageReduction = _percentageReductionValue;

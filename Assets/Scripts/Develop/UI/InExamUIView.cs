@@ -82,6 +82,9 @@ namespace TeamB.UI
             string text = "";
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
+                    break;
                 case ExamState.FirstExam:
                     text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
                     break;

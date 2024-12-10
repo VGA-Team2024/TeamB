@@ -741,7 +741,7 @@ PrefabInstance:
     - target: {fileID: 3507434427404881982, guid: e755433fc2e173d4e90060380f1a57de,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.56
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 3507434427404881982, guid: e755433fc2e173d4e90060380f1a57de,
         type: 3}
@@ -2713,8 +2713,8 @@ MonoBehaviour:
         _attackParticle: {fileID: 915136129893001302, guid: 56b592618c9a27f46b089953c42e6331,
           type: 3}
         _attackParticleTrans: {fileID: 241375222}
-        _waitAttack: 0
-        _downTime: 0
+        _waitAttack: 5
+        _downTime: 5
         _currentCondition: 0
 --- !u!4 &1385506589
 Transform:
@@ -2942,7 +2942,7 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: fbb5a30671142be4482e3451d9e7770c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.14
+      value: -4.81
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: fbb5a30671142be4482e3451d9e7770c,
         type: 3}
@@ -4186,7 +4186,7 @@ Transform:
   m_GameObject: {fileID: 2027810655}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.12, y: -2.45, z: 0}
+  m_LocalPosition: {x: -4.77, y: -2.45, z: 0}
   m_LocalScale: {x: 2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
