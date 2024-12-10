@@ -20,9 +20,8 @@ namespace TeamB.Develop
     {
         #region SerializedFields
 
-        [SerializeField] private ParticleSystem _attackParticles;
-
-        [SerializeField] private ParticleCallBack _particleCallBack;
+        [SerializeField] private GameObject _attackParticles;
+        [SerializeField] private Transform _attackParticleTrans;
 
         [SerializeField] private float _percentageReductionValue = 0.75f;
 
@@ -39,6 +38,8 @@ namespace TeamB.Develop
         private ICharacter _character;
 
         private CancellationToken _token;
+
+        private List<ParticleSystem> _particles = new();
 
         private float _percentageReduction;
         private float _defenceDurationTimer;
@@ -117,9 +118,6 @@ namespace TeamB.Develop
         /// </summary>
         public async void Attack<T>(T characters, OperationType operationType, float deltaTime) where T : ICharacter
         {
-            if (GetActionType != ActionType.Attack)
-                return;
-
             if (GetAttackCoolTimer >= TakeBuff(BuffType.CastingSpeed, GetCurrentData.ChantingSpeed))
             {
                 //操作方法が自動時、ゲームプレイヤーの入力を待つ
@@ -127,9 +125,13 @@ namespace TeamB.Develop
                     return;
 
                 _character = characters;
-                _particleCallBack.OnCallBack -= GiveDamage;
 
-                _attackParticles.Play();
+                GameObject attackParticle = GameObject.Instantiate(_attackParticles, _attackParticleTrans.position, _attackParticles.transform.rotation);
+                ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
+                attackParticleSystem.Play();
+                _particles.Add(attackParticleSystem);
+
+                attackParticleSystem.Play();
                 float rand = Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, GetCurrentData.HitRate))
                 {
@@ -137,7 +139,13 @@ namespace TeamB.Develop
 
                     GetAttackCoolTimer = 0;
 
-                    _particleCallBack.OnCallBack += GiveDamage;
+                    ParticleCallBack particleCallBack = attackParticle.GetComponent<ParticleCallBack>();
+                    particleCallBack.OnCallBack += GiveDamage;
+                    particleCallBack.OnCallBack += () =>
+                    {
+                        _particles.Remove(attackParticleSystem);
+                        GameObject.Destroy(attackParticle);
+                    };
 
                     OnEndAttack?.Invoke();
                 }
@@ -339,14 +347,20 @@ namespace TeamB.Develop
 
         public void StartPose()
         {
-            if (_attackParticles.isPlaying)
-                _attackParticles.Pause();
+            foreach (var particle in _particles)
+            {
+                if (particle.isPlaying)
+                    particle.Pause();
+            }
         }
 
         public void EndPose()
         {
-            if (_attackParticles.isPlaying)
-                _attackParticles.Play();
+            foreach (var particle in _particles)
+            {
+                if (particle.isPaused)
+                    particle.Play();
+            }
         }
 
         private void GiveDamage()

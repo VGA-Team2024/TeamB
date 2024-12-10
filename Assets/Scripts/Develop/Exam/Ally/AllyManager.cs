@@ -111,8 +111,6 @@ namespace TeamB.Develop
         /// <param name="deltaTime"></param>
         private async void AlliesAttack(float deltaTime)
         {
-            if (_allies.GetActionType != ActionType.Attack)
-                return;
             _allies.Attack(_enemyManager.GetCurrentEnemyData, _exam.GetOperationType, deltaTime);
         }
 

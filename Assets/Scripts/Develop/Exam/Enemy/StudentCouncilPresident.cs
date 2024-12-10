@@ -16,9 +16,10 @@ namespace TeamB.Develop
         #region serializeFields
 
         [SerializeField] private CharacterType _characterType;
-        [SerializeField] private ParticleSystem _attackParticle;
-        [SerializeField] private ParticleCallBack _attackParticleCallBack;
+        [SerializeField] private GameObject _attackParticle;
+        [SerializeField] private Transform _attackParticleTrans;
         [SerializeField] private float _waitAttack;
+        [SerializeField] private float _downTime;
 
         #endregion
 
@@ -27,9 +28,12 @@ namespace TeamB.Develop
         private DataManagement.SpreadSheet.CharacterData _currentData;
         private List<IBuff> _haveBuffs = new();
         private List<IBuff> _haveDeBuffs = new();
+        private List<ParticleSystem> _particles = new();
         private ICharacter _targetCharacter;
         private float _attackTimer;
+        private float _downTimer;
         private int _currentForm = 1;
+        [SerializeField] private AbnormalCondition _currentCondition;
 
         #endregion
 
@@ -46,6 +50,7 @@ namespace TeamB.Develop
         public event Action OnRemoveDeBuff;
         public event Action OnParamUpdate;
         public event Action OnNextForm;
+        public event Action OnDown;
 
         #endregion
 
@@ -55,6 +60,7 @@ namespace TeamB.Develop
         public List<IBuff> GetHaveBuffs => _haveBuffs;
         public List<IBuff> GetHaveDeBuffs => _haveDeBuffs;
         public CharacterType GetCharacterType => _characterType;
+        public AbnormalCondition GetCurrentCondition => _currentCondition;
         public int GetCurrentForm => _currentForm;
 
         #endregion
@@ -78,19 +84,44 @@ namespace TeamB.Develop
         /// </summary>
         public async void Attack<T>(T characters, OperationType _, float deltaTime) where T : ICharacter
         {
+            if (_currentCondition == AbnormalCondition.Stunned)
+            {
+                if (_downTimer >= _downTime)
+                {
+                    _downTimer = 0;
+                    _currentData.Hp = GameStatics.Characters[(int)_characterType].Hp;
+                    _currentCondition = AbnormalCondition.Normal;
+                }
+                else
+                {
+                    _downTimer += deltaTime;
+                }
+                return; 
+                //スタン中の場合
+            }
+
             if (_attackTimer >= TakeBuff(BuffType.CastingSpeed, _currentData.ChantingSpeed))
             {
                 _targetCharacter = characters;
-                _attackParticleCallBack.OnCallBack -= GiveDamage;
+                GameObject attackParticle = GameObject.Instantiate(_attackParticle, _attackParticleTrans.position, _attackParticle.transform.rotation);
+                ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
+                attackParticleSystem.Play();
+                _particles.Add(attackParticleSystem);
+                
                 float rand = UnityEngine.Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
                 {
                     OnAttack?.Invoke();
 
                     _attackTimer = 0;
-                    _attackParticle.Play();
-
-                    _attackParticleCallBack.OnCallBack += GiveDamage;
+                    
+                    ParticleCallBack particleCallBack = attackParticle.GetComponent<ParticleCallBack>();
+                    particleCallBack.OnCallBack += GiveDamage;
+                    particleCallBack.OnCallBack += () =>
+                    {
+                        _particles.Remove(attackParticleSystem);
+                        GameObject.Destroy(attackParticle);
+                    };
 
                     OnEndAttack?.Invoke();
                 }
@@ -136,9 +167,19 @@ namespace TeamB.Develop
             //死亡時処理
             if (_currentData.Hp <= 0)
             {
-                OnDeath?.Invoke();
+                switch (GameStatics.ExamState)
+                {
+                    case ExamState.FirstExam:
+                        _currentCondition = AbnormalCondition.Stunned;
+                        OnDown?.Invoke();
+                        break;
+                    case ExamState.SecondExam:
+                        OnDeath?.Invoke();
+                        break;
+                }
             }
         }
+
 
         /// <summary>
         /// バフ追加
@@ -247,12 +288,20 @@ namespace TeamB.Develop
 
         public void StartPose()
         {
-            _attackParticle.Pause();
+            foreach (var particle in _particles)
+            {
+                if (particle.isPlaying)
+                    particle.Pause();
+            }
         }
 
         public void EndPose()
         {
-            _attackParticle.Play();
+            foreach (var particle in _particles)
+            {
+                if (particle.isPaused)
+                    particle.Play();
+            }
         }
     }
 }

@@ -16,12 +16,9 @@
     public enum ExamState : int
     {
         None,
+        Tutorial,
         FirstExam,
-        FirstExamSuccess,
-        FirstExamFail,
         SecondExam,
-        SecondExamSuccess,
-        SecondExamFail,
         ExamClear,
     }
 

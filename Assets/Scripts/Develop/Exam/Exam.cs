@@ -88,7 +88,16 @@ namespace TeamB.Develop
         {
             if (_currentTimer >= _examTime)
             {
-                ExamFailure();
+                switch (GameStatics.ExamState)
+                {
+                    case ExamState.FirstExam:
+                        ExamClear();
+                        break;
+                    case ExamState.SecondExam:
+                        ExamFailure();
+                        break;
+                }
+
                 _currentTimer = 0f;
             }
             else
@@ -162,7 +171,8 @@ namespace TeamB.Develop
         {
             if (_poseManager == null)
                 _poseManager = FindAnyObjectByType<PoseManager>();
-            _poseManager.StartPose();
+            if (_poseManager != null)
+                _poseManager.StartPose();
         }
 
         private async void InitialExamData()
@@ -188,7 +198,7 @@ namespace TeamB.Develop
                 };
                 examData.Add(classChoiceData);
             }
-            
+
             _examStateDatas.Data = examData;
         }
     }

@@ -120,6 +120,8 @@ namespace TeamB.Develop
     public interface IEnemy : ICharacter, IPoseObject
     {
         public event Action OnNextForm;
+        public event Action OnDown;
+        public AbnormalCondition GetCurrentCondition { get; }
         public int GetCurrentForm { get; }
     }
 
@@ -129,5 +131,11 @@ namespace TeamB.Develop
     public interface IInputType
     {
         public bool IsInput { get; }
+    }
+    
+    public enum AbnormalCondition
+    {
+        Normal,
+        Stunned
     }
 }

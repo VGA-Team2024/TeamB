@@ -30,7 +30,7 @@ namespace TeamB.GameSystem.Statics
         /// <summary>
         /// 現在の試験進捗
         /// </summary>
-        public static ExamState ExamState = ExamState.FirstExam;
+        public static ExamState ExamState = ExamState.Tutorial;
         
         /// <summary>
         /// 言語設定
