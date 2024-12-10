@@ -44,6 +44,7 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 1);
                 await _fadeImage.DOFade(0, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
+            cancellationToken.ThrowIfCancellationRequested();
             _fadeImage.gameObject.SetActive(false);
         }
     }

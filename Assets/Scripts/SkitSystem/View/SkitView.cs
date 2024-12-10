@@ -116,6 +116,7 @@ namespace TeamB.SkitSystem
                 var elapsedTime = 0f;
                 while (elapsedTime < _autoDelaySpeed)
                 {
+                    if (_isSkipMode) return;
                     if (!_isAutoMode || _backlogView.IsLogActive)
                     {
                         break;
@@ -126,12 +127,12 @@ namespace TeamB.SkitSystem
                 }
             }
             
-            if (_isSkipMode) return;
             if (!_isAutoMode)
             {
                 Debug.Log("GetTapInput");
                 while (true)
                 {
+                    if (_isSkipMode) return;
                     if (_isAutoMode || !_backlogView.IsLogActive && Input.GetMouseButtonDown(0))
                     {
                         break;
