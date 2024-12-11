@@ -365,7 +365,7 @@ namespace TeamB.SkitSystem
                     awaitChoice.TrySetResult(choiceEntry.EnglishChoiceEntryName);
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
-
+                    _backlogView.SetUserAnswerLog(choiceEntry.JapaneseChoiceEntryName);
                     // 非同期待機: クリック後に再度クリックを待機
                     await GetEmptyInput(cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
