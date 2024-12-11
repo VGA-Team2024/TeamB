@@ -94,6 +94,7 @@ namespace TeamB.SkitSystem
         
         private void SetSkip()
         {
+            Debug.Log("SetSkip");
             _inputType = InputType.Skip;
             _skipButton.ShowIsActivated(_inputType == InputType.Skip);
         }
@@ -121,6 +122,7 @@ namespace TeamB.SkitSystem
         
         private async UniTask GetEmptyInput(CancellationToken cancellationToken)
         {
+            Debug.Log(_inputType);
             switch (_inputType)
             {
                 case InputType.Tap:
@@ -320,7 +322,9 @@ namespace TeamB.SkitSystem
         public async UniTask ShowSkitChoice(SkitChoiceData skitChoiceData, UniTaskCompletionSource<string> awaitChoice,
             UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
         {
-            SetSkip();
+            _inputType = InputType.Tap;
+            _autoButton.LockButton(true);
+            _skipButton.LockButton(true);
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitChoiceData.TalkBackground, skitChoiceData.TalkCharaData, cancellationToken);
             await ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken);
@@ -363,10 +367,13 @@ namespace TeamB.SkitSystem
                     button.ButtonResultImage.gameObject.SetActive(true);
 
                     // 非同期待機: クリック後に再度クリックを待機
+                    Debug.Log("Wait for empty input");
                     await GetEmptyInput(cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
 
                     awaitEmptyInput.TrySetResult();
+                    _autoButton.LockButton(false);
+                    _skipButton.LockButton(false);
                 };
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
@@ -479,10 +486,12 @@ namespace TeamB.SkitSystem
             charaImage.DOFade(1, _charaFadeTime).SetEase(Ease.Linear).SetLink(gameObject);
         }
 
-    public async UniTask ShowSkit(SkitEntryData skitEntryData, UniTaskCompletionSource skitAwaitCompletionSource, CancellationToken cancellationToken)
+        public async UniTask ShowSkit(SkitEntryData skitEntryData, UniTaskCompletionSource skitAwaitCompletionSource,
+            CancellationToken cancellationToken)
         {
             SetActiveFalseAllSkitViewObject();
-            await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData, cancellationToken);
+            await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData,
+                cancellationToken);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue, cancellationToken);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
