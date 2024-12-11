@@ -103,7 +103,6 @@ namespace TeamB.SkitSystem
         {
             if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectDataById(testSkitId, out var skitData))
             {
-                Debug.Log(skitData.Id);
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData, _skitScenePresenter.SkitFlagData));
             }

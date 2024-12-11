@@ -62,9 +62,9 @@ namespace TeamB.SkitSystem
         [SerializeField] private SkitViewFade _skitFadeView;
         [SerializeField] private GraphicRaycaster _graphicRaycaster;
         [SerializeField] private EventSystem _eventSystem;
+        [SerializeField] private InputType _inputType;
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
-        private InputType _inputType;
         
         enum InputType
         {
@@ -322,6 +322,7 @@ namespace TeamB.SkitSystem
             UniTaskCompletionSource awaitEmptyInput, float time, CancellationToken cancellationToken)
         {
             _inputType = InputType.Tap;
+            _autoButton.ShowIsActivated(false);
             _autoButton.LockButton(true);
             _skipButton.LockButton(true);
             SetActiveFalseAllSkitViewObject();
@@ -366,7 +367,6 @@ namespace TeamB.SkitSystem
                     button.ButtonResultImage.gameObject.SetActive(true);
 
                     // 非同期待機: クリック後に再度クリックを待機
-                    Debug.Log("Wait for empty input");
                     await GetEmptyInput(cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
 
@@ -558,7 +558,6 @@ namespace TeamB.SkitSystem
             }
         }
 
-
         private void SetActiveFalseAllSkitViewObject()
         {
             _rightCharaImage.gameObject.SetActive(false);
@@ -571,7 +570,5 @@ namespace TeamB.SkitSystem
             _dialoguePanel.SetActive(false);
             _talkerNamePanel.SetActive(false);
         }
-        
-        
     }
 }
