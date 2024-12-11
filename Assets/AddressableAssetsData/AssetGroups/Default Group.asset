@@ -491,6 +491,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 340ddf7f6e43ddc4c863bcf73256833f
+    m_Address: Conversation_BackGround_03_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 34bcf9fef50e4944d91f9d5a6788e620
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f320.png
     m_ReadOnly: 0
@@ -781,6 +787,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4eab1f437d7da3e4188c4feb1557f936
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f137.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ede2f3ba94015c4c8b98f20255af280
+    m_Address: Conversation_BackGround_02_Night
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
@@ -1744,6 +1756,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf873151e9d54ff4b9cdacc5c7c194a8
+    m_Address: Conversation_BackGround_02_Noon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c02f459f07e156949a217f389f5eea57
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f008.png
     m_ReadOnly: 0
@@ -1794,6 +1812,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4d4f0b7e3961724593d7032d2da88ca
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f306.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4dc8a0cf681f1747abe2082683c3ae0
+    m_Address: Conversation_BackGround_03_Noon
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
