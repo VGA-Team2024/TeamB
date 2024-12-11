@@ -20,6 +20,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private SkitFlagData _skitFlagData;
         [SerializeField] private SkitLogViewer _skitLogViewer;
         [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
+        [SerializeField] private TestSkitSceneCoordinator.NextLoadScene _nextLoadScene = TestSkitSceneCoordinator.NextLoadScene.Skit;
         public SkitSystemManager SkitSystemManager { get; private set; }
         public ISkitDataLoader SkitDataLoader { get; private set; }
         public SkitFlagData SkitFlagData => _skitFlagData;
@@ -63,7 +64,7 @@ namespace TeamB.SkitSystem
                 skitDataHandler,
                 tutorialHandler,
             };
-            var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData);
+            var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData, _nextLoadScene);
             SkitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
 
             // SkitDataHandlerとViewの紐付け

@@ -24,10 +24,18 @@ namespace TeamB.SkitSystem
         private const string ExamSceneName = "Exam";
         private const string LastFlag = "SecondExamClear";
         private const string DefaultId = "Prologue";
-        public TestSkitSceneCoordinator(ISkitDataLoader skitDataLoader, SkitFlagData skitFlagData)
+        private readonly NextLoadScene _nextLoadScene;
+        public enum NextLoadScene
+        {
+            Skit,
+            Exam
+        }
+        
+        public TestSkitSceneCoordinator(ISkitDataLoader skitDataLoader, SkitFlagData skitFlagData, NextLoadScene nextLoadScene)
         {
             _skitDataLoader = skitDataLoader;
             _skitFlagData = skitFlagData;
+            _nextLoadScene = nextLoadScene;
         }
 
         public SkitContext GetStartSkitData()
@@ -53,8 +61,14 @@ namespace TeamB.SkitSystem
         public void EndSkitScene()
         {
             // 会話シーンの終了時に必要な処理を行う
-            SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
-            //SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
+            if (_nextLoadScene == NextLoadScene.Skit)
+            {
+                SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            else
+            {
+                SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
+            }
         }
     }
 }
