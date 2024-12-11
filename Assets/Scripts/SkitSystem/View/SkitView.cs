@@ -122,7 +122,6 @@ namespace TeamB.SkitSystem
         
         private async UniTask GetEmptyInput(CancellationToken cancellationToken)
         {
-            Debug.Log(_inputType);
             switch (_inputType)
             {
                 case InputType.Tap:
