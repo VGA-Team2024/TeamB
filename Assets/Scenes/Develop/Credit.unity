@@ -313,12 +313,12 @@ MonoBehaviour:
     Manager\n\nTomoya Akasaka\n\nPlanner \n\nNatsumi Sato\nYuto Takahashi\nHaruki
     Kawasaki\nTakuto Horikawa\nSouta Uehara\nSteve Aron Gausel JR\n\nSystem Programer\n\nYusuke
     Kawaguti\nTuyosi Usugi\n\nAnimetion Director\n\nMiu Arayama\n\nAnimetion\n\nSyunnsuke
-    Iino\nSyouma Kuwano\nNanami Sato\n\nUI Design\n\nSyunn Saruwatari\nYuduki Nisino\nAsahi
-    Mizuki\nSion Hirabayasi\n\nCharacter Design\n\nKeirei Takahashi\nKonoha Harasawa\nNanami
-    Sato\n\nBackGround Design\n\nRen Matsui\nNanami Mizuno\n\nEffect Design\n\nIssei
-    Kageyama\nSyunnsuke Iino\n\nSoundEffect Design\n\nHaizi Yusa\nSuzune Kimura\n\nBackGroundMusic
-    Design\n\nHaizi Yusa\nSuzune Kimura\n\nCharacter Voice \n\nMayuka Matsuoka\nYuuri
-    nakayama\n\nSpecialThanks\n\nShinji Toyama\n\n\n\n\n\n\n\n\nExecutiveDirector\n\nRenzo
+    Iino\nSyouma Kuwano\nNanami Sato\n\nConcept Art\n\nAruma Yazawa\n\nUI Design\n\nSyunn
+    Saruwatari\nYuduki Nisino\nAsahi Mizuki\nSion Hirabayasi\n\nCharacter Design\n\nKeirei
+    Takahashi\nKonoha Harasawa\nNanami Sato\n\nBackGround Design\n\nRen Matsui\nNanami
+    Mizuno\n\nEffect Design\n\nIssei Kageyama\nSyunnsuke Iino\n\nSoundEffect Design\n\nHaizi
+    Yusa\nSuzune Kimura\n\nBackGroundMusic Design\n\nHaizi Yusa\nSuzune Kimura\n\nCharacter
+    Voice \n\nMayuka Matsuoka\nYuri nakayama\n\nSpecialThanks\n\nShinji Toyama\n\n\n\n\n\n\n\n\nExecutiveDirector\n\nRenzo
     Suganuma"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -511,6 +511,7 @@ RectTransform:
   m_Children:
   - {fileID: 420979824}
   - {fileID: 1098302403}
+  - {fileID: 1683412549}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -716,12 +717,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683412546}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1106721550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -729,5 +730,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1405885594}
   - {fileID: 1106721550}
-  - {fileID: 1683412549}
   - {fileID: 768652484}
