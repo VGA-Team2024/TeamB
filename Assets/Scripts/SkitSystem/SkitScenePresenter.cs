@@ -22,7 +22,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
         [SerializeField] private TestSkitSceneCoordinator.NextLoadScene _nextLoadScene = TestSkitSceneCoordinator.NextLoadScene.Skit;
         public SkitSystemManager SkitSystemManager { get; private set; }
-        public ISkitDataLoader SkitDataLoader { get; private set; }
+        public SkitDataLoaderBase SkitDataLoaderBase { get; private set; }
         public SkitFlagData SkitFlagData => _skitFlagData;
 
         private async void Awake()
@@ -31,12 +31,14 @@ namespace TeamB.SkitSystem
             if (_dataLoadType == DataLoadType.Remote)
             {
                 // リモートからデータをロード
-                SkitDataLoader = new RemoteSkitDataLoader();
-                await SkitDataLoader.InitTalkData();
+                SkitDataLoaderBase = new RemoteSkitDataLoaderBase();
+                await SkitDataLoaderBase.InitTalkData();
             }
             else
             {
-                // TODO:ローカルからデータをロード
+                // ローカルからデータをロード
+                SkitDataLoaderBase = new LocalSkitDataLoaderBase();
+                await SkitDataLoaderBase.InitTalkData();
             }
 
             await _skitResourceLoader.InitializeSkitResourceLoader();
@@ -55,16 +57,16 @@ namespace TeamB.SkitSystem
         /// </summary>
         private void SetSkitDataHandler()
         {
-            var classSelectSkitContextHandler = new ClassSelectSkitContextHandler(SkitDataLoader);
-            var skitDataHandler = new SkitDataHandler(SkitDataLoader);
-            var tutorialHandler = new TutorialHandler(SkitDataLoader);
+            var classSelectSkitContextHandler = new ClassSelectSkitContextHandler(SkitDataLoaderBase);
+            var skitDataHandler = new SkitDataHandler(SkitDataLoaderBase);
+            var tutorialHandler = new TutorialHandler(SkitDataLoaderBase);
             var skitContextHandlers = new HashSet<SkitContextHandlerBase>
             {
                 classSelectSkitContextHandler,
                 skitDataHandler,
                 tutorialHandler,
             };
-            var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoader, _skitFlagData, _nextLoadScene);
+            var skitSceneCoordinator = new TestSkitSceneCoordinator(SkitDataLoaderBase, _skitFlagData, _nextLoadScene);
             SkitSystemManager = new SkitSystemManager(skitContextHandlers, skitSceneCoordinator);
 
             // SkitDataHandlerとViewの紐付け

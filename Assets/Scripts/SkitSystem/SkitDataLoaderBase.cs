@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,18 +12,15 @@ namespace TeamB.SkitSystem
     /// <summary>
     /// 会話シーンで用いられるデータを読み込むクラスの共通処理
     /// </summary>
-    public interface ISkitDataLoader
+    public abstract class SkitDataLoaderBase
     {
-        public UniTask InitTalkData();
+        protected HashSet<ClassSelectData> _classSelectData = new();
+        protected HashSet<SkitData> _skitData = new();
+        protected HashSet<SkitChoiceData> _skitChoiceData = new();
+        protected HashSet<TutorialData> _tutorialData = new();
         public string PlayerName { get; set; }
-        public bool TryGetClassSelectDataById(string id, out ClassSelectData classSelectData);
-            
-        public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData);
-        public bool TryGetSkitDataById(string id, out SkitData skitData);
-        public bool TryGetSkitChoiceDataByID(string id, out SkitChoiceData choiceData);
-        public bool TryGetTutorialDataById(out TutorialData tutorialData, string id = "");
-        public SkitData[] GetAllSkitData();
-        public ClassSelectData[] GetAllClassSelectData();
+        public abstract UniTask InitTalkData();
+
         private const string JapaneseIntuition = "直観力";
         private const string JapaneseReadingComprehension = "読解力、学力";
         private const string JapaneseConcentration = "集中力";
@@ -34,12 +34,68 @@ namespace TeamB.SkitSystem
                 _ => RewardType.None
             };
         }
+        
+        public bool TryGetClassSelectDataById(string id, out ClassSelectData classSelectData)
+        {
+            classSelectData = _classSelectData.FirstOrDefault(x => x.Id == id);
+            return classSelectData != null;
+        }
+
+        public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData)
+        {
+            classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
+            foreach (var data in _skitData)
+            {
+                Debug.Log($"今見てるデータ{data.SkitEntryData[0].ToString()}");
+            }
+            if (classSelectData == null) classSelectData = _skitData.FirstOrDefault(x => x.Flag.Trim() == flag.CurrentFlag.Trim());
+            return classSelectData != null;
+        }
+
+        public bool TryGetSkitDataById(string id, out SkitData skitData)
+        {
+            skitData = _skitData.FirstOrDefault(x => x.Id == id);
+            return skitData != null;
+        }
+
+        public bool TryGetSkitChoiceDataByID(string id, out SkitChoiceData choiceData)
+        {
+            choiceData = _skitChoiceData.FirstOrDefault(x => x.Id == id);
+            return choiceData != null;
+        }
+        
+        public bool TryGetTutorialDataById(out TutorialData tutorialData, string id = "")
+        {
+            tutorialData = _tutorialData.FirstOrDefault(x => x.Id == id);
+            return tutorialData != null;
+        }
+
+        public SkitChoiceData[] GetAllSkitChoiceData()
+        {
+            return _skitChoiceData.ToArray();
+        }
+
+        public SkitData[] GetAllSkitData()
+        {
+            return _skitData.ToArray();
+        }
+
+        public ClassSelectData[] GetAllClassSelectData()
+        {
+            return _classSelectData.ToArray();
+        }
+
+        public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData)
+        {
+            classSelectData = _classSelectData.ToArray();
+            return classSelectData == null;
+        }
     }
     
     /// <summary>
     /// ドライブのスプシからデータを読み込むクラス
     /// </summary>
-    public class RemoteSkitDataLoader : ISkitDataLoader
+    public class RemoteSkitDataLoaderBase : SkitDataLoaderBase
     { 
         private const string ClassSelectDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=514427729&single=true&output=csv";
         private const int ClassSelectDataLength = 4;
@@ -51,12 +107,9 @@ namespace TeamB.SkitSystem
         
         private const int SkitChoiceLength = 2;
         private string _playerName;
-        private HashSet<ClassSelectData> _classSelectData = new();
-        private HashSet<SkitData> _skitData = new();
-        private HashSet<SkitChoiceData> _skitChoiceData = new();
-        private HashSet<TutorialData> _tutorialData = new();
         
-        public UniTask InitTalkData()
+        
+        public override UniTask InitTalkData()
         {
             return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData(), LoadTutorialData());
         }
@@ -82,7 +135,7 @@ namespace TeamB.SkitSystem
                         ChoiceName = data[j],
                         JapaneseChoiceName = data[j + 1],
                         TalkDataId = data[j + 2],
-                        TalkReward = ISkitDataLoader.GetRewardType(data[j + 3])
+                        TalkReward = SkitDataLoaderBase.GetRewardType(data[j + 3])
                     };
                     classChoices.Add(classChoiceData);
                 }
@@ -117,12 +170,8 @@ namespace TeamB.SkitSystem
                 
                 for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
                 {   // 会話キャラクターデータを作成
-                    var eachClassTalkCharaData = new SkitTalkCharaData()
-                    {
-                        CharaName = rawData[i][j],
-                        CharaStateFileName = rawData[i][j + 2]
-                    };
-                    if (!string.IsNullOrEmpty(rawData[i][j + 1])) eachClassTalkCharaData.StandingPosition = Enum.Parse<StandingPosition>(rawData[i][j + 1]);
+                    var standingPosition = !string.IsNullOrEmpty(rawData[i][j + 1]) ? Enum.Parse<StandingPosition>(rawData[i][j + 1]) : StandingPosition.None;
+                    var eachClassTalkCharaData = new SkitTalkCharaData(rawData[i][j], standingPosition, rawData[i][j + 2]);
                     classTalkCharaData.Add(eachClassTalkCharaData);
                 }
                 var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), rawData[i][2], rawData[i][3], rawData[i][4], rawData[i][5]);
@@ -134,7 +183,7 @@ namespace TeamB.SkitSystem
             }
         }
         
-        public async UniTask LoadTutorialData()
+        private async UniTask LoadTutorialData()
         {
             var rawData = await CsvLoader.GetSpreadsheetDataAsync(TutorialDataKey);
             if (rawData == null)
@@ -182,59 +231,64 @@ namespace TeamB.SkitSystem
                 _skitChoiceData.Add(choiceData);
             }
         }
-
-        public string PlayerName { get; set; }
-
-        public bool TryGetClassSelectDataById(string id, out ClassSelectData classSelectData)
+    }
+    
+    /// <summary>
+    /// ローカルでデータを読み込むクラス
+    /// </summary>
+    public class LocalSkitDataLoaderBase : SkitDataLoaderBase
+    {
+        public override UniTask InitTalkData()
         {
-            classSelectData = _classSelectData.FirstOrDefault(x => x.Id == id);
-            return classSelectData != null;
-        }
-
-        public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData)
-        {
-            classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
-            if (classSelectData !=null) classSelectData = _skitData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
-            return classSelectData != null;
-        }
-
-        public bool TryGetSkitDataById(string id, out SkitData skitData)
-        {
-            skitData = _skitData.FirstOrDefault(x => x.Id == id);
-            return skitData != null;
-        }
-
-        public bool TryGetSkitChoiceDataByID(string id, out SkitChoiceData choiceData)
-        {
-            choiceData = _skitChoiceData.FirstOrDefault(x => x.Id == id);
-            return choiceData != null;
+            return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData(), LoadTutorialData());
         }
         
-        public bool TryGetTutorialDataById(out TutorialData tutorialData, string id = "")
+        // 以下にデータロード用のメソッド群を定義
+        private async UniTask LoadClassSelectData()
         {
-            tutorialData = _tutorialData.FirstOrDefault(x => x.Id == id);
-            return tutorialData != null;
+            // ここでローカルのclassSelectData.jsonなどを読み込む処理を記述
+            // とりあえず例なので処理は空にしておく
         }
 
-        public SkitChoiceData[] GetAllSkitChoiceData()
+        private async UniTask LoadSkitChoiceData()
         {
-            return _skitChoiceData.ToArray();
+            // ここでskitChoiceData.jsonなどから読み込む処理を記述
         }
 
-        public SkitData[] GetAllSkitData()
+        private async UniTask LoadTutorialData()
         {
-            return _skitData.ToArray();
+            // ここでtutorialData.jsonなどから読み込む処理を記述
         }
-
-        public ClassSelectData[] GetAllClassSelectData()
+        
+        private async UniTask LoadSkitData()
         {
-            return _classSelectData.ToArray();
-        }
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            // StreamingAssets内の"SkitData"というフォルダにあるJSONをすべて読み込みます。
+            var folderPath = Path.Combine(Application.streamingAssetsPath, "SkitData");
+            // PC/Editorなどの場合はディレクトリからすべてのjsonファイルを取得可能
+            if (!Directory.Exists(folderPath))
+            {
+                Debug.LogWarning($"SkitData folder not found at: {folderPath}");
+                return;
+            }
 
-        public bool TryGetAllClassSelectData(out ClassSelectData[] classSelectData)
-        {
-            classSelectData = _classSelectData.ToArray();
-            return classSelectData == null;
+            var jsonFiles = Directory.GetFiles(folderPath, "*.json");
+            foreach (var file in jsonFiles)
+            {
+                var json = await File.ReadAllTextAsync(file);
+                var loadedSkitData = JsonConvert.DeserializeObject<SkitData>(json);
+
+                if (loadedSkitData != null)
+                {
+                    _skitData.Add(loadedSkitData);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to load SkitData from: {file}");
+                }
+            }
+            stopwatch.Stop();
+            Debug.Log($"Total loading time: {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }

@@ -1426,12 +1426,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9c23e50c34b9df64fa85ee4bb5349376
-    m_Address: Conversation_StandingPicture
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9c850c730ab00014289f1bc3196ef197
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f263.png
     m_ReadOnly: 0

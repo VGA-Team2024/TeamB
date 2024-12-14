@@ -18,7 +18,7 @@ namespace TeamB.SkitSystem
     
     public class TestSkitSceneCoordinator : ISkitSceneCoordinator
     {
-        private readonly ISkitDataLoader _skitDataLoader;
+        private readonly SkitDataLoaderBase _skitDataLoaderBase;
         private readonly SkitFlagData _skitFlagData;
         private const string TitleSceneName = "Title";
         private const string ExamSceneName = "Exam";
@@ -31,18 +31,17 @@ namespace TeamB.SkitSystem
             Exam
         }
         
-        public TestSkitSceneCoordinator(ISkitDataLoader skitDataLoader, SkitFlagData skitFlagData, NextLoadScene nextLoadScene)
+        public TestSkitSceneCoordinator(SkitDataLoaderBase skitDataLoaderBase, SkitFlagData skitFlagData, NextLoadScene nextLoadScene)
         {
-            _skitDataLoader = skitDataLoader;
+            _skitDataLoaderBase = skitDataLoaderBase;
             _skitFlagData = skitFlagData;
             _nextLoadScene = nextLoadScene;
         }
 
         public SkitContext GetStartSkitData()
         {
-            if (_skitDataLoader.TryGetSkitSceneDataByFlag(_skitFlagData, out var skitSceneData))
+            if (_skitDataLoaderBase.TryGetSkitSceneDataByFlag(_skitFlagData, out var skitSceneData))
             {
-                Debug.Log(skitSceneData.Id);
                 switch (skitSceneData)
                 {
                     case ClassSelectData _:
@@ -52,7 +51,7 @@ namespace TeamB.SkitSystem
                 }
             }
             Debug.LogError("SkitSceneDataがnullです: " + _skitFlagData.CurrentFlag);
-            _skitDataLoader.TryGetSkitDataById(DefaultId, out var defaultSkitSceneData);
+            _skitDataLoaderBase.TryGetSkitDataById(DefaultId, out var defaultSkitSceneData);
             {
                 return new SkitContext(SkitContext.ContextType.Skit, defaultSkitSceneData, _skitFlagData);
             }

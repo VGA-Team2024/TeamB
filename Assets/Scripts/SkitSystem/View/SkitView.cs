@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using R3;
@@ -429,7 +430,6 @@ namespace TeamB.SkitSystem
 
         private async UniTask SetCharacterAndBackground(string backgroundName, SkitTalkCharaData[] talkCharaData, CancellationToken cancellationToken)
         {
-
             if (_skitResourceLoader.TryGetSpriteByName(backgroundName, out var backGroundSprite))
             {
                 _backgroundImage.sprite = backGroundSprite;
@@ -441,6 +441,7 @@ namespace TeamB.SkitSystem
 
             if (talkCharaData == null)
             {
+                await FirstFade(cancellationToken);
                 return;
             }
 
@@ -456,6 +457,7 @@ namespace TeamB.SkitSystem
 
                 if (charaImage == null)
                 {
+                    
                     continue;
                 }
 
@@ -471,13 +473,19 @@ namespace TeamB.SkitSystem
             if (!_leftCharaImage.gameObject.activeSelf) _leftCharaImage.sprite = null;
             if (!_rightCharaImage.gameObject.activeSelf) _rightCharaImage.sprite = null;
             if (!_middleCharaImage.gameObject.activeSelf) _middleCharaImage.sprite = null;
-
-            if (!_isFirstSkitContextExecuted)
+            await FirstFade(cancellationToken);
+            
+            async UniTask FirstFade(CancellationToken localCancellationToken)
             {
-                await _skitFadeView.FadeOutAsync(cancellationToken);
-                _isFirstSkitContextExecuted = true;
+                if (!_isFirstSkitContextExecuted)
+                {
+                    await _skitFadeView.FadeOutAsync(localCancellationToken);
+                    _isFirstSkitContextExecuted = true;
+                }
             }
         }
+
+        
 
         private void ShowFadeChara(Image charaImage)
         {

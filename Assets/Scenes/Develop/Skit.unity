@@ -6314,7 +6314,7 @@ MonoBehaviour:
   _loadingPanel: {fileID: 425677203}
   _skitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
   _skitLogViewer: {fileID: 2785846}
-  _dataLoadType: 0
+  _dataLoadType: 1
   _nextLoadScene: 0
 --- !u!4 &1361457062
 Transform:
@@ -9089,6 +9089,7 @@ MonoBehaviour:
   _skitFadeView: {fileID: 425677203}
   _graphicRaycaster: {fileID: 1942722075}
   _eventSystem: {fileID: 1432915630}
+  _inputType: 0
 --- !u!114 &1942722075
 MonoBehaviour:
   m_ObjectHideFlags: 0
