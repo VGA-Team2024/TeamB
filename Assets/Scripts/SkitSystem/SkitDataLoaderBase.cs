@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -44,10 +43,10 @@ namespace TeamB.SkitSystem
         public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData)
         {
             classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
-            foreach (var data in _skitData)
-            {
-                Debug.Log($"今見てるデータ{data.SkitEntryData[0].ToString()}");
-            }
+            // foreach (var data in _skitData)
+            // {
+            //     Debug.Log($"今見てるデータ{data.SkitEntryData[0].ToString()}");
+            // }
             if (classSelectData == null) classSelectData = _skitData.FirstOrDefault(x => x.Flag.Trim() == flag.CurrentFlag.Trim());
             return classSelectData != null;
         }

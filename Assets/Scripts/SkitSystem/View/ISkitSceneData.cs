@@ -72,8 +72,6 @@ namespace TeamB.SkitSystem
     /// <summary>
     /// 各会話をまとめたデータ、CurrentTalkDataIndexで現在の会話を指定して取得する
     /// </summary>
-    [Serializable]
-    //[JsonSerializable(typeof(SkitData))]
     [JsonObject]
     public class SkitData : ISkitSceneData
     {
@@ -85,7 +83,7 @@ namespace TeamB.SkitSystem
         [JsonProperty("SkitEntryData")]
         public SkitEntryData[] SkitEntryData { get; }
 
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public SkitData(string id, string flag, SkitEntryData[] skitEntryData)
         {
             Id = id;
@@ -99,9 +97,7 @@ namespace TeamB.SkitSystem
         }
     }
 
-    [Serializable]
     [JsonObject]
-    //[JsonSerializable(typeof(SkitEntryData))]
     public class SkitEntryData
     {
         [JsonProperty("TalkCharaData")]
@@ -122,8 +118,7 @@ namespace TeamB.SkitSystem
             
         }
         
-        //[System.Text.Json.Serialization.JsonConstructor]
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public SkitEntryData(SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
             string japaneseTalkDialogue, string englishTalkDialogue)
         {
@@ -148,9 +143,7 @@ namespace TeamB.SkitSystem
         Right,
     }
 
-    [Serializable]
     [JsonObject]
-    //[JsonSerializable(typeof(SkitTalkCharaData))]
     public class SkitTalkCharaData
     {
         [JsonProperty("CharaName")]
@@ -160,7 +153,7 @@ namespace TeamB.SkitSystem
         [JsonProperty("CharaStateFileName")]
         public string CharaStateFileName { get; }
         
-        [JsonConstructor]
+        [Newtonsoft.Json.JsonConstructor]
         public SkitTalkCharaData(string charaName, StandingPosition standingPosition, string charaStateFileName)
         {
             CharaName = charaName;
