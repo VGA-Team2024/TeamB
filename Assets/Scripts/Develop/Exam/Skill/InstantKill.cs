@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TeamB.GameSystem.Statics;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -11,21 +10,21 @@ namespace TeamB.Develop
     {
         [SerializeField] float percentageDamage = 50;
         public event Action OnChantingSkill;
-
-
-        void ISkill.Activation(ICharacter character)
+        public void Activation(ICharacter mainCharacter, ICharacter character)
         {
             var rand = UnityEngine.Random.Range(0, 100);
             if (rand <= 10)
             {
-                character.TakeDamage(character.GetCurrentData.Hp); //10%‚ÌŠm—¦‚Å‘¦Ž€(Œ»ÝHP‘S•”Ž‚Á‚Ä‚­)
-                Debug.Log("‘¦Ž€");
+                character.TakeDamage(character.GetCurrentData.Hp); //10%ï¿½ÌŠmï¿½ï¿½ï¿½Å‘ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½HPï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½)
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½");
             }
             else
             {
-                character.TakeDamage(character.GetCurrentData.Hp / 100 * 50); //90%‚ÌŠm—¦‚ÅŒ»ÝHP‚©‚ç50“‚Ìƒ_ƒ[ƒW‚ð—^‚¦‚é
-                Debug.Log("/90%‚ÌŠm—¦‚ÅŒ»ÝHP‚©‚ç50“‚Ìƒ_ƒ[ƒW‚ð—^‚½");
+                character.TakeDamage(character.GetCurrentData.Hp / 100 * 50); //90%ï¿½ÌŠmï¿½ï¿½ï¿½ÅŒï¿½ï¿½ï¿½HPï¿½ï¿½ï¿½ï¿½50ï¿½ï¿½ï¿½Ìƒ_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½
+                Debug.Log("/90%ï¿½ÌŠmï¿½ï¿½ï¿½ÅŒï¿½ï¿½ï¿½HPï¿½ï¿½ï¿½ï¿½50ï¿½ï¿½ï¿½Ìƒ_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½^ï¿½ï¿½");
             }
         }
+
+        
     }
 }
