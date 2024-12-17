@@ -857,11 +857,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5842a28357383ef46ad89a28eeb57f31
-    m_Address: Assets/Scenes/SceneDependencies.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 59118c6461380a644b72b92b752a7804
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f163.png
     m_ReadOnly: 0
