@@ -28,6 +28,8 @@ namespace DataManagement
         public abstract string MasterName { get; }
 
         public V this[K id] => _dic.ContainsKey(id) ? _dic[id] : default;
+        
+        public int Count => _dic.Count;
 
         public abstract UniTask Marshal();
 
@@ -110,14 +112,24 @@ namespace DataManagement
         {
             public int Id;
             public string Name;
+            public string Card;
             public string ResourceName;
+            public float Hp;
+            public float HitRate;
+            public float AttackSpeed;
+            public float ATK;
             public SkillData Skill;
 
             public EnemyData(SpreadSheet.EnemyData data)
             {
                 Id = data.Id;
                 Name = data.Name;
+                Card = data.Card;
                 ResourceName = data.ResourceName;
+                Hp = data.Hp;
+                HitRate = data.HitRate;
+                AttackSpeed = data.AttackSpeed;
+                ATK = data.ATK;
             }
         }
 

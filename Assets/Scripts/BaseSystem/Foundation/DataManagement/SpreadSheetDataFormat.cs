@@ -5,6 +5,11 @@
 /// </summary>
 namespace DataManagement
 {
+    public interface IDataManagement
+    {
+        
+    }
+    
     /// <summary>
     /// システム用
     /// </summary>
@@ -51,12 +56,17 @@ namespace DataManagement
         /// サンプルの敵データ
         /// </summary>
         [Serializable]
-        public class EnemyData
+        public class EnemyData : IDataManagement
         {
             public int Id;
             public string Name;
+            public string Card;
             public string ResourceName;
-            public int SkillId;
+            public float Hp;
+            public float HitRate;
+            public float AttackSpeed;
+            public float ATK;
+            //public int SkillId;
         }
 
         [Serializable]
@@ -69,7 +79,7 @@ namespace DataManagement
         /// スキルのデータ
         /// </summary>
         [Serializable]
-        public class SkillData
+        public class SkillData : IDataManagement
         {
             public int Id;
             public string Text;
@@ -81,5 +91,40 @@ namespace DataManagement
             public SkillData[] Data;
         }
         //
+
+
+        /// <summary>
+        /// キャラクターデータ
+        /// </summary>
+        [Serializable]
+        public class CharacterData : IDataManagement
+        {
+            public int Id;
+            public string Name;
+            public string Card;
+            public string ResourceName;
+            public float Hp;
+            public float HitRate;
+            public float ChantingSpeed;
+            public float MagicATK;
+
+            public CharacterData(CharacterData data)
+            {
+                Id = data.Id;
+                Name = data.Name;
+                Card = data.Card;
+                ResourceName = data.ResourceName;
+                Hp = data.Hp;
+                HitRate = data.HitRate;
+                ChantingSpeed = data.ChantingSpeed;
+                MagicATK = data.MagicATK;
+            }
+        }
+
+        [Serializable]
+        public class CharacterMaster : SpreadSheetDataObject
+        {
+            public CharacterData[] Data;
+        }
     }
 }
