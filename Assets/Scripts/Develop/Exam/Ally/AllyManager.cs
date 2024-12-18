@@ -23,6 +23,8 @@ namespace TeamB.Develop
         private PoseManager _poseManager;
         private DefenseInput _defenseInput = new();
         private AttackInput _attackInput = new();
+        
+        public event Action OnEndDamageEffect;
 
         private int _defenceSuccessCount;
         private int _attackSuccessCount;
@@ -76,6 +78,7 @@ namespace TeamB.Develop
             {
                 sprite.color = new Color(1f, 1, 1, 1);
             }
+            OnEndDamageEffect?.Invoke();
         }
 
         private void OnDefense()

@@ -43,7 +43,7 @@ namespace TeamB.Develop
 
             CRIAudioManager.BGM.Stop();
             if (GameStatics.ExamResult == ExamResult.Failed)
-                CRIAudioManager.SE.Play("SE", nameof(SE.SE_GO));
+                CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_GO));
             else
                 CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
 
@@ -74,7 +74,7 @@ namespace TeamB.Develop
 
         public void ClickSound()
         {
-            CRIAudioManager.SE.Play("SE", nameof(SE.SE_click));
+            CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_click));
         }
     }
 }
