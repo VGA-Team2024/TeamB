@@ -52,7 +52,7 @@ namespace TeamB.UI
             _exam = FindAnyObjectByType<Exam>();
             _allyManager = FindAnyObjectByType<AllyManager>();
             
-            CRIAudioManager.BGM.Stop();
+            //CRIAudioManager.BGM.Stop();
 
             _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;

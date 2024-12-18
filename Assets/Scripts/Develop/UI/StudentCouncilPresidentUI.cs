@@ -18,7 +18,7 @@ namespace TeamB.Develop
 		private void OnChanged()
 		{
 			float ratio = _enemyManager.GetCurrentEnemyData.GetCurrentData.Hp /
-			              GameStatics.Characters[(int)_enemyManager.GetCurrentEnemyData.GetCharacterType].Hp;
+			              GameStatics.Characters[(int)_enemyManager.GetCurrentEnemyData.GetFirstCharacterType].Hp;
 			_slider.fillAmount = ratio;
 		}
 	}

@@ -5,12 +5,11 @@ public class AllyAnimation : MonoBehaviour
 {
     [SerializeField] Animator _animation;
     AllyManager _allyManager;
-    int DamageID = Animator.StringToHash("Damage");
+    int DamageID = Animator.StringToHash("Damege");
     int ChantID = Animator.StringToHash("Chant");
 
     private void Awake()
     {
-        _animation = FindObjectOfType<Animator>();
         _allyManager = FindObjectOfType<AllyManager>();
         SetAnimationFrag();
     }
@@ -21,6 +20,7 @@ public class AllyAnimation : MonoBehaviour
         {
             AnimationFragClear();
             _animation.SetBool(ChantID, true);
+            Debug.Log("aaaaaaaaaa");
         };
         _allyManager.GetAllies.OnEndAttack += () =>
         {

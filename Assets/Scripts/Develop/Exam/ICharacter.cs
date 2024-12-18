@@ -11,7 +11,7 @@ namespace TeamB.Develop
     {
         #region Properties
 
-        public CharacterType GetCharacterType { get; }
+        public CharacterType GetFirstCharacterType { get; }
         public DataManagement.SpreadSheet.CharacterData GetCurrentData { get; }
         public List<IBuff> GetHaveBuffs { get; }
         public List<IBuff> GetHaveDeBuffs { get; }

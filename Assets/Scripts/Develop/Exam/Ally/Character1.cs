@@ -81,7 +81,7 @@ namespace TeamB.Develop
         public List<IBuff> GetHaveDeBuffs { get; } = new();
 
         // キャラの種類
-        public CharacterType GetCharacterType => GameStatics.NurturingCharacterType;
+        public CharacterType GetFirstCharacterType => GameStatics.NurturingCharacterType;
 
         public ActionType GetActionType { get; private set; }
 

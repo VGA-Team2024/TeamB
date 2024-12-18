@@ -20,19 +20,19 @@ namespace TeamB.Develop
         private bool _isSpecial;
 
 
-        [SerializeField, Header("”wŒi")]
+        [SerializeField, Header("ï¿½wï¿½i")]
         Image _backGround;
-        [SerializeField, Header("ƒ`ƒ…[ƒgƒŠƒAƒ‹Å‰‚Éo‚·Text")]
+        [SerializeField, Header("ï¿½`ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Åï¿½ï¿½Éoï¿½ï¿½Text")]
         Text _messageText;
-        [SerializeField, Header("ƒ‚[ƒhƒ{ƒ^ƒ“")]
+        [SerializeField, Header("ï¿½ï¿½ï¿½[ï¿½hï¿½{ï¿½^ï¿½ï¿½")]
         GameObject _modeButton;
-        [SerializeField, Header("•KE‹Zƒ{ƒ^ƒ“")]
+        [SerializeField, Header("ï¿½Kï¿½Eï¿½Zï¿½{ï¿½^ï¿½ï¿½")]
         GameObject _specialMovesButton;
-        [SerializeField, Header("–hŒäƒ{ƒ^ƒ“")]
+        [SerializeField, Header("ï¿½hï¿½ï¿½{ï¿½^ï¿½ï¿½")]
         GameObject _defenseButton;
-        [SerializeField, Header("–hŒäƒƒbƒZ[ƒW")]
+        [SerializeField, Header("ï¿½hï¿½äƒï¿½bï¿½Zï¿½[ï¿½W")]
         GameObject _defenseMessage;
-        [SerializeField, Header("ƒAƒNƒVƒ‡ƒ“ƒ{ƒ^ƒ“")]
+        [SerializeField, Header("ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½")]
         GameObject _actionButton;
 
         public bool _isStart;
@@ -67,8 +67,8 @@ namespace TeamB.Develop
             {
                 exam.OnStartPose();
                 _isStart = true;
-                Debug.Log("ƒXƒgƒbƒv");
-                _messageText.text = "Œ±‚ÌŒP—û‚ğ‚µ‚Ä‚İ‚Ü‚µ‚å‚¤";
+                Debug.Log("ï¿½Xï¿½gï¿½bï¿½v");
+                _messageText.text = "ï¿½ï¿½ï¿½ï¿½ï¿½ÌŒPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚İ‚Ü‚ï¿½ï¿½å‚¤";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _count++;
@@ -81,7 +81,7 @@ namespace TeamB.Develop
                 
             }
 
-            if (GameStatics.Characters[(int)allyManager.GetAllies.GetCharacterType].Hp == (int)allyManager.GetAllies.GetCurrentData.Hp)
+            if (GameStatics.Characters[(int)allyManager.GetAllies.GetFirstCharacterType].Hp == (int)allyManager.GetAllies.GetCurrentData.Hp)
             {
                 
             }
@@ -125,7 +125,7 @@ namespace TeamB.Develop
         public void ActionButtonTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "‚±‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚Æ–‚–@‚ğŒJ‚èo‚¹‚Ü‚·B\nUŒ‚A–hŒä–‚–@‚ğŒJ‚èo‚¹‚Ü‚·B";
+            _messageText.text = "ï¿½ï¿½ï¿½Ìƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ–ï¿½ï¿½@ï¿½ï¿½ï¿½Jï¿½ï¿½oï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B\nï¿½Uï¿½ï¿½ï¿½Aï¿½hï¿½ä–‚ï¿½@ï¿½ï¿½ï¿½Jï¿½ï¿½oï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B";
             _backGround.gameObject.SetActive(true);
             _actionButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -135,7 +135,7 @@ namespace TeamB.Develop
         public void ModeTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "‚±‚Ìƒ{ƒ^ƒ“‚Åí“¬‚Ìƒ‚[ƒh‚ğ©“®A\nè“®ƒ‚[ƒh‚ÉØ‚è‘Ö‚¦‚ç‚ê‚Ü‚·B";
+            _messageText.text = "ï¿½ï¿½ï¿½Ìƒ{ï¿½^ï¿½ï¿½ï¿½Åí“¬ï¿½Ìƒï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A\nï¿½è“®ï¿½ï¿½ï¿½[ï¿½hï¿½ÉØ‚ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B";
             _actionButton.gameObject.SetActive(false);
             _backGround.gameObject.SetActive(true);
             _modeButton.gameObject.SetActive(true);
@@ -148,7 +148,7 @@ namespace TeamB.Develop
             if (_isDefense == true)
             {
                 exam.OnStartPose();
-                _messageText.text = "‚±‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä–hŒä‚ğ‚µ‚Ä‚­‚¾‚³‚¢B";
+                _messageText.text = "ï¿½ï¿½ï¿½Ìƒ{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä–hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B";
                 _backGround.gameObject.SetActive(true);
                 _defenseButton.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
@@ -162,7 +162,7 @@ namespace TeamB.Develop
             if (_isMessage == true && _isDefense == false)
             {
                 exam.OnStartPose();
-                _messageText.text = "‚±‚±‚É–‚–@‚ğ–h‚¢‚¾‰ñ”‚ª•\¦‚³‚¹‚Ü‚·\n‚±‚ê‚ÍŒ±Œ‹‰Ê‚É”½‰f‚³‚¹‚Ü‚·";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _defenseMessage.gameObject.SetActive(true);
@@ -177,7 +177,7 @@ namespace TeamB.Develop
         public void SpecialMovesTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "Ÿ‚É•KE‹Z‚ğ”­“®‚µ‚Ä‚İ‚Ü‚µ‚å‚¤B";
+            _messageText.text = "ï¿½ï¿½ï¿½É•Kï¿½Eï¿½Zï¿½ğ”­“ï¿½ï¿½ï¿½ï¿½Ä‚İ‚Ü‚ï¿½ï¿½å‚¤ï¿½B";
             _backGround.gameObject.SetActive(true);
             _specialMovesButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -189,7 +189,7 @@ namespace TeamB.Develop
         public void EndTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "“G‚ğ“|‚µ‚Ü‚µ‚½I\n‚±‚ê‚Åƒ`ƒ…[ƒgƒŠƒAƒ‹‚ğI—¹‚µ‚Ü‚·B";
+            _messageText.text = "ï¿½Gï¿½ï¿½|ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½I\nï¿½ï¿½ï¿½ï¿½Åƒ`ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B";
             _backGround.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
             _isTutorial = true;
