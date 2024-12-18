@@ -47,10 +47,11 @@ namespace TeamB.Data
         /// マスターデータの読み込み
         /// </summary>
         [RuntimeInitializeOnLoadMethod]
-        public static async UniTask MasterDataSetUp()
+        public static async void MasterDataSetUp()
         {
             DataManagement.SpreadSheet.CharacterMaster characterData =
                 await new CharacterMaster().LoadFromFile("Character");
+            Debug.Log("aaaaaaaaaaaaaaaaaaaaa"+characterData);
             for (int i = 0; i < characterData.Data.Length; i++)
             {
                 GameStatics.Characters.Add(characterData.Data[i].Id, characterData.Data[i]);
