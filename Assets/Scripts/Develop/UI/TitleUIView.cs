@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TeamB.Data;
-using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using TeamB.SkitSystem;
 using TGS2023.BGM;
-using TGS2023.SE;
 using UISystem;
 using UnityEngine;
 
@@ -17,7 +12,7 @@ namespace TeamB.UI
         [SerializeField] private SkitFlagData _skitFlagData;
         protected override void AwakeCall()
         {
-            CRIAudioManager.BGM.Play("BGM", nameof(TGS2023.BGM.BGM.BGM_title));
+            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
             
             _skitFlagData.SetCurrentFlag("Prologue");
         }
@@ -38,7 +33,7 @@ namespace TeamB.UI
 
         public void ClickSound()
         {
-            CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_click));
+            CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_001_enter));
         }
     }
 }
