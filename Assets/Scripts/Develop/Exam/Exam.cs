@@ -61,6 +61,7 @@ namespace TeamB.Develop
         private void StartExam()
         {
             _poseManager = FindObjectOfType<PoseManager>();
+            _allyManager = FindObjectOfType<AllyManager>();
             OnExamUpdated += Timer;
             OnExamStarted?.Invoke();
         }

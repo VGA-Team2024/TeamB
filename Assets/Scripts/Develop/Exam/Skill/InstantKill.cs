@@ -15,13 +15,11 @@ namespace TeamB.Develop
             var rand = UnityEngine.Random.Range(0, 100);
             if (rand <= 10)
             {
-                character.TakeDamage(character.GetCurrentData.Hp); //10%�̊m���ő���(����HP�S�������Ă�)
-                Debug.Log("����");
+                character.TakeDamage(character.GetCurrentData.Hp);
             }
             else
             {
-                character.TakeDamage(character.GetCurrentData.Hp / 100 * 50); //90%�̊m���Ō���HP����50���̃_���[�W��^����
-                Debug.Log("/90%�̊m���Ō���HP����50���̃_���[�W��^��");
+                character.TakeDamage(character.GetCurrentData.Hp / 100 * 50);
             }
         }
 

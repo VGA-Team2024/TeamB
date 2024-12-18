@@ -17,7 +17,7 @@ namespace TeamB.UI
         [SerializeField] private SkitFlagData _skitFlagData;
         protected override void AwakeCall()
         {
-            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
+            CRIAudioManager.BGM.Play("BGM", nameof(TGS2023.BGM.BGM.BGM_title));
             
             _skitFlagData.SetCurrentFlag("Prologue");
         }
@@ -38,7 +38,7 @@ namespace TeamB.UI
 
         public void ClickSound()
         {
-            CRIAudioManager.SE.Play("SE", nameof(SE.SE_click));
+            CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_click));
         }
     }
 }
