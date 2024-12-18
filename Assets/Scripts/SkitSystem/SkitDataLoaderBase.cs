@@ -115,7 +115,7 @@ namespace TeamB.SkitSystem
 
         private async UniTask LoadClassSelectData()
         {
-            var rawData = await CsvLoader.GetSpreadsheetDataAsync(ClassSelectDataKey);
+            var rawData = await CsvLoader.GetRemoteSpreadsheetDataAsync(ClassSelectDataKey);
             if (rawData == null)
             {
                 Debug.LogError("Failed to load data");
@@ -145,7 +145,7 @@ namespace TeamB.SkitSystem
 
         private async UniTask LoadSkitData()
         {
-            var rawData = await CsvLoader.GetSpreadsheetDataAsync(SkitDataKey);
+            var rawData = await CsvLoader.GetRemoteSpreadsheetDataAsync(SkitDataKey);
             if (rawData == null)
             {
                 Debug.LogError("Failed to load data");
@@ -184,7 +184,7 @@ namespace TeamB.SkitSystem
         
         private async UniTask LoadTutorialData()
         {
-            var rawData = await CsvLoader.GetSpreadsheetDataAsync(TutorialDataKey);
+            var rawData = await CsvLoader.GetRemoteSpreadsheetDataAsync(TutorialDataKey);
             if (rawData == null)
             {
                 Debug.LogError("Failed to load data");
@@ -205,7 +205,7 @@ namespace TeamB.SkitSystem
 
         private async UniTask LoadSkitChoiceData()
         {
-            var rawData = await CsvLoader.GetSpreadsheetDataAsync(SkitChoiceDataKey);
+            var rawData = await CsvLoader.GetRemoteSpreadsheetDataAsync(SkitChoiceDataKey);
             if (rawData == null)
             {
                 Debug.LogError("Failed to load data");
@@ -237,6 +237,17 @@ namespace TeamB.SkitSystem
     /// </summary>
     public class LocalSkitDataLoaderBase : SkitDataLoaderBase
     {
+        private const string ClassSelectDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=514427729&single=true&output=csv";
+        private const int ClassSelectDataLength = 4;
+        private const string LocalSkitDataKey = "Assets/DataAsset/MasterData/SkitMasterData.csv";
+        private const int SkitDataLength = 3;
+        private const string SkitChoiceDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=1641370933&single=true&output=csv";
+        private const int DefaultLimitTime = 10;
+        private const string TutorialDataKey = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ780qd4FuPPj59VDNF1fNumrbhI1sxtwOJXan9yVcnNtpZOMsPM_qm9yrpytbpWpPzVeO1fnxoGMzs/pub?gid=878141&single=true&output=csv";
+        
+        private const int SkitChoiceLength = 2;
+        private string _playerName;
+
         public override UniTask InitTalkData()
         {
             return UniTask.WhenAll(LoadClassSelectData(), LoadSkitData(), LoadSkitChoiceData(), LoadTutorialData());
@@ -245,8 +256,7 @@ namespace TeamB.SkitSystem
         // 以下にデータロード用のメソッド群を定義
         private async UniTask LoadClassSelectData()
         {
-            // ここでローカルのclassSelectData.jsonなどを読み込む処理を記述
-            // とりあえず例なので処理は空にしておく
+            
         }
 
         private async UniTask LoadSkitChoiceData()
@@ -261,33 +271,70 @@ namespace TeamB.SkitSystem
         
         private async UniTask LoadSkitData()
         {
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            // StreamingAssets内の"SkitData"というフォルダにあるJSONをすべて読み込みます。
-            var folderPath = Path.Combine(Application.streamingAssetsPath, "SkitData");
-            // PC/Editorなどの場合はディレクトリからすべてのjsonファイルを取得可能
-            if (!Directory.Exists(folderPath))
+            var rawData = await CsvLoader.GetLocalSpreadsheetDataAsync(LocalSkitDataKey);
+            if (rawData == null)
             {
-                Debug.LogWarning($"SkitData folder not found at: {folderPath}");
+                Debug.LogError("Failed to load data");
                 return;
             }
-
-            var jsonFiles = Directory.GetFiles(folderPath, "*.json");
-            foreach (var file in jsonFiles)
+            var currentSkitDataId = rawData[1][0];
+            var currentSkitFlag = rawData[1][1];
+            var skitEntryDataList = new List<SkitEntryData>();
+            for (var i = 1; i < rawData.Count; i++)
             {
-                var json = await File.ReadAllTextAsync(file);
-                var loadedSkitData = JsonConvert.DeserializeObject<SkitData>(json);
+                if (i != 1 && rawData[i][0] != "")
+                {   // 会話データのIDが変わったら保存して新しい会話データを作成
+                    var skitData = new SkitData(currentSkitDataId, currentSkitFlag, skitEntryDataList.ToArray());
+                    currentSkitDataId = rawData[i][0];
+                    currentSkitFlag = rawData[i][1];
+                    _skitData.Add(skitData);
+                    skitEntryDataList = new List<SkitEntryData>();
+                }
 
-                if (loadedSkitData != null)
-                {
-                    _skitData.Add(loadedSkitData);
+                var classTalkCharaData = new List<SkitTalkCharaData>();
+                
+                for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
+                {   // 会話キャラクターデータを作成
+                    var standingPosition = !string.IsNullOrEmpty(rawData[i][j + 1]) ? Enum.Parse<StandingPosition>(rawData[i][j + 1]) : StandingPosition.None;
+                    var eachClassTalkCharaData = new SkitTalkCharaData(rawData[i][j], standingPosition, rawData[i][j + 2]);
+                    classTalkCharaData.Add(eachClassTalkCharaData);
                 }
-                else
-                {
-                    Debug.LogError($"Failed to load SkitData from: {file}");
-                }
+                Debug.Log($"classTalkCharaData: {classTalkCharaData}");
+                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), rawData[i][2], rawData[i][3], rawData[i][4], rawData[i][5]);
+                skitEntryDataList.Add(skitEntryData);
+
+                if (i != rawData.Count - 1) continue;   // 最後のデータの場合は保存する
+                var lastSkitData = new SkitData(currentSkitDataId, currentSkitFlag, skitEntryDataList.ToArray());
+                _skitData.Add(lastSkitData);
             }
-            stopwatch.Stop();
-            Debug.Log($"Total loading time: {stopwatch.ElapsedMilliseconds} ms");
+            
+            // var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            // // StreamingAssets内の"SkitData"というフォルダにあるJSONをすべて読み込みます。
+            // var folderPath = Path.Combine(Application.streamingAssetsPath, "SkitData");
+            // // PC/Editorなどの場合はディレクトリからすべてのjsonファイルを取得可能
+            // if (!Directory.Exists(folderPath))
+            // {
+            //     Debug.LogWarning($"SkitData folder not found at: {folderPath}");
+            //     return;
+            // }
+            //
+            // var jsonFiles = Directory.GetFiles(folderPath, "*.json");
+            // foreach (var file in jsonFiles)
+            // {
+            //     var json = await File.ReadAllTextAsync(file);
+            //     var loadedSkitData = JsonConvert.DeserializeObject<SkitData>(json);
+            //
+            //     if (loadedSkitData != null)
+            //     {
+            //         _skitData.Add(loadedSkitData);
+            //     }
+            //     else
+            //     {
+            //         Debug.LogError($"Failed to load SkitData from: {file}");
+            //     }
+            // }
+            // stopwatch.Stop();
+            // Debug.Log($"Total loading time: {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }
