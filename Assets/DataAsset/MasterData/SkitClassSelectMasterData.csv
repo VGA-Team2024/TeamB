@@ -1,0 +1,4 @@
+授業選択ID,フラグ,残り何日か,話者,背景,会話,選択肢1,選択肢1(日本語),選択肢1授業ID,選択肢1報酬,選択肢2,選択肢2(日本語),選択肢2授業ID,選択肢2報酬,選択肢3,選択肢3(日本語),選択肢3授業ID,選択肢3報酬,選択肢4,選択肢4(日本語),選択肢4授業ID,選択肢4報酬
+ClassSelectTest1,ClassSelect1,3,,Conversation_HonorStudent_Noon,授業を選択してください1,chemistry,化学,ClassTest_02,直観力,physics,物理,ClassTest_02,読解力、学力,biology,生物,ClassTest_02,集中力,biology,生物,ClassTest_02,読解力、学力
+ClassSelectTest2,ClassSelect2,3,,Conversation_HonorStudent_Noon,授業を選択してください2,geography,地理,ClassTest_02,直観力,mathematics,数学,ClassTest_02,読解力、学力,home economics,家庭科,ClassTest_02,集中力,home economics,家庭科,ClassTest_02,集中力
+ClassSelectTest3,ClassSelectTest3,3,,Conversation_HonorStudent_Noon,授業を選択してください3,magic biology,魔法生物学,ClassTest_02,直観力,physics,物理,ClassTest_02,読解力、学力,biology,生物,ClassTest_02,集中力,biology,生物,ClassTest_02,集中力

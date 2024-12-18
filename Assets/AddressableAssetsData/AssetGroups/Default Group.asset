@@ -23,6 +23,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 01bfd96e3b7a0fc4f863910735b6ff0f
+    m_Address: Assets/DataAsset/MasterData/SkitClassSelectMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0254e17ec6c948346aea8e9616d2cfb6
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f110.png
     m_ReadOnly: 0
@@ -118,6 +123,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d423475a49ed20428bc7021751f2164
+    m_Address: Assets/DataAsset/MasterData/SkitChoiceMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d59d2171244bb7429e14628bb9b05fa
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f073.png
@@ -910,6 +920,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fac5c5a0a40dcf4395bd6a03ab99da6
+    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 632941eedf00c6d4994ab2db3713a6d4
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f101.png
@@ -2032,6 +2047,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dad930e74d34ab543bfe14f7c9868fb4
+    m_Address: Assets/DataAsset/MasterData/SkitTutorialMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db25e483973264b49847c63a4870a004
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f116.png
