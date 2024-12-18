@@ -25,6 +25,7 @@ namespace TeamB.SkitSystem
         public ClassChoiceData[] ClassChoices;
         public string Id { get; }
         public string Flag { get; }
+        public int RemainDay { get; }
 
         public string TalkerName { get; }
 
@@ -32,11 +33,12 @@ namespace TeamB.SkitSystem
 
         public string BackgroundImageName { get; }
 
-        public ClassSelectData(string classSelectId, string flag, string classSelectTalkerName,
+        public ClassSelectData(string classSelectId, string flag, int remainDay, string classSelectTalkerName,
             string classSelectBackgroundImageName, string classSelectDialogue, ClassChoiceData[] classChoices)
         {
             Id = classSelectId;
             Flag = flag;
+            RemainDay = remainDay;
             TalkerName = classSelectTalkerName;
             BackgroundImageName = classSelectBackgroundImageName;
             Dialogue = classSelectDialogue;
@@ -175,6 +177,7 @@ namespace TeamB.SkitSystem
         public string Id { get; }
 
         public string Answer { get; }
+        public float AddPoint { get; }
 
         public float ChoiceTime { get; }
 
@@ -182,6 +185,7 @@ namespace TeamB.SkitSystem
 
         public SkitChoiceData(
             string choiceId,
+            float addPoint,
             float choiceTime,
             string answer,
             ChoiceEntry[] choiceEntries,
@@ -193,6 +197,7 @@ namespace TeamB.SkitSystem
         ) : base(talkCharaData, talkSpeaker, talkBackground, problemDialogue, englishTalkDialogue)
         {
             Id = choiceId;
+            AddPoint = addPoint;
             ChoiceTime = choiceTime;
             Answer = answer;
             ChoiceEntries = choiceEntries;
@@ -200,10 +205,12 @@ namespace TeamB.SkitSystem
 
         public SkitChoiceData(
             string choiceId,
+            float addPoint,
             float choiceTime,
             string answer, ChoiceEntry[] choiceEntries, string problemDialogue)
         {
             Id = choiceId;
+            AddPoint = addPoint;
             ChoiceTime = choiceTime;
             Answer = answer;
             ChoiceEntries = choiceEntries;
@@ -248,9 +255,9 @@ namespace TeamB.SkitSystem
 
     public class TutorialChoiceData : SkitChoiceData
     {
-        public TutorialChoiceData(string choiceId, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
+        public TutorialChoiceData(string choiceId, float addPoint, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
             string problemDialogue, SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
-            string englishTalkDialogue, string tutorialDialog) : base(choiceId, choiceTime, answer, choiceEntries,
+            string englishTalkDialogue, string tutorialDialog) : base(choiceId, addPoint, choiceTime,  answer, choiceEntries,
             problemDialogue, talkCharaData,
             talkSpeaker, talkBackground, englishTalkDialogue)
         {
@@ -259,12 +266,10 @@ namespace TeamB.SkitSystem
 
     public class TutorialClassSelectData : ClassSelectData
     {
-        public TutorialClassSelectData(string classSelectId, string flag, string classSelectTalkerName,
+        public TutorialClassSelectData(string classSelectId, string flag, int s, string classSelectTalkerName,
             string classSelectBackgroundImageName, string classSelectDialogue, ClassChoiceData[] classChoices,
-            string tutorialDialog) : base(classSelectId, flag, classSelectTalkerName, classSelectBackgroundImageName,
-            classSelectDialogue, classChoices)
-        {
-        }
+            string tutorialDialog) : base(classSelectId, flag, s, classSelectTalkerName, classSelectBackgroundImageName,
+            classSelectDialogue, classChoices){}
     }
 
     public class NormalTutorialData
