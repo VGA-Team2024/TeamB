@@ -127,18 +127,18 @@ namespace TeamB.SkitSystem
                 var data = rawData[i];
                 var dataLength = data.Length;
                 var classChoices = new List<ClassChoiceData>();
-                for (var j = 5; j < dataLength; j += ClassSelectDataLength)
+                for (var j = 6; j < dataLength; j += ClassSelectDataLength)
                 {
                     var classChoiceData = new ClassChoiceData
                     {
                         ChoiceName = data[j],
                         JapaneseChoiceName = data[j + 1],
                         TalkDataId = data[j + 2],
-                        TalkReward = SkitDataLoaderBase.GetRewardType(data[j + 3])
+                        TalkReward = GetRewardType(data[j + 3])
                     };
                     classChoices.Add(classChoiceData);
                 }
-                var classSelectData = new ClassSelectData(data[0], data[1],data[2], data[3], data[4], classChoices.ToArray());
+                var classSelectData = new ClassSelectData(data[0], data[1], int.Parse(data[2]), data[3], data[4], data[5], classChoices.ToArray());
                 _classSelectData.Add(classSelectData);
             }
         }
@@ -216,17 +216,18 @@ namespace TeamB.SkitSystem
             {
                 var data = rawData[i];
                 var id = data[0];
-                var limitTime = string.IsNullOrEmpty(data[1].Trim()) ? DefaultLimitTime : float.Parse(data[1]);
-                var problemDialogue = data[2];
-                var answer = data[3].Trim();
+                var addPoint = string.IsNullOrEmpty(data[1]) ? 0 : int.Parse(data[1]);
+                var limitTime = string.IsNullOrEmpty(data[2].Trim()) ? DefaultLimitTime : float.Parse(data[1]);
+                var problemDialogue = data[3];
+                var answer = data[4].Trim();
                 var choiceEntries = new List<ChoiceEntry>();
-                for (var j = 4; j < data.Length; j += SkitChoiceLength)
+                for (var j = 5; j < data.Length; j += SkitChoiceLength)
                 {
                     var choiceEntry = new ChoiceEntry(data[j].Trim(), data[j].Trim(), data[j + 1].Trim());
                     choiceEntries.Add(choiceEntry);
                 }
 
-                var choiceData = new SkitChoiceData(id, limitTime, answer, choiceEntries.ToArray(), problemDialogue);
+                var choiceData = new SkitChoiceData(id, limitTime, addPoint, answer, choiceEntries.ToArray(), problemDialogue);
                 _skitChoiceData.Add(choiceData);
             }
         }
