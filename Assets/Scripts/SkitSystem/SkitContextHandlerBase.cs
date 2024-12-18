@@ -157,6 +157,8 @@ namespace TeamB.SkitSystem
                         Debug.LogError($"SkitData : {classSelectId} が見つかりませんでした");
                     }
                 }
+                
+                if (skitEntryData.JapaneseTalkDialogue.Contains())
 
                 AwaitForEmptyInput = new UniTaskCompletionSource();
                 AwaitForSelect = new UniTaskCompletionSource<string>();

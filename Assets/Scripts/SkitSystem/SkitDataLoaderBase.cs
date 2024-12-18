@@ -43,10 +43,6 @@ namespace TeamB.SkitSystem
         public bool TryGetSkitSceneDataByFlag(SkitFlagData flag, out ISkitSceneData classSelectData)
         {
             classSelectData = _classSelectData.FirstOrDefault(x => x.Flag == flag.CurrentFlag);
-            // foreach (var data in _skitData)
-            // {
-            //     Debug.Log($"今見てるデータ{data.SkitEntryData[0].ToString()}");
-            // }
             if (classSelectData == null) classSelectData = _skitData.FirstOrDefault(x => x.Flag.Trim() == flag.CurrentFlag.Trim());
             return classSelectData != null;
         }
@@ -280,6 +276,7 @@ namespace TeamB.SkitSystem
             }
             var currentSkitDataId = rawData[1][0];
             var currentSkitFlag = rawData[1][1];
+                    Debug.Log($"classTalkCharaData: {currentSkitDataId}");
             var skitEntryDataList = new List<SkitEntryData>();
             for (var i = 1; i < rawData.Count; i++)
             {
@@ -291,7 +288,6 @@ namespace TeamB.SkitSystem
                     _skitData.Add(skitData);
                     skitEntryDataList = new List<SkitEntryData>();
                 }
-
                 var classTalkCharaData = new List<SkitTalkCharaData>();
                 
                 for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
@@ -300,42 +296,17 @@ namespace TeamB.SkitSystem
                     var eachClassTalkCharaData = new SkitTalkCharaData(rawData[i][j], standingPosition, rawData[i][j + 2]);
                     classTalkCharaData.Add(eachClassTalkCharaData);
                 }
-                Debug.Log($"classTalkCharaData: {classTalkCharaData}");
-                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), rawData[i][2], rawData[i][3], rawData[i][4], rawData[i][5]);
+                var speaker = rawData[i][2];
+                var background = rawData[i][3];
+                var japaneseDialogue = rawData[i][4];
+                var englishDialogue = string.IsNullOrEmpty(rawData[i][5]) ? string.Empty : rawData[i][5];
+                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), speaker, background, japaneseDialogue, englishDialogue);
                 skitEntryDataList.Add(skitEntryData);
 
                 if (i != rawData.Count - 1) continue;   // 最後のデータの場合は保存する
                 var lastSkitData = new SkitData(currentSkitDataId, currentSkitFlag, skitEntryDataList.ToArray());
                 _skitData.Add(lastSkitData);
             }
-            
-            // var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            // // StreamingAssets内の"SkitData"というフォルダにあるJSONをすべて読み込みます。
-            // var folderPath = Path.Combine(Application.streamingAssetsPath, "SkitData");
-            // // PC/Editorなどの場合はディレクトリからすべてのjsonファイルを取得可能
-            // if (!Directory.Exists(folderPath))
-            // {
-            //     Debug.LogWarning($"SkitData folder not found at: {folderPath}");
-            //     return;
-            // }
-            //
-            // var jsonFiles = Directory.GetFiles(folderPath, "*.json");
-            // foreach (var file in jsonFiles)
-            // {
-            //     var json = await File.ReadAllTextAsync(file);
-            //     var loadedSkitData = JsonConvert.DeserializeObject<SkitData>(json);
-            //
-            //     if (loadedSkitData != null)
-            //     {
-            //         _skitData.Add(loadedSkitData);
-            //     }
-            //     else
-            //     {
-            //         Debug.LogError($"Failed to load SkitData from: {file}");
-            //     }
-            // }
-            // stopwatch.Stop();
-            // Debug.Log($"Total loading time: {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }

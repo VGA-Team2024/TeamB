@@ -51,7 +51,6 @@ namespace TeamB.Data
         {
             DataManagement.SpreadSheet.CharacterMaster characterData =
                 await new CharacterMaster().LoadFromFile("Character");
-            Debug.Log("aaaaaaaaaaaaaaaaaaaaa"+characterData);
             for (int i = 0; i < characterData.Data.Length; i++)
             {
                 GameStatics.Characters.Add(characterData.Data[i].Id, characterData.Data[i]);
