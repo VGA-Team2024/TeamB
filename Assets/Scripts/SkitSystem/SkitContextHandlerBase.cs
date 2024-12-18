@@ -95,7 +95,7 @@ namespace TeamB.SkitSystem
             if (skitContext.SkitSceneData is not SkitData skitData)
             {
                 Debug.LogError("SkitDataが見つかりませんでした");
-                return;
+                throw new NullReferenceException();
             }
 
             foreach (var skitEntryData in skitData.SkitEntryData)
@@ -138,6 +138,23 @@ namespace TeamB.SkitSystem
                     else
                     {
                         Debug.LogError($"SkitData : {skitId} が見つかりませんでした");
+                    }
+                }
+                
+                if (skitEntryData.JapaneseTalkDialogue.Contains("[ClassSelect]"))
+                {
+                    normDialogue = normDialogue.Replace("[ClassSelect]", "");
+                    var match = Regex.Match(normDialogue, @"\[(.*?)\]");
+                    if (!match.Success) return;
+                    var classSelectId = match.Groups[1].Value;
+                    normDialogue = normDialogue.Replace($"[{classSelectId}]", "");
+                    if (SkitDataLoaderBase.TryGetClassSelectDataById(classSelectId, out var nextSkitData))
+                    {
+                        _nextSkitContext = new SkitContext(SkitContext.ContextType.ClassSelect, nextSkitData, skitContext.SkitFlagData);
+                    }
+                    else
+                    {
+                        Debug.LogError($"SkitData : {classSelectId} が見つかりませんでした");
                     }
                 }
 
