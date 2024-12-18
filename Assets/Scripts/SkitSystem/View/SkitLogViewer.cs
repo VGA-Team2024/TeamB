@@ -29,8 +29,32 @@ namespace TeamB.SkitSystem
         {
             var logItem = Instantiate(_skitLogTextPrefab, _skitLogPanelParent);
             var logText = logItem.GetComponentsInChildren<TMP_Text>();
+            if (skitEntryData is SkitChoiceData skitChoiceData)
+            {
+                logText[0].text = skitChoiceData.TalkSpeaker;
+                logText[1].text = skitEntryData.JapaneseTalkDialogue;
+            }
+            else
+            {
+                logText[0].text = skitEntryData.TalkSpeaker;
+                logText[1].text = skitEntryData.JapaneseTalkDialogue;
+            }
+        }
+
+        public void SetUserAnswerLog(string answer)
+        {
+            var logItem = Instantiate(_skitLogTextPrefab, _skitLogPanelParent);
+            var logText = logItem.GetComponentsInChildren<TMP_Text>();
+            logText[1].text = answer;
+            logText[1].color = Color.red;
+        }
+        
+        public void SetChoiceLog(SkitEntryData skitEntryData, string choiceText)
+        {
+            var logItem = Instantiate(_skitLogTextPrefab, _skitLogPanelParent);
+            var logText = logItem.GetComponentsInChildren<TMP_Text>();
             logText[0].text = skitEntryData.TalkSpeaker;
-            logText[1].text = skitEntryData.JapaneseTalkDialogue;
+            logText[1].text = choiceText;
         }
         
         public void SetActivePanel(bool isActive)
