@@ -151,7 +151,7 @@ namespace TeamB.SkitSystem
                     var skitId = match.Groups[1].Value;
                     if (SkitDataLoaderBase.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
-                        var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.ChoiceTime,
+                        var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.AddPoint, choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             skitEntryData.TalkCharaData,
                             skitEntryData.TalkSpeaker, skitEntryData.TalkBackground, choiceData.EnglishTalkDialogue);
@@ -240,7 +240,7 @@ namespace TeamB.SkitSystem
                     if (SkitDataLoaderBase.TryGetClassSelectDataById(skitId, out var classSelectData))
                     {
                         _tutorialClassSelectData.Value = new TutorialClassSelectData(classSelectData.Id,
-                            classSelectData.Flag, classSelectData.TalkerName, classSelectData.BackgroundImageName,
+                            classSelectData.Flag, classSelectData.RemainDay, classSelectData.TalkerName, classSelectData.BackgroundImageName,
                             classSelectData.Dialogue, classSelectData.ClassChoices, normDialogue);
                     }
                     else
@@ -257,7 +257,7 @@ namespace TeamB.SkitSystem
                     var skitId = match.Groups[1].Value;
                     if (SkitDataLoaderBase.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
-                        _tutorialChoiceData.Value = new TutorialChoiceData(choiceData.Id, choiceData.ChoiceTime,
+                        _tutorialChoiceData.Value = new TutorialChoiceData(choiceData.Id, choiceData.AddPoint,choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             choiceData.TalkCharaData, choiceData.TalkSpeaker, choiceData.EnglishTalkDialogue,
                             choiceData.TalkBackground,
