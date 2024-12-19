@@ -20,19 +20,19 @@ namespace TeamB.Develop
         private bool _isSpecial;
 
 
-        [SerializeField, Header("�w�i")]
+        [SerializeField]
         Image _backGround;
-        [SerializeField, Header("�`���[�g���A���ŏ��ɏo��Text")]
+        [SerializeField]
         Text _messageText;
-        [SerializeField, Header("���[�h�{�^��")]
+        [SerializeField]
         GameObject _modeButton;
-        [SerializeField, Header("�K�E�Z�{�^��")]
+        [SerializeField]
         GameObject _specialMovesButton;
-        [SerializeField, Header("�h��{�^��")]
+        [SerializeField]
         GameObject _defenseButton;
-        [SerializeField, Header("�h�䃁�b�Z�[�W")]
+        [SerializeField]
         GameObject _defenseMessage;
-        [SerializeField, Header("�A�N�V�����{�^��")]
+        [SerializeField]
         GameObject _actionButton;
 
         public bool _isStart;
@@ -43,7 +43,6 @@ namespace TeamB.Develop
             skillManager = FindAnyObjectByType<SkillManager>();
             enemyManager = FindAnyObjectByType<EnemyManager>();
         }
-        // Start is called before the first frame update
         void Start()
         {
             if (exam == null)
@@ -60,15 +59,13 @@ namespace TeamB.Develop
 
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (_isStart == false)
             {
                 exam.OnStartPose();
                 _isStart = true;
-                Debug.Log("�X�g�b�v");
-                _messageText.text = "�����̌P�������Ă݂܂��傤";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _count++;
@@ -125,7 +122,7 @@ namespace TeamB.Develop
         public void ActionButtonTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "���̃{�^���������Ɩ��@���J��o���܂��B\n�U���A�h�䖂�@���J��o���܂��B";
+            _messageText.text = "";
             _backGround.gameObject.SetActive(true);
             _actionButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -135,7 +132,7 @@ namespace TeamB.Develop
         public void ModeTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "���̃{�^���Ő퓬�̃��[�h�������A\n�蓮���[�h�ɐ؂�ւ����܂��B";
+            _messageText.text = "";
             _actionButton.gameObject.SetActive(false);
             _backGround.gameObject.SetActive(true);
             _modeButton.gameObject.SetActive(true);
@@ -148,7 +145,7 @@ namespace TeamB.Develop
             if (_isDefense == true)
             {
                 exam.OnStartPose();
-                _messageText.text = "���̃{�^���������Ėh������Ă��������B";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _defenseButton.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
@@ -177,7 +174,7 @@ namespace TeamB.Develop
         public void SpecialMovesTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "���ɕK�E�Z�𔭓����Ă݂܂��傤�B";
+            _messageText.text = "";
             _backGround.gameObject.SetActive(true);
             _specialMovesButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -189,7 +186,7 @@ namespace TeamB.Develop
         public void EndTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "�G��|���܂����I\n����Ń`���[�g���A�����I�����܂��B";
+            _messageText.text = "";
             _backGround.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
             _isTutorial = true;

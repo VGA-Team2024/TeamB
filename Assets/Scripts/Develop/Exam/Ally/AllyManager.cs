@@ -1,6 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
+using SE.Lian;
 using TeamB.GameSystem;
+using TeamB.GameSystem.Statics;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -15,7 +17,7 @@ namespace TeamB.Develop
         [SerializeField] private ParticleSystem _DefenceBuffParticles;
         [SerializeField] private GameObject alliesPrefab;
         [SerializeField] private GameObject _defencePrefab;
-        
+
 
         private EnemyManager _enemyManager;
         private Exam _exam;
@@ -23,7 +25,7 @@ namespace TeamB.Develop
         private PoseManager _poseManager;
         private DefenseInput _defenseInput = new();
         private AttackInput _attackInput = new();
-        
+
         public event Action OnEndDamageEffect;
 
         private int _defenceSuccessCount;
@@ -37,7 +39,7 @@ namespace TeamB.Develop
 
         private async void Awake()
         {
-            Initialized(); 
+            Initialized();
         }
 
         private void Initialized()
@@ -66,6 +68,15 @@ namespace TeamB.Develop
 
         private async void OnTakeDamage()
         {
+            if (GameStatics.GetRandomNumber(2) == 0)
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_15));
+            }
+            else
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_16));
+            }
+
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
             {
                 sprite.color = new Color(1, 0, 0, 1);
@@ -78,6 +89,7 @@ namespace TeamB.Develop
             {
                 sprite.color = new Color(1f, 1, 1, 1);
             }
+
             OnEndDamageEffect?.Invoke();
         }
 
@@ -103,6 +115,8 @@ namespace TeamB.Develop
             {
                 sprite.color = new Color(1, 0.6f, 0, 1);
             }
+
+            CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_12));
             _defenceSuccessCount++;
         }
 

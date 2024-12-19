@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DataManagement.SpreadSheet;
+using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -125,10 +126,21 @@ namespace TeamB.Develop
 
                 _character = characters;
 
-                GameObject attackParticle = GameObject.Instantiate(_attackParticles, _attackParticleTrans.position, _attackParticles.transform.rotation);
+                GameObject attackParticle = GameObject.Instantiate(_attackParticles, _attackParticleTrans.position,
+                    _attackParticles.transform.rotation);
                 ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
                 attackParticleSystem.Play();
                 _particles.Add(attackParticleSystem);
+
+                int randVoice = Random.Range(0, 2);
+                if (randVoice == 0)
+                {
+                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_10));
+                }
+                else
+                {
+                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_11));
+                }
 
                 attackParticleSystem.Play();
                 float rand = Random.Range(0, 100);
@@ -323,7 +335,7 @@ namespace TeamB.Develop
                 if (operationType == OperationType.Manual && !_isDefending)
                     return;
 
-                
+
                 OnDefense?.Invoke();
                 //軽減率の変更
                 _percentageReduction = _percentageReductionValue;

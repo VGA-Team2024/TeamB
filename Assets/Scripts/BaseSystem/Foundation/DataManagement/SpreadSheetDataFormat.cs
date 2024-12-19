@@ -107,6 +107,7 @@ namespace DataManagement
             public float HitRate;
             public float ChantingSpeed;
             public float MagicATK;
+            public float AvoidanceRate;
 
             public CharacterData(CharacterData data)
             {
@@ -118,6 +119,20 @@ namespace DataManagement
                 HitRate = data.HitRate;
                 ChantingSpeed = data.ChantingSpeed;
                 MagicATK = data.MagicATK;
+                AvoidanceRate = data.AvoidanceRate;
+            }
+
+            public CharacterData(string[] data)
+            {
+                Id = int.Parse(data[0]);
+                Name = data[1];
+                Card = data[2];
+                ResourceName = data[3];
+                Hp = float.Parse(data[4]);
+                MagicATK = float.Parse(data[5]);
+                ChantingSpeed = float.Parse(data[6]);
+                HitRate = float.Parse(data[7]);
+                AvoidanceRate = float.Parse(data[8]);
             }
         }
 
