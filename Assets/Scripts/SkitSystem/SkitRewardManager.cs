@@ -50,10 +50,10 @@ namespace TeamB.SkitSystem
         {
             _remainTimeSum += remainTime;
             _correctCount++;
-            ApplyStatus();
+            AddStatus();
         }
         
-        public void ApplyStatus()
+        public void AddStatus()
         {
             if (_correctCount == 0)
             {

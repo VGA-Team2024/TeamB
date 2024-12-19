@@ -95,7 +95,7 @@ namespace TeamB.SkitSystem
             if (skitContext.SkitSceneData is not SkitData skitData)
             {
                 Debug.LogError("SkitDataが見つかりませんでした");
-                return;
+                throw new NullReferenceException();
             }
 
             foreach (var skitEntryData in skitData.SkitEntryData)
@@ -140,6 +140,23 @@ namespace TeamB.SkitSystem
                         Debug.LogError($"SkitData : {skitId} が見つかりませんでした");
                     }
                 }
+                
+                if (skitEntryData.JapaneseTalkDialogue.Contains("[ClassSelect]"))
+                {
+                    normDialogue = normDialogue.Replace("[ClassSelect]", "");
+                    var match = Regex.Match(normDialogue, @"\[(.*?)\]");
+                    if (!match.Success) return;
+                    var classSelectId = match.Groups[1].Value;
+                    normDialogue = normDialogue.Replace($"[{classSelectId}]", "");
+                    if (SkitDataLoaderBase.TryGetClassSelectDataById(classSelectId, out var nextSkitData))
+                    {
+                        _nextSkitContext = new SkitContext(SkitContext.ContextType.ClassSelect, nextSkitData, skitContext.SkitFlagData);
+                    }
+                    else
+                    {
+                        Debug.LogError($"SkitData : {classSelectId} が見つかりませんでした");
+                    }
+                }
 
                 AwaitForEmptyInput = new UniTaskCompletionSource();
                 AwaitForSelect = new UniTaskCompletionSource<string>();
@@ -151,7 +168,7 @@ namespace TeamB.SkitSystem
                     var skitId = match.Groups[1].Value;
                     if (SkitDataLoaderBase.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
-                        var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.ChoiceTime,
+                        var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.AddPoint, choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             skitEntryData.TalkCharaData,
                             skitEntryData.TalkSpeaker, skitEntryData.TalkBackground, choiceData.EnglishTalkDialogue);
@@ -240,7 +257,7 @@ namespace TeamB.SkitSystem
                     if (SkitDataLoaderBase.TryGetClassSelectDataById(skitId, out var classSelectData))
                     {
                         _tutorialClassSelectData.Value = new TutorialClassSelectData(classSelectData.Id,
-                            classSelectData.Flag, classSelectData.TalkerName, classSelectData.BackgroundImageName,
+                            classSelectData.Flag, classSelectData.RemainDay, classSelectData.TalkerName, classSelectData.BackgroundImageName,
                             classSelectData.Dialogue, classSelectData.ClassChoices, normDialogue);
                     }
                     else
@@ -257,7 +274,7 @@ namespace TeamB.SkitSystem
                     var skitId = match.Groups[1].Value;
                     if (SkitDataLoaderBase.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
-                        _tutorialChoiceData.Value = new TutorialChoiceData(choiceData.Id, choiceData.ChoiceTime,
+                        _tutorialChoiceData.Value = new TutorialChoiceData(choiceData.Id, choiceData.AddPoint,choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             choiceData.TalkCharaData, choiceData.TalkSpeaker, choiceData.EnglishTalkDialogue,
                             choiceData.TalkBackground,
