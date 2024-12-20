@@ -4,17 +4,6 @@ namespace TGS2023.SE
 {
     public class SE
     {
-        ///<summary></summary>
-        public const int SE_004_TextFeeding = (0);
-
-        ///<summary></summary>
-        public const int SE_GO = (1);
-
-        ///<summary></summary>
-        public const int SE_cancel = (2);
-
-        ///<summary></summary>
-        public const int SE_click = (3);
 
         ///<summary></summary>
         public const int SE_001_enter = (0);
