@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
 using TeamB.SkitSystem;
@@ -17,23 +18,20 @@ namespace TeamB.UI
             _skitFlagData.SetCurrentFlag("Prologue");
         }
 
-        private void Start()
+        private async void Start()
         {
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_001_title));
         }
 
-        private void Update()
-        {
-            
-        }
 
         /// <summary>
         /// ゲームを開始する
         /// </summary>
         public void GameStart()
         {
-            SceneLoader.LoadScene("Skit");
+            GameEventRecorder.GameStart();
             GameStatics.PrevGameState = GameState.Title;
+            SceneLoader.LoadScene("Skit");
         }
 
         public void SceneChange(string sceneName)

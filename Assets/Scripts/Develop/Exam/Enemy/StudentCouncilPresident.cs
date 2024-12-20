@@ -19,7 +19,6 @@ namespace TeamB.Develop
 		[SerializeField] private CharacterType _secondCharacterType;
 		[SerializeField] private GameObject _attackParticle;
 		[SerializeField] private Transform _attackParticleTrans;
-		[SerializeField] private float _waitAttack;
 		[SerializeField] private float _downTime;
 
 		#endregion

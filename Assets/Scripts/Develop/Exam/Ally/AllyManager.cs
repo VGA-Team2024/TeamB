@@ -70,11 +70,11 @@ namespace TeamB.Develop
         {
             if (GameStatics.GetRandomNumber(2) == 0)
             {
-                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_15));
+                CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_15));
             }
             else
             {
-                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_16));
+                CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_16));
             }
 
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
@@ -116,8 +116,13 @@ namespace TeamB.Develop
                 sprite.color = new Color(1, 0.6f, 0, 1);
             }
 
-            CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_12));
+            CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_12));
             _defenceSuccessCount++;
+        }
+
+        private void DefenceFailure()
+        {
+            
         }
 
         private void OnSuccessAttack()

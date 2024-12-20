@@ -61,6 +61,7 @@ namespace TeamB.Develop
         /// </summary>
         private void StartExam()
         {
+            Debug.Log(GameStatics.ExamState);
             _poseManager = FindObjectOfType<PoseManager>();
             _allyManager = FindObjectOfType<AllyManager>();
             

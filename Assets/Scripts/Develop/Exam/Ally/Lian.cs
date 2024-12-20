@@ -8,8 +8,12 @@ using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using Object = UnityEngine.Object;
 
 namespace TeamB.Develop
 {
@@ -17,11 +21,10 @@ namespace TeamB.Develop
     ///     キャラクターを管理するクラス : サンプルクラス
     ///     このように実装すれば量産できるよ
     /// </summary>
-    public class Character1 : IAlly
+    public class Lian : IAlly
     {
         #region SerializedFields
 
-        [SerializeField] private GameObject _attackParticles;
         [SerializeField] private Transform _attackParticleTrans;
 
         [SerializeField] private float _percentageReductionValue = 0.75f;
@@ -30,18 +33,15 @@ namespace TeamB.Develop
 
         [SerializeField] private float _defenceDuration = 1f;
 
-        [SerializeField] private float _waitAttack;
-
         #endregion
 
         #region Privates
 
         private ICharacter _character;
 
-        private CancellationToken _token;
-
+        private CancellationToken _token = new CancellationToken();
+        private AsyncOperationHandle<GameObject> _handle;
         private List<ParticleSystem> _particles = new();
-
         private float _percentageReduction;
         private float _defenceDurationTimer;
         private readonly float _percentageReductionBaseValue = 1;
@@ -60,7 +60,7 @@ namespace TeamB.Develop
         public event Action OnDefense;
         public event Action OnEndDefense;
         public event Action OnSuccessDefence;
-        public event Action OnFailDefence;
+        public event Action OnDefenceFailure;
         public event Action OnTakeDamage;
         public event Action OnTakeHeal;
         public event Action OnAddBuff;
@@ -96,9 +96,11 @@ namespace TeamB.Develop
 
         public void Initialized()
         {
+            _handle = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Effect2/Particle_Battle_Attack01.prefab");
             GetCurrentData = new CharacterData(GameStatics.Characters[(int)GameStatics.NurturingCharacterType]);
             _token = new CancellationTokenSource().Token;
             _percentageReduction = _percentageReductionBaseValue;
+
 
             OnParamUpDate?.Invoke();
         }
@@ -126,8 +128,8 @@ namespace TeamB.Develop
 
                 _character = characters;
 
-                GameObject attackParticle = GameObject.Instantiate(_attackParticles, _attackParticleTrans.position,
-                    _attackParticles.transform.rotation);
+                GameObject attackParticle = GameObject.Instantiate(_handle.Result, _attackParticleTrans.position,
+                    _attackParticleTrans.rotation);
                 ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
                 attackParticleSystem.Play();
                 _particles.Add(attackParticleSystem);
@@ -135,11 +137,11 @@ namespace TeamB.Develop
                 int randVoice = Random.Range(0, 2);
                 if (randVoice == 0)
                 {
-                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_10));
+                    CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_10));
                 }
                 else
                 {
-                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_11));
+                    CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_11));
                 }
 
                 attackParticleSystem.Play();
@@ -155,7 +157,7 @@ namespace TeamB.Develop
                     particleCallBack.OnCallBack += () =>
                     {
                         _particles.Remove(attackParticleSystem);
-                        GameObject.Destroy(attackParticle);
+                        Object.Destroy(attackParticle);
                     };
 
                     OnEndAttack?.Invoke();
@@ -190,7 +192,14 @@ namespace TeamB.Develop
             {
                 GetCurrentData.Hp -= damage * _percentageReduction;
                 OnTakeDamage?.Invoke();
-                OnSuccessDefence?.Invoke();
+                if (_isDefenceDuration)
+                {
+                    OnSuccessDefence?.Invoke();
+                }
+                else
+                {
+                    OnDefenceFailure?.Invoke();
+                }
             }
             else
             {
@@ -302,6 +311,7 @@ namespace TeamB.Develop
             OnParamUpDate = default;
             OnTakeDamage = default;
             OnDeath = default;
+            _handle.Release();
         }
 
         /// <summary>

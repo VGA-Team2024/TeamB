@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 1696246116513454985}
   - component: {fileID: 2163115343555948145}
   - component: {fileID: 5767256568297475201}
-  - component: {fileID: 3103870444489675091}
   m_Layer: 0
   m_Name: CRI
   m_TagString: Untagged
@@ -200,15 +199,3 @@ MonoBehaviour:
   enableForceCrashOnError: 0
   dontDestroyOnLoad: 1
   messageBufferCounts: 8
---- !u!114 &3103870444489675091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8839290999872612996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2960ea707c0d6c94984ec616bc42803d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

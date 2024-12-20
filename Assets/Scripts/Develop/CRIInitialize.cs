@@ -13,8 +13,5 @@ namespace TeamB.Develop
 			CRIAudioManager.Initialize();
 		}
 
-		private void Start()
-		{
-		}
 	}
 }

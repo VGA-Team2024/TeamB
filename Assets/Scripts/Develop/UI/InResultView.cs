@@ -46,7 +46,7 @@ namespace TeamB.Develop
             switch (GameStatics.ExamResult)
             {
                 case ExamResult.Clear:
-                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_09));
+                    CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_09));
                     break;
                 default:
                     CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));

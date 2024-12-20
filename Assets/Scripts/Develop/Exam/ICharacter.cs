@@ -102,6 +102,7 @@ namespace TeamB.Develop
         public event Action OnDefense;
         public event Action OnEndDefense;
         public event Action OnSuccessDefence;
+        public event Action OnDefenceFailure;
         public float GetAttackCoolTimer { get; }
         public float GetDefenceCoolTimer { get; }
         public float GetDefenceCoolTime { get; }

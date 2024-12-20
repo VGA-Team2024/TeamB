@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TeamB.Develop;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ public class AllyAnimation : MonoBehaviour
 {
     [SerializeField] Animator _animation;
     AllyManager _allyManager;
-    int DamageID = Animator.StringToHash("Damege");
+    int DamageID = Animator.StringToHash("Damage");
     int ChantID = Animator.StringToHash("Chant");
 
     private void Awake()
@@ -18,31 +19,12 @@ public class AllyAnimation : MonoBehaviour
     {
         _allyManager.GetAllies.OnAttack += () =>
         {
-            AnimationFragClear();
-            _animation.SetBool(ChantID, true);
-            Debug.Log("aaaaaaaaaa");
-        };
-        _allyManager.GetAllies.OnEndAttack += () =>
-        {
-            AnimationFragClear();
-            _animation.SetBool(ChantID, false);
+            _animation.SetTrigger(ChantID);
         };
 
-        _allyManager.GetAllies.OnTakeDamage += () =>
+        _allyManager.GetAllies.OnDefenceFailure += () =>
         {
-            AnimationFragClear();
-            _animation.SetBool(DamageID, true);
+            _animation.SetTrigger(DamageID);
         };
-        _allyManager.OnEndDamageEffect += () =>
-        {
-            AnimationFragClear();
-            _animation.SetBool(DamageID, false);
-        };
-    }
-
-    private void AnimationFragClear()
-    {
-        _animation.SetBool(ChantID, false);
-        _animation.SetBool(DamageID, false);
     }
 }
