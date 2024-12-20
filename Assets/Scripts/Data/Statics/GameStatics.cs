@@ -41,11 +41,26 @@ namespace TeamB.GameSystem.Statics
         /// 倍速設定
         /// </summary>
         public static float TimeScale = 1.0f;
+
+        /// <summary>
+        /// 試験クリアしたかどうか
+        /// </summary>
+        public static ExamResult ExamResult;
+
+        /// <summary>
+        /// 試験結果
+        /// </summary>
+        public static ResultData resultData = new();
         
         public static void Log()
         {
             Debug.Log("試験まで残り:" + RemainingDayForExam + "日");
         }
-        
+
+
+        public static int GetRandomNumber(int max)
+        {
+            return UnityEngine.Random.Range(0, max);
+        }
     }
 }

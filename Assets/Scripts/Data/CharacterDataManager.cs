@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Cysharp.Threading.Tasks;
 using DataManagement;
-using SerializableCollections;
+using DataManagement.SpreadSheet;
+using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
-using UnityEditor;
 using UnityEngine;
 
 namespace TeamB.Data
@@ -17,21 +15,18 @@ namespace TeamB.Data
     [DefaultExecutionOrder(-100)]
     public class CharacterDataManager
     {
-        public event Action OnParamUpdated;
+        public static event Action OnParamUpdated;
 
         private const string filePath = @"Assets\Scripts\Data\CharacterType.cs";
 
         /// <summary> パラメータ更新 </summary>
-        public DataManagement.SpreadSheet.CharacterData UpdateParam(CharacterType characterType,
+        public static DataManagement.SpreadSheet.CharacterData UpdateParam(CharacterType characterType,
             CharacterStatusType paramType, float value)
         {
             if (GameStatics.Characters[(int)characterType] == null)
                 return null;
             switch (paramType)
             {
-                case CharacterStatusType.Rank:
-                    GameStatics.Characters[(int)characterType].Rank += (int)value;
-                    break;
                 case CharacterStatusType.Hp:
                     GameStatics.Characters[(int)characterType].Hp += value;
                     break;
@@ -55,13 +50,23 @@ namespace TeamB.Data
         /// マスターデータの読み込み
         /// </summary>
         [RuntimeInitializeOnLoadMethod]
-        public static async UniTask MasterDataSetUp()
+        public static async void MasterDataSetUp()
         {
-            DataManagement.SpreadSheet.CharacterMaster characterData = await new CharacterMaster().LoadFromFile("Character");
-            for (int i = 0; i < characterData.Data.Length; i++)
+            List<string[]> list = await CsvLoader.GetSpreadsheetDataAsync(
+                @"https://docs.google.com/spreadsheets/d/e/2PACX-1vQE9mMiafcfklFKfGtag_cdSuycEHLWa7grGSsNIfMiWIHs6C9n18o3TbeEdS3IZCVXxGvIUTqq5xTf/pub?output=csv");
+
+            if (list == null)
             {
-                GameStatics.Characters.Add(characterData.Data[i].Id, characterData.Data[i]);
+                Debug.Log("Character data could not be loaded");
+                return;
             }
+            
+            for (int i = 7; i < list.Count; i++)
+            {
+                GameStatics.Characters.Add(int.Parse(list[i][0]),
+                    new CharacterData(list[i]));
+            }
+            
         }
 
 
@@ -75,7 +80,6 @@ namespace TeamB.Data
             string playerstatus = $"CharacterData\n" +
                                   $"Name:{GameStatics.Characters[(int)characterType].Name},\n" +
                                   $"HP:{GameStatics.Characters[(int)characterType].Hp}" +
-                                  $"Rank:{GameStatics.Characters[(int)characterType].Rank},\n" +
                                   $"HitRate:{GameStatics.Characters[(int)characterType].HitRate},\n" +
                                   $"ChantingSpeed:{GameStatics.Characters[(int)characterType].ChantingSpeed},\n" +
                                   $"MagicalAmount:{GameStatics.Characters[(int)characterType].MagicATK},\n";
@@ -103,7 +107,6 @@ namespace TeamB.Data
 
     public enum CharacterStatusType
     {
-        Rank,
         Hp,
         HitRate,
         ChantingSpeed,

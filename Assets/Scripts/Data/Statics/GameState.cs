@@ -15,12 +15,23 @@
 
     public enum ExamState : int
     {
+        None,
+        Tutorial,
         FirstExam,
         SecondExam,
+        ExamClear,
+    }
+
+    public enum ExamResult : int
+    {
+        None,
+        Clear,
+        Failed,
     }
 
     public enum LanguageType : int
     {
+        None,
         Japanese,
         English,
     }

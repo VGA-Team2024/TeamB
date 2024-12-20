@@ -1,3 +1,7 @@
+# BuildStatus
+[![TeamUnityBuild](https://github.com/VGA-Team2024/TeamB/actions/workflows/UnityBuild.yml/badge.svg)](https://github.com/VGA-Team2024/TeamB/actions/workflows/UnityBuild.yml)
+[![TeamUnityMacBuild](https://github.com/VGA-Team2024/TeamB/actions/workflows/TeamUnityMacBuild.yml/badge.svg)](https://github.com/VGA-Team2024/TeamB/actions/workflows/TeamUnityMacBuild.yml)
+
 # プログラマー向け共有資料
 
 [システム基盤](https://www.notion.so/11039cbfbab9801e86d0eadcb99a4774?pvs=21) ←フォルダ構成のルールはココ

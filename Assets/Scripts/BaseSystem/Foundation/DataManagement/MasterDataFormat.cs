@@ -4,7 +4,6 @@ using SerializableCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -82,8 +81,6 @@ namespace DataManagement
     public class TextMaster : MasterDataBase<string, string>
     {
         public override string MasterName => "TextMaster";
-
-        //public string this[string key] => _dic.ContainsKey(id) ? _dic[id] : default;
 
         public override async UniTask Marshal()
         {

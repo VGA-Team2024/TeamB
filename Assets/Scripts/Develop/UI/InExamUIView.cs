@@ -2,9 +2,10 @@
 using TeamB.Develop;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
-using TeamB.InGameData.Data;
+using TMPro;
 using UISystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace TeamB.UI
@@ -14,15 +15,17 @@ namespace TeamB.UI
     /// </summary>
     public class InExamUIView : UIView
     {
-        [SerializeField] private Text _soulText;
-        [SerializeField] private Text _waveText;
-        [SerializeField] private Text _TimerText;
-        
-        SoulManager _soulManager;
+        [SerializeField] private TMP_Text _scoreText;
+        [SerializeField] private TMP_Text _timerText;
+        [SerializeField] private TMP_Text _operationText;
+        [SerializeField] private Image _attackCoolTimeImage;
+        [SerializeField] private Image _DefenceCoolTimeImage;
+
         WaveManager _waveManager;
+        AllyManager _allyManager;
         Exam _exam;
-            
-            
+
+
         /// <summary>
         /// 試験を終えるタイミングで呼び出す
         /// </summary>
@@ -46,24 +49,61 @@ namespace TeamB.UI
         {
             _waveManager = FindAnyObjectByType<WaveManager>();
             _exam = FindAnyObjectByType<Exam>();
+            _allyManager = FindAnyObjectByType<AllyManager>();
+            
+            //CRIAudioManager.BGM.Stop();
 
-            _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
+            _exam.OnExamUpdated += AttackCoolTime;
+            _exam.OnExamUpdated += DefenceCoolTime;
+            _allyManager.GetAllies.OnSuccessDefence += ScoreChange;
+            ScoreChange();
         }
 
-        public void SoulText()
-        {
-            DebugManager.Log(_soulManager.GetCurrentSoul);
-            _soulText.text = $"回収した魂{_soulManager.GetCurrentSoul.ToString("00")}個";
-        }
-        public void WaveText()
-        {
-            DebugManager.Log(_waveManager.GetCurrentWave);
-            _waveText.text = $"残り{GameConsts.MaxWave - _waveManager.GetCurrentWave + 1}ウェーブ";
-        }
         public void TimerText(float _)
         {
-            _TimerText.text = $"残り{(_exam.GetMaxTime - _exam.GetCurrentTimer).ToString("F2")}秒";
+            _timerText.text = $"残り{(_exam.GetMaxTime - _exam.GetCurrentTimer).ToString("F2")}秒";
         }
+
+        public void OperationChange()
+        {
+            _operationText.text = _exam.GetOperationType == OperationType.Auto ? "Auto" : "Manual";
+        }
+
+        public void ScoreChange()
+        {
+            string text = "";
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.Tutorial:
+                    text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
+                    break;
+                case ExamState.FirstExam:
+                    text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
+                    break;
+                case ExamState.SecondExam:
+                    text = $"{_allyManager.GetAttackSuccessCount}回魔法を唱えた";
+                    break;
+            }
+
+            if (_scoreText != null)
+                _scoreText.text = text;
+        }
+
+        public void AttackCoolTime(float _)
+        {
+            float fill = 1 - _allyManager.GetAllies.GetAttackCoolTimer /
+                GameStatics.Characters[(int)GameStatics.NurturingCharacterType].ChantingSpeed;
+            _attackCoolTimeImage.fillAmount = fill;
+        }
+
+        public void DefenceCoolTime(float _)
+        {
+            float fill = 1 - _allyManager.GetAllies.GetDefenceCoolTimer /
+                _allyManager.GetAllies.GetDefenceCoolTime;
+            _DefenceCoolTimeImage.fillAmount = fill;
+        }
+        
+        
     }
 }
