@@ -19,7 +19,12 @@ namespace TeamB.UI
 
         private void Start()
         {
-            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
+            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_001_title));
+        }
+
+        private void Update()
+        {
+            
         }
 
         /// <summary>
