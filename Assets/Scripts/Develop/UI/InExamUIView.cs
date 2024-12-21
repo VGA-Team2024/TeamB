@@ -16,7 +16,6 @@ namespace TeamB.UI
     public class InExamUIView : UIView
     {
         [SerializeField] private TMP_Text _scoreText;
-        [SerializeField] private TMP_Text _waveText;
         [SerializeField] private TMP_Text _timerText;
         [SerializeField] private TMP_Text _operationText;
         [SerializeField] private Image _attackCoolTimeImage;
@@ -52,19 +51,13 @@ namespace TeamB.UI
             _exam = FindAnyObjectByType<Exam>();
             _allyManager = FindAnyObjectByType<AllyManager>();
             
-            CRIAudioManager.BGM.Stop();
+            //CRIAudioManager.BGM.Stop();
 
-            _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
             _exam.OnExamUpdated += AttackCoolTime;
             _exam.OnExamUpdated += DefenceCoolTime;
             _allyManager.GetAllies.OnSuccessDefence += ScoreChange;
             ScoreChange();
-        }
-
-        public void WaveText()
-        {
-            _waveText.text = $"残り{GameConsts.MaxWave - _waveManager.GetCurrentWave + 1}ウェーブ";
         }
 
         public void TimerText(float _)
@@ -110,5 +103,7 @@ namespace TeamB.UI
                 _allyManager.GetAllies.GetDefenceCoolTime;
             _DefenceCoolTimeImage.fillAmount = fill;
         }
+        
+        
     }
 }

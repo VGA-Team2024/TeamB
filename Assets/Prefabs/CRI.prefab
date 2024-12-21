@@ -50,12 +50,20 @@ MonoBehaviour:
     acbFile: BGM.acb
     awbFile: BGM.awb
     loaderStatus: 0
-  - name: SE
-    acbFile: SE.acb
+  - name: BGM2
+    acbFile: BGM2.acb
     awbFile: 
     loaderStatus: 0
-  - name: ME
-    acbFile: ME.acb
+  - name: Lian
+    acbFile: Lian.acb
+    awbFile: 
+    loaderStatus: 0
+  - name: SCP
+    acbFile: SCP.acb
+    awbFile: 
+    loaderStatus: 0
+  - name: SE
+    acbFile: SE.acb
     awbFile: 
     loaderStatus: 0
   dspBusSetting: 

@@ -301,7 +301,7 @@ namespace TeamB.SkitSystem
             }
 
             _classSelectPanel.SetActive(true);
-            _restDayText.text = $"残り{GameStatics.RemainingDayForExam}日";
+            _restDayText.text = $"残り{classSelectData.RemainDay}日";
             foreach (Transform child in _classSelectButtonParent)
             {
                 Destroy(child.gameObject);

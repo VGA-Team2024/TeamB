@@ -30,7 +30,7 @@ namespace TeamB.GameSystem.Statics
         /// <summary>
         /// 現在の試験進捗
         /// </summary>
-        public static ExamState ExamState = ExamState.Tutorial;
+        public static ExamState ExamState = ExamState.FirstExam;
         
         /// <summary>
         /// 言語設定
@@ -56,6 +56,11 @@ namespace TeamB.GameSystem.Statics
         {
             Debug.Log("試験まで残り:" + RemainingDayForExam + "日");
         }
-        
+
+
+        public static int GetRandomNumber(int max)
+        {
+            return UnityEngine.Random.Range(0, max);
+        }
     }
 }

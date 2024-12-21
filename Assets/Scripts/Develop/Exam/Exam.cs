@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -61,6 +62,8 @@ namespace TeamB.Develop
         private void StartExam()
         {
             _poseManager = FindObjectOfType<PoseManager>();
+            _allyManager = FindObjectOfType<AllyManager>();
+            
             OnExamUpdated += Timer;
             OnExamStarted?.Invoke();
         }
@@ -140,17 +143,17 @@ namespace TeamB.Develop
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
-                    _winDirector.Play();
                     GameStatics.resultData.firstpass = true;
                     GameStatics.ExamState = ExamState.SecondExam;
+                    SceneLoader.LoadScene("Result");
                     break;
                 case ExamState.SecondExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
+                    _winDirector.Play();
                     GameStatics.resultData.secondpass = true;
                     GameStatics.ExamState = ExamState.ExamClear;
-                    SceneLoader.LoadScene("Result");
                     break;
             }
         }

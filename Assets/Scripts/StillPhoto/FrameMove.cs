@@ -6,11 +6,9 @@ namespace TeamB
 {
     public class FrameMove : MonoBehaviour
     {
-        //ˆÚ“®’è”
         private const float cADD_MOVE_X = 10;
         private const float cADD_MOVE_Y = 10;
 
-        //À•W‰Šú‰»
         public void PositionReset()
         {
             this.transform.localPosition = new Vector3(0, this.transform.localPosition.y);
@@ -26,7 +24,6 @@ namespace TeamB
         // Update is called once per frame
         void Update()
         {
-            //ˆÚ“®
             if (Input.GetKey(KeyCode.A))
             {
                 this.transform.localPosition

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DG.Tweening;
+using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -21,7 +22,7 @@ namespace TeamB.Develop
         [SerializeField] private Image _passImage;
         [SerializeField] private Image _faildImage;
         private Vector3 _startScale = new Vector3(300, 300, 300);
-        
+
         private float _stampTime = 1.5f;
 
         protected override void AwakeCall()
@@ -42,10 +43,15 @@ namespace TeamB.Develop
             }
 
             CRIAudioManager.BGM.Stop();
-            if (GameStatics.ExamResult == ExamResult.Failed)
-                CRIAudioManager.SE.Play("SE", nameof(SE.SE_GO));
-            else
-                CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
+            switch (GameStatics.ExamResult)
+            {
+                case ExamResult.Clear:
+                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_09));
+                    break;
+                default:
+                    CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
+                    break;
+            }
 
 
             SetTestFlag();
@@ -56,7 +62,6 @@ namespace TeamB.Develop
         /// </summary>
         private void SetTestFlag()
         {
-            
         }
 
         public void Result()
@@ -74,7 +79,7 @@ namespace TeamB.Develop
 
         public void ClickSound()
         {
-            CRIAudioManager.SE.Play("SE", nameof(SE.SE_click));
+            CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_001_enter));
         }
     }
 }
