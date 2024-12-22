@@ -20,19 +20,19 @@ namespace TeamB.Develop
         private bool _isSpecial;
 
 
-        [SerializeField, Header("背景")]
+        [SerializeField]
         Image _backGround;
-        [SerializeField, Header("チュートリアル最初に出すText")]
+        [SerializeField]
         Text _messageText;
-        [SerializeField, Header("モードボタン")]
+        [SerializeField]
         GameObject _modeButton;
-        [SerializeField, Header("必殺技ボタン")]
+        [SerializeField]
         GameObject _specialMovesButton;
-        [SerializeField, Header("防御ボタン")]
+        [SerializeField]
         GameObject _defenseButton;
-        [SerializeField, Header("防御メッセージ")]
+        [SerializeField]
         GameObject _defenseMessage;
-        [SerializeField, Header("アクションボタン")]
+        [SerializeField]
         GameObject _actionButton;
 
         public bool _isStart;
@@ -43,7 +43,6 @@ namespace TeamB.Develop
             skillManager = FindAnyObjectByType<SkillManager>();
             enemyManager = FindAnyObjectByType<EnemyManager>();
         }
-        // Start is called before the first frame update
         void Start()
         {
             if (exam == null)
@@ -60,15 +59,13 @@ namespace TeamB.Develop
 
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (_isStart == false)
             {
                 exam.OnStartPose();
                 _isStart = true;
-                Debug.Log("ストップ");
-                _messageText.text = "試験の訓練をしてみましょう";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _count++;
@@ -81,7 +78,7 @@ namespace TeamB.Develop
                 
             }
 
-            if (GameStatics.Characters[(int)allyManager.GetAllies.GetCharacterType].Hp == (int)allyManager.GetAllies.GetCurrentData.Hp)
+            if (GameStatics.Characters[(int)allyManager.GetAllies.GetFirstCharacterType].Hp == (int)allyManager.GetAllies.GetCurrentData.Hp)
             {
                 
             }
@@ -125,7 +122,7 @@ namespace TeamB.Develop
         public void ActionButtonTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "このボタンを押すと魔法を繰り出せます。\n攻撃、防御魔法を繰り出せます。";
+            _messageText.text = "";
             _backGround.gameObject.SetActive(true);
             _actionButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -135,7 +132,7 @@ namespace TeamB.Develop
         public void ModeTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "このボタンで戦闘のモードを自動、\n手動モードに切り替えられます。";
+            _messageText.text = "";
             _actionButton.gameObject.SetActive(false);
             _backGround.gameObject.SetActive(true);
             _modeButton.gameObject.SetActive(true);
@@ -148,7 +145,7 @@ namespace TeamB.Develop
             if (_isDefense == true)
             {
                 exam.OnStartPose();
-                _messageText.text = "このボタンを押して防御をしてください。";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _defenseButton.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
@@ -162,7 +159,7 @@ namespace TeamB.Develop
             if (_isMessage == true && _isDefense == false)
             {
                 exam.OnStartPose();
-                _messageText.text = "ここに魔法を防いだ回数が表示させます\nこれは試験結果に反映させます";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _defenseMessage.gameObject.SetActive(true);
@@ -177,7 +174,7 @@ namespace TeamB.Develop
         public void SpecialMovesTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "次に必殺技を発動してみましょう。";
+            _messageText.text = "";
             _backGround.gameObject.SetActive(true);
             _specialMovesButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -189,7 +186,7 @@ namespace TeamB.Develop
         public void EndTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "敵を倒しました！\nこれでチュートリアルを終了します。";
+            _messageText.text = "";
             _backGround.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
             _isTutorial = true;

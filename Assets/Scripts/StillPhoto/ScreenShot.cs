@@ -27,7 +27,6 @@ namespace TeamB
         private string GetScreenShotPath()
         {
             string path = "";
-            // プロジェクトファイル直下に作成
             path = timeStamp + ".png";
             //path = Application.persistentDataPath+timeStamp + ".png";
             return path;
@@ -43,7 +42,6 @@ namespace TeamB
             UIStateChange();
             DateTime date = DateTime.Now;
             timeStamp = date.ToString("yyyy-MM-dd-HH-mm-ss-fff");
-            //待機
             yield return new WaitForEndOfFrame();
 
             RenderTexture renderTexture = new RenderTexture(Screen.width/2, Screen.height/2, 24);
@@ -82,7 +80,6 @@ namespace TeamB
                 Texture2D tex = new Texture2D(0, 0);
                 tex.LoadImage(image);
 
-                // NGUI の UITexture に表示
                 RawImage target = targetImage.GetComponent<RawImage>();
                 target.texture = tex;
             }

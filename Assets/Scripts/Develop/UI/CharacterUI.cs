@@ -19,7 +19,7 @@ namespace TeamB.Develop
         private void OnChanged()
         {
             float ratio = _allyManager.GetAllies.GetCurrentData.Hp /
-                          GameStatics.Characters[(int)_allyManager.GetAllies.GetCharacterType].Hp;
+                          GameStatics.Characters[(int)_allyManager.GetAllies.GetFirstCharacterType].Hp;
             _slider.fillAmount = ratio;
         }
     }

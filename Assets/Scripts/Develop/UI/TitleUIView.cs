@@ -1,3 +1,4 @@
+using System;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
 using TeamB.SkitSystem;
@@ -10,18 +11,22 @@ namespace TeamB.UI
     public class TitleUIView : UIView
     {
         [SerializeField] private SkitFlagData _skitFlagData;
+
         protected override void AwakeCall()
         {
-            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
-            
             _skitFlagData.SetCurrentFlag("Prologue");
+        }
+
+        private void Start()
+        {
+            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_title));
         }
 
         /// <summary>
         /// ゲームを開始する
         /// </summary>
         public void GameStart()
-        { 
+        {
             SceneLoader.LoadScene("Skit");
             GameStatics.PrevGameState = GameState.Title;
         }
@@ -34,6 +39,14 @@ namespace TeamB.UI
         public void ClickSound()
         {
             CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_001_enter));
+        }
+
+        public void ApplicationQuit()
+        {
+#if UNITY_EDITOR
+#else
+            Application.Quit();
+#endif
         }
     }
 }
