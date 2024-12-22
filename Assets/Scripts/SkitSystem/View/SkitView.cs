@@ -287,8 +287,11 @@ namespace TeamB.SkitSystem
         public async UniTask ShowClassSelect(ClassSelectData classSelectData,
             UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)
         {
+             
+            if (!_skitFadeView.IsFading) await _skitFadeView.FadeInAsync(cancellationToken);
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(classSelectData.BackgroundImageName, null, cancellationToken);
+            if (_skitFadeView.IsFading) await _skitFadeView.FadeOutAsync(cancellationToken);
             await ShowDialogue(classSelectData.TalkerName, classSelectData.Dialogue, cancellationToken);
             if (cancellationToken.IsCancellationRequested)
             {

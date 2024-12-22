@@ -22,7 +22,7 @@ Prologue,Prologue,リアン,Conversation_BackGround_03_Night,いたっ！,,リ�
 ,,リアン,,...,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,プレイヤー,,いいのか？それで。俺は納得いってないぞ。見返してやろうぜ！,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,リアン,,（できるのかな...）,,リアン,Middle,Conversation_StandingPicture_01,,,
-,,プレイヤー,,[Skit][FirstExam1]できる！見返してやろうぜ！,,リアン,Middle,Conversation_StandingPicture_01,,,
+,,プレイヤー,,[ClassSelect][ClassSelect1]できる！見返してやろうぜ！,,リアン,Middle,Conversation_StandingPicture_01,,,
 FirstExam1,FirstExam,生徒会長,Conversation_HonorStudent_Noon,貴方、わたくしにたてつくというの？いい度胸ね。あなたがどういう存在か、わたくしの炎で今一度わからせてあげますわ,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,
 ,,リアン,,（できるかな...）,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,プレイヤー,,[SetFlag:FirstExam]できる！[MainCharacter]ならできる！俺を信じろ！,,リアン,Middle,Conversation_StandingPicture_01,,,

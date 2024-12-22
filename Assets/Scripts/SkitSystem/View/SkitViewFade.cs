@@ -16,6 +16,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private Image _fadeImage;
         [SerializeField] private GameObject _loadingText;
         [SerializeField] private float _fadeTime = 1.0f;
+        public bool IsFading => _fadeImage.color.a > 0;
 
         public async UniTask FadeInAsync(CancellationToken cancellationToken, bool immediate = false)
         {
