@@ -1145,13 +1145,12 @@ MonoBehaviour:
   - {fileID: 2373310720896268478}
   - {fileID: 7558358273736343510}
   - {fileID: 4056446072620885691}
-  audiosource: []
   option_canvas: {fileID: 8768354069780298901}
   display_canvas: {fileID: 402799698933429247}
   display_prefab: {fileID: 1128128337426237037, guid: 44db24cc03125904a91fcc707e09dcac,
     type: 3}
   trans: {fileID: 7313984422391594827}
-  option_button: {fileID: 0}
+  option_button: {fileID: 4130624856937387658}
 --- !u!1 &3363770183397401905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1255,8 @@ MonoBehaviour:
   m_text: "\u623B\u308B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8ba5ffff940c46046abefc7c3304bb3b, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -2411588789648535259, guid: 8ba5ffff940c46046abefc7c3304bb3b,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

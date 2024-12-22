@@ -16,10 +16,10 @@
     public enum ExamState : int
     {
         None,
+        Tutorial,
         FirstExam,
         SecondExam,
         ExamClear,
-        AllExams,
     }
 
     public enum ExamResult : int

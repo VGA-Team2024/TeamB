@@ -7,21 +7,21 @@ namespace TeamB.Data
 {
     public class ResultData
     {
-        //–hŒä‰ñ”
+        //ï¿½hï¿½ï¿½ï¿½
         public int defense;
-        //”í’e‰ñ”
+        //ï¿½ï¿½eï¿½ï¿½
         public int hit;
-        //c‚èŠÔ
+        //ï¿½cï¿½èï¿½ï¿½
         public int leftoverTime;
-        //c‚è‘Ì—Í
+        //ï¿½cï¿½ï¿½Ì—ï¿½
         public int leftoverHp;
-        //1ŸŒ±ƒ|ƒCƒ“ƒg
+        //1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½g
         public int firsttestP;
-        //2ŸŒ±ƒ|ƒCƒ“ƒg
+        //2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½g
         public int secondtestP;
-        //1ŸŒ±‡”Û
+        //1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public bool firstpass;
-        //1ŸŒ±‡”Û
+        //1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public bool secondpass;
     }
 }

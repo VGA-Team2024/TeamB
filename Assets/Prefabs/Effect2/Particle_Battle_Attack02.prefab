@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6779746711493750462}
   - component: {fileID: 3470223594880486642}
   - component: {fileID: 6125440352134228811}
+  - component: {fileID: 6794826953036389217}
   m_Layer: 0
   m_Name: Particle_Battle_Attack02
   m_TagString: Untagged
@@ -118,7 +119,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4890,6 +4891,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6794826953036389217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915136129893001302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbfb16e936619048bbfca94c1da790e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5929926898696903031
 GameObject:
   m_ObjectHideFlags: 0
@@ -4901,7 +4914,6 @@ GameObject:
   - component: {fileID: 3990726254616499278}
   - component: {fileID: 781007868764870088}
   - component: {fileID: 8077511879874454443}
-  - component: {fileID: 2564782537157921807}
   m_Layer: 0
   m_Name: Spark
   m_TagString: Untagged
@@ -9779,19 +9791,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2564782537157921807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5929926898696903031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0bdd1442cf1a434b8a31600c583451a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effect: {fileID: 781007868764870088}
 --- !u!1 &8142222978153698895
 GameObject:
   m_ObjectHideFlags: 0
@@ -9803,7 +9802,6 @@ GameObject:
   - component: {fileID: 1360963230490923648}
   - component: {fileID: 8528458338400134790}
   - component: {fileID: 4936286328118570945}
-  - component: {fileID: 2789596263752227715}
   m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
@@ -14681,16 +14679,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2789596263752227715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8142222978153698895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0bdd1442cf1a434b8a31600c583451a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _effect: {fileID: 8528458338400134790}

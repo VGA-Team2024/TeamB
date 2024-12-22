@@ -11,7 +11,7 @@ namespace TeamB.Develop
     {
         #region Properties
 
-        public CharacterType GetCharacterType { get; }
+        public CharacterType GetFirstCharacterType { get; }
         public DataManagement.SpreadSheet.CharacterData GetCurrentData { get; }
         public List<IBuff> GetHaveBuffs { get; }
         public List<IBuff> GetHaveDeBuffs { get; }
@@ -120,6 +120,8 @@ namespace TeamB.Develop
     public interface IEnemy : ICharacter, IPoseObject
     {
         public event Action OnNextForm;
+        public event Action OnDown;
+        public AbnormalCondition GetCurrentCondition { get; }
         public int GetCurrentForm { get; }
     }
 
@@ -129,5 +131,11 @@ namespace TeamB.Develop
     public interface IInputType
     {
         public bool IsInput { get; }
+    }
+    
+    public enum AbnormalCondition
+    {
+        Normal,
+        Stunned
     }
 }

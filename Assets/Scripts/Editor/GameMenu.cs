@@ -1,14 +1,12 @@
+#if UNITY_EDITOR
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Cysharp.Threading.Tasks;
 using DataManagement;
 using TeamB.Data;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace TeamB.Editor
@@ -28,7 +26,8 @@ namespace TeamB.Editor
             try
             {
                 string datastr = await File.ReadAllTextAsync(GameConsts.CharacterFile);
-                DataManagement.SpreadSheet.CharacterMaster characterData = JsonConvert.DeserializeObject<DataManagement.SpreadSheet.CharacterMaster>(datastr);
+                DataManagement.SpreadSheet.CharacterMaster characterData =
+                    JsonConvert.DeserializeObject<DataManagement.SpreadSheet.CharacterMaster>(datastr);
                 using (FileStream fs = new FileStream(characterFilePath, FileMode.Create, FileAccess.ReadWrite))
                 {
                     string script = "/// <summary> キャラの種類 </summary>\npublic enum CharacterType{";
@@ -47,8 +46,8 @@ namespace TeamB.Editor
                 Debug.Log(e);
                 throw;
             }
-            
         }
+
         /// <summary>
         /// マスターデータをもとに敵Enum作る
         /// </summary>
@@ -59,7 +58,8 @@ namespace TeamB.Editor
             try
             {
                 string datastr = await File.ReadAllTextAsync(GameConsts.EnemyFile);
-                DataManagement.SpreadSheet.EnemyMaster characterData = JsonConvert.DeserializeObject<DataManagement.SpreadSheet.EnemyMaster>(datastr);
+                DataManagement.SpreadSheet.EnemyMaster characterData =
+                    JsonConvert.DeserializeObject<DataManagement.SpreadSheet.EnemyMaster>(datastr);
                 using (FileStream fs = new FileStream(enemyFilePath, FileMode.Create, FileAccess.ReadWrite))
                 {
                     string script = "/// <summary> 敵の種類 </summary>public enum EnemyType{";
@@ -78,7 +78,6 @@ namespace TeamB.Editor
                 Debug.Log(e);
                 throw;
             }
-            
         }
 
         [MenuItem("Assets/SetUp/MasterData")]
@@ -88,3 +87,4 @@ namespace TeamB.Editor
         }
     }
 }
+#endif

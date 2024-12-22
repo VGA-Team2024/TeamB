@@ -15,7 +15,7 @@ public class MarkManager : MonoBehaviour
 
     [SerializeField] List<TextMeshProUGUI> marktext = new List<TextMeshProUGUI>();
 
-    public bool des_mark = false; //的が消滅したら
+    public bool des_mark = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -38,11 +38,10 @@ public class MarkManager : MonoBehaviour
     }
 
 
-
     async UniTaskVoid DestoryMark()
     {
-            await UniTask.Delay(TimeSpan.FromSeconds(2f));
-            RandomMark();
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        RandomMark();
     }
 
     void RandomMark()
@@ -53,40 +52,39 @@ public class MarkManager : MonoBehaviour
         //Debug.Log(rnd);
         if (rnd <= randomlist[0])
         {
-            Instantiate(markobj[0], new Vector3(transX,transY,100), Quaternion.identity);
+            Instantiate(markobj[0], new Vector3(transX, transY, 100), Quaternion.identity);
         }
-        else if(rnd <= randomlist[1])
+        else if (rnd <= randomlist[1])
         {
-            Instantiate(markobj[1], new Vector3(transX, transY,100), Quaternion.identity);
-        } 
-        else if(rnd <= randomlist[2])
-        {
-            Instantiate(markobj[2], new Vector3(transX, transY,100), Quaternion.identity);
-
+            Instantiate(markobj[1], new Vector3(transX, transY, 100), Quaternion.identity);
         }
- 
+        else if (rnd <= randomlist[2])
+        {
+            Instantiate(markobj[2], new Vector3(transX, transY, 100), Quaternion.identity);
+        }
     }
-    //テスト用　初期化
+
     void NewParameter()
     {
         mark_asset.Score = 0;
         mark_asset.Time = 60;
         mark_asset.Remainder_bullet = 30;
     }
-    //時間の減少、ゲームの終了
+
     void PlayTime()
     {
         mark_asset.Time -= Time.deltaTime;
 
-        if(mark_asset.Time <= 0)
+        if (mark_asset.Time <= 0)
         {
-　　　　　#if UNITY_EDITOR
-          UnityEditor.EditorApplication.isPlaying = false;
-　　　　　#else
-   　　　　　 Application.Quit();
-　　　　　#endif
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
+
     void Text()
     {
         marktext[0].text = "Score: " + mark_asset.Score;

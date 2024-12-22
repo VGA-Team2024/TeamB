@@ -1,6 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
+using SE.Lian;
 using TeamB.GameSystem;
+using TeamB.GameSystem.Statics;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -15,7 +17,7 @@ namespace TeamB.Develop
         [SerializeField] private ParticleSystem _DefenceBuffParticles;
         [SerializeField] private GameObject alliesPrefab;
         [SerializeField] private GameObject _defencePrefab;
-        
+
 
         private EnemyManager _enemyManager;
         private Exam _exam;
@@ -24,16 +26,20 @@ namespace TeamB.Develop
         private DefenseInput _defenseInput = new();
         private AttackInput _attackInput = new();
 
+        public event Action OnEndDamageEffect;
+
         private int _defenceSuccessCount;
         private int _attackSuccessCount;
+        private int _hitCount;
 
         public IAlly GetAllies => _allies;
         public int GetDefenceSuccessCount => _defenceSuccessCount;
         public int GetAttackSuccessCount => _attackSuccessCount;
+        public int GetHitCunt => _hitCount;
 
         private async void Awake()
         {
-            Initialized(); 
+            Initialized();
         }
 
         private void Initialized()
@@ -62,24 +68,35 @@ namespace TeamB.Develop
 
         private async void OnTakeDamage()
         {
+            if (GameStatics.GetRandomNumber(2) == 0)
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_15));
+            }
+            else
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_16));
+            }
+
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
             {
                 sprite.color = new Color(1, 0, 0, 1);
             }
 
+            _hitCount++;
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
             if (!alliesPrefab) return;
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
             {
                 sprite.color = new Color(1f, 1, 1, 1);
             }
+
+            OnEndDamageEffect?.Invoke();
         }
 
         private void OnDefense()
         {
             if (!_defencePrefab)
                 return;
-            _defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
             _defencePrefab.SetActive(true);
             _allies.OnSuccessDefence += OnSuccessDefence;
         }
@@ -88,7 +105,6 @@ namespace TeamB.Develop
         {
             if (!_defencePrefab)
                 return;
-            _defencePrefab.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1);
             _defencePrefab.SetActive(false);
             _allies.OnSuccessDefence -= OnSuccessDefence;
         }
@@ -99,6 +115,8 @@ namespace TeamB.Develop
             {
                 sprite.color = new Color(1, 0.6f, 0, 1);
             }
+
+            CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_12));
             _defenceSuccessCount++;
         }
 
@@ -113,8 +131,6 @@ namespace TeamB.Develop
         /// <param name="deltaTime"></param>
         private async void AlliesAttack(float deltaTime)
         {
-            if (_allies.GetActionType != ActionType.Attack)
-                return;
             _allies.Attack(_enemyManager.GetCurrentEnemyData, _exam.GetOperationType, deltaTime);
         }
 

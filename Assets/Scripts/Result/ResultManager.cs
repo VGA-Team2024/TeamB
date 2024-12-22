@@ -8,23 +8,24 @@ using UnityEngine.UI;
 
 public class ResultManager : MonoBehaviour
 {
-    [Header("ƒ|ƒCƒ“ƒg“à–ó‚ÌƒeƒLƒXƒgƒ{ƒbƒNƒX"),SerializeField] List<RectTransform> result_obj;
-    [Header("ƒ|ƒCƒ“ƒg“à–ó‚Ì€–Ú"), SerializeField] List<TextMeshProUGUI> result_text;
-    [Header("‡”Û‚ÌƒeƒLƒXƒg"), SerializeField] TextMeshProUGUI pass_Text;
+    [SerializeField] List<RectTransform> result_obj;
+    [SerializeField] List<TextMeshProUGUI> result_text;
+    [SerializeField] Image pass_Image;
+    [SerializeField] Sprite pass_Sprite;
+    [SerializeField] Sprite nopass_Sprite;
 
-    [Header("ƒeƒLƒXƒgƒ{ƒbƒNƒX‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ"), SerializeField] float textAnimTime;
-    [Header("ƒXƒ^ƒ“ƒv‚ÌƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ"), SerializeField] float stampAnimTime;
+    [SerializeField] float textAnimTime;
+    [SerializeField] float stampAnimTime;
     //[SerializeField] float startTime;
 
     ResultData resultData;
 
-    [Header("ƒXƒ^ƒ“ƒv"), SerializeField] GameObject result_stamp;
+    [SerializeField] GameObject result_stamp;
 
     void Start()
     {
         resultData = GameStatics.resultData;
 
-        //[‰¼]ƒ‰ƒ“ƒ_ƒ€‚ÉŒ±‚ªo‚é‚æ‚¤‚É‚µ‚Ä‚¢‚Ü‚·B
         int round = Random.Range(1, 3);
 
         if(round == 1)
@@ -41,24 +42,21 @@ public class ResultManager : MonoBehaviour
         StartCoroutine(MoveText());
 
     }
-    //1ŸŒ±‚Ìƒ|ƒCƒ“ƒg
     void FirstResult()
     {
         resultData.firsttestP = resultData.defense + resultData.leftoverHp - resultData.hit;
-        result_text[0].text = "–hŒä‚µ‚½‰ñ” " + resultData.defense + " ‰ñ";
-        result_text[1].text = "ƒvƒŒƒCƒ„[c‚è‘Ì—Í " + resultData.leftoverHp;
-        result_text[2].text = "”í’e‰ñ” " + resultData.hit + " ‰ñ";
+        result_text[0].text = "é˜²å¾¡å›æ•° " + resultData.defense + " å›";
+        result_text[1].text = "ã®ã“ã‚ŠHP " + resultData.leftoverHp;
+        result_text[2].text = "è¢«å¼¾å›æ•° " + resultData.hit + " å›";
     }
 
-    //2ŸŒ±‚Ìƒ|ƒCƒ“ƒg
     void SecondResult()
     {
         resultData.secondtestP = resultData.leftoverTime + resultData.leftoverHp - resultData.defense;
-        result_text[0].text = "c‚èŠÔ " + resultData.leftoverTime + " •b";
-        result_text[1].text = "ƒvƒŒƒCƒ„[c‚è‘Ì—Í " + resultData.leftoverHp;
-        result_text[2].text = "–hŒä‰ñ” " + resultData.defense + " ‰ñ";
+        result_text[0].text = "æ®‹ã‚Šæ™‚é–“ " + resultData.leftoverTime + " ç§’";
+        result_text[1].text = "æ®‹ã‚Šä½“åŠ› " + resultData.leftoverHp;
+        result_text[2].text = "é˜²å¾¡å›æ•° " + resultData.defense + " å›";
     }
-    //‡”Û‚Ì”»’è
     void Result(int _point, bool _pass)
     {
         if(_point > 20)
@@ -68,11 +66,11 @@ public class ResultManager : MonoBehaviour
 
         if (_pass)
         {
-            pass_Text.text = "‡Ši";
+            pass_Image.sprite = pass_Sprite;
         }
         else
         {
-            pass_Text.text = "•s‡Ši";
+            pass_Image.sprite = nopass_Sprite;
         }
     }
 
@@ -83,7 +81,6 @@ public class ResultManager : MonoBehaviour
         var startpos = _rect.localPosition;
         var endpos = new Vector3(300, _rect.localPosition.y, _rect.localPosition.z);
 
-        // ƒAƒjƒ[ƒVƒ‡ƒ“‚ªI—¹‚·‚é‚Ü‚Åƒ‹[ƒv
         while (Time.time - startTime < textAnimTime)
         {
             float time = (Time.time - startTime) / textAnimTime;
@@ -91,7 +88,6 @@ public class ResultManager : MonoBehaviour
             yield return null;
         }
 
-        //ˆÊ’u‚ğİ’è
         _rect.localPosition = endpos;
     }
 
@@ -110,7 +106,6 @@ public class ResultManager : MonoBehaviour
 
     }
 
-    //‡”Ô‚ÉƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÀs
     IEnumerator MoveText()
     {
         yield return StartCoroutine(Move(result_obj[0]));

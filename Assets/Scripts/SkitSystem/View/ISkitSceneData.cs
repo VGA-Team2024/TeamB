@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace TeamB.SkitSystem
 {
@@ -24,6 +25,7 @@ namespace TeamB.SkitSystem
         public ClassChoiceData[] ClassChoices;
         public string Id { get; }
         public string Flag { get; }
+        public int RemainDay { get; }
 
         public string TalkerName { get; }
 
@@ -31,11 +33,12 @@ namespace TeamB.SkitSystem
 
         public string BackgroundImageName { get; }
 
-        public ClassSelectData(string classSelectId, string flag, string classSelectTalkerName,
+        public ClassSelectData(string classSelectId, string flag, int remainDay, string classSelectTalkerName,
             string classSelectBackgroundImageName, string classSelectDialogue, ClassChoiceData[] classChoices)
         {
             Id = classSelectId;
             Flag = flag;
+            RemainDay = remainDay;
             TalkerName = classSelectTalkerName;
             BackgroundImageName = classSelectBackgroundImageName;
             Dialogue = classSelectDialogue;
@@ -71,29 +74,45 @@ namespace TeamB.SkitSystem
     /// <summary>
     /// 各会話をまとめたデータ、CurrentTalkDataIndexで現在の会話を指定して取得する
     /// </summary>
-    [Serializable]
+    [JsonObject]
     public class SkitData : ISkitSceneData
     {
+        [JsonProperty("Id")]
         public string Id { get; }
+        [JsonProperty("Flag")]
         public string Flag { get; }
 
+        [JsonProperty("SkitEntryData")]
         public SkitEntryData[] SkitEntryData { get; }
 
-        public SkitData(string skitDataId, string flag, SkitEntryData[] skitEntryData)
+        [Newtonsoft.Json.JsonConstructor]
+        public SkitData(string id, string flag, SkitEntryData[] skitEntryData)
         {
-            Id = skitDataId;
+            Id = id;
             Flag = flag;
             SkitEntryData = skitEntryData;
         }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Flag: {Flag}, SkitEntryData: {SkitEntryData}";
+        }
     }
 
-    [Serializable]
+    [JsonObject]
     public class SkitEntryData
     {
+        [JsonProperty("TalkCharaData")]
         public SkitTalkCharaData[] TalkCharaData { get; } //キャラの立ち位置などをまとめたデータ
+        [JsonProperty("TalkSpeaker")]
         public string TalkSpeaker { get; } //話しているキャラの名前
+        [JsonProperty("TalkBackground")]
         public string TalkBackground { get; } //背景画像の名前
+        
+        [JsonProperty("JapaneseTalkDialogue")]
         public string JapaneseTalkDialogue { get; protected set; } //日本語の会話
+        
+        [JsonProperty("EnglishTalkDialogue")]
         public string EnglishTalkDialogue { get; } //英語の会話
 
         public SkitEntryData()
@@ -101,6 +120,7 @@ namespace TeamB.SkitSystem
             
         }
         
+        [Newtonsoft.Json.JsonConstructor]
         public SkitEntryData(SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
             string japaneseTalkDialogue, string englishTalkDialogue)
         {
@@ -111,6 +131,10 @@ namespace TeamB.SkitSystem
             EnglishTalkDialogue = englishTalkDialogue;
         }
      
+        public override string ToString()
+        {
+            return $"TalkCharaData: {TalkCharaData}, TalkSpeaker: {TalkSpeaker}, TalkBackground: {TalkBackground}, JapaneseTalkDialogue: {JapaneseTalkDialogue}, EnglishTalkDialogue: {EnglishTalkDialogue}";
+        }
     }
 
     public enum StandingPosition
@@ -121,12 +145,23 @@ namespace TeamB.SkitSystem
         Right,
     }
 
-    [Serializable]
+    [JsonObject]
     public class SkitTalkCharaData
     {
-        public string CharaName;
-        public StandingPosition StandingPosition = StandingPosition.None;
-        public string CharaStateFileName;
+        [JsonProperty("CharaName")]
+        public string CharaName { get; }
+        [JsonProperty("StandingPosition")]
+        public StandingPosition StandingPosition { get; }
+        [JsonProperty("CharaStateFileName")]
+        public string CharaStateFileName { get; }
+        
+        [Newtonsoft.Json.JsonConstructor]
+        public SkitTalkCharaData(string charaName, StandingPosition standingPosition, string charaStateFileName)
+        {
+            CharaName = charaName;
+            StandingPosition = standingPosition;
+            CharaStateFileName = charaStateFileName;
+        } 
     }
 
     #endregion
@@ -142,6 +177,7 @@ namespace TeamB.SkitSystem
         public string Id { get; }
 
         public string Answer { get; }
+        public float AddPoint { get; }
 
         public float ChoiceTime { get; }
 
@@ -149,6 +185,7 @@ namespace TeamB.SkitSystem
 
         public SkitChoiceData(
             string choiceId,
+            float addPoint,
             float choiceTime,
             string answer,
             ChoiceEntry[] choiceEntries,
@@ -160,6 +197,7 @@ namespace TeamB.SkitSystem
         ) : base(talkCharaData, talkSpeaker, talkBackground, problemDialogue, englishTalkDialogue)
         {
             Id = choiceId;
+            AddPoint = addPoint;
             ChoiceTime = choiceTime;
             Answer = answer;
             ChoiceEntries = choiceEntries;
@@ -167,10 +205,12 @@ namespace TeamB.SkitSystem
 
         public SkitChoiceData(
             string choiceId,
+            float addPoint,
             float choiceTime,
             string answer, ChoiceEntry[] choiceEntries, string problemDialogue)
         {
             Id = choiceId;
+            AddPoint = addPoint;
             ChoiceTime = choiceTime;
             Answer = answer;
             ChoiceEntries = choiceEntries;
@@ -215,9 +255,9 @@ namespace TeamB.SkitSystem
 
     public class TutorialChoiceData : SkitChoiceData
     {
-        public TutorialChoiceData(string choiceId, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
+        public TutorialChoiceData(string choiceId, float addPoint, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
             string problemDialogue, SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
-            string englishTalkDialogue, string tutorialDialog) : base(choiceId, choiceTime, answer, choiceEntries,
+            string englishTalkDialogue, string tutorialDialog) : base(choiceId, addPoint, choiceTime,  answer, choiceEntries,
             problemDialogue, talkCharaData,
             talkSpeaker, talkBackground, englishTalkDialogue)
         {
@@ -226,12 +266,10 @@ namespace TeamB.SkitSystem
 
     public class TutorialClassSelectData : ClassSelectData
     {
-        public TutorialClassSelectData(string classSelectId, string flag, string classSelectTalkerName,
+        public TutorialClassSelectData(string classSelectId, string flag, int s, string classSelectTalkerName,
             string classSelectBackgroundImageName, string classSelectDialogue, ClassChoiceData[] classChoices,
-            string tutorialDialog) : base(classSelectId, flag, classSelectTalkerName, classSelectBackgroundImageName,
-            classSelectDialogue, classChoices)
-        {
-        }
+            string tutorialDialog) : base(classSelectId, flag, s, classSelectTalkerName, classSelectBackgroundImageName,
+            classSelectDialogue, classChoices){}
     }
 
     public class NormalTutorialData

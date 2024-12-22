@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DataManagement.SpreadSheet;
+using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -20,9 +21,8 @@ namespace TeamB.Develop
     {
         #region SerializedFields
 
-        [SerializeField] private ParticleSystem _attackParticles;
-
-        [SerializeField] private ParticleCallBack _particleCallBack;
+        [SerializeField] private GameObject _attackParticles;
+        [SerializeField] private Transform _attackParticleTrans;
 
         [SerializeField] private float _percentageReductionValue = 0.75f;
 
@@ -39,6 +39,8 @@ namespace TeamB.Develop
         private ICharacter _character;
 
         private CancellationToken _token;
+
+        private List<ParticleSystem> _particles = new();
 
         private float _percentageReduction;
         private float _defenceDurationTimer;
@@ -58,6 +60,7 @@ namespace TeamB.Develop
         public event Action OnDefense;
         public event Action OnEndDefense;
         public event Action OnSuccessDefence;
+        public event Action OnFailDefence;
         public event Action OnTakeDamage;
         public event Action OnTakeHeal;
         public event Action OnAddBuff;
@@ -79,7 +82,7 @@ namespace TeamB.Develop
         public List<IBuff> GetHaveDeBuffs { get; } = new();
 
         // キャラの種類
-        public CharacterType GetCharacterType => GameStatics.NurturingCharacterType;
+        public CharacterType GetFirstCharacterType => GameStatics.NurturingCharacterType;
 
         public ActionType GetActionType { get; private set; }
 
@@ -93,7 +96,6 @@ namespace TeamB.Develop
 
         public void Initialized()
         {
-            GetActionType = GameStatics.ExamState == ExamState.FirstExam ? ActionType.Defend : ActionType.Attack;
             GetCurrentData = new CharacterData(GameStatics.Characters[(int)GameStatics.NurturingCharacterType]);
             _token = new CancellationTokenSource().Token;
             _percentageReduction = _percentageReductionBaseValue;
@@ -116,9 +118,6 @@ namespace TeamB.Develop
         /// </summary>
         public async void Attack<T>(T characters, OperationType operationType, float deltaTime) where T : ICharacter
         {
-            if (GetActionType != ActionType.Attack)
-                return;
-
             if (GetAttackCoolTimer >= TakeBuff(BuffType.CastingSpeed, GetCurrentData.ChantingSpeed))
             {
                 //操作方法が自動時、ゲームプレイヤーの入力を待つ
@@ -126,9 +125,24 @@ namespace TeamB.Develop
                     return;
 
                 _character = characters;
-                _particleCallBack.OnCallBack -= GiveDamage;
 
-                _attackParticles.Play();
+                GameObject attackParticle = GameObject.Instantiate(_attackParticles, _attackParticleTrans.position,
+                    _attackParticles.transform.rotation);
+                ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
+                attackParticleSystem.Play();
+                _particles.Add(attackParticleSystem);
+
+                int randVoice = Random.Range(0, 2);
+                if (randVoice == 0)
+                {
+                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_10));
+                }
+                else
+                {
+                    CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_11));
+                }
+
+                attackParticleSystem.Play();
                 float rand = Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, GetCurrentData.HitRate))
                 {
@@ -136,7 +150,13 @@ namespace TeamB.Develop
 
                     GetAttackCoolTimer = 0;
 
-                    _particleCallBack.OnCallBack += GiveDamage;
+                    ParticleCallBack particleCallBack = attackParticle.GetComponent<ParticleCallBack>();
+                    particleCallBack.OnCallBack += GiveDamage;
+                    particleCallBack.OnCallBack += () =>
+                    {
+                        _particles.Remove(attackParticleSystem);
+                        GameObject.Destroy(attackParticle);
+                    };
 
                     OnEndAttack?.Invoke();
                 }
@@ -315,6 +335,7 @@ namespace TeamB.Develop
                 if (operationType == OperationType.Manual && !_isDefending)
                     return;
 
+
                 OnDefense?.Invoke();
                 //軽減率の変更
                 _percentageReduction = _percentageReductionValue;
@@ -338,14 +359,20 @@ namespace TeamB.Develop
 
         public void StartPose()
         {
-            if (_attackParticles.isPlaying)
-                _attackParticles.Pause();
+            foreach (var particle in _particles)
+            {
+                if (particle.isPlaying)
+                    particle.Pause();
+            }
         }
 
         public void EndPose()
         {
-            if (_attackParticles.isPlaying)
-                _attackParticles.Play();
+            foreach (var particle in _particles)
+            {
+                if (particle.isPaused)
+                    particle.Play();
+            }
         }
 
         private void GiveDamage()

@@ -2,7 +2,6 @@
 using TeamB.Develop;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
-using TeamB.InGameData.Data;
 using TMPro;
 using UISystem;
 using UnityEngine;
@@ -17,12 +16,10 @@ namespace TeamB.UI
     public class InExamUIView : UIView
     {
         [SerializeField] private TMP_Text _scoreText;
-        [SerializeField] private TMP_Text _waveText;
         [SerializeField] private TMP_Text _timerText;
         [SerializeField] private TMP_Text _operationText;
         [SerializeField] private Image _attackCoolTimeImage;
         [SerializeField] private Image _DefenceCoolTimeImage;
-        [SerializeField] private GameObject _attackButton;
 
         WaveManager _waveManager;
         AllyManager _allyManager;
@@ -53,22 +50,14 @@ namespace TeamB.UI
             _waveManager = FindAnyObjectByType<WaveManager>();
             _exam = FindAnyObjectByType<Exam>();
             _allyManager = FindAnyObjectByType<AllyManager>();
+            
+            //CRIAudioManager.BGM.Stop();
 
-            _waveManager.OnNextWave += WaveText;
             _exam.OnExamUpdated += TimerText;
             _exam.OnExamUpdated += AttackCoolTime;
             _exam.OnExamUpdated += DefenceCoolTime;
             _allyManager.GetAllies.OnSuccessDefence += ScoreChange;
             ScoreChange();
-            if (GameStatics.ExamState == ExamState.FirstExam)
-                _attackButton.SetActive(false);
-            else
-                _attackButton.SetActive(true);
-        }
-
-        public void WaveText()
-        {
-            _waveText.text = $"残り{GameConsts.MaxWave - _waveManager.GetCurrentWave + 1}ウェーブ";
         }
 
         public void TimerText(float _)
@@ -86,6 +75,9 @@ namespace TeamB.UI
             string text = "";
             switch (GameStatics.ExamState)
             {
+                case ExamState.Tutorial:
+                    text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
+                    break;
                 case ExamState.FirstExam:
                     text = $"{_allyManager.GetDefenceSuccessCount}回魔法を防いだ";
                     break;
@@ -111,5 +103,7 @@ namespace TeamB.UI
                 _allyManager.GetAllies.GetDefenceCoolTime;
             _DefenceCoolTimeImage.fillAmount = fill;
         }
+        
+        
     }
 }

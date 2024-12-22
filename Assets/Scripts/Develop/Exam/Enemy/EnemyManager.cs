@@ -24,6 +24,7 @@ namespace TeamB.Develop
         private AllyManager _allyManager;
         private PoseManager _poseManager;
         private Exam _exam;
+        List<SpriteRenderer> _spriteRenderers = new();
 
         #endregion
 
@@ -63,6 +64,11 @@ namespace TeamB.Develop
                     _poseManager.OnOutPose += EndPose;
                 }
             };
+
+            foreach (var sprite in _enemy.GetComponentsInChildren<SpriteRenderer>())
+            {
+                _spriteRenderers.Add(sprite);
+            }
         }
 
 
@@ -77,12 +83,14 @@ namespace TeamB.Develop
 
         private async void OnTakeDamage()
         {
-            _enemy.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
+            _spriteRenderers.Select(x => x.color = new Color(1f, 0f, 0f, 1f));
             
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
             if(!_enemy)return;
             
-            _enemy.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            _spriteRenderers.Select(x => x.color = new Color(1f, 1f, 1f, 1f));
+            if(_currentEnemy.GetCurrentCondition == AbnormalCondition.Stunned)
+                _spriteRenderers.Select(x => x.color = new Color(1f, 1f, 0f, 1f));
         }
         
 

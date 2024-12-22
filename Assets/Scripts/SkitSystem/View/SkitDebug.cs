@@ -33,7 +33,7 @@ namespace TeamB.SkitSystem
 
         private void SetDebugPanel()
         {
-            var skitData = _skitScenePresenter.SkitDataLoader.GetAllSkitData();
+            var skitData = _skitScenePresenter.SkitDataLoaderBase.GetAllSkitData();
             foreach (Transform child in _skitDebugButtonParent)
             {
                 Destroy(child.gameObject);
@@ -53,7 +53,7 @@ namespace TeamB.SkitSystem
             {
                 Destroy(child.gameObject);
             }
-            foreach (var classSelect in _skitScenePresenter.SkitDataLoader.GetAllClassSelectData())
+            foreach (var classSelect in _skitScenePresenter.SkitDataLoaderBase.GetAllClassSelectData())
             {
                 var button = Instantiate(_skitDebugButtonPrefab, _classSelectButtonParent);
                 button.GetComponentInChildren<TMP_Text>().text = classSelect.Id;
@@ -68,7 +68,7 @@ namespace TeamB.SkitSystem
             {
                 Destroy(child.gameObject);
             }
-            if (_skitScenePresenter.SkitDataLoader.TryGetTutorialDataById(out var tutorial))
+            if (_skitScenePresenter.SkitDataLoaderBase.TryGetTutorialDataById(out var tutorial))
             {
                 var button = Instantiate(_skitDebugButtonPrefab, _tutorialButtonParent);
                 button.GetComponentInChildren<TMP_Text>().text = "tutorial";
@@ -82,29 +82,29 @@ namespace TeamB.SkitSystem
 
         private void SetTestTutorialId()
         {
-            if (_skitScenePresenter.SkitDataLoader.TryGetTutorialDataById(out var tutorialData))
+            if (_skitScenePresenter.SkitDataLoaderBase.TryGetTutorialDataById(out var tutorialData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
                 _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Tutorial,
-                    tutorialData));
+                    tutorialData, _skitScenePresenter.SkitFlagData));
             }
         }
 
         private void SetTestSkitId(string testSkitId)
         {
-            if (_skitScenePresenter.SkitDataLoader.TryGetSkitDataById(testSkitId, out var skitData))
+            if (_skitScenePresenter.SkitDataLoaderBase.TryGetSkitDataById(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
-                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData));
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.Skit ,skitData, _skitScenePresenter.SkitFlagData));
             }
         }
         
         private void SetTestClassSelectId(string testSkitId)
         {
-            if (_skitScenePresenter.SkitDataLoader.TryGetClassSelectDataById(testSkitId, out var skitData))
+            if (_skitScenePresenter.SkitDataLoaderBase.TryGetClassSelectDataById(testSkitId, out var skitData))
             {
                 _skitScenePresenter.SkitSystemManager.ResetSkitSceneData();
-                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData));
+                _skitScenePresenter.SkitSystemManager.SetSkitSceneData(new SkitContext(SkitContext.ContextType.ClassSelect ,skitData, _skitScenePresenter.SkitFlagData));
             }
         }
 
