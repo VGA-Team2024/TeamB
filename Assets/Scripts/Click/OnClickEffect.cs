@@ -10,7 +10,6 @@ public class OnClickEffect : MonoBehaviour
     [SerializeField] GameObject clickEffect;
 
     [SerializeField] GameObject drugEffect;
-    [SerializeField] GameObject test;
 
     Vector2 tapPosition;
 
@@ -24,8 +23,7 @@ public class OnClickEffect : MonoBehaviour
     {
         Vector3 screen_trans = Input.mousePosition;
         screen_trans.z = 10f;
-        tapPosition = Camera.main.ScreenToWorldPoint(screen_trans); // Œ»İ‚Ìƒ^ƒbƒvˆÊ’u‚ğæ“¾
-        test.transform.position = tapPosition;
+        tapPosition = Camera.main.ScreenToWorldPoint(screen_trans); // ç¾åœ¨ã®ã‚¿ãƒƒãƒ—ä½ç½®ã‚’å–å¾—
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             StartCoroutine(ClickEffect());
@@ -67,13 +65,13 @@ public class OnClickEffect : MonoBehaviour
 
         while (true)
         {
-            // ƒGƒtƒFƒNƒg‚ÌˆÊ’u‚ğXV
+            // ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’æ›´æ–°
             drugEffect.transform.position = tapPosition;
 
-            // Œ»İ‚ÌˆÊ’u‚Æ‘O‰ñ‚ÌˆÊ’u‚Ì·‚ğŒvZ
+            // ç¾åœ¨ã®ä½ç½®ã¨å‰å›ã®ä½ç½®ã®å·®ã‚’è¨ˆç®—
             Vector2 direction = tapPosition - beforeTapPosition;
 
-            // ƒxƒNƒgƒ‹‚Ì•ûŒü‚©‚çŠp“x‚ğŒvZiƒ‰ƒWƒAƒ“‚ğ“x‚É•ÏŠ·j
+            // ãƒ™ã‚¯ãƒˆãƒ«ã®æ–¹å‘ã‹ã‚‰è§’åº¦ã‚’è¨ˆç®—ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ã‚’åº¦ã«å¤‰æ›ï¼‰
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             drugEffect.transform.eulerAngles = new Vector3(0, 0, angle);
