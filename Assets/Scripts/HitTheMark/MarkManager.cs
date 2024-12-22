@@ -49,7 +49,7 @@ public class MarkManager : MonoBehaviour
         int rnd = UnityEngine.Random.Range(1, 101);
         int transX = UnityEngine.Random.Range(-80, 81);
         int transY = UnityEngine.Random.Range(-40, 41);
-        Debug.Log(rnd);
+        //Debug.Log(rnd);
         if (rnd <= randomlist[0])
         {
             Instantiate(markobj[0], new Vector3(transX, transY, 100), Quaternion.identity);
