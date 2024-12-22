@@ -19,19 +19,20 @@ namespace TeamB.SkitSystem
         public CancellationTokenSource CurrentCancellationToken { get; private set; }
         public event Func<UniTask> OnSkitEnd;
 
-        
-        public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers, ISkitSceneCoordinator skitSceneCoordinator)
+
+        public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers,
+            ISkitSceneCoordinator skitSceneCoordinator)
         {
             _skitContextHandlers.UnionWith(skitContextHandlers);
             _skitSceneCoordinator = skitSceneCoordinator;
             _skitContextQueue.Enqueue(_skitSceneCoordinator.GetStartSkitData());
         }
-        
+
         public void ResetSkitSceneData()
         {
             _skitContextQueue.Clear();
         }
-        
+
         public void SetSkitSceneData(SkitContext testSkitContext)
         {
             _skitContextQueue.Enqueue(testSkitContext);
@@ -59,9 +60,12 @@ namespace TeamB.SkitSystem
                         CurrentCancellationToken.Token);
 
                     // 次のスキットコンテキストがある場合、エンキュー
-                    if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContext))
+                    if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContextQueue))
                     {
-                        _skitContextQueue.Enqueue(nextSkitContext);
+                        foreach (var nextSkitContext in nextSkitContextQueue)
+                        {
+                            _skitContextQueue.Enqueue(nextSkitContext);
+                        }
                     }
                 }
             }
@@ -71,21 +75,21 @@ namespace TeamB.SkitSystem
             if (OnSkitEnd != null) await OnSkitEnd.Invoke();
             _skitSceneCoordinator.EndSkitScene();
         }
+
         private void CancelSkitSequence()
         {
             CurrentCancellationToken?.Cancel();
             _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
             CurrentCancellationToken = new CancellationTokenSource();
         }
-        
+
         public void Dispose()
         {
             CancelSkitSequence();
         }
     }
-    
-    
-    
+
+
     public class SkitContext
     {
         public enum ContextType
@@ -94,7 +98,7 @@ namespace TeamB.SkitSystem
             Skit,
             Tutorial,
         }
-        
+
         public SkitContext(ContextType skitContextType, ISkitSceneData skitSceneData, SkitFlagData skitFlagData)
         {
             SkitContextType = skitContextType;
