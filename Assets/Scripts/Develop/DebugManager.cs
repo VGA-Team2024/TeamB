@@ -3,25 +3,27 @@ using UnityEngine;
 
 namespace TeamB.Develop
 {
-    public static class DebugManager
-    {
-        public static void Log(object log)
-        {
+	public static class DebugManager
+	{
+		public static void Log(object log)
+		{
 #if UNITY_EDITOR
-            Debug.Log(log);
+			Debug.Log(log);
 #endif
-        }
-        public static void LogError(object log)
-        {
+		}
+
+		public static void LogError(object log)
+		{
 #if UNITY_EDITOR
-            Debug.LogError(log);
+			Debug.LogError(log);
 #endif
-        }
-        public static void LogException(Exception e)
-        {
+		}
+
+		public static void LogException(Exception e)
+		{
 #if UNITY_EDITOR
-            Debug.LogException(e);
+			Debug.LogException(e);
 #endif
-        }
-    }
+		}
+	}
 }

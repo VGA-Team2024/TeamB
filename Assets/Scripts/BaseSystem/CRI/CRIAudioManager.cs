@@ -90,7 +90,6 @@ public class CRIAudioManager
 			{
 				_soundDic.Add(sheet.name, new SoundDic(sheet.acb));
 			}
-				Debug.Log(sheet.name);
 		}
 
 		_isReady = true;
@@ -107,7 +106,6 @@ public class CRIAudioManager
 		}
 
 		_defferPlaySoundList.Clear();
-		Debug.Log("Initialized CRI Audio Manager");
 	}
 
 	private void OnDestroy()

@@ -8,7 +8,6 @@ namespace TeamB.Develop
 {
     public class InstantKill : ISkill
     {
-        [SerializeField] float percentageDamage = 50;
         public event Action OnChantingSkill;
         public void Activation(ICharacter mainCharacter, ICharacter character)
         {

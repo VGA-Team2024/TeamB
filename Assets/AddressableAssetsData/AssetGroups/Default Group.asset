@@ -527,6 +527,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36855e157d8f1e24da15fe02e4825cdc
+    m_Address: Assets/Prefabs/Effect2/Particle_Battle_Attack01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 36d592aad13a9a8488c57eb9db300637
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f344.png
     m_ReadOnly: 0

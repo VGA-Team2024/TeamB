@@ -42,7 +42,6 @@ namespace TeamB.Develop
 
         private void Awake()
         {
-            StartExam();
             InitialExamData();
         }
 
@@ -59,7 +58,7 @@ namespace TeamB.Develop
         /// <summary>
         /// 試験の開始
         /// </summary>
-        private void StartExam()
+        public void StartExam()
         {
             Debug.Log(GameStatics.ExamState);
             _poseManager = FindObjectOfType<PoseManager>();

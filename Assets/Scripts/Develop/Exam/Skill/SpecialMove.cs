@@ -8,7 +8,6 @@ namespace TeamB.Develop
 {
     public class SpecialMove : ISkill
     {
-        [SerializeField] float percentageDamage = 30;
         public event Action OnChantingSkill;
         public void Activation(ICharacter mainCharacter, ICharacter character)
         {
