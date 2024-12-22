@@ -8,7 +8,6 @@ using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AddressableAssets;
@@ -280,8 +279,8 @@ namespace TeamB.Develop
         /// <returns></returns>
         public float TakeBuff(BuffType buffType, float value)
         {
-            var buffs = GetHaveBuffs.Where(x => x.GetBuffType == buffType).ToList();
-            if (buffs.Count == 0)
+            var buffs = GetHaveBuffs.Where(x => x.GetBuffType == buffType);
+            if (buffs.Count() == 0)
                 return value;
 
             var buffed = value;
