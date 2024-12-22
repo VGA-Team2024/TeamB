@@ -51,19 +51,8 @@ namespace TeamB.SkitSystem
                 }
 
                 var handleSkitContextType = currentSkitContext.SkitContextType;
-
-                // ハンドラを取得
-                var validHandlers = _skitContextHandlers
-                    .Where(handler => handler.HandleSkitContextType == handleSkitContextType)
-                    .ToList();
-
-                if (!validHandlers.Any())
-                {
-                    Debug.LogError($"SkitContextType {handleSkitContextType} に対応するハンドラが見つかりません");
-                    _skitContextQueue.Dequeue(); // 対応するハンドラがない場合はスキップ
-                    continue;
-                }
-                foreach (var skitContextHandler in validHandlers)
+                foreach (var skitContextHandler in _skitContextHandlers.Where(skitContextHandler =>
+                             skitContextHandler.HandleSkitContextType == handleSkitContextType))
                 {
                     // 現在のコンテキストを処理し、デキュー
                     await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue(),
@@ -76,7 +65,7 @@ namespace TeamB.SkitSystem
                     }
                 }
             }
-            
+
             //テスト用
             SkitRewardManager.Instance.AddStatus();
             if (OnSkitEnd != null) await OnSkitEnd.Invoke();
