@@ -67,7 +67,7 @@ namespace TeamB.SkitSystem
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
         
-        enum InputType
+        private enum InputType
         {
             Tap,
             Auto,
@@ -498,15 +498,16 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData,
                 cancellationToken);
-            await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue, cancellationToken);
+            await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             skitAwaitCompletionSource?.TrySetResult();
         }
 
-        private async UniTask ShowDialogue(string talkerName, string dialogue, CancellationToken cancellationToken)
+        private async UniTask ShowDialogue(string talkerName, string dialogue ,CancellationToken cancellationToken, string voiceFileName = "")
         {
             _dialoguePanel.SetActive(true);
+            //CRIAudioManager.VOICE.Play("Voice", voiceFileName);
 
             // 話者名の表示制御
             if (string.IsNullOrEmpty(talkerName))
