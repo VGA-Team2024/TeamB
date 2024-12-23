@@ -41,7 +41,7 @@ namespace TeamB.SkitSystem
 
     public class ClassSelectSkitContextHandler : SkitContextHandlerBase
     {
-        private Queue<SkitContext> _nextSkitContextQueue;
+        private Queue<SkitContext> _nextSkitContextQueue = new();
         public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.ClassSelect;
 
         private readonly ReactiveProperty<ClassSelectData> _currentClassSelectData = new();
