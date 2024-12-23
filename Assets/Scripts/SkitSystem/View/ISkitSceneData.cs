@@ -159,7 +159,7 @@ namespace TeamB.SkitSystem
     {
         public string Id { get; }
 
-        public string Answer { get; }
+        public string Answer { get; protected set; }
         public float AddPoint { get; }
 
         public float ChoiceTime { get; }
@@ -225,6 +225,7 @@ namespace TeamB.SkitSystem
             string englishTalkDialogue, string tutorialDialog)
         {
             ChoiceEntries = choiceEntries;
+            Answer = answer;
         }
     }
 
