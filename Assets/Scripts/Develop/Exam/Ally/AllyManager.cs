@@ -54,7 +54,7 @@ namespace TeamB.Develop
             _allies.OnTakeDamage += OnTakeDamage;
             _allies.OnDefense += OnDefense;
             _allies.OnEndDefense += OnEndDefense;
-            _allies.OnAttack += OnSuccessAttack;
+            _allies.OnEndAttack += OnSuccessAttack;
             _exam.OnExamUpdated += (_) =>
             {
                 if (_poseManager == null)
@@ -235,6 +235,7 @@ namespace TeamB.Develop
         {
             _defenseInput.ChangeInput(isAction);
         }
+
 
         /// <summary>
         /// 試験終了処理

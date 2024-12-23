@@ -40,7 +40,6 @@ namespace TeamB.Develop
 
         private CancellationToken _token = new CancellationToken();
         private AsyncOperationHandle<GameObject> _handle;
-        private List<ParticleSystem> _particles = new();
         private float _percentageReduction;
         private float _defenceDurationTimer;
         private readonly float _percentageReductionBaseValue = 1;
@@ -95,11 +94,13 @@ namespace TeamB.Develop
 
         public void Initialized()
         {
-            _handle = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Effect2/Particle_Battle_Attack01.prefab");
+            _handle = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Effect/Attack.prefab");
             GetCurrentData = new CharacterData(GameStatics.Characters[(int)GameStatics.NurturingCharacterType]);
             _token = new CancellationTokenSource().Token;
             _percentageReduction = _percentageReductionBaseValue;
 
+            if(GameStatics.ExamState == ExamState.Tutorial)
+                GetCurrentData = new CharacterData(GameStatics.Characters[(int)CharacterType.TutorialRian]);
 
             OnParamUpDate?.Invoke();
         }
@@ -125,13 +126,12 @@ namespace TeamB.Develop
                 if (operationType == OperationType.Manual && !_isAttacking)
                     return;
 
+                OnAttack?.Invoke();
                 _character = characters;
+
 
                 GameObject attackParticle = GameObject.Instantiate(_handle.Result, _attackParticleTrans.position,
                     _attackParticleTrans.rotation);
-                ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
-                attackParticleSystem.Play();
-                _particles.Add(attackParticleSystem);
 
                 int randVoice = Random.Range(0, 2);
                 if (randVoice == 0)
@@ -143,21 +143,14 @@ namespace TeamB.Develop
                     CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_11));
                 }
 
-                attackParticleSystem.Play();
                 float rand = Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, GetCurrentData.HitRate))
                 {
-                    OnAttack?.Invoke();
-
                     GetAttackCoolTimer = 0;
 
-                    ParticleCallBack particleCallBack = attackParticle.GetComponent<ParticleCallBack>();
-                    particleCallBack.OnCallBack += GiveDamage;
-                    particleCallBack.OnCallBack += () =>
-                    {
-                        _particles.Remove(attackParticleSystem);
-                        Object.Destroy(attackParticle);
-                    };
+                    AttackEffect particleCallBack = attackParticle.GetComponent<AttackEffect>();
+                    particleCallBack.AtDestroy += GiveDamage;
+                    particleCallBack.AtDestroy += () => { Object.Destroy(attackParticle); };
 
                     OnEndAttack?.Invoke();
                 }
@@ -368,20 +361,10 @@ namespace TeamB.Develop
 
         public void StartPose()
         {
-            foreach (var particle in _particles)
-            {
-                if (particle.isPlaying)
-                    particle.Pause();
-            }
         }
 
         public void EndPose()
         {
-            foreach (var particle in _particles)
-            {
-                if (particle.isPaused)
-                    particle.Play();
-            }
         }
 
         private void GiveDamage()

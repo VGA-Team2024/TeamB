@@ -1171,35 +1171,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _galleryMode: 0
   _backGround:
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
-  - {fileID: 21300000, guid: be198704bdc01d44a8be5df63fa8a4cc, type: 3}
+  - {fileID: 21300000, guid: 4ede2f3ba94015c4c8b98f20255af280, type: 3}
+  - {fileID: 21300000, guid: bf873151e9d54ff4b9cdacc5c7c194a8, type: 3}
+  - {fileID: 21300000, guid: 340ddf7f6e43ddc4c863bcf73256833f, type: 3}
+  - {fileID: 21300000, guid: c4dc8a0cf681f1747abe2082683c3ae0, type: 3}
+  - {fileID: 21300000, guid: b9f539e894cbeb04bad50164fc45519a, type: 3}
+  - {fileID: 21300000, guid: 5615103cdb6ec8842bbadce4ec5a736e, type: 3}
   _characterPortrait:
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
-  - {fileID: 21300000, guid: 3ed62bd35b65cbb4dab0cc8a7189af11, type: 3}
+  - {fileID: 21300000, guid: 514646936763d084aab98deb70da6e0a, type: 3}
+  - {fileID: 21300000, guid: 04c9d85235794194eba21d63c22ce4c5, type: 3}
+  - {fileID: 21300000, guid: a1358bd465daaf04f87612167161e36d, type: 3}
   _still:
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
-  - {fileID: 21300000, guid: 9e0c9297f21386443b5c320ebd43d451, type: 3}
+  - {fileID: 21300000, guid: be372df2aaf619842b039cf46d547e51, type: 3}
   _tilePrefab: {fileID: 2053474423187999886, guid: 149488e6f449d7441bc02076972e9843,
     type: 3}
   canvasTransform: {fileID: 367553981}

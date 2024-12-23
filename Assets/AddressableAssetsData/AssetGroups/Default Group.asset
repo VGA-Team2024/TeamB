@@ -17,31 +17,14 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 055b6216634c8ba4b80610294c57a4cb
   m_SerializeEntries:
+  - m_GUID: 04c9d85235794194eba21d63c22ce4c5
+    m_Address: Conversation_StandingPicture_02
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 23c6c1efd4214f049b9e05d3c0ce9bc6
     m_Address: Battle_Weapon_01
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4d4d56669faa947449bea28656131d37
-    m_Address: Conversation_HonorStudent_Noon
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5842a28357383ef46ad89a28eeb57f31
-    m_Address: Assets/Scenes/SceneDependencies.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 641975e431853d34aaa04892c52401af
-    m_Address: Conversation
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 741ca652a6b89f743b236c068e6ad453
-    m_Address: Conversation_Lian
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
@@ -747,6 +730,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79a6a65ea9ef1594cb3792d05dc595f2
+    m_Address: Assets/Prefabs/Effect/Attack.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 79e357d387fb1e44e9ae7409104049dc
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f357.png
     m_ReadOnly: 0
@@ -1004,6 +992,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 973d72a805a6a994da44af0435d6769d
+    m_Address: Assets/Prefabs/Effect/Attack2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 97956d90373563c429a8466e3ead862c
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f082.png

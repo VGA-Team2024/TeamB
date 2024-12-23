@@ -20,6 +20,8 @@ namespace TeamB.UI
 
         private async void Start()
         {
+            // if(CRIAudioManager.BGM.IsPlaying)
+            //     CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_001_title));
         }
 

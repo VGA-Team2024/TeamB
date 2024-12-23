@@ -5,6 +5,8 @@ using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace TeamB.Develop
 {
@@ -17,7 +19,7 @@ namespace TeamB.Develop
 
 		[SerializeField] private CharacterType _firstCharacterType;
 		[SerializeField] private CharacterType _secondCharacterType;
-		[SerializeField] private GameObject _attackParticle;
+		[SerializeField] private AbnormalCondition _currentCondition;
 		[SerializeField] private Transform _attackParticleTrans;
 		[SerializeField] private float _downTime;
 
@@ -28,12 +30,11 @@ namespace TeamB.Develop
 		private DataManagement.SpreadSheet.CharacterData _currentData;
 		private List<IBuff> _haveBuffs = new();
 		private List<IBuff> _haveDeBuffs = new();
-		private List<ParticleSystem> _particles = new();
 		private ICharacter _targetCharacter;
+		private AsyncOperationHandle<GameObject> _handle;
 		private float _attackTimer;
 		private float _downTimer;
 		private int _currentForm = 1;
-		[SerializeField] private AbnormalCondition _currentCondition;
 
 		#endregion
 
@@ -79,6 +80,7 @@ namespace TeamB.Develop
 					_currentData = new(GameStatics.Characters[(int)_firstCharacterType]);
 					break;
 			}
+			_handle = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Effect/Attack2.prefab");
 		}
 
 		/// <summary>
@@ -115,11 +117,8 @@ namespace TeamB.Develop
 			if (_attackTimer >= TakeBuff(BuffType.CastingSpeed, _currentData.ChantingSpeed))
 			{
 				_targetCharacter = characters;
-				GameObject attackParticle = GameObject.Instantiate(_attackParticle, _attackParticleTrans.position,
-					_attackParticle.transform.rotation);
-				ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
-				attackParticleSystem.Play();
-				_particles.Add(attackParticleSystem);
+				GameObject attackParticle = GameObject.Instantiate(_handle.Result, _attackParticleTrans.position,
+					_handle.Result.transform.rotation);
 
 				float rand = UnityEngine.Random.Range(0, 100);
 				if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
@@ -128,11 +127,10 @@ namespace TeamB.Develop
 
 					_attackTimer = 0;
 
-					ParticleCallBack particleCallBack = attackParticle.GetComponent<ParticleCallBack>();
-					particleCallBack.OnCallBack += GiveDamage;
-					particleCallBack.OnCallBack += () =>
+					AttackEffect particleCallBack = attackParticle.GetComponent<AttackEffect>();
+					particleCallBack.AtDestroy += GiveDamage;
+					particleCallBack.AtDestroy += () =>
 					{
-						_particles.Remove(attackParticleSystem);
 						GameObject.Destroy(attackParticle);
 					};
 
@@ -300,24 +298,15 @@ namespace TeamB.Develop
 			OnTakeDamage = default;
 			OnEndAttack = default;
 			OnNextForm = default;
+			_handle.Release();
 		}
 
 		public void StartPose()
 		{
-			foreach (var particle in _particles)
-			{
-				if (particle.isPlaying)
-					particle.Pause();
-			}
 		}
 
 		public void EndPose()
 		{
-			foreach (var particle in _particles)
-			{
-				if (particle.isPaused)
-					particle.Play();
-			}
 		}
 	}
 }

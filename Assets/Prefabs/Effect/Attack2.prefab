@@ -86,7 +86,7 @@ MonoBehaviour:
   - {fileID: 3816940134177187777}
   - {fileID: 771063912632296410}
   speed: {x: -4, y: 0, z: 0}
-  survivalTime: 5
+  survivalTime: 1.6
 --- !u!1 &1308271038910006521
 GameObject:
   m_ObjectHideFlags: 0

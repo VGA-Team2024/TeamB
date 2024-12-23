@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TeamB.Data;
 using TeamB.Develop;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,109 +21,104 @@ namespace TeamB.Develop
         private bool _isSpecial;
 
 
-        [SerializeField]
-        Image _backGround;
-        [SerializeField]
-        Text _messageText;
-        [SerializeField]
-        GameObject _modeButton;
-        [SerializeField]
-        GameObject _specialMovesButton;
-        [SerializeField]
-        GameObject _defenseButton;
-        [SerializeField]
-        GameObject _defenseMessage;
-        [SerializeField]
-        GameObject _actionButton;
+        [SerializeField] Image _backGround;
+        [SerializeField] Text _messageText;
+        [SerializeField] GameObject _modeButton;
+        [SerializeField] GameObject _specialMovesButton;
+        [SerializeField] GameObject _defenseButton;
+        [SerializeField] GameObject _defenseMessage;
+        [SerializeField] GameObject _actionButton;
 
         public bool _isStart;
         public bool _isTutorial;
+
         private void Awake()
         {
             allyManager = FindAnyObjectByType<AllyManager>();
             skillManager = FindAnyObjectByType<SkillManager>();
             enemyManager = FindAnyObjectByType<EnemyManager>();
+            exam = FindAnyObjectByType<Exam>();
+            exam.OnExamStarted += Initialize;
         }
-        void Start()
+
+
+        private void Initialize()
         {
-            if (exam == null)
-                exam = FindObjectOfType<Exam>();
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.Tutorial:
 
-            _isStart = false;
-            _isTutorial = false;
-            _isDefense = true;
-            _isMessage = true;
-            _isSpecial = true;
+                    _isStart = false;
+                    _isTutorial = false;
+                    _isDefense = true;
+                    _isMessage = true;
+                    _isSpecial = true;
 
 
-            enemyManager.GetCurrentEnemyData.OnDeath += EndTutorial;
-
+                    enemyManager.GetCurrentEnemyData.OnDeath += EndTutorial;
+                    exam.OnExamUpdated += TutorialUpdate;
+                    break;
+            }
         }
 
-        void Update()
+        private void TutorialUpdate(float deltaTime)
         {
             if (_isStart == false)
             {
                 exam.OnStartPose();
                 _isStart = true;
-                _messageText.text = "";
+                _messageText.text = "試験の訓練をしてみましょう。";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _count++;
                 _isTutorial = true;
             }
 
-            if (skillManager.GetCurrentHaveCost == skillManager.GetMaxCost && _isSpecial == true)
+            if (Mathf.Approximately(skillManager.GetCurrentHaveCost, skillManager.GetMaxCost) &&
+                _isSpecial == true)
             {
                 SpecialMovesTutorial();
-                
             }
 
-            if (GameStatics.Characters[(int)allyManager.GetAllies.GetFirstCharacterType].Hp == (int)allyManager.GetAllies.GetCurrentData.Hp)
+            if (!Mathf.Approximately(
+                    GameStatics.Characters[(int)allyManager.GetAllies.GetFirstCharacterType].Hp,
+                    (int)allyManager.GetAllies.GetCurrentData.Hp))
             {
-                
+                DefenseTutorial();
+            }
+        }
+
+        public void PanelInput()
+        {
+            if (_count == 1)
+            {
+                ActionButtonTutorial();
+                _count++;
+            }
+            else if (_count == 2)
+            {
+                ModeTutorial();
+                _count++;
             }
             else
             {
-                DefenseTutorial();
-                
+                _isTutorial = false;
+                _backGround.gameObject.SetActive(false);
+                _messageText.gameObject.SetActive(false);
+                _modeButton.gameObject.SetActive(false);
+                _specialMovesButton.gameObject.SetActive(false);
+                _defenseButton.gameObject.SetActive(false);
+                _defenseMessage.gameObject.SetActive(false);
+
+                exam.OnEndPose();
             }
-
-            if (Input.GetKeyDown(KeyCode.Mouse0) && _isTutorial == true)
-            {
-                if (_count == 1)
-                {
-                    ActionButtonTutorial();
-                    _count++;
-                }
-                else if (_count == 2)
-                {
-                    ModeTutorial();
-                    _count++;
-                }
-                else
-                {
-                    _isTutorial = false;
-                    _backGround.gameObject.SetActive(false);
-                    _messageText.gameObject.SetActive(false);
-                    _modeButton.gameObject.SetActive(false);
-                    _specialMovesButton.gameObject.SetActive(false);
-                    _defenseButton.gameObject.SetActive(false);
-                    _defenseMessage.gameObject.SetActive(false);
-
-                    exam.OnEndPose();
-                }
-
-            }
-
-            
-
         }
+
 
         public void ActionButtonTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "";
+            _messageText.text = "このボタンを押すと魔法を繰り出せます。攻撃、防御魔法を繰り出せます。";
             _backGround.gameObject.SetActive(true);
             _actionButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -132,7 +128,7 @@ namespace TeamB.Develop
         public void ModeTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "";
+            _messageText.text = "このボタンで戦闘のモードを自動、手動モードに切り替えられます。";
             _actionButton.gameObject.SetActive(false);
             _backGround.gameObject.SetActive(true);
             _modeButton.gameObject.SetActive(true);
@@ -145,15 +141,15 @@ namespace TeamB.Develop
             if (_isDefense == true)
             {
                 exam.OnStartPose();
-                _messageText.text = "";
+                _messageText.text = "このボタンを押して防御をしてください。";
                 _backGround.gameObject.SetActive(true);
                 _defenseButton.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _isTutorial = true;
                 _isDefense = false;
             }
-
         }
+
         public void DefenseMessage()
         {
             if (_isMessage == true && _isDefense == false)
@@ -166,15 +162,12 @@ namespace TeamB.Develop
                 _isTutorial = true;
                 _isMessage = false;
             }
-
-
-
         }
 
         public void SpecialMovesTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "";
+            _messageText.text = "次に必殺技を発動してみましょう。";
             _backGround.gameObject.SetActive(true);
             _specialMovesButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -186,12 +179,10 @@ namespace TeamB.Develop
         public void EndTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "";
+            _messageText.text = "敵を倒しました！これでチュートリアルを終了します。";
             _backGround.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
             _isTutorial = true;
         }
     }
 }
-
-

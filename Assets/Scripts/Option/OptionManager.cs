@@ -67,7 +67,6 @@ public class OptionManager : MonoBehaviour
 		option_button.onClick.AddListener(
 			() =>
 			{
-				option_canvas.SetActive(true);
 				title_uiview.ClickSound();
 			});
 

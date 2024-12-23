@@ -20,7 +20,9 @@ namespace TeamB.Develop
     {
         [SerializeField] private float _examTime = 45f;
         [SerializeField] private OperationType _operationType;
+        [SerializeField] private PlayableDirector _winStillDirector;
         [SerializeField] private PlayableDirector _winDirector;
+        [SerializeField] private PlayableDirector _FailDirector;
 
         [SerializeField] private ExamStateDatas _examStateDatas;
         [SerializeField] private SkitFlagData _skitFlagData;
@@ -95,7 +97,7 @@ namespace TeamB.Develop
                 switch (GameStatics.ExamState)
                 {
                     case ExamState.Tutorial:
-                        ExamFailure();
+                        ExamClear();
                         break;
                     case ExamState.FirstExam:
                         ExamClear();
@@ -137,7 +139,7 @@ namespace TeamB.Develop
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
                     GameStatics.ExamState = ExamState.FirstExam;
-                    SceneLoader.LoadScene("Result");
+                    _winDirector.Play();
                     break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
@@ -145,13 +147,13 @@ namespace TeamB.Develop
                     _skitFlagData.SetCurrentFlag(flagName);
                     GameStatics.resultData.firstpass = true;
                     GameStatics.ExamState = ExamState.SecondExam;
-                    SceneLoader.LoadScene("Result");
+                    _winDirector.Play();
                     break;
                 case ExamState.SecondExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
-                    _winDirector.Play();
+                    _winStillDirector.Play();
                     GameStatics.resultData.secondpass = true;
                     GameStatics.ExamState = ExamState.ExamClear;
                     break;

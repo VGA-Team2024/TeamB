@@ -522,8 +522,8 @@ MonoBehaviour:
   m_text: "\u30C7\u30A3\u30EC\u30AF\u30BF\u30FC\r\n\r\n\u83C5\u6CBC \u9023\u66FD\r\n\r\n\u30EA\u30FC\u30C9\u30D7\u30E9\u30F3\u30CA\u30FC\r\n\r\n\u5DE5\u85E4
     \u6A39\r\n\r\n\u30D7\u30ED\u30B8\u30A7\u30AF\u30C8\u30DE\u30CD\u30FC\u30B8\u30E3\u30FC\r\n\r\n\u8D64\u5742
     \u670B\u54C9\r\n\r\n\u30D7\u30E9\u30F3\u30CA\u30FC\u30FB\u30B2\u30FC\u30E0\u30C7\u30B6\u30A4\u30CA\u30FC
-    \r\n\r\n\u4F50\u85E4 \u83DC\u6458\r\n\u9AD9\u6A4B \u88D5\u7FD4\u3000\u5DDD\u5D0E
-    \u967D\u751F\r\n\u5800\u5DDD \u62D3\u4EBA\u3000\u690D\u539F \u98AF\u592A\r\nSteve
+    \r\n\r\n\u4F50\u85E4 \u83DC\u6458 \u9AD9\u6A4B \u7950\u7FD4\n\u5DDD\u5D0E \u967D\u751F
+    \u5800\u5DDD \u62D3\u4EBA\n\u690D\u539F \u98AF\u592A \u6C60\u672B \u6E2F\r\nSteve
     Aron Gausel JR\r\n\r\n\u30B7\u30B9\u30C6\u30E0\u30D7\u30ED\u30B0\u30E9\u30DE\u30FC\r\n\r\n\u5DDD\u53E3
     \u88D5\u4ECB\u3000\u8584\u8863 \u6BC5\r\n\r\n\u30A2\u30CB\u30E1\u30FC\u30B7\u30E7\u30F3\u30C7\u30A3\u30EC\u30AF\u30BF\u30FC\r\n\r\n\u8352\u5C71
     \u6AFB\u7FBD\r\n\r\n\u30A2\u30CB\u30E1\u30FC\u30B7\u30E7\u30F3\u30C7\u30B6\u30A4\u30F3\r\n\r\n\u98EF\u91CE
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
-  m_verticalMapping: 0
+  m_verticalMapping: 1
   m_uvLineOffset: 0
   m_geometrySortingOrder: 0
   m_IsTextObjectScaleStatic: 0
@@ -636,7 +636,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 2000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1106721546
 GameObject:
@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 1106721549}
   - component: {fileID: 1106721548}
   - component: {fileID: 1106721547}
+  - component: {fileID: 1106721551}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -743,6 +744,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1106721551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106721546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f5ec130c8f0fc4ab6e3a5e8915b111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1405885591
 GameObject:
   m_ObjectHideFlags: 0

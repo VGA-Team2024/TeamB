@@ -33,7 +33,6 @@ public class OnClickEffect : MonoBehaviour
         {
             drageffect = true;
             drugEffectCoroutine = StartCoroutine(DrugEffect());
-            Debug.Log("okokok");
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -61,7 +60,6 @@ public class OnClickEffect : MonoBehaviour
     {
         drugEffect.SetActive(true);
         Vector2 beforeTapPosition = tapPosition;
-        Debug.Log(beforeTapPosition);
 
         while (true)
         {
@@ -75,7 +73,6 @@ public class OnClickEffect : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             drugEffect.transform.eulerAngles = new Vector3(0, 0, angle);
-            Debug.Log(angle);
             yield return new WaitForSeconds(0.1f);
         }
     }
