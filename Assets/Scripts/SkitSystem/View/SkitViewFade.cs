@@ -31,6 +31,7 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 0);
                 await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
+            CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.SceneTransition);
         }
         
         public async UniTask FadeOutAsync(CancellationToken cancellationToken, bool immediate = false)

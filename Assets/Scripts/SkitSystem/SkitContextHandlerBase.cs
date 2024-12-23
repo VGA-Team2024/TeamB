@@ -194,7 +194,12 @@ namespace TeamB.SkitSystem
                     {
                         var end = DateTime.Now;
                         var time = end - start;
+                        CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
                         SkitRewardManager.Instance.AddRewardValue(choiceData.ChoiceTime - (float)time.TotalSeconds);
+                    }
+                    else
+                    {
+                        CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Incorrect);
                     }
                 }
                 else
@@ -287,8 +292,7 @@ namespace TeamB.SkitSystem
                         _tutorialChoiceData.Value = new  TutorialChoiceData(choiceData.Id, choiceData.AddPoint,choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             choiceData.TalkCharaData, choiceData.TalkSpeaker, choiceData.EnglishTalkDialogue,
-                            choiceData.TalkBackground,
-                            normDialogue);
+                            choiceData.TalkBackground);
                     }
                     else
                     {

@@ -266,6 +266,8 @@ namespace TeamB.SkitSystem
                     awaitSelect.TrySetResult(tutorialChoiceData.Answer);
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
+                    CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
+                    CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.ParameterUp);
                 };
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
@@ -548,6 +550,7 @@ namespace TeamB.SkitSystem
                 }
 
                 _dialogueText.text += c;
+                CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.TextFeed);
                 await UniTask.WaitForSeconds(_textSpeed, cancellationToken: cancellationToken);
             }
 
@@ -577,6 +580,10 @@ namespace TeamB.SkitSystem
             _statusPanel.SetActive(false);
             _dialoguePanel.SetActive(false);
             _talkerNamePanel.SetActive(false);
+            _tutorialPanelAboutGame?.SetActive(false);
+            _tutorialPanelAboutClassSelect?.SetActive(false);
+            _tutorialPanelAboutSkitChoice?.SetActive(false);
+            _tutorialPanelAboutSkitResult?.SetActive(false);
         }
     }
 }

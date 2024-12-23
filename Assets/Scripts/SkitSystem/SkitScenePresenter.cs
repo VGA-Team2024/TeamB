@@ -20,14 +20,17 @@ namespace TeamB.SkitSystem
         [SerializeField] private SkitFlagData _skitFlagData;
         [SerializeField] private SkitLogViewer _skitLogViewer;
         [SerializeField] private DataLoadType _dataLoadType = DataLoadType.Remote;
-        [SerializeField] private TestSkitSceneCoordinator.NextLoadScene _nextLoadScene = TestSkitSceneCoordinator.NextLoadScene.Skit;
+
+        [SerializeField]
+        private TestSkitSceneCoordinator.NextLoadScene _nextLoadScene = TestSkitSceneCoordinator.NextLoadScene.Skit;
+
         public SkitSystemManager SkitSystemManager { get; private set; }
         public SkitDataLoaderBase SkitDataLoaderBase { get; private set; }
         public SkitFlagData SkitFlagData => _skitFlagData;
 
         private async void Awake()
         {
-            _loadingPanel.FadeInAsync(destroyCancellationToken,true).Forget();
+            _loadingPanel.FadeInAsync(destroyCancellationToken, true).Forget();
             if (_dataLoadType == DataLoadType.Remote)
             {
                 // リモートからデータをロード
@@ -84,9 +87,10 @@ namespace TeamB.SkitSystem
                     _skitSceneView.ShowSkit(skitEntryData, skitDataHandler.AwaitForEmptyInput,
                         SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }
+
                 _skitLogViewer.SetLog(skitEntryData);
             }).AddTo(_skitSceneView);
-            
+
             var classSelectSkitContextHandlerDisposable = classSelectSkitContextHandler.CurrentClassSelectData
                 .Subscribe(result =>
                 {
@@ -94,34 +98,35 @@ namespace TeamB.SkitSystem
                     _skitSceneView.ShowClassSelect(result, classSelectSkitContextHandler.AwaitForSelect,
                         SkitSystemManager.CurrentCancellationToken.Token).Forget();
                 }).AddTo(_skitSceneView);
-            
+
             var tutorialAboutGameDisposable = tutorialHandler.TutorialDataAboutGame.Subscribe(result =>
             {
                 if (result == null) return;
                 _skitSceneView.ShowTutorialAboutGame(result, tutorialHandler.AwaitForEmptyInput,
                     SkitSystemManager.CurrentCancellationToken.Token).Forget();
             }).AddTo(_skitSceneView);
-            
+
             var tutorialAboutSkitChoiceDisposable = tutorialHandler.TutorialChoiceData.Subscribe(result =>
             {
                 if (result == null) return;
                 _skitSceneView.ShowTutorialAboutSkitChoice(result, tutorialHandler.AwaitForSelect,
                     SkitSystemManager.CurrentCancellationToken.Token).Forget();
             }).AddTo(_skitSceneView);
-            
+
             var tutorialAboutClassSelectDisposable = tutorialHandler.TutorialClassSelectData.Subscribe(result =>
             {
                 if (result == null) return;
                 _skitSceneView.ShowTutorialAboutClassSelect(result, tutorialHandler.AwaitForSelect,
                     SkitSystemManager.CurrentCancellationToken.Token).Forget();
             }).AddTo(_skitSceneView);
-            
-            var tutorialAboutSkitResultDisposable = tutorialHandler.TutorialDataAboutSkitChoiceResult.Subscribe(result =>
-            {
-                if (result == null) return;
-                _skitSceneView.ShowTutorialAboutSkitResult(result, tutorialHandler.AwaitForEmptyInput,
-                    SkitSystemManager.CurrentCancellationToken.Token).Forget();
-            }).AddTo(_skitSceneView);
+
+            var tutorialAboutSkitResultDisposable = tutorialHandler.TutorialDataAboutSkitChoiceResult.Subscribe(
+                result =>
+                {
+                    if (result == null) return;
+                    _skitSceneView.ShowTutorialAboutSkitResult(result, tutorialHandler.AwaitForEmptyInput,
+                        SkitSystemManager.CurrentCancellationToken.Token).Forget();
+                }).AddTo(_skitSceneView);
 
             SkitSystemManager.CurrentCancellationToken?.Token.Register(() =>
             {
@@ -134,10 +139,10 @@ namespace TeamB.SkitSystem
             });
         }
 
-    private void Start()
+        private void Start()
         {
             CRIAudioManager.BGM.Stop();
-            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
+            CRIAudioManager.BGM.Play(SkitSoundKey.BgmSheetName, nameof(BGM.BGM_002_InGame));
         }
 
         private void OnDestroy()

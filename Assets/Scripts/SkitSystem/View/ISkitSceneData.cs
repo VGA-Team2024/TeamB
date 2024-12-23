@@ -222,10 +222,12 @@ namespace TeamB.SkitSystem
     {
         public TutorialChoiceData(string choiceId, float addPoint, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
             string problemDialogue, SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
-            string englishTalkDialogue, string tutorialDialog)
+            string englishTalkDialogue)
         {
             ChoiceEntries = choiceEntries;
             Answer = answer;
+            JapaneseTalkDialogue = problemDialogue;
+            TalkBackground = talkBackground;
         }
     }
 
