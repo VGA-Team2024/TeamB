@@ -19,19 +19,20 @@ namespace TeamB.SkitSystem
         public CancellationTokenSource CurrentCancellationToken { get; private set; }
         public event Func<UniTask> OnSkitEnd;
 
-        
-        public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers, ISkitSceneCoordinator skitSceneCoordinator)
+
+        public SkitSystemManager(HashSet<SkitContextHandlerBase> skitContextHandlers,
+            ISkitSceneCoordinator skitSceneCoordinator)
         {
             _skitContextHandlers.UnionWith(skitContextHandlers);
             _skitSceneCoordinator = skitSceneCoordinator;
             _skitContextQueue.Enqueue(_skitSceneCoordinator.GetStartSkitData());
         }
-        
+
         public void ResetSkitSceneData()
         {
             _skitContextQueue.Clear();
         }
-        
+
         public void SetSkitSceneData(SkitContext testSkitContext)
         {
             _skitContextQueue.Enqueue(testSkitContext);
@@ -51,52 +52,44 @@ namespace TeamB.SkitSystem
                 }
 
                 var handleSkitContextType = currentSkitContext.SkitContextType;
-
-                // ハンドラを取得
-                var validHandlers = _skitContextHandlers
-                    .Where(handler => handler.HandleSkitContextType == handleSkitContextType)
-                    .ToList();
-
-                if (!validHandlers.Any())
-                {
-                    Debug.LogError($"SkitContextType {handleSkitContextType} に対応するハンドラが見つかりません");
-                    _skitContextQueue.Dequeue(); // 対応するハンドラがない場合はスキップ
-                    continue;
-                }
-                foreach (var skitContextHandler in validHandlers)
+                foreach (var skitContextHandler in _skitContextHandlers.Where(skitContextHandler =>
+                             skitContextHandler.HandleSkitContextType == handleSkitContextType))
                 {
                     // 現在のコンテキストを処理し、デキュー
                     await skitContextHandler.HandleSkitContext(_skitContextQueue.Dequeue(),
                         CurrentCancellationToken.Token);
 
                     // 次のスキットコンテキストがある場合、エンキュー
-                    if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContext))
+                    if (skitContextHandler.TrtGetNextSkitContext(out var nextSkitContextQueue))
                     {
-                        _skitContextQueue.Enqueue(nextSkitContext);
+                        foreach (var nextSkitContext in nextSkitContextQueue)
+                        {
+                            _skitContextQueue.Enqueue(nextSkitContext);
+                        }
                     }
                 }
             }
-            
+
             //テスト用
             SkitRewardManager.Instance.AddStatus();
             if (OnSkitEnd != null) await OnSkitEnd.Invoke();
             _skitSceneCoordinator.EndSkitScene();
         }
+
         private void CancelSkitSequence()
         {
             CurrentCancellationToken?.Cancel();
             _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
             CurrentCancellationToken = new CancellationTokenSource();
         }
-        
+
         public void Dispose()
         {
             CancelSkitSequence();
         }
     }
-    
-    
-    
+
+
     public class SkitContext
     {
         public enum ContextType
@@ -105,7 +98,7 @@ namespace TeamB.SkitSystem
             Skit,
             Tutorial,
         }
-        
+
         public SkitContext(ContextType skitContextType, ISkitSceneData skitSceneData, SkitFlagData skitFlagData)
         {
             SkitContextType = skitContextType;

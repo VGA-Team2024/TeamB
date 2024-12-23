@@ -174,22 +174,17 @@ namespace TeamB.SkitSystem
         
         private bool IsPointerOverButton()
         {
-            // ポインタのデータを作成
             var pointerData = new PointerEventData(_eventSystem)
             {
                 position = Input.mousePosition
             };
-
-            // Raycast結果のリスト
             var results = new List<RaycastResult>();
             _graphicRaycaster.Raycast(pointerData, results);
-
-            // リストをチェックし、Buttonコンポーネントを持つか判定
             foreach (var result in results)
             {
                 if (result.gameObject.GetComponent<Button>() != null)
                 {
-                    return true; // ボタンがヒットした場合true
+                    return true;
                 }
             }
 
@@ -237,12 +232,12 @@ namespace TeamB.SkitSystem
         {
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(tutorialChoiceData.TalkBackground, null, cancellationToken);
+            await ShowDialogue(tutorialChoiceData.TalkSpeaker, tutorialChoiceData.JapaneseTalkDialogue,
+                cancellationToken);
             _tutorialPanelAboutSkitChoice.SetActive(true);
             _choiceButtonParent.gameObject.SetActive(true);
             _statusPanel.SetActive(true);
             _restTimePanel.SetActive(true);
-            await ShowDialogue(tutorialChoiceData.TalkSpeaker, tutorialChoiceData.JapaneseTalkDialogue,
-                cancellationToken);
             if (cancellationToken.IsCancellationRequested)
             {
                 Debug.Log("Operation was cancelled.");
@@ -280,6 +275,7 @@ namespace TeamB.SkitSystem
             UniTaskCompletionSource awaitForEmptyInput, CancellationToken cancellationToken)
         {
             await SetCharacterAndBackground(tutorialData.BackgroundImageName, null, cancellationToken);
+            UpdateStatus(100, _intuitionText, _intuitionImage.rectTransform);
             _tutorialPanelAboutSkitChoice.SetActive(false);
             _tutorialPanelAboutSkitResult.SetActive(true);
             _statusPanel.SetActive(true);
@@ -291,8 +287,11 @@ namespace TeamB.SkitSystem
         public async UniTask ShowClassSelect(ClassSelectData classSelectData,
             UniTaskCompletionSource<string> awaitSelect, CancellationToken cancellationToken)
         {
+             
+            if (!_skitFadeView.IsFading) await _skitFadeView.FadeInAsync(cancellationToken);
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(classSelectData.BackgroundImageName, null, cancellationToken);
+            if (_skitFadeView.IsFading) await _skitFadeView.FadeOutAsync(cancellationToken);
             await ShowDialogue(classSelectData.TalkerName, classSelectData.Dialogue, cancellationToken);
             if (cancellationToken.IsCancellationRequested)
             {
