@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -19,7 +20,7 @@ namespace TeamB.SkitSystem
         public UniTaskCompletionSource AwaitForEmptyInput { get; protected set; }
         public UniTaskCompletionSource<string> AwaitForSelect { get; protected set; }
         public abstract UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token);
-        public abstract bool TrtGetNextSkitContext(out SkitContext nextSkitContext);
+        public abstract bool TrtGetNextSkitContext(out Queue<SkitContext> nextSkitContext);
 
         protected SkitContextHandlerBase(SkitDataLoaderBase skitDataLoaderBase)
         {
@@ -40,7 +41,7 @@ namespace TeamB.SkitSystem
 
     public class ClassSelectSkitContextHandler : SkitContextHandlerBase
     {
-        private SkitContext _nextSkitContext;
+        private Queue<SkitContext> _nextSkitContextQueue;
         public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.ClassSelect;
 
         private readonly ReactiveProperty<ClassSelectData> _currentClassSelectData = new();
@@ -50,10 +51,10 @@ namespace TeamB.SkitSystem
         {
         }
 
-        public override bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
+        public override bool TrtGetNextSkitContext(out Queue<SkitContext> nextSkitContext)
         {
-            nextSkitContext = _nextSkitContext;
-            _nextSkitContext = null;
+            nextSkitContext = _nextSkitContextQueue;
+            _nextSkitContextQueue = null;
             return nextSkitContext != null;
         }
 
@@ -71,7 +72,7 @@ namespace TeamB.SkitSystem
             //選択した選択肢に対応するデータを取得
             if (SkitDataLoaderBase.TryGetSkitDataById(result, out var skitData))
             {
-                _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, skitData, skitContext.SkitFlagData);
+                _nextSkitContextQueue.Enqueue(new SkitContext(SkitContext.ContextType.Skit, skitData, skitContext.SkitFlagData));
             }
             else
             {
@@ -82,7 +83,7 @@ namespace TeamB.SkitSystem
 
     public class SkitDataHandler : SkitContextHandlerBase
     {
-        private SkitContext _nextSkitContext;
+        private Queue<SkitContext> _nextSkitContext = new();
         public override SkitContext.ContextType HandleSkitContextType => SkitContext.ContextType.Skit;
 
         private readonly ReactiveProperty<SkitEntryData> _currentSkitEntryData = new();
@@ -92,6 +93,7 @@ namespace TeamB.SkitSystem
 
         public override async UniTask HandleSkitContext(SkitContext skitContext, CancellationToken token)
         {
+            _nextSkitContext = new Queue<SkitContext>();
             if (skitContext.SkitSceneData is not SkitData skitData)
             {
                 Debug.LogError("SkitDataが見つかりませんでした");
@@ -123,6 +125,16 @@ namespace TeamB.SkitSystem
                     normDialogue = Regex.Replace(normDialogue, pattern, "");
                 }
       
+                if (skitEntryData.JapaneseTalkDialogue.Contains("[Tutorial]"))
+                {
+                    normDialogue = normDialogue.Replace("[Tutorial]", "");
+                    var match = Regex.Match(normDialogue, @"\[(.*?)\]");
+                    if (!match.Success) return;
+                    if (SkitDataLoaderBase.TryGetTutorialDataById(out var tutorialData));
+                    {
+                        _nextSkitContext.Enqueue(new SkitContext(SkitContext.ContextType.Tutorial, tutorialData, skitContext.SkitFlagData));
+                    };
+                }
 
                 if (skitEntryData.JapaneseTalkDialogue.Contains("[Skit]"))
                 {
@@ -133,13 +145,14 @@ namespace TeamB.SkitSystem
                     normDialogue = normDialogue.Replace($"[{skitId}]", "");
                     if (SkitDataLoaderBase.TryGetSkitDataById(skitId, out var nextSkitData))
                     {
-                        _nextSkitContext = new SkitContext(SkitContext.ContextType.Skit, nextSkitData, skitContext.SkitFlagData);
+                        _nextSkitContext.Enqueue(new SkitContext(SkitContext.ContextType.Skit, nextSkitData, skitContext.SkitFlagData));
                     }
                     else
                     {
                         Debug.LogError($"SkitData : {skitId} が見つかりませんでした");
                     }
                 }
+
                 
                 if (skitEntryData.JapaneseTalkDialogue.Contains("[ClassSelect]"))
                 {
@@ -150,7 +163,7 @@ namespace TeamB.SkitSystem
                     normDialogue = normDialogue.Replace($"[{classSelectId}]", "");
                     if (SkitDataLoaderBase.TryGetClassSelectDataById(classSelectId, out var nextSkitData))
                     {
-                        _nextSkitContext = new SkitContext(SkitContext.ContextType.ClassSelect, nextSkitData, skitContext.SkitFlagData);
+                        _nextSkitContext.Enqueue(new SkitContext(SkitContext.ContextType.ClassSelect, nextSkitData, skitContext.SkitFlagData));
                     }
                     else
                     {
@@ -204,7 +217,7 @@ namespace TeamB.SkitSystem
             }
         }
 
-        public override bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
+        public override bool TrtGetNextSkitContext(out Queue<SkitContext> nextSkitContext)
         {
             nextSkitContext = _nextSkitContext;
             _nextSkitContext = null;
@@ -303,7 +316,7 @@ namespace TeamB.SkitSystem
 
         }
 
-        public override bool TrtGetNextSkitContext(out SkitContext nextSkitContext)
+        public override bool TrtGetNextSkitContext(out Queue<SkitContext> nextSkitContext)
         {
             nextSkitContext = null;
             return false;

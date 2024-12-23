@@ -2019,8 +2019,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 637.1315, y: -155.72125}
-  m_SizeDelta: {x: -1438.1046, y: -859.0065}
+  m_AnchoredPosition: {x: 625.50073, y: -50.21399}
+  m_SizeDelta: {x: -1414.8431, y: -1003.5598}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &310934745
 GameObject:
@@ -6315,7 +6315,7 @@ MonoBehaviour:
   _skitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
   _skitLogViewer: {fileID: 2785846}
   _dataLoadType: 0
-  _nextLoadScene: 1
+  _nextLoadScene: 0
 --- !u!4 &1361457062
 Transform:
   m_ObjectHideFlags: 0
@@ -6965,8 +6965,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -721.9503, y: 424.70633}
-  m_SizeDelta: {x: -1556.373, y: -892.4189}
+  m_AnchoredPosition: {x: 688.72925, y: 184.49371}
+  m_SizeDelta: {x: -1495.1746, y: -907.4063}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1476035931
 PrefabInstance:
@@ -7427,7 +7427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: 220.83746}
+  m_AnchoredPosition: {x: -9, y: 274}
   m_SizeDelta: {x: -1313.8754, y: -969.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1653364692
@@ -9022,8 +9022,8 @@ RectTransform:
   - {fileID: 381055850}
   - {fileID: 798198789}
   - {fileID: 260539860}
-  - {fileID: 1997721363}
   - {fileID: 2101159097}
+  - {fileID: 1997721363}
   - {fileID: 425677200}
   - {fileID: 2785843}
   m_Father: {fileID: 0}
@@ -9055,7 +9055,7 @@ MonoBehaviour:
   _talkerNameText: {fileID: 1286125500}
   _talkerNamePanel: {fileID: 472529618}
   _dialoguePanel: {fileID: 1186185819}
-  _textSpeed: 0
+  _textSpeed: 0.05
   _backgroundImage: {fileID: 1035777098}
   _leftCharaImage: {fileID: 834972603}
   _rightCharaImage: {fileID: 40018432}

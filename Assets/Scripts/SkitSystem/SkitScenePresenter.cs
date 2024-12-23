@@ -31,13 +31,13 @@ namespace TeamB.SkitSystem
             if (_dataLoadType == DataLoadType.Remote)
             {
                 // リモートからデータをロード
-                SkitDataLoaderBase = new RemoteSkitDataLoaderBase();
+                SkitDataLoaderBase = new RemoteSkitDataLoader();
                 await SkitDataLoaderBase.InitTalkData();
             }
             else
             {
                 // ローカルからデータをロード
-                SkitDataLoaderBase = new LocalSkitDataLoaderBase();
+                SkitDataLoaderBase = new LocalSkitDataLoader();
                 await SkitDataLoaderBase.InitTalkData();
             }
 
