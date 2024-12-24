@@ -68,6 +68,9 @@ public class Gallery : MonoBehaviour
     public void Choice(Image image)
     {   
         _pickUpImage.sprite = image.sprite;
+        RectTransform trans = _pickUpImage.gameObject.GetComponent<RectTransform>();
+        trans.sizeDelta = new Vector2(image.sprite.texture.width, image.sprite.texture.height);
+        trans.localScale = Vector3.one * 0.2f;
         _pickUpImageBackGround.gameObject.SetActive(true);
         _isChoice = true;
     }
@@ -84,8 +87,8 @@ public class Gallery : MonoBehaviour
         ClearTiles();
 
         int spriteIndex = 0;
-        int startX = -25;
-        int startY = -140;
+        int startX = -45;
+        int startY = -80;
         int offsetX = 165;
         int offsetY = 140;
 
@@ -99,11 +102,14 @@ public class Gallery : MonoBehaviour
                 RectTransform rectTransform = tile.GetComponent<RectTransform>();
                 Button button = tile.GetComponent<Button>();
                 rectTransform.anchoredPosition = new Vector2(startX + x * offsetX, startY + y * offsetY);
-                rectTransform.sizeDelta = new Vector2(150, 100);
+                
                 Image imageComponent = tile.GetComponent<Image>();
                 if (imageComponent != null)
                 {
                     imageComponent.sprite = GetSpriteArray()[spriteIndex];
+
+                    rectTransform.sizeDelta = new Vector2(GetSpriteArray()[spriteIndex].texture.width, GetSpriteArray()[spriteIndex].texture.height);
+                    rectTransform.localScale = Vector3.one * 0.08f;
                 }
 
                 button.onClick.AddListener(() => Choice(imageComponent));

@@ -57,13 +57,13 @@ public class CRIAudioManager
 	private List<Tuple<SoundType, string, string>> _defferPlaySoundList = new List<Tuple<SoundType, string, string>>();
 
 
-	static public void Initialize()
+	static public async UniTask Initialize(Action complete = null)
 	{
-		_instance.LoadCueSheet();
-		
+		await _instance.LoadCueSheet();
+		complete?.Invoke();
 	}
 
-	async void LoadCueSheet()
+	async UniTask LoadCueSheet()
 	{
 		//CriAtomの取得
 		var criAtom = GameObject.FindObjectOfType<CriAtom>();
@@ -208,7 +208,7 @@ public class CRIAudioManager
 
 		public virtual void Stop()
 		{
-			_atomExPlayer.Stop();
+			_atomExPlayer?.Stop();
 		}
 	}
 

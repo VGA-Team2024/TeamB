@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DataManagement.SpreadSheet;
-using SE.Lian;
+using VOICE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using TGS2023.SE;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AddressableAssets;
@@ -99,7 +100,7 @@ namespace TeamB.Develop
             _token = new CancellationTokenSource().Token;
             _percentageReduction = _percentageReductionBaseValue;
 
-            if(GameStatics.ExamState == ExamState.Tutorial)
+            if (GameStatics.ExamState == ExamState.Tutorial)
                 GetCurrentData = new CharacterData(GameStatics.Characters[(int)CharacterType.TutorialRian]);
 
             OnParamUpDate?.Invoke();
@@ -120,8 +121,11 @@ namespace TeamB.Develop
         /// </summary>
         public async void Attack<T>(T characters, OperationType operationType, float deltaTime) where T : ICharacter
         {
-            if (GetAttackCoolTimer >= TakeBuff(BuffType.CastingSpeed, GetCurrentData.ChantingSpeed))
+            if (GetAttackCoolTimer >= (TakeBuff(BuffType.CastingSpeed, GetCurrentData.ChantingSpeed) <= 0
+                    ? 0.1f
+                    : TakeBuff(BuffType.CastingSpeed, GetCurrentData.ChantingSpeed)))
             {
+
                 //操作方法が自動時、ゲームプレイヤーの入力を待つ
                 if (operationType == OperationType.Manual && !_isAttacking)
                     return;
@@ -136,12 +140,14 @@ namespace TeamB.Develop
                 int randVoice = Random.Range(0, 2);
                 if (randVoice == 0)
                 {
-                    CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_10));
+                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_10));
                 }
                 else
                 {
-                    CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_11));
+                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_11));
                 }
+
+                CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_007_Cast_Attack));
 
                 float rand = Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, GetCurrentData.HitRate))
@@ -150,7 +156,10 @@ namespace TeamB.Develop
 
                     AttackEffect particleCallBack = attackParticle.GetComponent<AttackEffect>();
                     particleCallBack.AtDestroy += GiveDamage;
-                    particleCallBack.AtDestroy += () => { Object.Destroy(attackParticle); };
+                    particleCallBack.AtDestroy += () =>
+                    {
+                        CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_027_Magic_Ice));
+                    };
 
                     OnEndAttack?.Invoke();
                 }
@@ -186,10 +195,12 @@ namespace TeamB.Develop
                 OnTakeDamage?.Invoke();
                 if (_isDefenceDuration)
                 {
+                    CRIAudioManager.SE.Play("SE", nameof(SE.SE_015_Guarded));
                     OnSuccessDefence?.Invoke();
                 }
                 else
                 {
+                    CRIAudioManager.SE.Play("SE", nameof(SE.SE_014_Damaged));
                     OnDefenceFailure?.Invoke();
                 }
             }
@@ -336,8 +347,7 @@ namespace TeamB.Develop
                 //操作方法が手動時、プレイヤーの入力を待つ
                 if (operationType == OperationType.Manual && !_isDefending)
                     return;
-
-
+                
                 OnDefense?.Invoke();
                 //軽減率の変更
                 _percentageReduction = _percentageReductionValue;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -124,7 +123,7 @@ namespace TeamB.Develop
             EndExam();
             OnStartPose();
             //リザルトデータ
-            GameStatics.resultData.leftoverTime = (int)_currentTimer;
+            GameStatics.resultData.leftoverTime = (int)(_examTime - _currentTimer);
             GameStatics.resultData.leftoverHp = (int)_allyManager.GetAllies.GetCurrentData.Hp;
             GameStatics.resultData.defense = _allyManager.GetDefenceSuccessCount;
             GameStatics.resultData.hit = _allyManager.GetHitCunt;
@@ -135,7 +134,7 @@ namespace TeamB.Develop
             switch (GameStatics.ExamState)
             {
                 case ExamState.Tutorial:
-                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
+                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.Tutorial))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
                     GameStatics.ExamState = ExamState.FirstExam;

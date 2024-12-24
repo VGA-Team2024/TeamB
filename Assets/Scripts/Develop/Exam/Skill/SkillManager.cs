@@ -91,6 +91,8 @@ namespace TeamB.Develop
             {
                 info.skill.Activation(_allyManager.GetAllies, TargetSelect(info.target));
                 CostDecrease(info.cost);
+                
+                
             }
         }
 

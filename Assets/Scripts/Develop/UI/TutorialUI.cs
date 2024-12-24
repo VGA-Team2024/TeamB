@@ -22,7 +22,7 @@ namespace TeamB.Develop
 
 
         [SerializeField] Image _backGround;
-        [SerializeField] Text _messageText;
+        [SerializeField] TMP_Text _messageText;
         [SerializeField] GameObject _modeButton;
         [SerializeField] GameObject _specialMovesButton;
         [SerializeField] GameObject _defenseButton;
@@ -110,7 +110,8 @@ namespace TeamB.Develop
                 _defenseButton.gameObject.SetActive(false);
                 _defenseMessage.gameObject.SetActive(false);
 
-                exam.OnEndPose();
+                if (_count != 4)
+                    exam.OnEndPose();
             }
         }
 
@@ -118,7 +119,7 @@ namespace TeamB.Develop
         public void ActionButtonTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "このボタンを押すと魔法を繰り出せます。攻撃、防御魔法を繰り出せます。";
+            _messageText.text = "このボタンを押すと魔法を繰り出せます。\n攻撃、防御魔法を繰り出せます。";
             _backGround.gameObject.SetActive(true);
             _actionButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -183,6 +184,7 @@ namespace TeamB.Develop
             _backGround.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
             _isTutorial = true;
+            _count++;
         }
     }
 }

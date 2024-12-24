@@ -1,5 +1,5 @@
 ﻿///<summary></summary>
-namespace SE.SCP {
+namespace VOICE.SCP {
 	public class SCP {
 		///<summary></summary>
 		public const int SCP_37 = (0);

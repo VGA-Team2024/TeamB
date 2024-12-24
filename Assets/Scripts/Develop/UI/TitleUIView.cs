@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using TeamB.Data;
+using TeamB.Develop;
 using TeamB.GameSystem.Statics;
 using TeamB.SkitSystem;
 using TGS2023.BGM;
@@ -20,8 +21,7 @@ namespace TeamB.UI
 
         private async void Start()
         {
-            // if(CRIAudioManager.BGM.IsPlaying)
-            //     CRIAudioManager.BGM.Stop();
+            CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_001_title));
         }
 

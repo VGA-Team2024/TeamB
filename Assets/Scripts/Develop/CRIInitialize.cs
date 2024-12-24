@@ -6,12 +6,13 @@ using UnityEngine;
 
 namespace TeamB.Develop
 {
-	public class CRIInitialize : MonoBehaviour
-	{
-		private void Awake()
-		{
-			CRIAudioManager.Initialize();
-		}
-
-	}
+    [DefaultExecutionOrder(-100)]
+    public class CRIInitialize : MonoBehaviour
+    {
+        public event Action OnComplete;
+        private void Awake()
+        {
+            CRIAudioManager.Initialize(OnComplete);
+        }
+    }
 }

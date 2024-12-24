@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using DG.Tweening;
-using SE.Lian;
+using VOICE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -29,13 +29,13 @@ namespace TeamB.Develop
             switch (GameStatics.ExamResult)
             {
                 case ExamResult.Clear:
-                    CRIAudioManager.VOICE.Play("Lian", nameof(SE.Lian.Lian.Lian_09));
+                    CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_005_result_passed));
+                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_09));
                     break;
                 default:
-                    CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_002_InGame));
+                    CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_006_Result_Dropped));
                     break;
             }
-
 
             SetTestFlag();
         }

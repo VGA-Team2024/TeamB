@@ -3,11 +3,14 @@ using TeamB.Develop;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using TGS2023.BGM;
+using TGS2023.SE;
 using TMPro;
 using UISystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using VOICE.SCP;
+using Lian = VOICE.Lian.Lian;
 
 namespace TeamB.UI
 {
@@ -38,9 +41,16 @@ namespace TeamB.UI
             _exam = FindAnyObjectByType<Exam>();
             _allyManager = FindAnyObjectByType<AllyManager>();
 
-            // if (CRIAudioManager.BGM.IsPlaying)
-            //CRIAudioManager.BGM.Stop();
-            CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_003_Battle));
+            CRIAudioManager.BGM.Stop();
+            if (GameStatics.ExamState == ExamState.SecondExam)
+            {
+                CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_007_Battle_Boss));
+            }
+            else
+            {
+                CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_003_Battle));
+            }
+
 
             _exam.OnExamStarted += () =>
             {
@@ -137,5 +147,33 @@ namespace TeamB.UI
                     break;
             }
         }
+
+        public void ExamStartSE() => CRIAudioManager.SE.Play("SE", nameof(SE.SE_011_Battle_Start));
+        public void ExamEndSE() => CRIAudioManager.SE.Play("SE", nameof(SE.SE_012_Battle_End));
+
+        public void ExamStartVOICE()
+        {
+            if (GameStatics.ExamState == ExamState.SecondExam)
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_18));
+            }
+            else
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_17));
+            }
+        }
+
+        public void ExamEndVOICE()
+        {
+            if (GameStatics.ExamState == ExamState.SecondExam)
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_19));
+            }
+            else
+            {
+                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_20));
+            }
+        }
+
     }
 }

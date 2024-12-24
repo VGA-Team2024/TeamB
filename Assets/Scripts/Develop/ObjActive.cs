@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ObjActive : MonoBehaviour
 {
-    public void SetActive(bool active)
+    [SerializeField] GameObject objActive;
+    public void SetActive()
     {
-        gameObject.SetActive(active);
+        objActive.SetActive(false);
     }
 }
