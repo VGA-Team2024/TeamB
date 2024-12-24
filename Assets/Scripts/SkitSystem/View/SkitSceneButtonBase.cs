@@ -28,6 +28,7 @@ namespace TeamB.SkitSystem
             _defaultScale = transform.localScale.x;
             _button.OnClickAsObservable().Subscribe(async _ =>
             {
+                CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_001_enter));
                 await _buttonImage.rectTransform.DOScale(_defaultScale + _addScale, _duration)
                     .SetEase(_ease).SetLink(gameObject).ToUniTask(cancellationToken: destroyCancellationToken);
                 OnClick?.Invoke();

@@ -67,7 +67,7 @@ namespace TeamB.SkitSystem
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
         
-        enum InputType
+        private enum InputType
         {
             Tap,
             Auto,
@@ -266,6 +266,8 @@ namespace TeamB.SkitSystem
                     awaitSelect.TrySetResult(tutorialChoiceData.Answer);
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
+                    CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
+                    CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.ParameterUp);
                 };
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
@@ -498,15 +500,16 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData,
                 cancellationToken);
-            await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue, cancellationToken);
+            await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             skitAwaitCompletionSource?.TrySetResult();
         }
 
-        private async UniTask ShowDialogue(string talkerName, string dialogue, CancellationToken cancellationToken)
+        private async UniTask ShowDialogue(string talkerName, string dialogue ,CancellationToken cancellationToken, string voiceFileName = "")
         {
             _dialoguePanel.SetActive(true);
+            //CRIAudioManager.VOICE.Play("Voice", voiceFileName);
 
             // 話者名の表示制御
             if (string.IsNullOrEmpty(talkerName))
@@ -547,6 +550,7 @@ namespace TeamB.SkitSystem
                 }
 
                 _dialogueText.text += c;
+                CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.TextFeed);
                 await UniTask.WaitForSeconds(_textSpeed, cancellationToken: cancellationToken);
             }
 
@@ -576,6 +580,10 @@ namespace TeamB.SkitSystem
             _statusPanel.SetActive(false);
             _dialoguePanel.SetActive(false);
             _talkerNamePanel.SetActive(false);
+            _tutorialPanelAboutGame?.SetActive(false);
+            _tutorialPanelAboutClassSelect?.SetActive(false);
+            _tutorialPanelAboutSkitChoice?.SetActive(false);
+            _tutorialPanelAboutSkitResult?.SetActive(false);
         }
     }
 }

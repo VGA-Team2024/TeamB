@@ -78,7 +78,7 @@ namespace TeamB.SkitSystem
     {
         public string Id { get; }
         public string Flag { get; }
-
+        
         public SkitEntryData[] SkitEntryData { get; }
 
         public SkitData(string id, string flag, SkitEntryData[] skitEntryData)
@@ -98,18 +98,17 @@ namespace TeamB.SkitSystem
     {
         public SkitTalkCharaData[] TalkCharaData { get; } //キャラの立ち位置などをまとめたデータ
         public string TalkSpeaker { get; } //話しているキャラの名前
-        public string TalkBackground { get; } //背景画像の名前
+        public string TalkBackground { get; protected set; } //背景画像の名前
+        
+        public string VoiceFileName { get; protected set; } //ボイスファイル名
         
         public string JapaneseTalkDialogue { get; protected set; } //日本語の会話
         
         public string EnglishTalkDialogue { get; } //英語の会話
-
-        public SkitEntryData()
-        {
-            
-        }
         
-        public SkitEntryData(SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
+        protected SkitEntryData(){}
+        
+        public SkitEntryData(SkitTalkCharaData[] talkCharaData, string talkSpeaker, string voiceFileName, string talkBackground,
             string japaneseTalkDialogue, string englishTalkDialogue)
         {
             TalkCharaData = talkCharaData;
@@ -117,6 +116,7 @@ namespace TeamB.SkitSystem
             TalkBackground = talkBackground;
             JapaneseTalkDialogue = japaneseTalkDialogue;
             EnglishTalkDialogue = englishTalkDialogue;
+            VoiceFileName = voiceFileName;
         }
      
         public override string ToString()
@@ -159,32 +159,14 @@ namespace TeamB.SkitSystem
     {
         public string Id { get; }
 
-        public string Answer { get; }
+        public string Answer { get; protected set; }
         public float AddPoint { get; }
 
         public float ChoiceTime { get; }
 
-        public ChoiceEntry[] ChoiceEntries { get; }
-
-        public SkitChoiceData(
-            string choiceId,
-            float addPoint,
-            float choiceTime,
-            string answer,
-            ChoiceEntry[] choiceEntries,
-            string problemDialogue,
-            SkitTalkCharaData[] talkCharaData,
-            string talkSpeaker,
-            string talkBackground,
-            string englishTalkDialogue
-        ) : base(talkCharaData, talkSpeaker, talkBackground, problemDialogue, englishTalkDialogue)
-        {
-            Id = choiceId;
-            AddPoint = addPoint;
-            ChoiceTime = choiceTime;
-            Answer = answer;
-            ChoiceEntries = choiceEntries;
-        }
+        public ChoiceEntry[] ChoiceEntries { get; protected set; }
+        
+        protected SkitChoiceData(){}
 
         public SkitChoiceData(
             string choiceId,
@@ -240,10 +222,12 @@ namespace TeamB.SkitSystem
     {
         public TutorialChoiceData(string choiceId, float addPoint, float choiceTime, string answer, ChoiceEntry[] choiceEntries,
             string problemDialogue, SkitTalkCharaData[] talkCharaData, string talkSpeaker, string talkBackground,
-            string englishTalkDialogue, string tutorialDialog) : base(choiceId, addPoint, choiceTime,  answer, choiceEntries,
-            problemDialogue, talkCharaData,
-            talkSpeaker, talkBackground, englishTalkDialogue)
+            string englishTalkDialogue)
         {
+            ChoiceEntries = choiceEntries;
+            Answer = answer;
+            JapaneseTalkDialogue = problemDialogue;
+            TalkBackground = talkBackground;
         }
     }
 

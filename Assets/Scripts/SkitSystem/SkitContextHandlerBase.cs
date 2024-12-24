@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using R3;
-using Unity.VisualScripting;
 using Debug = UnityEngine.Debug;
 
 namespace TeamB.SkitSystem
@@ -182,9 +180,7 @@ namespace TeamB.SkitSystem
                     if (SkitDataLoaderBase.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
                         var currentSkitChoiceData = new SkitChoiceData(choiceData.Id, choiceData.AddPoint, choiceData.ChoiceTime,
-                            choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
-                            skitEntryData.TalkCharaData,
-                            skitEntryData.TalkSpeaker, skitEntryData.TalkBackground, choiceData.EnglishTalkDialogue);
+                            choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue);
                         _currentSkitEntryData.Value = currentSkitChoiceData;
                     }
                     else
@@ -198,12 +194,18 @@ namespace TeamB.SkitSystem
                     {
                         var end = DateTime.Now;
                         var time = end - start;
+                        CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
                         SkitRewardManager.Instance.AddRewardValue(choiceData.ChoiceTime - (float)time.TotalSeconds);
+                    }
+                    else
+                    {
+                        CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Incorrect);
                     }
                 }
                 else
                 {
                     var currentSkitEntryData = new SkitEntryData(skitEntryData.TalkCharaData, skitEntryData.TalkSpeaker,
+                        skitEntryData.VoiceFileName,
                         skitEntryData.TalkBackground, normDialogue, skitEntryData.EnglishTalkDialogue);
                     _currentSkitEntryData.Value = currentSkitEntryData;
                 }
@@ -287,11 +289,10 @@ namespace TeamB.SkitSystem
                     var skitId = match.Groups[1].Value;
                     if (SkitDataLoaderBase.TryGetSkitChoiceDataByID(skitId, out var choiceData))
                     {
-                        _tutorialChoiceData.Value = new TutorialChoiceData(choiceData.Id, choiceData.AddPoint,choiceData.ChoiceTime,
+                        _tutorialChoiceData.Value = new  TutorialChoiceData(choiceData.Id, choiceData.AddPoint,choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             choiceData.TalkCharaData, choiceData.TalkSpeaker, choiceData.EnglishTalkDialogue,
-                            choiceData.TalkBackground,
-                            normDialogue);
+                            choiceData.TalkBackground);
                     }
                     else
                     {

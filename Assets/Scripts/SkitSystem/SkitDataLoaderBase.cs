@@ -221,6 +221,7 @@ namespace TeamB.SkitSystem
             var currentSkitDataId = rawData[1][0];
             var currentSkitFlag = rawData[1][1];
             var skitEntryDataList = new List<SkitEntryData>();
+            var voiceFileName = "";
             for (var i = 1; i < rawData.Count; i++)
             {
                 if (i != 1 && rawData[i][0] != "")
@@ -233,7 +234,7 @@ namespace TeamB.SkitSystem
                 }
                 var classTalkCharaData = new List<SkitTalkCharaData>();
                 
-                for (var j = 6; j < rawData[i].Length; j += SkitDataLength)
+                for (var j = 7; j < rawData[i].Length; j += SkitDataLength)
                 {   // 会話キャラクターデータを作成
                     var standingPosition = !string.IsNullOrEmpty(rawData[i][j + 1]) ? Enum.Parse<StandingPosition>(rawData[i][j + 1]) : StandingPosition.None;
                     var eachClassTalkCharaData = new SkitTalkCharaData(rawData[i][j], standingPosition, rawData[i][j + 2]);
@@ -241,9 +242,10 @@ namespace TeamB.SkitSystem
                 }
                 var speaker = rawData[i][2];
                 var background = rawData[i][3];
-                var japaneseDialogue = rawData[i][4];
-                var englishDialogue = string.IsNullOrEmpty(rawData[i][5]) ? string.Empty : rawData[i][5];
-                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), speaker, background, japaneseDialogue, englishDialogue);
+                voiceFileName = rawData[i][4];
+                var japaneseDialogue = rawData[i][5];
+                var englishDialogue = string.IsNullOrEmpty(rawData[i][6]) ? string.Empty : rawData[i][6];
+                var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), speaker, voiceFileName, background, japaneseDialogue, englishDialogue);
                 skitEntryDataList.Add(skitEntryData);
 
                 if (i != rawData.Count - 1) continue;   // 最後のデータの場合は保存する
