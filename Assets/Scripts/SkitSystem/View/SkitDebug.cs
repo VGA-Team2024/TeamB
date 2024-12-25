@@ -19,7 +19,7 @@ namespace TeamB.SkitSystem
         
         private void Start()
         {
-            Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Space))
+            Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
                 .Subscribe(_ =>
                 {
                     _skitDebugPanel.SetActive(!_skitDebugPanel.activeSelf);

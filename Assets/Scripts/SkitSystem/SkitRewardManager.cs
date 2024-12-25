@@ -53,7 +53,7 @@ namespace TeamB.SkitSystem
             AddStatus();
         }
         
-        public void AddStatus()
+        private void AddStatus()
         {
             if (_correctCount == 0)
             {

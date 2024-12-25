@@ -16,7 +16,7 @@ namespace TeamB.SkitSystem
         public void EndSkitScene();
     }
     
-    public class TestSkitSceneCoordinator : ISkitSceneCoordinator
+    public class SkitSceneCoordinator : ISkitSceneCoordinator
     {
         private readonly SkitDataLoaderBase _skitDataLoaderBase;
         private readonly SkitFlagData _skitFlagData;
@@ -31,7 +31,7 @@ namespace TeamB.SkitSystem
             Exam
         }
         
-        public TestSkitSceneCoordinator(SkitDataLoaderBase skitDataLoaderBase, SkitFlagData skitFlagData, NextLoadScene nextLoadScene)
+        public SkitSceneCoordinator(SkitDataLoaderBase skitDataLoaderBase, SkitFlagData skitFlagData, NextLoadScene nextLoadScene)
         {
             _skitDataLoaderBase = skitDataLoaderBase;
             _skitFlagData = skitFlagData;
@@ -66,7 +66,14 @@ namespace TeamB.SkitSystem
             }
             else
             {
-                SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
+                if (_skitFlagData.CurrentFlag == LastFlag)
+                {
+                    GameEventRecorder.GameEnd(() => SceneLoader.LoadScene(TitleSceneName));
+                }
+                else
+                {
+                    SceneLoader.LoadScene(ExamSceneName);
+                }
             }
         }
     }
