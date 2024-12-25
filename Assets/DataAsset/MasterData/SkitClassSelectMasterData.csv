@@ -1,4 +1,4 @@
-授業選択ID,フラグ,残り何日ぁE話老E背景,会話,選択肢1,選択肢1(日本誁E,選択肢1授業ID,選択肢1報酬,選択肢2,選択肢2(日本誁E,選択肢2授業ID,選択肢2報酬,選択肢3,選択肢3(日本誁E,選択肢3授業ID,選択肢3報酬,選択肢4,選択肢4(日本誁E,選択肢4授業ID,選択肢4報酬
-ClassSelectTest1,ClassSelect1,3,,Conversation_HonorStudent_Noon,授業を選択してください1,chemistry,化学,ClassTest_02,直観劁Ephysics,物琁EClassTest_02,読解力、学劁Ebiology,生物,ClassTest_02,雁E��劁Ebiology,生物,ClassTest_02,読解力、学劁E,,
-ClassSelectTest2,ClassSelect2,3,,Conversation_HonorStudent_Noon,授業を選択してください2,geography,地琁EClassTest_02,直観劁Emathematics,数学,ClassTest_02,読解力、学劁Ehome economics,家庭私EClassTest_02,雁E��劁Ehome economics,家庭私EClassTest_02,雁E��劁E,,,,
-ClassSelectTest3,ClassSelectTest3,3,,Conversation_HonorStudent_Noon,授業を選択してください3,magic biology,魔法生物学,ClassTest_02,直観劁Ephysics,物琁EClassTest_02,読解力、学劁Ebiology,生物,ClassTest_02,雁E��劁Ebiology,生物,ClassTest_02,雁E���,,
+﻿授業選択ID,フラグ,残り何日か,話者,背景,会話,選択肢1,選択肢1(日本語),選択肢1授業ID,選択肢1報酬,選択肢2,選択肢2(日本語),選択肢2授業ID,選択肢2報酬,選択肢3,選択肢3(日本語),選択肢3授業ID,選択肢3報酬,選択肢4,選択肢4(日本語),選択肢4授業ID,選択肢4報酬
+ClassSelectTest1,ClassSelect1,3,,Conversation_HonorStudent_Noon,授業を選択してください,Herbology,薬草学,ClassProblem_2,直観力,physics,呪文学,ClassProblem_4,読解力、学力,mathematics,占い学,ClassProblem_6,集中力,History of Magic,魔法史,ClassProblem_5,読解力、学力
+ClassSelectTest2,ClassSelect2,2,,Conversation_HonorStudent_Noon,授業を選択してください,Potions,魔法薬学,ClassProblem_3,直観力,mathematics,占い学,ClassProblem_6,読解力、学力,physics,呪文学,ClassProblem_4,集中力,magic biology,魔法生物学,ClassProblem_1,集中力
+ClassSelectTest3,ClassSelectTest3,1,,Conversation_HonorStudent_Noon,授業を選択してください,magic biology,魔法生物学,ClassProblem_1,直観力,History of Magic,魔法史,ClassProblem_5,読解力、学力,Potions,魔法薬学,ClassProblem_3,集中力,physics,呪文学,ClassProblem_4,集中力

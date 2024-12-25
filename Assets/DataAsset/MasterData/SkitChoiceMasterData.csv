@@ -1,40 +1,40 @@
-ö‹Æ“à‘I‘ğˆID,ƒpƒ‰ƒ[ƒ^ã¸’l,§ŒÀŠÔ,‰ï˜b,³‰ğ,‘I‘ğˆ1,‘I‘ğˆ1(“ú–{Œê),‘I‘ğˆ2,‘I‘ğˆ2(“ú–{Œê),‘I‘ğˆ3,‘I‘ğˆ3(“ú–{Œê)
-ClassProblemSelectTest_01,1,30,,Open the right door,Open the right door,‰E‚Ì”à‚ğŠJ‚¯‚é,Open the middle door,^‚ñ’†‚Ì”à‚ğŠJ‚¯‚é,Open the right door,¶‚Ì”à‚ğŠJ‚¯‚é
-ClassProblemSelectTest_02,2,15,,Protect,Fight,í‚¤,Protect,ƒK[ƒh‚·‚é,Cover's up ,ç‚é
-ClassProblemSelectTest_03,34,45,,Blame,Cry,‹ƒ‚­,Apologise,Ó‚é,Blame,“{‚é
-ClassProblemSelectTest_04,4,10,ƒƒfƒ…[ƒT‚Ì‹ü‚ğ—‚Ñ‚é‚Æ‰½‚É‚È‚Á‚Ä‚µ‚Ü‚¤H,Rock,Ice,•X,Rock,Î,Ash,ŠD
-ClassProblemSelectTest_05,5,10,ƒSƒuƒŠƒ“‚Ì“Á’¥‚Éˆê’v‚·‚é‚à‚Ì‚ÍH,Small and green monster,Small and green monster,¬‚³‚­‚Ä—ÎF‚Ìƒ‚ƒ“ƒXƒ^[,Creature flying in the sky with big wings,‘å‚«‚È—ƒ‚Å‹ó‚ğ”ò‚Ô¶•¨,Fish-like creatures that live underwater,…’†‚Å•é‚ç‚·‹›‚Ì‚æ‚¤‚È¶•¨
-ClassProblemSelectTest_06,6,10,˜h‚Ì“ª‚Æƒ‰ƒCƒIƒ“‚Ì‘Ì‚ğ‚Â –‚–@¶•¨‚Í‚Ç‚êH,Griffon,Hippogriff,ƒqƒ|ƒOƒŠƒt,Griffon,ƒOƒŠƒtƒHƒ“,mermaid,ƒ}[ƒƒCƒh
-ClassProblemSelectTest_07,7,10,ƒAƒ“ƒfƒbƒg‚Ì–‚–@¶•¨‚ÉŒø‚­‘®«–‚–@‚ÍH,Light,soil,“y,wind,•—,Light,Œõ
-ClassProblemSelectTest_08,8,10,ƒ”ƒ@ƒ“ƒpƒCƒA‚Ìã“_‚Å‚Í‚È‚¢‚Ì‚Í‚Ç‚êH,Sea  water,Garlic ,‚É‚ñ‚É‚­,Sea  water,ŠC…,Sunlight,“úŒõ
+ï»¿æˆæ¥­å†…é¸æŠè‚¢ID,ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä¸Šæ˜‡å€¤,åˆ¶é™æ™‚é–“,ä¼šè©±,æ­£è§£,é¸æŠè‚¢1,é¸æŠè‚¢1(æ—¥æœ¬èª),é¸æŠè‚¢2,é¸æŠè‚¢2(æ—¥æœ¬èª),é¸æŠè‚¢3,é¸æŠè‚¢3(æ—¥æœ¬èª)
+ClassProblemSelectTest_01,1,30,,Open the right door,Open the right door,å³ã®æ‰‰ã‚’é–‹ã‘ã‚‹,Open the middle door,çœŸã‚“ä¸­ã®æ‰‰ã‚’é–‹ã‘ã‚‹,Open the right door,å·¦ã®æ‰‰ã‚’é–‹ã‘ã‚‹
+ClassProblemSelectTest_02,2,15,,Protect,Fight,æˆ¦ã†,Protect,ã‚¬ãƒ¼ãƒ‰ã™ã‚‹,Cover's up ,å®ˆã‚‹
+ClassProblemSelectTest_03,34,45,,Blame,Cry,æ³£ã,Apologise,è¬ã‚‹,Blame,æ€’ã‚‹
+ClassProblemSelectTest_04,4,10,ãƒ¡ãƒ‡ãƒ¥ãƒ¼ã‚µã®è¦–ç·šã‚’æµ´ã³ã‚‹ã¨ä½•ã«ãªã£ã¦ã—ã¾ã†ï¼Ÿ,Rock,Ice,æ°·,Rock,çŸ³,Ash,ç°
+ClassProblemSelectTest_05,5,10,ã‚´ãƒ–ãƒªãƒ³ã®ç‰¹å¾´ã«ä¸€è‡´ã™ã‚‹ã‚‚ã®ã¯ï¼Ÿ,Small and green monster,Small and green monster,å°ã•ãã¦ç·‘è‰²ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼,Creature flying in the sky with big wings,å¤§ããªç¿¼ã§ç©ºã‚’é£›ã¶ç”Ÿç‰©,Fish-like creatures that live underwater,æ°´ä¸­ã§æš®ã‚‰ã™é­šã®ã‚ˆã†ãªç”Ÿç‰©
+ClassProblemSelectTest_06,6,10,é·²ã®é ­ã¨ãƒ©ã‚¤ã‚ªãƒ³ã®ä½“ã‚’æŒã¤ é­”æ³•ç”Ÿç‰©ã¯ã©ã‚Œï¼Ÿ,Griffon,Hippogriff,ãƒ’ãƒã‚°ãƒªãƒ•,Griffon,ã‚°ãƒªãƒ•ã‚©ãƒ³,mermaid,ãƒãƒ¼ãƒ¡ã‚¤ãƒ‰
+ClassProblemSelectTest_07,7,10,ã‚¢ãƒ³ãƒ‡ãƒƒãƒˆã®é­”æ³•ç”Ÿç‰©ã«åŠ¹ãå±æ€§é­”æ³•ã¯ï¼Ÿ,Light,soil,åœŸ,wind,é¢¨,Light,å…‰
+ClassProblemSelectTest_08,8,10,ãƒ´ã‚¡ãƒ³ãƒ‘ã‚¤ã‚¢ã®å¼±ç‚¹ã§ã¯ãªã„ã®ã¯ã©ã‚Œï¼Ÿ,Sea  water,Garlic ,ã«ã‚“ã«ã,Sea  water,æµ·æ°´,Sunlight,æ—¥å…‰
 ,,,,,,,,,,
-ClassProblemSelect_01,4,10,ƒƒfƒ…[ƒT‚Ì‹ü‚ğ—‚Ñ‚é‚Æ‰½‚É‚È‚Á‚Ä‚µ‚Ü‚¤H,Rock,Ice,•X,Rock,Î,Ash,ŠD
-ClassProblemSelect_02,5,10,ˆÈ‰º‚Ì‚R‘ğ’†ƒSƒuƒŠƒ“‚Ì“Á’¥‚Éˆê’v‚·‚é‚à‚Ì‚ÍH,Small and green monster,Small and green monster,¬‚³‚­‚Ä—ÎF‚Ìƒ‚ƒ“ƒXƒ^[,Creature flying in the sky with big wings,‘å‚«‚È—ƒ‚Å‹ó‚ğ”ò‚Ô¶•¨,Fish-like creatures that live underwater,…’†‚Å•é‚ç‚·‹›‚Ì‚æ‚¤‚È¶•¨
-ClassProblemSelect_03,6,10,ˆÈ‰º‚Ì‚R‘ğ‚Ì‚¤‚¿˜h‚Ì“ª‚Æƒ‰ƒCƒIƒ“‚Ì‘Ì‚ğ‚Â–‚–@¶•¨‚Í‚Ç‚êH,Griffon,Hippogriff,ƒqƒ|ƒOƒŠƒt,Griffon,ƒOƒŠƒtƒHƒ“,Mermaid,ƒ}[ƒƒCƒh
-ClassProblemSelect_04,7,10,ƒAƒ“ƒfƒbƒg‚Ì–‚–@¶•¨‚ÉŒø‚­‘®«–‚–@‚ÍH,Light,Soil,“y,Wind,•—,Light,Œõ
-ClassProblemSelect_05,8,10,ˆÈ‰º3O‘ğ’†ƒ”ƒ@ƒ“ƒpƒCƒA‚Ìã“_‚Å‚È‚¢‚à‚Ì‚Í‚Ç‚êH,Sea water,Garlic ,‚É‚ñ‚É‚­,Sea water,ŠC…,Sunlight,“úŒõ
-ClassProblemSelect_06,,,uŒ–é‚Ì—tv‚Í‚Ç‚ÌŠÔ‘Ñ‚É‚à‚Á‚Æ‚àŒø‰Ê‚ğ”­Šö‚·‚é‚Å‚µ‚å‚¤‚©H,Midnight,Daytime,’‹ŠÔ,Dawn,–é–¾‚¯,Midnight,[–é
-ClassProblemSelect_07,,,uƒŠƒ‰ƒb‘v‚Ì¬•ª‚É‚Í‚Ç‚Ì‚æ‚¤‚ÈŒø‰Ê‚ª‚ ‚é‚Å‚µ‚å‚¤‚©H,Relieving fatigue,Wound healing effect,‚ğ–ü‚·Œø‰Ê,Relieving fatigue,”æ˜J‚ğ‰ñ•œ‚·‚éŒø‰Ê,Headache-relieving effect,“ª’É‚ğ˜a‚ç‚°‚éŒø‰Ê
-ClassProblemSelect_08,,,uƒTƒ“ƒtƒ‰ƒ[v‚Í‚Ç‚ñ‚ÈêŠ‚Åˆç‚Â–ò‘‚Å‚µ‚å‚¤‚©H,Light steppe,Dark Cave,ˆÃ‚¢“´ŒA,Desert,»”™,Light steppe,–¾‚é‚¢‘Œ´
-ClassProblemSelect_09,,,u–‚œ‚¯‚Ì‘Ûv‚ªˆç‚ÂêŠ‚Æ‚µ‚ÄÅ‚à“K‚µ‚Ä‚¢‚é‚Ì‚Í‚Ç‚±‚Å‚µ‚å‚¤H,Wet and dark cave,Sunny place,“ú“–‚½‚è‚Ì—Ç‚¢êŠ,Wet and dark cave,¼‚Á‚½ˆÃ‚¢“´ŒA,Airy highlands,•—’Ê‚µ‚Ì—Ç‚¢‚’n
-ClassProblemSelect_10,,,u–°‚è‚Ì•²v‚ğì‚é‚½‚ß‚É•K—v‚Èå¬•ª‚Í‚Ç‚ê‚Å‚µ‚å‚¤‚©H,Dreaming Flower,Dreaming Flower,u–²Œ©‰Ôv,Nightmare grass,uˆ«–²‘v,Moon Shadow Moss,uŒ‰e‘Ûv
-ClassProblemSelect_11,,,–‚–@–òuƒŠƒŠƒX‚Ì–°‚èv‚ğ³‚µ‚­’²‡‚·‚é‚É‚ÍAÅŒã‚É‰½‚ğ‰Á‚¦‚é•K—v‚ª‚ ‚è‚Ü‚·‚©H,Herbs bathed in moonlight,Herbs bathed in moonlight,ŒŒõ‚ğ—‚Ñ‚¹‚½ƒn[ƒu,Scaling the Dragon,ƒhƒ‰ƒSƒ“‚Ì—Ø,Black cat hair,•”L‚Ì–Ñ
-ClassProblemSelect_12,,,u–ü‚µ‚Ìƒ|[ƒVƒ‡ƒ“v‚ğ’·‚¿‚³‚¹‚é‚É‚ÍA‚»‚Ì—eŠí‚É•Û‘¶‚·‚é‚Ì‚ªÅ“K‚Å‚·‚©H,Enchanted metal vessel,Glass Jar,ƒKƒ‰ƒX•r,Wooden Containers,–Ø»‚Ì—eŠí,Enchanted metal vessel,–‚–@‚ª‚©‚¯‚ç‚ê‚½‹à‘®‚Ì—eŠí
-ClassProblemSelect_13,,,g‰Î‘€‚Ì–‚–@–òh‚ğ’²‡‚·‚éÛ‚É“K‚µ‚Ä‚¢‚éŞ—¿‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Yang Flame Grass,Yang Flame Grass,u—z‰Š‘v,Ice Snow Flower,u•Xá‰Ôv,Shodow moss,u‰e‘Ûv
-ClassProblemSelect_14,,,–‚–@–ò‚ğ’²‡‚·‚éÛAÅ‚à”ğ‚¯‚é‚×‚«s“®‚ÍŸ‚Ì‚¤‚¿‚Ç‚ê‚Å‚µ‚å‚¤H,Mixing ingredients in the wrong order,Mixing ingredients in the wrong order,Ş—¿‚ğ¬‚º‚é‡”Ô‚ğŠÔˆá‚¦‚é,Humming a song while working,ì‹Æ’†‚É‰Ì‚ğŒû‚¸‚³‚Ş,Stirring the potion incorrectly,–‚–@–ò‚ğ‚©‚«¬‚º‚é‰ñ”‚ğŠÔˆá‚¦‚é
-ClassProblemSelect_15,,,uK‰^‚ÌƒGƒŠƒNƒT[v‚ğì‚éÛA¬Œ÷—¦‚ğã‚°‚é‚½‚ß‚É’²‡’†‚És‚¤‚×‚«‚±‚Æ‚ÍH,Work on a glowing night in the constellations,The concoctionist sings a song,’²‡Ò‚ª‰Ì‚ğ‰Ì‚¤,Work on a glowing night in the constellations,¯À‚Ì‹P‚­–é‚Éì‹Æ‚·‚é,Mix the ingredients counterclockwise,Ş—¿‚ğ”½Œv‰ñ‚è‚É¬‚º‚é
-ClassProblemSelect_16,,,ô•¶‚ğ‰r¥‚·‚éÛAÅ‚àˆÓ¯‚·‚×‚«“_‚Æ‚µ‚Ä³‚µ‚­‚È‚¢‚Ì‚ÍŸ‚Ì‚¤‚¿‚Ç‚ê‚Å‚µ‚å‚¤H,How to swing a cane,Pray to the ancient god,ŒÃ‚«_‚Ö‚Ì‹F‚è,Connecting with Your Spirits,©g‚Ì¸—ì‚Æ‚ÌŒq‚ª‚è,How to swing a cane,ñ‚ÌU‚è•û
-ClassProblemSelect_17,,,–‚–@‚Ìñ‚ğì‚é‚Æ‚«AÅ‚à“K‚µ‚Ä‚¢‚é‘fŞ‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Tree,Metal,‹à‘®,Tree,–Ø,Stone,Î
-ClassProblemSelect_18,,,ô‚¢‚ğ–h‚®‚½‚ß‚ÉAÅ‚à“K‚µ‚½‚¨ç‚è‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Obsidian ring,Silver pendant,‹â‚Ìƒyƒ“ƒ_ƒ“ƒg,Obsidian ring,•—jÎ‚Ìw—Ö,Harb bags,ƒn[ƒu‚ğ‹l‚ß‚½‘Ü
-ClassProblemSelect_19,,,ˆÈ‰º‚Ì3‘ğ’†Añ‚Ìƒƒ“ƒeƒiƒ“ƒX‚ÅÅ‚àd—v‚È‚±‚Æ‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Cleanse regularly,Cleanse regularly,’èŠú“I‚É´‚ß‚é,Keep the magic going,–‚—Í‚ğ‚ß‘±‚¯‚é,Don't let others touch ,‘¼l‚ÉG‚ê‚³‚¹‚È‚¢
-ClassProblemSelect_20,,,‘Šè‚Éj•Ÿ‚Ì–‚–@‚ğ‚©‚¯‚éÛAÅ‚àd—v‚Æ‚³‚ê‚éŠ´î‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Affection,Joy,Šì‚Ñ,Gratitude,Š´Ó,Affection,ˆ¤î
-ClassProblemSelect_21,,,–‚–@ŠE‚ÌŒÃ‘ã•¶–¾‚ÅAu‹ó‚ğ”ò‚Ô–‚–@v‚ªÅ‰‚ÉL‚Ü‚Á‚½‚Ì‚Í‚Ç‚Ì‘H,Windlith Empire,Kingdom of Luminaria,ƒ‹ƒ~ƒiƒŠƒA‰¤‘,Windlith Empire,ƒEƒBƒ“ƒhƒŠƒX’é‘,Federation of Astra Continents,ƒAƒXƒgƒ‰‘å—¤˜A–M
-ClassProblemSelect_22,,,“`à‚ÌuŒ«Ò‚ÌÎv‚Ì‚Â—Í‚Æ‚µ‚Ä³‚µ‚¢‚à‚Ì‚ÍH,Immortality,Immortality,•s˜V•s€,Disable magic around the world,¢ŠE’†‚Ì–‚–@‚ğ–³Œø‰»‚·‚é,Enhances the magic forever,–‚–@‚ğ‰i‰“‚É‹­‰»‚·‚é
-ClassProblemSelect_23,,,–‚–@ŠE‚ÅÅ‰‚É‹Ö~‚³‚ê‚½–‚–@‚Ìí—Ş‚ÍH,The magic of manipulating others,The magic of manipulating others,‘¼l‚ğ‘€‚é–‚–@,The magic of stopping time,ŠÔ‚ğ~‚ß‚é–‚–@,The magic of changing the weather,“V‹C‚ğ•Ï‚¦‚é–‚–@
-ClassProblemSelect_24,,,uÅ‰‚É–‚–@‚ğg‚Á‚½v‚Æ‚³‚ê‚é¶•¨‚ÍH,Dragon,Human ,lŠÔ,Elf,ƒGƒ‹ƒt,Dragon,ƒhƒ‰ƒSƒ“
-ClassProblemSelect_25,,,–‚–@ŠE‚ÅuÅ‰‚Éì‚ç‚ê‚½ƒ|[ƒVƒ‡ƒ“v‚Í‚Ç‚ñ‚ÈŒø‰Ê‚ª‚ ‚Á‚½H,Heal injuries,Heal injuries,‰ö‰ä‚ğ¡‚·,Improves eyesight,‹—Í‚ğ—Ç‚­‚·‚é,Restore the magic,–‚–@‚ğ‰ñ•œ‚·‚é
-ClassProblemSelect_26,,,…»‹Ê‚ğg‚Á‚½è‚¢‚ÅAÅ‚à’–Ú‚·‚é‚×‚«•Ï‰»‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Patterns and shadows seen in crystals,Reflection of light in crystals,…»‚ÌŒõ‚Ì”½Ë,Patterns and shadows seen in crystals,…»‚Ì’†‚ÉŒ©‚¦‚é–Í—l‚â‰e,Changes in the temperature of the crystal,…»‚Ì‰·“x‚Ì•Ï‰»
-ClassProblemSelect_27,,,¯è‚¢‚Åuè‚¢‚ÉÅ‚à‰e‹¿‚ğ—^‚¦‚év‚Æ‚³‚ê‚é“V‘Ì‚ÍŸ‚Ì‚¤‚¿‚Ç‚ê‚Å‚µ‚å‚¤H,Moon,Moon,Œ,Mars,‰Î¯,Jupiter,–Ø¯
-ClassProblemSelect_28,,,–²è‚¢‚ÅA–²‚Ì’†‚ÅuŒ®v‚ğŒ©‚Â‚¯‚½ê‡A‰½‚ğÛ’¥‚µ‚Ä‚¢‚é‚ÆŒ¾‚í‚ê‚Ä‚¢‚é‚Å‚µ‚å‚¤H,Uncover secrets and new opportunities,Uncover secrets and new opportunities,”é–§‚Ì‰ğ–¾‚âV‚µ‚¢ƒ`ƒƒƒ“ƒX,Indecision and confusion,–À‚¢‚Æ¬—,Failures and warnings,¸”s‚ÆŒx
-ClassProblemSelect_29,,,uè‘Šè‚¢v‚Å¶–½—Í‚âŒ’N‰^‚ğŒ©‚éÛA’–Ú‚·‚éü‚Í‚Ç‚ê‚Å‚µ‚å‚¤H,Lifeline,Emotion line,Š´îü,Lifeline,¶–½ü,Destiny Line,‰^–½ü
-ClassProblemSelect_30,,,u–²è‚¢v‚É‚¨‚¢‚ÄA–²‚Ì’†‚Åu‰Jv‚ª~‚Á‚Ä‚¢‚éê‡A‚Ç‚ñ‚ÈŠ´î‚ğÛ’¥‚·‚é‚Æ‚³‚ê‚Ä‚¢‚é‚Å‚µ‚å‚¤H,Grief or purification,Grief or purification,”ß‚µ‚İ‚âò‰»,Anger or confusion,“{‚è‚â¬—,Love and happiness,ˆ¤‚âK•Ÿ
+ClassProblemSelect_01,4,10,ãƒ¡ãƒ‡ãƒ¥ãƒ¼ã‚µã®è¦–ç·šã‚’æµ´ã³ã‚‹ã¨ä½•ã«ãªã£ã¦ã—ã¾ã†ï¼Ÿ,Rock,Rock,çŸ³,Ice,æ°·,Ash,ç°
+ClassProblemSelect_02,5,10,ä»¥ä¸‹ã®ï¼“æŠä¸­ã‚´ãƒ–ãƒªãƒ³ã®ç‰¹å¾´ã«ä¸€è‡´ã™ã‚‹ã‚‚ã®ã¯ï¼Ÿ,Small and green monster,Small and green monster,å°ã•ãã¦ç·‘è‰²ã®ãƒ¢ãƒ³ã‚¹ã‚¿ãƒ¼,Creature flying in the sky with big wings,å¤§ããªç¿¼ã§ç©ºã‚’é£›ã¶ç”Ÿç‰©,Fish-like creatures that live underwater,æ°´ä¸­ã§æš®ã‚‰ã™é­šã®ã‚ˆã†ãªç”Ÿç‰©
+ClassProblemSelect_03,6,10,ä»¥ä¸‹ã®ï¼“æŠã®ã†ã¡é·²ã®é ­ã¨ãƒ©ã‚¤ã‚ªãƒ³ã®ä½“ã‚’æŒã¤é­”æ³•ç”Ÿç‰©ã¯ã©ã‚Œï¼Ÿ,Griffon,Hippogriff,ãƒ’ãƒã‚°ãƒªãƒ•,Griffon,ã‚°ãƒªãƒ•ã‚©ãƒ³,Mermaid,ãƒãƒ¼ãƒ¡ã‚¤ãƒ‰
+ClassProblemSelect_04,7,10,ã‚¢ãƒ³ãƒ‡ãƒƒãƒˆã®é­”æ³•ç”Ÿç‰©ã«åŠ¹ãå±æ€§é­”æ³•ã¯ï¼Ÿ,Light,Soil,åœŸ,Wind,é¢¨,Light,å…‰
+ClassProblemSelect_05,8,10,ä»¥ä¸‹3ä¸‰æŠä¸­ãƒ´ã‚¡ãƒ³ãƒ‘ã‚¤ã‚¢ã®å¼±ç‚¹ã§ãªã„ã‚‚ã®ã¯ã©ã‚Œï¼Ÿ,Sea water,Garlic ,ã«ã‚“ã«ã,Sea water,æµ·æ°´,Sunlight,æ—¥å…‰
+ClassProblemSelect_06,4,10,ã€Œæœˆå¤œã®è‘‰ã€ã¯ã©ã®æ™‚é–“å¸¯ã«ã‚‚ã£ã¨ã‚‚åŠ¹æœã‚’ç™ºæ®ã™ã‚‹ã§ã—ã‚‡ã†ã‹ï¼Ÿ,Midnight,Daytime,æ˜¼é–“,Dawn,å¤œæ˜ã‘,Midnight,æ·±å¤œ
+ClassProblemSelect_07,5,10,ã€Œãƒªãƒ©ãƒƒè‰ã€ã®æˆåˆ†ã«ã¯ã©ã®ã‚ˆã†ãªåŠ¹æœãŒã‚ã‚‹ã§ã—ã‚‡ã†ã‹ï¼Ÿ,Relieving fatigue,Wound healing effect,å‚·ã‚’ç™’ã™åŠ¹æœ,Relieving fatigue,ç–²åŠ´ã‚’å›å¾©ã™ã‚‹åŠ¹æœ,Headache-relieving effect,é ­ç—›ã‚’å’Œã‚‰ã’ã‚‹åŠ¹æœ
+ClassProblemSelect_08,6,10,ã€Œã‚µãƒ³ãƒ•ãƒ©ãƒ¯ãƒ¼ã€ã¯ã©ã‚“ãªå ´æ‰€ã§è‚²ã¤è–¬è‰ã§ã—ã‚‡ã†ã‹ï¼Ÿ,Light steppe,Dark Cave,æš—ã„æ´çªŸ,Desert,ç ‚æ¼ ,Light steppe,æ˜ã‚‹ã„è‰åŸ
+ClassProblemSelect_09,7,10,ã€Œé­”é™¤ã‘ã®è‹”ã€ãŒè‚²ã¤å ´æ‰€ã¨ã—ã¦æœ€ã‚‚é©ã—ã¦ã„ã‚‹ã®ã¯ã©ã“ã§ã—ã‚‡ã†ï¼Ÿ,Wet and dark cave,Sunny place,æ—¥å½“ãŸã‚Šã®è‰¯ã„å ´æ‰€,Wet and dark cave,æ¹¿ã£ãŸæš—ã„æ´çªŸ,Airy highlands,é¢¨é€šã—ã®è‰¯ã„é«˜åœ°
+ClassProblemSelect_10,8,10,ã€Œçœ ã‚Šã®ç²‰ã€ã‚’ä½œã‚‹ãŸã‚ã«å¿…è¦ãªä¸»æˆåˆ†ã¯ã©ã‚Œã§ã—ã‚‡ã†ã‹ï¼Ÿ,Dreaming Flower,Dreaming Flower,ã€Œå¤¢è¦‹èŠ±ã€,Nightmare grass,ã€Œæ‚ªå¤¢è‰ã€,Moon Shadow Moss,ã€Œæœˆå½±è‹”ã€
+ClassProblemSelect_11,4,10,é­”æ³•è–¬ã€Œãƒªãƒªã‚¹ã®çœ ã‚Šã€ã‚’æ­£ã—ãèª¿åˆã™ã‚‹ã«ã¯ã€æœ€å¾Œã«ä½•ã‚’åŠ ãˆã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã‹ï¼Ÿ,Herbs bathed in moonlight,Herbs bathed in moonlight,æœˆå…‰ã‚’æµ´ã³ã›ãŸãƒãƒ¼ãƒ–,Scaling the Dragon,ãƒ‰ãƒ©ã‚´ãƒ³ã®é±—,Black cat hair,é»’çŒ«ã®æ¯›
+ClassProblemSelect_12,5,10,ã€Œç™’ã—ã®ãƒãƒ¼ã‚·ãƒ§ãƒ³ã€ã‚’é•·æŒã¡ã•ã›ã‚‹ã«ã¯ã€ãã®å®¹å™¨ã«ä¿å­˜ã™ã‚‹ã®ãŒæœ€é©ã§ã™ã‹ï¼Ÿ,Enchanted metal vessel,Glass Jar,ã‚¬ãƒ©ã‚¹ç“¶,Wooden Containers,æœ¨è£½ã®å®¹å™¨,Enchanted metal vessel,é­”æ³•ãŒã‹ã‘ã‚‰ã‚ŒãŸé‡‘å±ã®å®¹å™¨
+ClassProblemSelect_13,6,10,â€œç«æ“ã®é­”æ³•è–¬â€ã‚’èª¿åˆã™ã‚‹éš›ã«é©ã—ã¦ã„ã‚‹ææ–™ã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Yang Flame Grass,Yang Flame Grass,ã€Œé™½ç‚è‰ã€,Ice Snow Flower,ã€Œæ°·é›ªèŠ±ã€,Shodow moss,ã€Œå½±è‹”ã€
+ClassProblemSelect_14,7,10,é­”æ³•è–¬ã‚’èª¿åˆã™ã‚‹éš›ã€æœ€ã‚‚é¿ã‘ã‚‹ã¹ãè¡Œå‹•ã¯æ¬¡ã®ã†ã¡ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Mixing ingredients in the wrong order,Mixing ingredients in the wrong order,ææ–™ã‚’æ··ãœã‚‹é †ç•ªã‚’é–“é•ãˆã‚‹,Humming a song while working,ä½œæ¥­ä¸­ã«æ­Œã‚’å£ãšã•ã‚€,Stirring the potion incorrectly,é­”æ³•è–¬ã‚’ã‹ãæ··ãœã‚‹å›æ•°ã‚’é–“é•ãˆã‚‹
+ClassProblemSelect_15,8,10,ã€Œå¹¸é‹ã®ã‚¨ãƒªã‚¯ã‚µãƒ¼ã€ã‚’ä½œã‚‹éš›ã€æˆåŠŸç‡ã‚’ä¸Šã’ã‚‹ãŸã‚ã«èª¿åˆä¸­ã«è¡Œã†ã¹ãã“ã¨ã¯ï¼Ÿ,Work on a glowing night in the constellations,The concoctionist sings a song,èª¿åˆè€…ãŒæ­Œã‚’æ­Œã†,Work on a glowing night in the constellations,æ˜Ÿåº§ã®è¼ãå¤œã«ä½œæ¥­ã™ã‚‹,Mix the ingredients counterclockwise,ææ–™ã‚’åæ™‚è¨ˆå›ã‚Šã«æ··ãœã‚‹
+ClassProblemSelect_16,4,10,å‘ªæ–‡ã‚’è© å”±ã™ã‚‹éš›ã€æœ€ã‚‚æ„è­˜ã™ã¹ãç‚¹ã¨ã—ã¦æ­£ã—ããªã„ã®ã¯æ¬¡ã®ã†ã¡ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,How to swing a cane,Pray to the ancient god,å¤ãç¥ã¸ã®ç¥ˆã‚Š,Connecting with Your Spirits,è‡ªèº«ã®ç²¾éœŠã¨ã®ç¹‹ãŒã‚Š,How to swing a cane,æ–ã®æŒ¯ã‚Šæ–¹
+ClassProblemSelect_17,5,10,é­”æ³•ã®æ–ã‚’ä½œã‚‹ã¨ãã€æœ€ã‚‚é©ã—ã¦ã„ã‚‹ç´ æã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Tree,Metal,é‡‘å±,Tree,æœ¨,Stone,çŸ³
+ClassProblemSelect_18,6,10,å‘ªã„ã‚’é˜²ããŸã‚ã«ã€æœ€ã‚‚é©ã—ãŸãŠå®ˆã‚Šã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Obsidian ring,Silver pendant,éŠ€ã®ãƒšãƒ³ãƒ€ãƒ³ãƒˆ,Obsidian ring,é»’æ›œçŸ³ã®æŒ‡è¼ª,Harb bags,ãƒãƒ¼ãƒ–ã‚’è©°ã‚ãŸè¢‹
+ClassProblemSelect_19,7,10,ä»¥ä¸‹ã®3æŠä¸­ã€æ–ã®ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ã§æœ€ã‚‚é‡è¦ãªã“ã¨ã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Cleanse regularly,Cleanse regularly,å®šæœŸçš„ã«æ¸…ã‚ã‚‹,Keep the magic going,é­”åŠ›ã‚’è¾¼ã‚ç¶šã‘ã‚‹,Don't let others touch ,ä»–äººã«è§¦ã‚Œã•ã›ãªã„
+ClassProblemSelect_20,8,10,ç›¸æ‰‹ã«ç¥ç¦ã®é­”æ³•ã‚’ã‹ã‘ã‚‹éš›ã€æœ€ã‚‚é‡è¦ã¨ã•ã‚Œã‚‹æ„Ÿæƒ…ã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Affection,Joy,å–œã³,Gratitude,æ„Ÿè¬,Affection,æ„›æƒ…
+ClassProblemSelect_21,4,10,é­”æ³•ç•Œã®å¤ä»£æ–‡æ˜ã§ã€ã€Œç©ºã‚’é£›ã¶é­”æ³•ã€ãŒæœ€åˆã«åºƒã¾ã£ãŸã®ã¯ã©ã®å›½ï¼Ÿ,Windlith Empire,Kingdom of Luminaria,ãƒ«ãƒŸãƒŠãƒªã‚¢ç‹å›½,Windlith Empire,ã‚¦ã‚£ãƒ³ãƒ‰ãƒªã‚¹å¸å›½,Federation of Astra Continents,ã‚¢ã‚¹ãƒˆãƒ©å¤§é™¸é€£é‚¦
+ClassProblemSelect_22,5,10,ä¼èª¬ã®ã€Œè³¢è€…ã®çŸ³ã€ã®æŒã¤åŠ›ã¨ã—ã¦æ­£ã—ã„ã‚‚ã®ã¯ï¼Ÿ,Immortality,Immortality,ä¸è€ä¸æ­»,Disable magic around the world,ä¸–ç•Œä¸­ã®é­”æ³•ã‚’ç„¡åŠ¹åŒ–ã™ã‚‹,Enhances the magic forever,é­”æ³•ã‚’æ°¸é ã«å¼·åŒ–ã™ã‚‹
+ClassProblemSelect_23,6,10,é­”æ³•ç•Œã§æœ€åˆã«ç¦æ­¢ã•ã‚ŒãŸé­”æ³•ã®ç¨®é¡ã¯ï¼Ÿ,The magic of manipulating others,The magic of manipulating others,ä»–äººã‚’æ“ã‚‹é­”æ³•,The magic of stopping time,æ™‚é–“ã‚’æ­¢ã‚ã‚‹é­”æ³•,The magic of changing the weather,å¤©æ°—ã‚’å¤‰ãˆã‚‹é­”æ³•
+ClassProblemSelect_24,7,10,ã€Œæœ€åˆã«é­”æ³•ã‚’ä½¿ã£ãŸã€ã¨ã•ã‚Œã‚‹ç”Ÿç‰©ã¯ï¼Ÿ,Dragon,Human ,äººé–“,Elf,ã‚¨ãƒ«ãƒ•,Dragon,ãƒ‰ãƒ©ã‚´ãƒ³
+ClassProblemSelect_25,8,10,é­”æ³•ç•Œã§ã€Œæœ€åˆã«ä½œã‚‰ã‚ŒãŸãƒãƒ¼ã‚·ãƒ§ãƒ³ã€ã¯ã©ã‚“ãªåŠ¹æœãŒã‚ã£ãŸï¼Ÿ,Heal injuries,Heal injuries,æ€ªæˆ‘ã‚’æ²»ã™,Improves eyesight,è¦–åŠ›ã‚’è‰¯ãã™ã‚‹,Restore the magic,é­”æ³•ã‚’å›å¾©ã™ã‚‹
+ClassProblemSelect_26,4,10,æ°´æ™¶ç‰ã‚’ä½¿ã£ãŸå ã„ã§ã€æœ€ã‚‚æ³¨ç›®ã™ã‚‹ã¹ãå¤‰åŒ–ã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Patterns and shadows seen in crystals,Reflection of light in crystals,æ°´æ™¶ã®å…‰ã®åå°„,Patterns and shadows seen in crystals,æ°´æ™¶ã®ä¸­ã«è¦‹ãˆã‚‹æ¨¡æ§˜ã‚„å½±,Changes in the temperature of the crystal,æ°´æ™¶ã®æ¸©åº¦ã®å¤‰åŒ–
+ClassProblemSelect_27,5,10,æ˜Ÿå ã„ã§ã€Œå ã„ã«æœ€ã‚‚å½±éŸ¿ã‚’ä¸ãˆã‚‹ã€ã¨ã•ã‚Œã‚‹å¤©ä½“ã¯æ¬¡ã®ã†ã¡ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Moon,Moon,æœˆ,Mars,ç«æ˜Ÿ,Jupiter,æœ¨æ˜Ÿ
+ClassProblemSelect_28,6,10,å¤¢å ã„ã§ã€å¤¢ã®ä¸­ã§ã€Œéµã€ã‚’è¦‹ã¤ã‘ãŸå ´åˆã€ä½•ã‚’è±¡å¾´ã—ã¦ã„ã‚‹ã¨è¨€ã‚ã‚Œã¦ã„ã‚‹ã§ã—ã‚‡ã†ï¼Ÿ,Uncover secrets and new opportunities,Uncover secrets and new opportunities,ç§˜å¯†ã®è§£æ˜ã‚„æ–°ã—ã„ãƒãƒ£ãƒ³ã‚¹,Indecision and confusion,è¿·ã„ã¨æ··ä¹±,Failures and warnings,å¤±æ•—ã¨è­¦å‘Š
+ClassProblemSelect_29,7,10,ã€Œæ‰‹ç›¸å ã„ã€ã§ç”Ÿå‘½åŠ›ã‚„å¥åº·é‹ã‚’è¦‹ã‚‹éš›ã€æ³¨ç›®ã™ã‚‹ç·šã¯ã©ã‚Œã§ã—ã‚‡ã†ï¼Ÿ,Lifeline,Emotion line,æ„Ÿæƒ…ç·š,Lifeline,ç”Ÿå‘½ç·š,Destiny Line,é‹å‘½ç·š
+ClassProblemSelect_30,8,10,ã€Œå¤¢å ã„ã€ã«ãŠã„ã¦ã€å¤¢ã®ä¸­ã§ã€Œé›¨ã€ãŒé™ã£ã¦ã„ã‚‹å ´åˆã€ã©ã‚“ãªæ„Ÿæƒ…ã‚’è±¡å¾´ã™ã‚‹ã¨ã•ã‚Œã¦ã„ã‚‹ã§ã—ã‚‡ã†ï¼Ÿ,Grief or purification,Grief or purification,æ‚²ã—ã¿ã‚„æµ„åŒ–,Anger or confusion,æ€’ã‚Šã‚„æ··ä¹±,Love and happiness,æ„›ã‚„å¹¸ç¦

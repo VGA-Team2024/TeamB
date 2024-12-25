@@ -6314,7 +6314,7 @@ MonoBehaviour:
   _loadingPanel: {fileID: 425677203}
   _skitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
   _skitLogViewer: {fileID: 2785846}
-  _dataLoadType: 0
+  _dataLoadType: 1
   _nextLoadScene: 1
 --- !u!4 &1361457062
 Transform:
