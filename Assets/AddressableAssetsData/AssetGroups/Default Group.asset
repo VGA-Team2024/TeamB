@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 055b6216634c8ba4b80610294c57a4cb
   m_SerializeEntries:
-  - m_GUID: 00729a113e835264b90dd053e77828fa
-    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 01bfd96e3b7a0fc4f863910735b6ff0f
     m_Address: Assets/DataAsset/MasterData/SkitClassSelectMasterData.csv
     m_ReadOnly: 0
@@ -104,6 +99,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 973d72a805a6a994da44af0435d6769d
     m_Address: Assets/Prefabs/Effect/Attack2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b15c8a0ad0b767947a2b2bf958ae0439
+    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
