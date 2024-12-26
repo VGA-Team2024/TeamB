@@ -13,39 +13,37 @@ public class Gallery : MonoBehaviour
         Still
     }
 
-    [Header("ギャラリーモード")]
     public GalleryMode _galleryMode;
 
-    [SerializeField, Header("背景")]
+    [SerializeField]
     Sprite[] _backGround;
 
-    [SerializeField, Header("立ち絵")]
+    [SerializeField]
     Sprite[] _characterPortrait;
 
-    [SerializeField, Header("スチル")]
+    [SerializeField]
     Sprite[] _still;
 
-    [SerializeField] GameObject _tilePrefab; // 作成したPrefab
-    [SerializeField] Transform canvasTransform; // 親になるCanvasのTransform
+    [SerializeField] GameObject _tilePrefab;
+    [SerializeField] private Transform canvasTransform;
 
     [SerializeField] Image _pickUpImage;
     [SerializeField] Image _pickUpImageBackGround;
 
-    [SerializeField,Header("背景button")] Button _backgroundButton;
-    [SerializeField, Header("立ち絵button")] Button _portraitButton;
-    [SerializeField, Header("スチルbutton")] Button _stillButton;
+    [SerializeField] Button _backgroundButton;
+    [SerializeField] Button _portraitButton;
+    [SerializeField] Button _stillButton;
 
-    public int _gridSize = 3; // デフォルトのグリッドサイズ（3x3）
+    public int _gridSize = 3;
 
     private bool _isChoice;
 
-    private List<GameObject> _tiles = new List<GameObject>(); // タイルをリストで管理
+    private List<GameObject> _tiles = new List<GameObject>(); 
 
     void Start()
     {
         
         GenerateTiles();
-        // 各ボタンにTypeChangeメソッドをラムダ式で設定
         _backgroundButton.onClick.AddListener(() => TypeChange(Gallery.GalleryMode.BackGround));
         _portraitButton.onClick.AddListener(() => TypeChange(Gallery.GalleryMode.CharacterPortrait));
         _stillButton.onClick.AddListener(() => TypeChange(Gallery.GalleryMode.Still));
@@ -70,6 +68,9 @@ public class Gallery : MonoBehaviour
     public void Choice(Image image)
     {   
         _pickUpImage.sprite = image.sprite;
+        RectTransform trans = _pickUpImage.gameObject.GetComponent<RectTransform>();
+        trans.sizeDelta = new Vector2(image.sprite.texture.width, image.sprite.texture.height);
+        trans.localScale = Vector3.one * 0.2f;
         _pickUpImageBackGround.gameObject.SetActive(true);
         _isChoice = true;
     }
@@ -77,44 +78,42 @@ public class Gallery : MonoBehaviour
 
     public void TypeChange(GalleryMode galleryMode)
     {
-        _galleryMode = galleryMode; // モードを更新
-        GenerateTiles(); // タイルを再生成
+        _galleryMode = galleryMode;
+        GenerateTiles();
     }
 
     public void GenerateTiles()
     {
-        // 既存のタイルを削除
         ClearTiles();
 
         int spriteIndex = 0;
-        int startX = -25;
-        int startY = -140;
+        int startX = -45;
+        int startY = -80;
         int offsetX = 165;
         int offsetY = 140;
 
-        // グリッドにタイルを配置
         for (int y = 0; y < _gridSize; y++)
         {
             for (int x = 0; x < _gridSize; x++)
             {
                 if (spriteIndex >= GetSpriteArray().Length) break;
 
-                // タイルを生成し、位置を設定
                 GameObject tile = Instantiate(_tilePrefab, canvasTransform);
                 RectTransform rectTransform = tile.GetComponent<RectTransform>();
                 Button button = tile.GetComponent<Button>();
                 rectTransform.anchoredPosition = new Vector2(startX + x * offsetX, startY + y * offsetY);
-                rectTransform.sizeDelta = new Vector2(150, 100);
-                // スプライトを設定
+                
                 Image imageComponent = tile.GetComponent<Image>();
                 if (imageComponent != null)
                 {
                     imageComponent.sprite = GetSpriteArray()[spriteIndex];
+
+                    rectTransform.sizeDelta = new Vector2(GetSpriteArray()[spriteIndex].texture.width, GetSpriteArray()[spriteIndex].texture.height);
+                    rectTransform.localScale = Vector3.one * 0.08f;
                 }
 
                 button.onClick.AddListener(() => Choice(imageComponent));
 
-                // タイルリストに追加
                 _tiles.Add(tile);
 
                 spriteIndex++;
@@ -126,9 +125,9 @@ public class Gallery : MonoBehaviour
     {
         foreach (GameObject tile in _tiles)
         {
-            Destroy(tile); // 既存のタイルを削除
+            Destroy(tile); 
         }
-        _tiles.Clear(); // リストをクリア
+        _tiles.Clear();
     }
 
     public Sprite[] GetSpriteArray()

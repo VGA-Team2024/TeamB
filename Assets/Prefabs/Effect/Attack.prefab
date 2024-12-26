@@ -518,4 +518,4 @@ MonoBehaviour:
   - {fileID: 677869636861687487}
   - {fileID: 8351118336108295436}
   speed: {x: 4, y: 0, z: 0}
-  survivalTime: 5
+  survivalTime: 1.6

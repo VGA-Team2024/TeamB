@@ -147,6 +147,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36855e157d8f1e24da15fe02e4825cdc
+    m_Address: Assets/Prefabs/Effect2/Particle_Battle_Attack01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 36d592aad13a9a8488c57eb9db300637
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f344.png
     m_ReadOnly: 0
@@ -734,6 +739,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79a6a65ea9ef1594cb3792d05dc595f2
+    m_Address: Assets/Prefabs/Effect/Attack.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 79e357d387fb1e44e9ae7409104049dc
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f357.png
     m_ReadOnly: 0
@@ -991,6 +1001,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 973d72a805a6a994da44af0435d6769d
+    m_Address: Assets/Prefabs/Effect/Attack2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 97956d90373563c429a8466e3ead862c
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f082.png

@@ -1,6 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
-using SE.Lian;
+using VOICE.Lian;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using UnityEngine;
@@ -54,7 +54,8 @@ namespace TeamB.Develop
             _allies.OnTakeDamage += OnTakeDamage;
             _allies.OnDefense += OnDefense;
             _allies.OnEndDefense += OnEndDefense;
-            _allies.OnAttack += OnSuccessAttack;
+            _allies.OnEndAttack += OnSuccessAttack;
+            _allies.OnDefenceFailure += DefenceFailure;
             _exam.OnExamUpdated += (_) =>
             {
                 if (_poseManager == null)
@@ -70,11 +71,11 @@ namespace TeamB.Develop
         {
             if (GameStatics.GetRandomNumber(2) == 0)
             {
-                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_15));
+                CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_15));
             }
             else
             {
-                CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_16));
+                CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_16));
             }
 
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
@@ -82,7 +83,6 @@ namespace TeamB.Develop
                 sprite.color = new Color(1, 0, 0, 1);
             }
 
-            _hitCount++;
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
             if (!alliesPrefab) return;
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
@@ -116,8 +116,13 @@ namespace TeamB.Develop
                 sprite.color = new Color(1, 0.6f, 0, 1);
             }
 
-            CRIAudioManager.VOICE.Play("Lian", nameof(Lian.Lian_12));
+            CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_12));
             _defenceSuccessCount++;
+        }
+
+        private void DefenceFailure()
+        {
+            _hitCount++;
         }
 
         private void OnSuccessAttack()
@@ -230,6 +235,7 @@ namespace TeamB.Develop
         {
             _defenseInput.ChangeInput(isAction);
         }
+
 
         /// <summary>
         /// 試験終了処理

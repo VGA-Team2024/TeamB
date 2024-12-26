@@ -26,17 +26,24 @@ public class ResultManager : MonoBehaviour
     {
         resultData = GameStatics.resultData;
 
-        int round = Random.Range(1, 3);
-
-        if(round == 1)
+        switch (GameStatics.ExamState)
         {
-            FirstResult();
-            Result(resultData.firsttestP, resultData.firstpass);
-        }
-        else
-        {
-            SecondResult();
-            Result(resultData.secondtestP, resultData.secondpass);
+            case ExamState.Tutorial:
+                FirstResult();
+                Result(resultData.firsttestP, resultData.firstpass);
+                break;
+            case ExamState.FirstExam:
+                FirstResult();
+                Result(resultData.firsttestP, resultData.firstpass);
+                break;
+            case ExamState.SecondExam:
+                FirstResult();
+                Result(resultData.firsttestP, resultData.firstpass);
+                break;
+            case ExamState.ExamClear:
+                SecondResult();
+                Result(resultData.secondtestP, resultData.secondpass);
+                break;
         }
 
         StartCoroutine(MoveText());
@@ -103,6 +110,8 @@ public class ResultManager : MonoBehaviour
             result_stamp.transform.localScale += new Vector3(0.0005f, 0.0005f, 0);
             yield return null;
         }
+
+        CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_010_Stamp));
 
     }
 
