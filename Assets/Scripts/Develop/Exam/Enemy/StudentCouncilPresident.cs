@@ -81,7 +81,6 @@ namespace TeamB.Develop
                     break;
                 default:
                     _currentData = new(GameStatics.Characters[(int)_firstCharacterType]);
-                    Debug.Log(_currentData.ChantingSpeed);
                     break;
             }
 
