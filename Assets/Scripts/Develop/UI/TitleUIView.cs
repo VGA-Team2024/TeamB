@@ -13,6 +13,7 @@ namespace TeamB.UI
     public class TitleUIView : UIView
     {
         [SerializeField] private SkitFlagData _skitFlagData;
+        private bool _isGameStart;
 
         protected override void AwakeCall()
         {
@@ -38,6 +39,8 @@ namespace TeamB.UI
 
         public void SceneChange(string sceneName)
         {
+            if (_isGameStart) return;
+            _isGameStart = true;
             SceneLoader.LoadScene(sceneName);
         }
 

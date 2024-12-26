@@ -196,10 +196,12 @@ namespace TeamB.SkitSystem
                         var time = end - start;
                         CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
                         SkitRewardManager.Instance.AddRewardValue(choiceData.ChoiceTime - (float)time.TotalSeconds);
+                        CRIAudioManager.VOICE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceCorrect);
                     }
                     else
                     {
                         CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Incorrect);
+                        CRIAudioManager.VOICE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceIncorrect);
                     }
                 }
                 else
