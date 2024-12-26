@@ -313,13 +313,16 @@ namespace TeamB.SkitSystem
                 Destroy(child.gameObject);
             }
 
+            var buttons = new List<ClassSelectButton>();
             foreach (var classSelectEntry in classSelectData.ClassChoices)
             {
                 var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
-                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
+                buttons.Add(button);
+                button.InitializeClassSelectButton(classSelectEntry.JapaneseChoiceName, classSelectEntry.TalkReward);
                 button.OnClick += async () =>
                 {
                     CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceAfterClassSelect);
+                    buttons.ForEach(b => b.LockButton(true));
                     await UniTask.WaitForSeconds(AfterClassSelectTime, cancellationToken: cancellationToken);
                     awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
                     _classSelectPanel.SetActive(false);
@@ -508,7 +511,8 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData,
                 cancellationToken);
-            CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
+            if (CRIAudioManager.VOICE.IsPlaying) CRIAudioManager.VOICE.Stop();
+            if (!string.IsNullOrEmpty(skitEntryData.VoiceFileName)) CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();

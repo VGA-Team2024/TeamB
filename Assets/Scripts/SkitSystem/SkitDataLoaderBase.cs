@@ -221,7 +221,6 @@ namespace TeamB.SkitSystem
             var currentSkitDataId = rawData[1][0];
             var currentSkitFlag = rawData[1][1];
             var skitEntryDataList = new List<SkitEntryData>();
-            var voiceFileName = "";
             for (var i = 1; i < rawData.Count; i++)
             {
                 if (i != 1 && rawData[i][0] != "")
@@ -241,8 +240,8 @@ namespace TeamB.SkitSystem
                     classTalkCharaData.Add(eachClassTalkCharaData);
                 }
                 var speaker = rawData[i][2];
-                var background = rawData[i][3];
-                voiceFileName = rawData[i][4];
+                var voiceFileName = rawData[i][3];
+                var background = rawData[i][4];
                 var japaneseDialogue = rawData[i][5];
                 var englishDialogue = string.IsNullOrEmpty(rawData[i][6]) ? string.Empty : rawData[i][6];
                 var skitEntryData = new SkitEntryData(classTalkCharaData.ToArray(), speaker, voiceFileName, background, japaneseDialogue, englishDialogue);
