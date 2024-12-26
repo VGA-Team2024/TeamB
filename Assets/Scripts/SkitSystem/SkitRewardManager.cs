@@ -27,6 +27,7 @@ namespace TeamB.SkitSystem
         private RewardType _currentRewardType = RewardType.Concentration;
         private float _remainTimeSum;
         private int _correctCount;
+        public bool IsParameterUp { get; private set; }
 
         private void Awake()
         {
@@ -43,6 +44,7 @@ namespace TeamB.SkitSystem
         public void SetRewardType(RewardType rewardType)
         {
             _currentRewardType = rewardType;
+            IsParameterUp = false;
         }
         
         //ステータス上昇値の計算式	→	Val = 回答残り時間の合計 / 正答数 	
@@ -50,6 +52,7 @@ namespace TeamB.SkitSystem
         {
             _remainTimeSum += remainTime;
             _correctCount++;
+            IsParameterUp = true;
             AddStatus();
         }
         

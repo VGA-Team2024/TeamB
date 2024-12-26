@@ -70,8 +70,8 @@ namespace TeamB.SkitSystem
                 }
             }
 
-            //テスト用
             if (OnSkitEnd != null) await OnSkitEnd.Invoke();
+            if (SkitRewardManager.Instance.IsParameterUp) CRIAudioManager.VOICE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceParameterUp);
             _skitSceneCoordinator.EndSkitScene();
         }
 

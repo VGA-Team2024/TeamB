@@ -66,6 +66,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private InputType _inputType;
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
+        private const float ClassBellTime = 3f;
         
         private enum InputType
         {
@@ -294,7 +295,10 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(classSelectData.BackgroundImageName, null, cancellationToken);
             if (_skitFadeView.IsFading) await _skitFadeView.FadeOutAsync(cancellationToken);
+            CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.ClassBell);
+            await UniTask.WaitForSeconds(ClassBellTime, cancellationToken: cancellationToken);
             await ShowDialogue(classSelectData.TalkerName, classSelectData.Dialogue, cancellationToken);
+            CRIAudioManager.SE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceClassSelect);
             if (cancellationToken.IsCancellationRequested)
             {
                 Debug.Log("Operation was cancelled.");
@@ -330,6 +334,7 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitChoiceData.TalkBackground, skitChoiceData.TalkCharaData, cancellationToken);
             await ShowDialogue(skitChoiceData.TalkSpeaker, skitChoiceData.JapaneseTalkDialogue, cancellationToken);
+            //CRIAudioManager.VOICE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceChoiceSuggestion);
             if (cancellationToken.IsCancellationRequested)
             {
                 Debug.Log("Operation was cancelled.");
