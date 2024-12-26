@@ -17,11 +17,15 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 055b6216634c8ba4b80610294c57a4cb
   m_SerializeEntries:
-  - m_GUID: 04c9d85235794194eba21d63c22ce4c5
-    m_Address: Conversation_StandingPicture_02
+  - m_GUID: 01bfd96e3b7a0fc4f863910735b6ff0f
+    m_Address: Assets/DataAsset/MasterData/SkitClassSelectMasterData.csv
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - SkitTexture
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d423475a49ed20428bc7021751f2164
+    m_Address: Assets/DataAsset/MasterData/SkitChoiceMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 23c6c1efd4214f049b9e05d3c0ce9bc6
     m_Address: Battle_Weapon_01
@@ -489,6 +493,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5842a28357383ef46ad89a28eeb57f31
+    m_Address: Assets/Scenes/SceneDependencies.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 59118c6461380a644b72b92b752a7804
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f163.png
@@ -1015,6 +1024,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 984aa71bd2ccd804f88dbb11a9f1a4db
+    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 992f76f7d9343d141a6bb28630971ef9
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f009.png
@@ -1663,6 +1677,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dad930e74d34ab543bfe14f7c9868fb4
+    m_Address: Assets/DataAsset/MasterData/SkitTutorialMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db25e483973264b49847c63a4870a004
     m_Address: Assets/ExternalAssets/TalkScene/jewel-s-free101j/image/character/f116.png

@@ -71,7 +71,6 @@ namespace TeamB.SkitSystem
             }
 
             //テスト用
-            SkitRewardManager.Instance.AddStatus();
             if (OnSkitEnd != null) await OnSkitEnd.Invoke();
             _skitSceneCoordinator.EndSkitScene();
         }
