@@ -58,11 +58,11 @@ namespace TeamB.SkitSystem
 
         public async UniTask EndSkitScene(CancellationToken cancellationToken)
         {
-            CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName,
-                SkitRewardManager.Instance.IsParameterUp
-                    ? SkitSoundHelper.VoiceParameterUp
-                    : SkitSoundHelper.VoiceAfterClass);
-            await UniTask.WaitForSeconds(VoiceDelay, cancellationToken: cancellationToken);
+            if (SkitRewardManager.Instance.IsParameterUp)
+            {
+                CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceParameterUp);
+                await UniTask.WaitForSeconds(VoiceDelay, cancellationToken: cancellationToken);
+            }
             // 会話シーンの終了時に必要な処理を行う
             if (_nextLoadScene == NextLoadScene.Skit)
             {

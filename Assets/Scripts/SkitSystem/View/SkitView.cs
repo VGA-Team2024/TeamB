@@ -251,7 +251,6 @@ namespace TeamB.SkitSystem
                 Destroy(child.gameObject);
             }
 
-            Debug.Log("ShowTutorialAboutSkitChoice");
             foreach (var choiceEntry in tutorialChoiceData.ChoiceEntries)
             {
                 var button = Instantiate(_choiceButtonPrefab, _choiceButtonParent);

@@ -79,6 +79,7 @@ namespace TeamB.SkitSystem
             CurrentCancellationToken?.Cancel();
             _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
             CurrentCancellationToken = new CancellationTokenSource();
+            OnSkitEnd = null;
         }
 
         public void Dispose()
