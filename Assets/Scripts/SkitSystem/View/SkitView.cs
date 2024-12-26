@@ -18,7 +18,7 @@ namespace TeamB.SkitSystem
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
         [SerializeField] private SkitSceneButtonBase _autoButton;
-        [SerializeField, Range(0, 5)] private float _autoDelaySpeed = 2f;
+        private const float AutoDelaySpeed = 6f;
         [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
         [SerializeField] private RectTransform _backLogTextParent;
@@ -67,7 +67,7 @@ namespace TeamB.SkitSystem
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
         private const float ClassBellTime = 3f;
-        private const float AfterClassSelectTime = 3f;
+        private const float AfterClassSelectTime = 5f;
         
         private enum InputType
         {
@@ -97,15 +97,24 @@ namespace TeamB.SkitSystem
         
         private void SetSkip()
         {
-            Debug.Log("SetSkip");
+            CRIAudioManager.VOICE.Stop();
             _inputType = InputType.Skip;
             _skipButton.ShowIsActivated(_inputType == InputType.Skip);
+            _autoButton.ShowIsActivated(false);
         }
 
         private void SetAuto()
         {
-            _inputType = _inputType != InputType.Auto ? InputType.Auto : InputType.Tap;
+            _inputType = _inputType == InputType.Auto ? InputType.Tap : InputType.Auto;
             _autoButton.ShowIsActivated(_inputType == InputType.Auto);
+            _skipButton.ShowIsActivated(false);
+        }
+
+        private void SetTap()
+        {
+            _inputType = InputType.Tap;
+            _autoButton.ShowIsActivated(false);
+            _skipButton.ShowIsActivated(false);
         }
 
         private void UpdateStatus(float currentValue, TMP_Text statusText, RectTransform goalObject)
@@ -145,7 +154,7 @@ namespace TeamB.SkitSystem
                     break;
                 case InputType.Auto:
                     var elapsedTime = 0f;
-                    while (elapsedTime < _autoDelaySpeed)
+                    while (elapsedTime < AutoDelaySpeed)
                     {
                         if (_inputType == InputType.Skip) return;
                         if (_backlogView.IsLogActive)
@@ -196,6 +205,7 @@ namespace TeamB.SkitSystem
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput,
             CancellationToken cancellationToken)
         {
+            SetTap();
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(tutorialData.BackgroundImageName, null, cancellationToken);
             _tutorialPanelAboutGame.SetActive(true);
@@ -511,7 +521,7 @@ namespace TeamB.SkitSystem
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData,
                 cancellationToken);
             if (CRIAudioManager.VOICE.IsPlaying) CRIAudioManager.VOICE.Stop();
-            if (!string.IsNullOrEmpty(skitEntryData.VoiceFileName)) CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
+            if (!string.IsNullOrEmpty(skitEntryData.VoiceFileName) && _inputType != InputType.Skip) CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();

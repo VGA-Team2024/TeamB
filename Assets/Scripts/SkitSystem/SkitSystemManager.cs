@@ -70,7 +70,10 @@ namespace TeamB.SkitSystem
                 }
             }
 
-            if (OnSkitEnd != null) await OnSkitEnd.Invoke();
+            if (OnSkitEnd != null)
+            {
+                await OnSkitEnd.Invoke();
+            }
             _skitSceneCoordinator.EndSkitScene(CurrentCancellationToken.Token).Forget();
         }
 
@@ -79,7 +82,6 @@ namespace TeamB.SkitSystem
             CurrentCancellationToken?.Cancel();
             _skitContextHandlers.ToList().ForEach(handler => handler.Dispose());
             CurrentCancellationToken = new CancellationTokenSource();
-            OnSkitEnd = null;
         }
 
         public void Dispose()
