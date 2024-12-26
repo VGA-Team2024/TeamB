@@ -131,6 +131,7 @@ public class CRIAudioManager
 	{
 		CriAtomExAcb _atomExAcb;
 		private Dictionary<string, CueInfo> _cueInfoDic = new Dictionary<string, CueInfo>();
+		public bool IaContainsKey(string key) => _cueInfoDic.ContainsKey(key);
 
 		public SoundDic(CriAtomExAcb acb)
 		{
@@ -199,7 +200,17 @@ public class CRIAudioManager
 				PlayQueue(_type, cueSheet, cueName);
 				return default;
 			}
-
+			if (_instance._soundDic.ContainsKey(cueSheet) == false)
+			{
+				Debug.LogError($"CueSheet:{cueSheet}が見つかりません");
+				return default;
+			}
+			
+			if (_instance._soundDic[cueSheet] == null || _instance._soundDic[cueSheet].IaContainsKey(cueName) == false)
+			{
+				Debug.LogError($"CueName:{cueName}が見つかりません");
+				return default;
+			}
 			CueInfo info = _instance._soundDic[cueSheet].GetCueInfo(cueName);
 			_atomExPlayer.SetCue(_instance._soundDic[cueSheet].GetAcb(), info.id);
 			_atomExPlayer.SetPreDelayTime(delay);
