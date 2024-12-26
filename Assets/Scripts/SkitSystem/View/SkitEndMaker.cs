@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
 using R3;
 using R3.Triggers;
-using Observable = UnityEngine.InputSystem.Utilities.Observable;
 
 namespace TeamB.SkitSystem
 {
