@@ -65,7 +65,7 @@ namespace TeamB.SkitSystem
             var rewardValue = _remainTimeSum / _correctCount;
             var key = (int)GameStatics.NurturingCharacterType;
             if (!GameStatics.Characters.ContainsKey(key)) return;
-            CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.ParameterUp);
+            CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.ParameterUp);
             switch (_currentRewardType)
             {
                 case RewardType.Intuition:

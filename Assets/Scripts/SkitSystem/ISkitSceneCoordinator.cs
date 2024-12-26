@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TeamB.Develop.Develop;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
@@ -13,7 +11,7 @@ namespace TeamB.SkitSystem
     public interface ISkitSceneCoordinator
     {
         public SkitContext GetStartSkitData(); 
-        public void EndSkitScene();
+        public UniTask EndSkitScene(CancellationToken cancellationToken);
     }
     
     public class SkitSceneCoordinator : ISkitSceneCoordinator
@@ -24,6 +22,7 @@ namespace TeamB.SkitSystem
         private const string ExamSceneName = "Exam";
         private const string LastFlag = "SecondExamClear";
         private const string DefaultId = "Prologue";
+        private const float VoiceDelay = 6;
         private readonly NextLoadScene _nextLoadScene;
         public enum NextLoadScene
         {
@@ -57,8 +56,13 @@ namespace TeamB.SkitSystem
             }
         }
 
-        public void EndSkitScene()
+        public async UniTask EndSkitScene(CancellationToken cancellationToken)
         {
+            CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName,
+                SkitRewardManager.Instance.IsParameterUp
+                    ? SkitSoundHelper.VoiceParameterUp
+                    : SkitSoundHelper.VoiceAfterClass);
+            await UniTask.WaitForSeconds(VoiceDelay, cancellationToken: cancellationToken);
             // 会話シーンの終了時に必要な処理を行う
             if (_nextLoadScene == NextLoadScene.Skit)
             {

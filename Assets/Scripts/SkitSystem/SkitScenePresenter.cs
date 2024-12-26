@@ -142,7 +142,7 @@ namespace TeamB.SkitSystem
         private void Start()
         {
             CRIAudioManager.BGM.Stop();
-            CRIAudioManager.BGM.Play(SkitSoundKey.BgmSheetName, nameof(BGM.BGM_002_InGame));
+            CRIAudioManager.BGM.Play(SkitSoundHelper.BgmSheetName, nameof(BGM.BGM_002_InGame));
         }
 
         private void OnDestroy()
