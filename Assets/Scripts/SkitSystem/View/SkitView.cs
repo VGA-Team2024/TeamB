@@ -27,6 +27,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _talkerNameText;
         [SerializeField] private GameObject _talkerNamePanel;
         [SerializeField] private GameObject _dialoguePanel;
+        [SerializeField] private SkitEndMaker _skitEndMaker;
         [SerializeField, Range(0, 0.2f)] private float _textSpeed = 0.03f;
         [Header("背景・キャラ表示関連")] 
         [SerializeField] private Image _backgroundImage;
@@ -134,6 +135,7 @@ namespace TeamB.SkitSystem
         
         private async UniTask GetEmptyInput(CancellationToken cancellationToken)
         {
+            _skitEndMaker.gameObject.SetActive(true);
             switch (_inputType)
             {
                 case InputType.Tap:
@@ -172,10 +174,12 @@ namespace TeamB.SkitSystem
                     }
                     break;
                 case InputType.Skip:
+                    _skitEndMaker.gameObject.SetActive(false);
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            _skitEndMaker.gameObject.SetActive(false);
         }
 
         private bool GetMouseButtonDown()
