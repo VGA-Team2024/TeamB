@@ -21,7 +21,7 @@ namespace TeamB.Develop
         [SerializeField] private OperationType _operationType;
         [SerializeField] private PlayableDirector _winStillDirector;
         [SerializeField] private PlayableDirector _winDirector;
-        [SerializeField] private PlayableDirector _FailDirector;
+        [SerializeField] private PlayableDirector _examStartDirector;
 
         [SerializeField] private ExamStateDatas _examStateDatas;
         [SerializeField] private SkitFlagData _skitFlagData;
@@ -44,6 +44,7 @@ namespace TeamB.Develop
         private void Awake()
         {
             InitialExamData();
+            _examStartDirector.Play();
         }
 
         private void Update()

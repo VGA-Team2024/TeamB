@@ -541,6 +541,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 691186018524461206}
   m_PrefabAsset: {fileID: 0}
+--- !u!320 &654824283 stripped
+PlayableDirector:
+  m_CorrespondingSourceObject: {fileID: 2688399583140576983, guid: b36bea8abbc09ff4eb0e7c7d1b88820f,
+    type: 3}
+  m_PrefabInstance: {fileID: 691186018524461206}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &666205400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4537,6 +4543,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2688399583140576983, guid: b36bea8abbc09ff4eb0e7c7d1b88820f,
+        type: 3}
+      propertyPath: m_InitialState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3534110232972529358, guid: b36bea8abbc09ff4eb0e7c7d1b88820f,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5166,6 +5177,11 @@ PrefabInstance:
       objectReference: {fileID: 2019905659}
     - target: {fileID: 8276101146546253509, guid: 8a4aacf16f68e4141ab9192234df2083,
         type: 3}
+      propertyPath: _FailDirector
+      value: 
+      objectReference: {fileID: 654824283}
+    - target: {fileID: 8276101146546253509, guid: 8a4aacf16f68e4141ab9192234df2083,
+        type: 3}
       propertyPath: _operationType
       value: 1
       objectReference: {fileID: 0}
@@ -5174,6 +5190,11 @@ PrefabInstance:
       propertyPath: _winStillDirector
       value: 
       objectReference: {fileID: 864101353}
+    - target: {fileID: 8276101146546253509, guid: 8a4aacf16f68e4141ab9192234df2083,
+        type: 3}
+      propertyPath: _examStartDirector
+      value: 
+      objectReference: {fileID: 654824283}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/System/GameLauncher.unity
+    guid: 8fddd8bd6df26f84eb0ce52c7a3f43e5
+  - enabled: 1
     path: Assets/Scenes/Develop/Title.unity
     guid: d9ca54e8c71836149825a53796f460c9
   - enabled: 1
@@ -26,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Develop/Skit.unity
     guid: 9fa17ac3ab3874a4eb23b0560f9acbff
-  - enabled: 1
-    path: Assets/Scenes/System/GameLauncher.unity
-    guid: 8fddd8bd6df26f84eb0ce52c7a3f43e5
   - enabled: 1
     path: Assets/Scenes/System/IngameDebug.unity
     guid: f344c073eba28c247a464cfb6b57ff22
