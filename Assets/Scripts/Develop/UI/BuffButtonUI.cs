@@ -1,5 +1,6 @@
 using System;
 using TeamB.GameSystem;
+using TGS2023.SE;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -33,6 +34,7 @@ namespace TeamB.Develop
             _allyManager.AddBuff(buff);
             _buffUI.ReturnBuffUI();
             buffData?.CountUpLimit();
+            CRIAudioManager.SE.Play("SE", nameof(SE.SE_018_Buff));
             OnAddBuff?.Invoke();
             if (buffData?.GetUseLimit <= buffData?.GetUseCount)
             {

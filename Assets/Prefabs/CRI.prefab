@@ -48,10 +48,6 @@ MonoBehaviour:
   cueSheets:
   - name: BGM
     acbFile: BGM.acb
-    awbFile: BGM.awb
-    loaderStatus: 0
-  - name: BGM2
-    acbFile: BGM2.acb
     awbFile: 
     loaderStatus: 0
   - name: Lian

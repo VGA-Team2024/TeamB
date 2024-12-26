@@ -102,6 +102,7 @@ namespace TeamB.Develop
         public event Action OnDefense;
         public event Action OnEndDefense;
         public event Action OnSuccessDefence;
+        public event Action OnDefenceFailure;
         public float GetAttackCoolTimer { get; }
         public float GetDefenceCoolTimer { get; }
         public float GetDefenceCoolTime { get; }
@@ -122,6 +123,7 @@ namespace TeamB.Develop
         public event Action OnNextForm;
         public event Action OnDown;
         public AbnormalCondition GetCurrentCondition { get; }
+        public CharacterType GetSecondCharacterType { get; }
         public int GetCurrentForm { get; }
     }
 
@@ -132,7 +134,7 @@ namespace TeamB.Develop
     {
         public bool IsInput { get; }
     }
-    
+
     public enum AbnormalCondition
     {
         Normal,

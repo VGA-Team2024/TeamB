@@ -1,5 +1,5 @@
 ﻿///<summary></summary>
-namespace SE.Lian {
+namespace VOICE.Lian {
 	public class Lian {
 		///<summary></summary>
 		public const int Lian_02 = (0);

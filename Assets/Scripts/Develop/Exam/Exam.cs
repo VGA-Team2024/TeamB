@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SE.Lian;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
@@ -20,7 +19,9 @@ namespace TeamB.Develop
     {
         [SerializeField] private float _examTime = 45f;
         [SerializeField] private OperationType _operationType;
+        [SerializeField] private PlayableDirector _winStillDirector;
         [SerializeField] private PlayableDirector _winDirector;
+        [SerializeField] private PlayableDirector _FailDirector;
 
         [SerializeField] private ExamStateDatas _examStateDatas;
         [SerializeField] private SkitFlagData _skitFlagData;
@@ -42,7 +43,6 @@ namespace TeamB.Develop
 
         private void Awake()
         {
-            StartExam();
             InitialExamData();
         }
 
@@ -59,8 +59,9 @@ namespace TeamB.Develop
         /// <summary>
         /// 試験の開始
         /// </summary>
-        private void StartExam()
+        public void StartExam()
         {
+            Debug.Log(GameStatics.ExamState);
             _poseManager = FindObjectOfType<PoseManager>();
             _allyManager = FindObjectOfType<AllyManager>();
             
@@ -95,7 +96,7 @@ namespace TeamB.Develop
                 switch (GameStatics.ExamState)
                 {
                     case ExamState.Tutorial:
-                        ExamFailure();
+                        ExamClear();
                         break;
                     case ExamState.FirstExam:
                         ExamClear();
@@ -122,7 +123,7 @@ namespace TeamB.Develop
             EndExam();
             OnStartPose();
             //リザルトデータ
-            GameStatics.resultData.leftoverTime = (int)_currentTimer;
+            GameStatics.resultData.leftoverTime = (int)(_examTime - _currentTimer);
             GameStatics.resultData.leftoverHp = (int)_allyManager.GetAllies.GetCurrentData.Hp;
             GameStatics.resultData.defense = _allyManager.GetDefenceSuccessCount;
             GameStatics.resultData.hit = _allyManager.GetHitCunt;
@@ -133,11 +134,11 @@ namespace TeamB.Develop
             switch (GameStatics.ExamState)
             {
                 case ExamState.Tutorial:
-                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
+                    flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.Tutorial))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
                     GameStatics.ExamState = ExamState.FirstExam;
-                    SceneLoader.LoadScene("Result");
+                    _winDirector.Play();
                     break;
                 case ExamState.FirstExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.FirstExam))
@@ -145,13 +146,13 @@ namespace TeamB.Develop
                     _skitFlagData.SetCurrentFlag(flagName);
                     GameStatics.resultData.firstpass = true;
                     GameStatics.ExamState = ExamState.SecondExam;
-                    SceneLoader.LoadScene("Result");
+                    _winDirector.Play();
                     break;
                 case ExamState.SecondExam:
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
-                    _winDirector.Play();
+                    _winStillDirector.Play();
                     GameStatics.resultData.secondpass = true;
                     GameStatics.ExamState = ExamState.ExamClear;
                     break;

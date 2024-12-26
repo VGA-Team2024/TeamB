@@ -6,15 +6,15 @@ using UnityEngine;
 
 public class AttackEffect : MonoBehaviour
 {
-    //メインエフェクト
     [SerializeField] GameObject maineffect;
-    //追従エフェクト
     [SerializeField] List<GameObject> trackingeffect = new List<GameObject>();
-    //魔法のスピード
     [SerializeField] Vector3 speed;
-    //魔法の存在時間
     [SerializeField] float survivalTime;
+    private float duration = 0f;
+    private float timer;
 
+    public event Action AtDestroy;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +24,11 @@ public class AttackEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timer < duration)
+        {
+            timer += Time.deltaTime;
+            return;
+        }
         maineffect.transform.position += speed *Time.deltaTime;
 
         for(int i = 0; i < trackingeffect.Count; i++)
@@ -50,5 +55,10 @@ public class AttackEffect : MonoBehaviour
             trackingeffect[2].SetActive(false);
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        AtDestroy?.Invoke();
     }
 }
