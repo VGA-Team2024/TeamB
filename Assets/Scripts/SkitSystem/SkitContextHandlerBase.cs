@@ -194,14 +194,14 @@ namespace TeamB.SkitSystem
                     {
                         var end = DateTime.Now;
                         var time = end - start;
-                        CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
+                        CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.Correct);
                         SkitRewardManager.Instance.AddRewardValue(choiceData.ChoiceTime - (float)time.TotalSeconds);
-                        CRIAudioManager.VOICE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceCorrect);
+                        CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceCorrect);
                     }
                     else
                     {
-                        CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Incorrect);
-                        CRIAudioManager.VOICE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceIncorrect);
+                        CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.Incorrect);
+                        CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceIncorrect);
                     }
                 }
                 else

@@ -18,7 +18,7 @@ namespace TeamB.SkitSystem
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
         [SerializeField] private SkitSceneButtonBase _autoButton;
-        [SerializeField, Range(0, 5)] private float _autoDelaySpeed = 2f;
+        private const float AutoDelaySpeed = 6f;
         [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
         [SerializeField] private RectTransform _backLogTextParent;
@@ -27,6 +27,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private TMP_Text _talkerNameText;
         [SerializeField] private GameObject _talkerNamePanel;
         [SerializeField] private GameObject _dialoguePanel;
+        [SerializeField] private SkitEndMaker _skitEndMaker;
         [SerializeField, Range(0, 0.2f)] private float _textSpeed = 0.03f;
         [Header("背景・キャラ表示関連")] 
         [SerializeField] private Image _backgroundImage;
@@ -67,6 +68,7 @@ namespace TeamB.SkitSystem
         private bool _isFirstSkitContextExecuted;
         private SkitResourceLoader _skitResourceLoader;
         private const float ClassBellTime = 3f;
+        private const float AfterClassSelectTime = 5f;
         
         private enum InputType
         {
@@ -96,15 +98,24 @@ namespace TeamB.SkitSystem
         
         private void SetSkip()
         {
-            Debug.Log("SetSkip");
+            CRIAudioManager.VOICE.Stop();
             _inputType = InputType.Skip;
             _skipButton.ShowIsActivated(_inputType == InputType.Skip);
+            _autoButton.ShowIsActivated(false);
         }
 
         private void SetAuto()
         {
-            _inputType = _inputType != InputType.Auto ? InputType.Auto : InputType.Tap;
+            _inputType = _inputType == InputType.Auto ? InputType.Tap : InputType.Auto;
             _autoButton.ShowIsActivated(_inputType == InputType.Auto);
+            _skipButton.ShowIsActivated(false);
+        }
+
+        private void SetTap()
+        {
+            _inputType = InputType.Tap;
+            _autoButton.ShowIsActivated(false);
+            _skipButton.ShowIsActivated(false);
         }
 
         private void UpdateStatus(float currentValue, TMP_Text statusText, RectTransform goalObject)
@@ -124,6 +135,7 @@ namespace TeamB.SkitSystem
         
         private async UniTask GetEmptyInput(CancellationToken cancellationToken)
         {
+            _skitEndMaker.gameObject.SetActive(true);
             switch (_inputType)
             {
                 case InputType.Tap:
@@ -144,7 +156,7 @@ namespace TeamB.SkitSystem
                     break;
                 case InputType.Auto:
                     var elapsedTime = 0f;
-                    while (elapsedTime < _autoDelaySpeed)
+                    while (elapsedTime < AutoDelaySpeed)
                     {
                         if (_inputType == InputType.Skip) return;
                         if (_backlogView.IsLogActive)
@@ -162,10 +174,12 @@ namespace TeamB.SkitSystem
                     }
                     break;
                 case InputType.Skip:
+                    _skitEndMaker.gameObject.SetActive(false);
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            _skitEndMaker.gameObject.SetActive(false);
         }
 
         private bool GetMouseButtonDown()
@@ -195,6 +209,7 @@ namespace TeamB.SkitSystem
         public async UniTask ShowTutorialAboutGame(NormalTutorialData tutorialData, UniTaskCompletionSource emptyInput,
             CancellationToken cancellationToken)
         {
+            SetTap();
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(tutorialData.BackgroundImageName, null, cancellationToken);
             _tutorialPanelAboutGame.SetActive(true);
@@ -250,7 +265,6 @@ namespace TeamB.SkitSystem
                 Destroy(child.gameObject);
             }
 
-            Debug.Log("ShowTutorialAboutSkitChoice");
             foreach (var choiceEntry in tutorialChoiceData.ChoiceEntries)
             {
                 var button = Instantiate(_choiceButtonPrefab, _choiceButtonParent);
@@ -267,8 +281,8 @@ namespace TeamB.SkitSystem
                     awaitSelect.TrySetResult(tutorialChoiceData.Answer);
                     LockAndShowAllChoiceButtonsResult();
                     button.ButtonResultImage.gameObject.SetActive(true);
-                    CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.Correct);
-                    CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.ParameterUp);
+                    CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.Correct);
+                    CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.ParameterUp);
                 };
                 button.ButtonResultImage.gameObject.SetActive(false);
             }
@@ -295,10 +309,10 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(classSelectData.BackgroundImageName, null, cancellationToken);
             if (_skitFadeView.IsFading) await _skitFadeView.FadeOutAsync(cancellationToken);
-            CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.ClassBell);
+            CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.ClassBell);
             await UniTask.WaitForSeconds(ClassBellTime, cancellationToken: cancellationToken);
             await ShowDialogue(classSelectData.TalkerName, classSelectData.Dialogue, cancellationToken);
-            CRIAudioManager.SE.Play(SkitSoundKey.LianSheetName, SkitSoundKey.VoiceClassSelect);
+            CRIAudioManager.SE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceClassSelect);
             if (cancellationToken.IsCancellationRequested)
             {
                 Debug.Log("Operation was cancelled.");
@@ -312,12 +326,17 @@ namespace TeamB.SkitSystem
                 Destroy(child.gameObject);
             }
 
+            var buttons = new List<ClassSelectButton>();
             foreach (var classSelectEntry in classSelectData.ClassChoices)
             {
                 var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
-                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
-                button.OnClick += () =>
+                buttons.Add(button);
+                button.InitializeClassSelectButton(classSelectEntry.JapaneseChoiceName, classSelectEntry.TalkReward);
+                button.OnClick += async () =>
                 {
+                    CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceAfterClassSelect);
+                    buttons.ForEach(b => b.LockButton(true));
+                    await UniTask.WaitForSeconds(AfterClassSelectTime, cancellationToken: cancellationToken);
                     awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
                     _classSelectPanel.SetActive(false);
                 };
@@ -505,6 +524,8 @@ namespace TeamB.SkitSystem
             SetActiveFalseAllSkitViewObject();
             await SetCharacterAndBackground(skitEntryData.TalkBackground, skitEntryData.TalkCharaData,
                 cancellationToken);
+            if (CRIAudioManager.VOICE.IsPlaying) CRIAudioManager.VOICE.Stop();
+            if (!string.IsNullOrEmpty(skitEntryData.VoiceFileName) && _inputType != InputType.Skip) CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
@@ -555,7 +576,7 @@ namespace TeamB.SkitSystem
                 }
 
                 _dialogueText.text += c;
-                CRIAudioManager.SE.Play(SkitSoundKey.SeSheetName, SkitSoundKey.TextFeed);
+                CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.TextFeed);
                 await UniTask.WaitForSeconds(_textSpeed, cancellationToken: cancellationToken);
             }
 

@@ -1,4 +1,4 @@
-﻿会話ID,フラグ,話者,ボイスファイルネーム,背景,会話,会話(English),キャラ1,キャラ1_立ち位置※追加不可,キャラ1_ファイル名,キャラ2,キャラ2_立ち位置※追加不可,キャラ2_ファイル名
+会話ID,フラグ,話者,ボイスファイルネーム,背景,会話,会話(English),キャラ1,キャラ1_立ち位置※追加不可,キャラ1_ファイル名,キャラ2,キャラ2_立ち位置※追加不可,キャラ2_ファイル名
 ClassTest_01,Test1,Takashi,,Conversation_HonorStudent_Noon,これはテストだ！,This is a test!,Takashi,Left,,Akari,Right,
 ,,Akari,,,これはテストだよ,This is a test.,Akari,Left,,Takashi,Right,
 ,,Takashi,,,お前誰だよ！,Who the hell are you?,Takashi,Left,,Akari,Right,
@@ -16,28 +16,28 @@ ClassTest_02,ClassTest1,先生,,Conversation_HonorStudent_Noon,それでは授�
 ,,先生,,,[Choice][ClassProblemSelectTest_08],,,,,,,
 ,,先生,,,以上で授業は終了です!,,,,,,,
 Prologue,Prologue,,,Conversation_BackGround_03_Night,入学して数か月。,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,,,今日の授業は攻撃魔法の授業だ。,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,,,[Tutorial][SetFlag:Tutorial][Skit][BeforeSkitTutorial]遅刻しないようにもう行かなきゃ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-BeforeSkitTutorial,Tutorial,リアン,,Conversation_BackGround_03_Night,いたっ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,生徒会長,,,ちょっと！マザリモノ風情が私の制服を汚して言いわけ！？,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,,,申し訳ございません...,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,生徒会長,,,ああ汚らしい、汚れた血で魔法を使おうとするなんて。この学園の恥さらしめ！消えなさい！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,リアン,Lian_52,,次の授業は......攻撃魔法の授業か。,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,リアン,Lian_53,,[Tutorial][SetFlag:Tutorial][Skit][BeforeSkitTutorial]遅刻しないためにもう行こうかな！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+BeforeSkitTutorial,Tutorial,リアン,Lian_54,Conversation_BackGround_03_Night,あ、危ない！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,生徒会長,SCP_55,,いや！わたくしのお気に入りのお洋服が！信じられないですわ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,リアン,Lian_56,,すみません！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,生徒会長,SCP_57,,謝罪して許されるとお思いで！？混ざりものが！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
 ,,リアン,,,...,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,プレイヤー,,,いいのか？それで。俺は納得いってないぞ。見返してやろうぜ！,,リアン,Middle,Conversation_StandingPicture_01,,,
-,,リアン,,,（できるのかな...）,,リアン,Middle,Conversation_StandingPicture_01,,,
+,,リアン,Lian_63,,（できるのかな......）,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,プレイヤー,,,[SetFlag:FirstExam]できる！見返してやろうぜ！,,リアン,Middle,Conversation_StandingPicture_01,,,
-FirstExam1,TutorialClear,生徒会長,,Conversation_HonorStudent_Noon,貴方、わたくしにたてつくというの？いい度胸ね。あなたがどういう存在か、わたくしの炎で今一度わからせてあげますわ,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,,,（できるかな...）,,リアン,Middle,Conversation_StandingPicture_01,,,
+FirstExam1,TutorialClear,生徒会長,SCP_62,Conversation_HonorStudent_Noon,貴方、わたくしにたてつくというの？いい度胸ですわ！あなたがどういう存在か、わたくしの炎で今一度わからせてあげますわ。,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,リアン,Lian_63,,（できるかな......）,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,プレイヤー,,,[ClassSelect][ClassSelectTest3]できる！[MainCharacter]ならできる！俺を信じろ！,,リアン,Middle,Conversation_StandingPicture_01,,,
-FirstExam2,FirstExamClear,リアン,,Conversation_HonorStudent_Noon,うそ、夢じゃないよね？,,リアン,Middle,Conversation_StandingPicture_01,,,
+FirstExam2,FirstExamClear,リアン,Lian_64,Conversation_HonorStudent_Noon,うそ、夢......じゃないよね？,,リアン,Middle,Conversation_StandingPicture_01,,,
 ,,プレイヤー,,,いっただろ、信じろって！,,リアン,Middle,Conversation_StandingPicture_01,,Right,Conversation_StandingPicture_02
-,,生徒会長,,,[Skit][SecondExam1]ふん！まぐれよ！次の試験で私を倒せるかしら！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-FirstExam3,FirstExamFailure,リアン,,Conversation_HonorStudent_Noon,やっぱり...私じゃダメなんだ...,,リアン,Middle,Conversation_StandingPicture_01,,,
-,,生徒会長,,,[SetFlag:FirstExam][Skit][FirstExam1]劣等生は劣等生らしく泥をすすって生きてればいいのよ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-SecondExam1,SecondExam,生徒会長,,Conversation_HonorStudent_Noon,[SetFlag:SecondExam][ClassSelect][ClassSelectTest1]貴方、私に勝てるかしら！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-SecondExam2,SecondExamClear,生徒会長,,Conversation_HonorStudent_Noon,理解...できないですわ...,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,,,私にもできた...！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
-SecondExam3,SecondExamFailure,生徒会長,,Conversation_HonorStudent_Noon,劣等生は劣等生らしく泥をすすって生きてればいいのよ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,生徒会長,SCP_65,,[Skit][SecondExam1]ふん！まぐれですわ！次の試験でわたくしを倒せるかしら！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+FirstExam3,FirstExamFailure,リアン,Lian_66,Conversation_HonorStudent_Noon,やっぱり......私じゃダメなんだ......,,リアン,Middle,Conversation_StandingPicture_01,,,
+,,生徒会長,SCP_67,,[SetFlag:FirstExam][Skit][FirstExam1]混血は混血らしく泥をすすって生きてればいいのよ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+SecondExam1,SecondExam,生徒会長,SCP_68,Conversation_HonorStudent_Noon,[SetFlag:SecondExam][ClassSelect][ClassSelectTest1]貴方、わたくしに勝てるかしら！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+SecondExam2,SecondExamClear,生徒会長,SCP_69,Conversation_HonorStudent_Noon,理解......できないですわ......,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+,,リアン,Lian_70,,私でも......倒せた......！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
+SecondExam3,SecondExamFailure,生徒会長,SCP_76,Conversation_HonorStudent_Noon,貴方には、地べたを這いつくばって生きていくのがお似合いですわ！,,リアン,Left,Conversation_StandingPicture_01,生徒会長,Right,Conversation_StandingPicture_02
 ,,プレイヤー,,,[SetFlag:SecondExam][Skit][SecondExam1]あきらめるな！まだやれるから！,,リアン,Middle,Conversation_StandingPicture_01,,,
 ClassProblem_1,ClassProblem_1,先生,,Conversation_BackGround_02_Noon,それでは授業を始めます,,,,,,,
 ,,先生,,,第一問！,,,,,,,

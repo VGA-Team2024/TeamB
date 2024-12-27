@@ -102,7 +102,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 984aa71bd2ccd804f88dbb11a9f1a4db
+  - m_GUID: b15c8a0ad0b767947a2b2bf958ae0439
     m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
