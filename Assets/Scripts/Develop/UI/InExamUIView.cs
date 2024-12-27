@@ -25,6 +25,7 @@ namespace TeamB.UI
         [SerializeField] private TMP_Text _skillNameText;
         [SerializeField] private TMP_Text _skillEffectNameText;
         [SerializeField] private TMP_Text _skillDescriptionText;
+        [SerializeField] private TMP_Text _clearText;
         [SerializeField] private Image _attackCoolTimeImage;
         [SerializeField] private Image _DefenceCoolTimeImage;
         [SerializeField] private GameObject skillParticlePlay;
@@ -114,17 +115,20 @@ namespace TeamB.UI
                 case ExamState.Tutorial:
                     _skillNameText.text = "アステール・プスマ";
                     _skillEffectNameText.text = "アステール・プスマ";
-                    _skillDescriptionText.text = "確率で相手の現HPの半分のダメージを与える";
+                    _skillDescriptionText.text = "確率で相手の現HPの\n半分のダメージを与える";
+                    _clearText.text = "敵を倒すと合格！";
                     break;
                 case ExamState.FirstExam:
                     _skillNameText.text = "アステール・プスマ";
                     _skillEffectNameText.text = "アステール・プスマ";
-                    _skillDescriptionText.text = "確率で相手の現HPの半分のダメージを与える";
+                    _skillDescriptionText.text = "確率で相手の現HPの\n半分のダメージを与える";
+                    _clearText.text = "45秒生き残ろう!";
                     break;
                 case ExamState.SecondExam:
                     _skillNameText.text = "メメント・モリ";
                     _skillEffectNameText.text = "メメント・モリ";
                     _skillDescriptionText.text = "確率で相手を倒す";
+                    _clearText.text = "敵を倒すと合格！";
                     break;
             }
         }

@@ -118,16 +118,16 @@ public class ResultManager : MonoBehaviour
     IEnumerator MoveText()
     {
         yield return StartCoroutine(Move(result_obj[0]));
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
 
         yield return StartCoroutine(Move(result_obj[1]));
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
 
         yield return StartCoroutine(Move(result_obj[2]));
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
 
         yield return StartCoroutine(ResultStamp());
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
     }
 }
 
