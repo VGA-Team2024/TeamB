@@ -1017,10 +1017,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 218046281124577243, guid: ab15921b0f8516640bdbea9688891e44,
         type: 3}
+      propertyPath: textAnimTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 218046281124577243, guid: ab15921b0f8516640bdbea9688891e44,
+        type: 3}
       propertyPath: nopass_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 43c7f5267fb92974a8a75c3e72023ca9,
         type: 3}
+    - target: {fileID: 218046281124577243, guid: ab15921b0f8516640bdbea9688891e44,
+        type: 3}
+      propertyPath: stampAnimTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 314459406424305850, guid: ab15921b0f8516640bdbea9688891e44,
         type: 3}
       propertyPath: m_Name
