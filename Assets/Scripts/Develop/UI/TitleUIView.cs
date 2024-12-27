@@ -13,6 +13,7 @@ namespace TeamB.UI
     public class TitleUIView : UIView
     {
         [SerializeField] private SkitFlagData _skitFlagData;
+        [SerializeField] private bool _isExamSkip;
         private bool _isGameStart;
 
         protected override void AwakeCall()
@@ -24,6 +25,8 @@ namespace TeamB.UI
         {
             CRIAudioManager.BGM.Stop();
             CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_001_title));
+            GameStatics.ExamState = ExamState.Tutorial;
+            GameStatics.IsExamSkip = _isExamSkip;
         }
 
 

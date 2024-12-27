@@ -65,9 +65,11 @@ namespace TeamB.Develop
             Debug.Log(GameStatics.ExamState);
             _poseManager = FindObjectOfType<PoseManager>();
             _allyManager = FindObjectOfType<AllyManager>();
-            
+
             OnExamUpdated += Timer;
             OnExamStarted?.Invoke();
+            if (GameStatics.IsExamSkip)
+                ExamClear();
         }
 
         /// <summary>
@@ -128,7 +130,6 @@ namespace TeamB.Develop
             GameStatics.resultData.leftoverHp = (int)_allyManager.GetAllies.GetCurrentData.Hp;
             GameStatics.resultData.defense = _allyManager.GetDefenceSuccessCount;
             GameStatics.resultData.hit = _allyManager.GetHitCunt;
-            
 
 
             string flagName = String.Empty;

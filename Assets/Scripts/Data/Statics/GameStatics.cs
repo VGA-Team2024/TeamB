@@ -42,6 +42,8 @@ namespace TeamB.GameSystem.Statics
         /// </summary>
         public static float TimeScale = 1.0f;
 
+        public static bool IsExamSkip = false;
+
         /// <summary>
         /// 試験クリアしたかどうか
         /// </summary>
