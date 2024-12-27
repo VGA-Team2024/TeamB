@@ -408,8 +408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b1aa6affffe78742aa5f3f5d03c0ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDebug: 1
-  _sceneName: InGameTest
+  _isDebug: 0
+  _sceneName: Title
   _base: {fileID: 1315228428}
   _debugRoot: {fileID: 817238546}
 --- !u!1 &1315228428

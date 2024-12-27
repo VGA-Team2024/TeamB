@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TeamB.Data;
 using TeamB.Develop;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,112 +21,105 @@ namespace TeamB.Develop
         private bool _isSpecial;
 
 
-        [SerializeField, Header("”wŒi")]
-        Image _backGround;
-        [SerializeField, Header("ƒ`ƒ…[ƒgƒŠƒAƒ‹Å‰‚Éo‚·Text")]
-        Text _messageText;
-        [SerializeField, Header("ƒ‚[ƒhƒ{ƒ^ƒ“")]
-        GameObject _modeButton;
-        [SerializeField, Header("•KE‹Zƒ{ƒ^ƒ“")]
-        GameObject _specialMovesButton;
-        [SerializeField, Header("–hŒäƒ{ƒ^ƒ“")]
-        GameObject _defenseButton;
-        [SerializeField, Header("–hŒäƒƒbƒZ[ƒW")]
-        GameObject _defenseMessage;
-        [SerializeField, Header("ƒAƒNƒVƒ‡ƒ“ƒ{ƒ^ƒ“")]
-        GameObject _actionButton;
+        [SerializeField] Image _backGround;
+        [SerializeField] TMP_Text _messageText;
+        [SerializeField] GameObject _modeButton;
+        [SerializeField] GameObject _specialMovesButton;
+        [SerializeField] GameObject _defenseButton;
+        [SerializeField] GameObject _defenseMessage;
+        [SerializeField] GameObject _actionButton;
 
         public bool _isStart;
         public bool _isTutorial;
+
         private void Awake()
         {
             allyManager = FindAnyObjectByType<AllyManager>();
             skillManager = FindAnyObjectByType<SkillManager>();
             enemyManager = FindAnyObjectByType<EnemyManager>();
+            exam = FindAnyObjectByType<Exam>();
+            exam.OnExamStarted += Initialize;
         }
-        // Start is called before the first frame update
-        void Start()
+
+
+        private void Initialize()
         {
-            if (exam == null)
-                exam = FindObjectOfType<Exam>();
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.Tutorial:
 
-            _isStart = false;
-            _isTutorial = false;
-            _isDefense = true;
-            _isMessage = true;
-            _isSpecial = true;
+                    _isStart = false;
+                    _isTutorial = false;
+                    _isDefense = true;
+                    _isMessage = true;
+                    _isSpecial = true;
 
 
-            enemyManager.GetCurrentEnemyData.OnDeath += EndTutorial;
-
+                    enemyManager.GetCurrentEnemyData.OnDeath += EndTutorial;
+                    exam.OnExamUpdated += TutorialUpdate;
+                    break;
+            }
         }
 
-        // Update is called once per frame
-        void Update()
+        private void TutorialUpdate(float deltaTime)
         {
             if (_isStart == false)
             {
                 exam.OnStartPose();
                 _isStart = true;
-                Debug.Log("ƒXƒgƒbƒv");
-                _messageText.text = "Œ±‚ÌŒP—û‚ğ‚µ‚Ä‚İ‚Ü‚µ‚å‚¤";
+                _messageText.text = "è©¦é¨“ã®è¨“ç·´ã‚’ã—ã¦ã¿ã¾ã—ã‚‡ã†ã€‚";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _count++;
                 _isTutorial = true;
             }
 
-            if (skillManager.GetCurrentHaveCost == skillManager.GetMaxCost && _isSpecial == true)
+            if (Mathf.Approximately(skillManager.GetCurrentHaveCost, skillManager.GetMaxCost) &&
+                _isSpecial == true)
             {
                 SpecialMovesTutorial();
-                
             }
 
-            if (GameStatics.Characters[(int)allyManager.GetAllies.GetCharacterType].Hp == (int)allyManager.GetAllies.GetCurrentData.Hp)
+            if (!Mathf.Approximately(
+                    GameStatics.Characters[(int)allyManager.GetAllies.GetFirstCharacterType].Hp,
+                    (int)allyManager.GetAllies.GetCurrentData.Hp))
             {
-                
+                DefenseTutorial();
+            }
+        }
+
+        public void PanelInput()
+        {
+            if (_count == 1)
+            {
+                ActionButtonTutorial();
+                _count++;
+            }
+            else if (_count == 2)
+            {
+                ModeTutorial();
+                _count++;
             }
             else
             {
-                DefenseTutorial();
-                
-            }
+                _isTutorial = false;
+                _backGround.gameObject.SetActive(false);
+                _messageText.gameObject.SetActive(false);
+                _modeButton.gameObject.SetActive(false);
+                _specialMovesButton.gameObject.SetActive(false);
+                _defenseButton.gameObject.SetActive(false);
+                _defenseMessage.gameObject.SetActive(false);
 
-            if (Input.GetKeyDown(KeyCode.Mouse0) && _isTutorial == true)
-            {
-                if (_count == 1)
-                {
-                    ActionButtonTutorial();
-                    _count++;
-                }
-                else if (_count == 2)
-                {
-                    ModeTutorial();
-                    _count++;
-                }
-                else
-                {
-                    _isTutorial = false;
-                    _backGround.gameObject.SetActive(false);
-                    _messageText.gameObject.SetActive(false);
-                    _modeButton.gameObject.SetActive(false);
-                    _specialMovesButton.gameObject.SetActive(false);
-                    _defenseButton.gameObject.SetActive(false);
-                    _defenseMessage.gameObject.SetActive(false);
-
+                if (_count != 4)
                     exam.OnEndPose();
-                }
-
             }
-
-            
-
         }
+
 
         public void ActionButtonTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "‚±‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚Æ–‚–@‚ğŒJ‚èo‚¹‚Ü‚·B\nUŒ‚A–hŒä–‚–@‚ğŒJ‚èo‚¹‚Ü‚·B";
+            _messageText.text = "ã“ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™ã¨é­”æ³•ã‚’ç¹°ã‚Šå‡ºã›ã¾ã™ã€‚\næ”»æ’ƒã€é˜²å¾¡é­”æ³•ã‚’ç¹°ã‚Šå‡ºã›ã¾ã™ã€‚";
             _backGround.gameObject.SetActive(true);
             _actionButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -135,7 +129,7 @@ namespace TeamB.Develop
         public void ModeTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "‚±‚Ìƒ{ƒ^ƒ“‚Åí“¬‚Ìƒ‚[ƒh‚ğ©“®A\nè“®ƒ‚[ƒh‚ÉØ‚è‘Ö‚¦‚ç‚ê‚Ü‚·B";
+            _messageText.text = "ã“ã®ãƒœã‚¿ãƒ³ã§æˆ¦é—˜ã®ãƒ¢ãƒ¼ãƒ‰ã‚’è‡ªå‹•ã€æ‰‹å‹•ãƒ¢ãƒ¼ãƒ‰ã«åˆ‡ã‚Šæ›¿ãˆã‚‰ã‚Œã¾ã™ã€‚";
             _actionButton.gameObject.SetActive(false);
             _backGround.gameObject.SetActive(true);
             _modeButton.gameObject.SetActive(true);
@@ -148,36 +142,33 @@ namespace TeamB.Develop
             if (_isDefense == true)
             {
                 exam.OnStartPose();
-                _messageText.text = "‚±‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä–hŒä‚ğ‚µ‚Ä‚­‚¾‚³‚¢B";
+                _messageText.text = "ã“ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ã¦é˜²å¾¡ã‚’ã—ã¦ãã ã•ã„ã€‚";
                 _backGround.gameObject.SetActive(true);
                 _defenseButton.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _isTutorial = true;
                 _isDefense = false;
             }
-
         }
+
         public void DefenseMessage()
         {
             if (_isMessage == true && _isDefense == false)
             {
                 exam.OnStartPose();
-                _messageText.text = "‚±‚±‚É–‚–@‚ğ–h‚¢‚¾‰ñ”‚ª•\¦‚³‚¹‚Ü‚·\n‚±‚ê‚ÍŒ±Œ‹‰Ê‚É”½‰f‚³‚¹‚Ü‚·";
+                _messageText.text = "";
                 _backGround.gameObject.SetActive(true);
                 _messageText.gameObject.SetActive(true);
                 _defenseMessage.gameObject.SetActive(true);
                 _isTutorial = true;
                 _isMessage = false;
             }
-
-
-
         }
 
         public void SpecialMovesTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "Ÿ‚É•KE‹Z‚ğ”­“®‚µ‚Ä‚İ‚Ü‚µ‚å‚¤B";
+            _messageText.text = "æ¬¡ã«å¿…æ®ºæŠ€ã‚’ç™ºå‹•ã—ã¦ã¿ã¾ã—ã‚‡ã†ã€‚";
             _backGround.gameObject.SetActive(true);
             _specialMovesButton.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
@@ -189,12 +180,11 @@ namespace TeamB.Develop
         public void EndTutorial()
         {
             exam.OnStartPose();
-            _messageText.text = "“G‚ğ“|‚µ‚Ü‚µ‚½I\n‚±‚ê‚Åƒ`ƒ…[ƒgƒŠƒAƒ‹‚ğI—¹‚µ‚Ü‚·B";
+            _messageText.text = "æ•µã‚’å€’ã—ã¾ã—ãŸï¼ã“ã‚Œã§ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ã‚’çµ‚äº†ã—ã¾ã™ã€‚";
             _backGround.gameObject.SetActive(true);
             _messageText.gameObject.SetActive(true);
             _isTutorial = true;
+            _count++;
         }
     }
 }
-
-

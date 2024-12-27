@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DataManagement;
+using DataManagement.SpreadSheet;
+using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
 using UnityEngine;
 
@@ -47,14 +50,23 @@ namespace TeamB.Data
         /// マスターデータの読み込み
         /// </summary>
         [RuntimeInitializeOnLoadMethod]
-        public static async UniTask MasterDataSetUp()
+        public static async void MasterDataSetUp()
         {
-            DataManagement.SpreadSheet.CharacterMaster characterData =
-                await new CharacterMaster().LoadFromFile("Character");
-            for (int i = 0; i < characterData.Data.Length; i++)
+            List<string[]> list = await CsvLoader.GetSpreadsheetDataAsync(
+                @"https://docs.google.com/spreadsheets/d/e/2PACX-1vQE9mMiafcfklFKfGtag_cdSuycEHLWa7grGSsNIfMiWIHs6C9n18o3TbeEdS3IZCVXxGvIUTqq5xTf/pub?output=csv");
+
+            if (list == null)
             {
-                GameStatics.Characters.Add(characterData.Data[i].Id, characterData.Data[i]);
+                Debug.Log("Character data could not be loaded");
+                return;
             }
+            
+            for (int i = 7; i < list.Count; i++)
+            {
+                GameStatics.Characters.Add(int.Parse(list[i][0]),
+                    new CharacterData(list[i]));
+            }
+            
         }
 
 

@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TeamB.Develop.Develop;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
@@ -13,28 +11,36 @@ namespace TeamB.SkitSystem
     public interface ISkitSceneCoordinator
     {
         public SkitContext GetStartSkitData(); 
-        public void EndSkitScene();
+        public UniTask EndSkitScene(CancellationToken cancellationToken);
     }
     
-    public class TestSkitSceneCoordinator : ISkitSceneCoordinator
+    public class SkitSceneCoordinator : ISkitSceneCoordinator
     {
-        private readonly ISkitDataLoader _skitDataLoader;
+        private readonly SkitDataLoaderBase _skitDataLoaderBase;
         private readonly SkitFlagData _skitFlagData;
         private const string TitleSceneName = "Title";
         private const string ExamSceneName = "Exam";
         private const string LastFlag = "SecondExamClear";
         private const string DefaultId = "Prologue";
-        public TestSkitSceneCoordinator(ISkitDataLoader skitDataLoader, SkitFlagData skitFlagData)
+        private const float VoiceDelay = 6;
+        private readonly NextLoadScene _nextLoadScene;
+        public enum NextLoadScene
         {
-            _skitDataLoader = skitDataLoader;
+            Skit,
+            Exam
+        }
+        
+        public SkitSceneCoordinator(SkitDataLoaderBase skitDataLoaderBase, SkitFlagData skitFlagData, NextLoadScene nextLoadScene)
+        {
+            _skitDataLoaderBase = skitDataLoaderBase;
             _skitFlagData = skitFlagData;
+            _nextLoadScene = nextLoadScene;
         }
 
         public SkitContext GetStartSkitData()
         {
-            if (_skitDataLoader.TryGetSkitSceneDataByFlag(_skitFlagData, out var skitSceneData))
+            if (_skitDataLoaderBase.TryGetSkitSceneDataByFlag(_skitFlagData, out var skitSceneData))
             {
-                Debug.Log(skitSceneData.Id);
                 switch (skitSceneData)
                 {
                     case ClassSelectData _:
@@ -44,17 +50,35 @@ namespace TeamB.SkitSystem
                 }
             }
             Debug.LogError("SkitSceneDataがnullです: " + _skitFlagData.CurrentFlag);
-            _skitDataLoader.TryGetSkitDataById(DefaultId, out var defaultSkitSceneData);
+            _skitDataLoaderBase.TryGetSkitDataById(DefaultId, out var defaultSkitSceneData);
             {
                 return new SkitContext(SkitContext.ContextType.Skit, defaultSkitSceneData, _skitFlagData);
             }
         }
 
-        public void EndSkitScene()
+        public async UniTask EndSkitScene(CancellationToken cancellationToken)
         {
+            if (SkitRewardManager.Instance.IsParameterUp)
+            {
+                CRIAudioManager.VOICE.Play(SkitSoundHelper.LianSheetName, SkitSoundHelper.VoiceParameterUp);
+                await UniTask.WaitForSeconds(VoiceDelay, cancellationToken: cancellationToken);
+            }
             // 会話シーンの終了時に必要な処理を行う
-            //SceneLoader.LoadScene(_skitFlagData.CurrentFlag == LastFlag ? TitleSceneName : ExamSceneName);
-            SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
+            if (_nextLoadScene == NextLoadScene.Skit)
+            {
+                SceneLoader.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            else
+            {
+                if (_skitFlagData.CurrentFlag == LastFlag)
+                {
+                    GameEventRecorder.GameEnd(() => SceneLoader.LoadScene(TitleSceneName));
+                }
+                else
+                {
+                    SceneLoader.LoadScene(ExamSceneName);
+                }
+            }
         }
     }
 }

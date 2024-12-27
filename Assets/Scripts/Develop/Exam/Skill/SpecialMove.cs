@@ -1,30 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CriWare;
 using TeamB.GameSystem.Statics;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
+using TGS2023.SE;
 
 namespace TeamB.Develop
 {
     public class SpecialMove : ISkill
     {
-        [SerializeField] float percentageDamage = 30;
         public event Action OnChantingSkill;
+        private CriAtomExPlayback _playback;
 
-
-        void ISkill.Activation(ICharacter character)
+        public void Activation(ICharacter mainCharacter, ICharacter character)
         {
+            _playback.Stop(false);
+            _playback = CRIAudioManager.SE.Play("SE", nameof(SE.SE_016_Skill_Execute));
             var rand = UnityEngine.Random.Range(0, 100);
             if (rand <= 30)
             {
-                character.TakeDamage(character.GetCurrentData.Hp / 100 * 50); //  30%‚ÌŠm—¦‚ÅŒ»ÝHP‚©‚ç50%‘ŠŽè‚Ì‘Ì—Í‚ðí‚é
+                character.TakeDamage(character.GetCurrentData.Hp / 100 * 50);
             }
             else
             {
-                character.TakeDamage(character.GetCurrentData.Hp / 100 * 30); //  70%‚ÌŠm—¦‚ÅŒ»ÝHP‚©‚ç30%‘ŠŽè‚Ì‘Ì—Í‚ðí‚é
+                character.TakeDamage(character.GetCurrentData.Hp / 100 * 30);
             }
         }
-            
     }
 }

@@ -27,6 +27,7 @@ namespace TeamB.SkitSystem
         private RewardType _currentRewardType = RewardType.Concentration;
         private float _remainTimeSum;
         private int _correctCount;
+        public bool IsParameterUp { get; private set; }
 
         private void Awake()
         {
@@ -43,6 +44,7 @@ namespace TeamB.SkitSystem
         public void SetRewardType(RewardType rewardType)
         {
             _currentRewardType = rewardType;
+            IsParameterUp = false;
         }
         
         //ステータス上昇値の計算式	→	Val = 回答残り時間の合計 / 正答数 	
@@ -50,10 +52,11 @@ namespace TeamB.SkitSystem
         {
             _remainTimeSum += remainTime;
             _correctCount++;
-            ApplyStatus();
+            IsParameterUp = true;
+            AddStatus();
         }
         
-        public void ApplyStatus()
+        private void AddStatus()
         {
             if (_correctCount == 0)
             {
@@ -62,22 +65,20 @@ namespace TeamB.SkitSystem
             var rewardValue = _remainTimeSum / _correctCount;
             var key = (int)GameStatics.NurturingCharacterType;
             if (!GameStatics.Characters.ContainsKey(key)) return;
+            CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.ParameterUp);
             switch (_currentRewardType)
             {
                 case RewardType.Intuition:
                     //直観力
                     GameStatics.Characters[(int) GameStatics.NurturingCharacterType].MagicATK += rewardValue;
-                    Debug.Log($"直観力が{rewardValue}上昇しました");
                     break;
                 case RewardType.ReadingComprehension:
                     //読解力
                     GameStatics.Characters[(int) GameStatics.NurturingCharacterType].ChantingSpeed += rewardValue;
-                    Debug.Log($"読解力が{rewardValue}上昇しました");
                     break;
                 case RewardType.Concentration:
                     //集中力
                     GameStatics.Characters[(int) GameStatics.NurturingCharacterType].HitRate += rewardValue;
-                    Debug.Log($"集中力が{rewardValue}上昇しました");
                     break;
             }
         }

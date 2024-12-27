@@ -16,6 +16,7 @@ namespace TeamB.SkitSystem
         [SerializeField] private Image _fadeImage;
         [SerializeField] private GameObject _loadingText;
         [SerializeField] private float _fadeTime = 1.0f;
+        public bool IsFading => _fadeImage.color.a > 0;
 
         public async UniTask FadeInAsync(CancellationToken cancellationToken, bool immediate = false)
         {
@@ -30,6 +31,7 @@ namespace TeamB.SkitSystem
                 _fadeImage.color = new Color(0, 0, 0, 0);
                 await _fadeImage.DOFade(1, _fadeTime).SetEase(Ease.Linear).SetLink(gameObject).ToUniTask(cancellationToken: cancellationToken);
             }
+            CRIAudioManager.SE.Play(SkitSoundHelper.SeSheetName, SkitSoundHelper.SceneTransition);
         }
         
         public async UniTask FadeOutAsync(CancellationToken cancellationToken, bool immediate = false)

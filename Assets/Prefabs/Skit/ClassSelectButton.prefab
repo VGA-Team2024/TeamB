@@ -169,7 +169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -120, y: -0.000061035}
+  m_AnchoredPosition: {x: -168, y: -0.000061035}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1189417725873024075
@@ -348,11 +348,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 8863789948154586567}
   _buttonImage: {fileID: 8388126901848437195}
-  _scale: 1.1
+  _addScale: 0.1
   _duration: 0.1
   _ease: 1
+  _activeColor: 0.66
   _classSelectButtonName: {fileID: 1413468070420845814}
-  _classSelectButton: {fileID: 8863789948154586567}
   _rewardImage: {fileID: 1798815047197048047}
   _intuitionSprite: {fileID: 21300000, guid: a8bd75b1ff7a97148a393b12b9cf3109, type: 3}
   _readingComprehensionSprite: {fileID: 21300000, guid: 7998ce1516bb3654a8cb1a22a825dba2,

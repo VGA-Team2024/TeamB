@@ -46,6 +46,8 @@ namespace TeamB.GameSystem.Statics
         /// 試験クリアしたかどうか
         /// </summary>
         public static ExamResult ExamResult;
+        
+        public static OptionManager.AudioInfo AudioInfo = new();
 
         /// <summary>
         /// 試験結果
@@ -56,6 +58,13 @@ namespace TeamB.GameSystem.Statics
         {
             Debug.Log("試験まで残り:" + RemainingDayForExam + "日");
         }
-        
+
+
+        public static int GetRandomNumber(int max)
+        {
+            return UnityEngine.Random.Range(0, max);
+        }
     }
+    
+    
 }

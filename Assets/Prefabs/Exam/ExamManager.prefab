@@ -84,11 +84,18 @@ MonoBehaviour:
         rid: 4936965724547055619
       Target: 1
       Cost: 2
-  - _examState: 4
+  - _examState: 2
     _skillState:
     - SkillType: 0
       Skill:
-        rid: 4936965724547055622
+        rid: 4936965724547055619
+      Target: 1
+      Cost: 2
+  - _examState: 3
+    _skillState:
+    - SkillType: 0
+      Skill:
+        rid: 4936965724547055619
       Target: 1
       Cost: 2
   _maxCost: 10
@@ -98,10 +105,6 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 4936965724547055619
-      type: {class: Fire, ns: TeamB.Develop, asm: Assembly-CSharp}
-      data:
-        _damage: 100
-    - rid: 4936965724547055622
       type: {class: Fire, ns: TeamB.Develop, asm: Assembly-CSharp}
       data:
         _damage: 100

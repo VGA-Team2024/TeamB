@@ -1,85 +1,159 @@
 using System.Collections;
 using System.Collections.Generic;
+using TeamB.GameSystem.Statics;
+using TeamB.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionManager : MonoBehaviour
 {
-    [Header("音量調節バー"), SerializeField] List<Slider> slider = new List<Slider>();
+	[SerializeField] List<Slider> slider = new List<Slider>();
 
-    [Header("オプション画面"), SerializeField] GameObject option_canvas;
-    [Header("ディスプレイ選択画面"), SerializeField] GameObject display_canvas;
+	[SerializeField] GameObject option_canvas;
+	[SerializeField] GameObject display_canvas;
 
-    [Header("ディスプレイの選択ボタンをプレハブ化したもの"),SerializeField] GameObject display_prefab;
+	[SerializeField] GameObject display_prefab;
 
-    [Header("ディスプレイ選択ボタンの座標"), SerializeField] Transform trans;
+	[SerializeField] Transform trans;
 
-    [Header("オプション画面を開くボタン"), SerializeField] Button option_button;
+	[SerializeField] Button option_button;
 
-    [SerializeField] List<DisplayInfo> displaylist = new List<DisplayInfo>();
+	[SerializeField] List<DisplayInfo> displaylist = new List<DisplayInfo>();
 
-    enum Audioname
-    {
-        se,
-        voice,
-        master
-    }
-    void Awake()
-    {
-        CRIAudioManager.Initialize();
-    }
-    void Start()
-    {
-        //マスターボリュームの音量調整
-        slider[(int)Audioname.master].onValueChanged.AddListener(value => AudioListener.volume = value);
+	TitleUIView title_uiview;
 
-        //ボイスボリュームの音量調整
-        slider[(int)Audioname.voice].onValueChanged.AddListener(value => CRIAudioManager.BGM.SetVolume(value));
+	enum Audioname
+	{
+		se,
+		voice,
+		master
+	}
 
-        //SEボリュームの音量設定
-        slider[(int)Audioname.se].onValueChanged.AddListener(value => CRIAudioManager.BGM.SetVolume(value));
 
-        //オプション画面を開くボタン
-        option_button.onClick.AddListener(() => option_canvas.SetActive(true));
+	void Start()
+	{
+		title_uiview = FindObjectOfType<TitleUIView>();
+		slider[(int)Audioname.master].onValueChanged.AddListener(value =>
+		{
+			GameStatics.AudioInfo.ChangeMasterVolume(value);
 
-        DisplayInt();
-    }
+			CRIAudioManager.BGM.SetVolume(
+				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.BGM.GetBGMVolume);
+			CRIAudioManager.SE.SetVolume(
+				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.SE.GetSEVolume);
+			CRIAudioManager.VOICE.SetVolume(
+				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.Voice.GetVoiceVolume);
+			CRIAudioManager.BGM.Update();
+			CRIAudioManager.SE.Update();
+			CRIAudioManager.VOICE.Update();
+		});
 
-    //戻るボタンを押しオプション画面を閉じる
-    public void BackButton()
-    {
-        option_canvas.SetActive(false);
-    }
+		slider[(int)Audioname.voice].onValueChanged.AddListener(value =>
+		{
+			GameStatics.AudioInfo.Voice.VolumeChange(value);
+			CRIAudioManager.VOICE.SetVolume(
+				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.Voice.GetVoiceVolume);
+			CRIAudioManager.VOICE.Update();
+		});
 
-    //ディスプレイ選択画面からオプション画面に戻る
-    public void DisplayBackButton()
-    {
-        display_canvas.SetActive(false);
-        option_canvas.SetActive(true);
-    }
+		slider[(int)Audioname.se].onValueChanged.AddListener(value =>
+		{
+			GameStatics.AudioInfo.SE.VolumeChange(value);
+			CRIAudioManager.SE.SetVolume(
+				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.SE.GetSEVolume);
+			CRIAudioManager.SE.Update();
+		});
 
-    //表示ディスプレイの変更
-    public void DisplayChange()
-    {
-        display_canvas.SetActive(true);
-        option_canvas.SetActive(false);
-    }
+		option_button.onClick.AddListener(
+			() =>
+			{
+				title_uiview.ClickSound();
+			});
 
-    void DisplayInt()
-    {
-        //ディスプレイのデータ取得
-        Screen.GetDisplayLayout(displaylist);
-        var i = 0;
+		DisplayInt();
+	}
 
-        foreach (var list in displaylist)
-        {
-            //プレハブの情報を入手
-            DisplayPrefab disprefab = Instantiate(display_prefab, trans).GetComponent<DisplayPrefab>();
-            disprefab.transform.Translate(0, -30 * i, 0);
-            disprefab.displayname.text = "ディスプレイ" + i;
-            disprefab.displaybutton.onClick.AddListener(() => Screen.MoveMainWindowTo(list, list.workArea.position));
-            i++;
-        }
-    }
+	public void BackButton()
+	{
+		option_canvas.SetActive(false);
+	}
 
+	public void DisplayBackButton()
+	{
+		display_canvas.SetActive(false);
+		option_canvas.SetActive(true);
+	}
+
+	public void DisplayChange()
+	{
+		display_canvas.SetActive(true);
+		option_canvas.SetActive(false);
+	}
+
+	void DisplayInt()
+	{
+		Screen.GetDisplayLayout(displaylist);
+		var i = 0;
+
+		foreach (var list in displaylist)
+		{
+			DisplayPrefab disprefab = Instantiate(display_prefab, trans).GetComponent<DisplayPrefab>();
+			disprefab.displayname.text = "繝�繧｣繧ｹ繝励Ξ繧､" + i;
+			disprefab.displaybutton.onClick.AddListener(() => Screen.MoveMainWindowTo(list, list.workArea.position));
+			i++;
+		}
+	}
+
+	public interface IAudio
+	{
+		public void VolumeChange(float value);
+	}
+
+	public class AudioInfo
+	{
+		private float MasterVolume;
+		public float GetMasterVolume => MasterVolume;
+		public BGMInfo BGM = new BGMInfo();
+		public SEInfo SE = new SEInfo();
+		public VoiceInfo Voice = new VoiceInfo();
+
+		public void ChangeMasterVolume(float value)
+		{
+			MasterVolume = value;
+		}
+	}
+
+	public class BGMInfo : IAudio
+	{
+		private float BGMVolume = 1f;
+		public float GetBGMVolume => BGMVolume;
+
+
+		public void VolumeChange(float value)
+		{
+			BGMVolume = value;
+		}
+	}
+
+	public class SEInfo : IAudio
+	{
+		private float SEVolume = 1f;
+		public float GetSEVolume => SEVolume;
+
+		public void VolumeChange(float value)
+		{
+			SEVolume = value;
+		}
+	}
+
+	public class VoiceInfo : IAudio
+	{
+		private float VoiceVolume = 1f;
+		public float GetVoiceVolume => VoiceVolume;
+
+		public void VolumeChange(float value)
+		{
+			VoiceVolume = value;
+		}
+	}
 }

@@ -48,14 +48,18 @@ MonoBehaviour:
   cueSheets:
   - name: BGM
     acbFile: BGM.acb
-    awbFile: BGM.awb
+    awbFile: 
+    loaderStatus: 0
+  - name: Lian
+    acbFile: Lian.acb
+    awbFile: 
+    loaderStatus: 0
+  - name: SCP
+    acbFile: SCP.acb
+    awbFile: 
     loaderStatus: 0
   - name: SE
     acbFile: SE.acb
-    awbFile: 
-    loaderStatus: 0
-  - name: ME
-    acbFile: ME.acb
     awbFile: 
     loaderStatus: 0
   dspBusSetting: 

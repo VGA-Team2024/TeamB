@@ -4,7 +4,11 @@ using System.Linq;
 using TeamB.Data;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using TGS2023.SE;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using VOICE.SCP;
 
 namespace TeamB.Develop
 {
@@ -15,10 +19,10 @@ namespace TeamB.Develop
     {
         #region serializeFields
 
-        [SerializeField] private CharacterType _characterType;
-        [SerializeField] private GameObject _attackParticle;
+        [SerializeField] private CharacterType _firstCharacterType;
+        [SerializeField] private CharacterType _secondCharacterType;
+        [SerializeField] private AbnormalCondition _currentCondition;
         [SerializeField] private Transform _attackParticleTrans;
-        [SerializeField] private float _waitAttack;
         [SerializeField] private float _downTime;
 
         #endregion
@@ -28,12 +32,11 @@ namespace TeamB.Develop
         private DataManagement.SpreadSheet.CharacterData _currentData;
         private List<IBuff> _haveBuffs = new();
         private List<IBuff> _haveDeBuffs = new();
-        private List<ParticleSystem> _particles = new();
         private ICharacter _targetCharacter;
+        private AsyncOperationHandle<GameObject> _handle;
         private float _attackTimer;
         private float _downTimer;
         private int _currentForm = 1;
-        [SerializeField] private AbnormalCondition _currentCondition;
 
         #endregion
 
@@ -59,7 +62,8 @@ namespace TeamB.Develop
         public DataManagement.SpreadSheet.CharacterData GetCurrentData => _currentData;
         public List<IBuff> GetHaveBuffs => _haveBuffs;
         public List<IBuff> GetHaveDeBuffs => _haveDeBuffs;
-        public CharacterType GetCharacterType => _characterType;
+        public CharacterType GetFirstCharacterType => _firstCharacterType;
+        public CharacterType GetSecondCharacterType => _firstCharacterType;
         public AbnormalCondition GetCurrentCondition => _currentCondition;
         public int GetCurrentForm => _currentForm;
 
@@ -67,7 +71,20 @@ namespace TeamB.Develop
 
         public void Initialized()
         {
-            _currentData = new(GameStatics.Characters[(int)_characterType]);
+            switch (GameStatics.ExamState)
+            {
+                case ExamState.FirstExam:
+                    _currentData = new(GameStatics.Characters[(int)_firstCharacterType]);
+                    break;
+                case ExamState.SecondExam:
+                    _currentData = new(GameStatics.Characters[(int)_secondCharacterType]);
+                    break;
+                default:
+                    _currentData = new(GameStatics.Characters[(int)_firstCharacterType]);
+                    break;
+            }
+
+            _handle = Addressables.LoadAssetAsync<GameObject>("Assets/Prefabs/Effect/Attack2.prefab");
         }
 
         /// <summary>
@@ -75,8 +92,8 @@ namespace TeamB.Develop
         /// </summary>
         public void RegistrationType(CharacterType type)
         {
-            _characterType = type;
-            _currentData = new(GameStatics.Characters[(int)_characterType]);
+            _firstCharacterType = type;
+            _currentData = new(GameStatics.Characters[(int)_firstCharacterType]);
         }
 
         /// <summary>
@@ -89,38 +106,40 @@ namespace TeamB.Develop
                 if (_downTimer >= _downTime)
                 {
                     _downTimer = 0;
-                    _currentData.Hp = GameStatics.Characters[(int)_characterType].Hp;
+                    _currentData.Hp = GameStatics.Characters[(int)_firstCharacterType].Hp;
                     _currentCondition = AbnormalCondition.Normal;
                 }
                 else
                 {
                     _downTimer += deltaTime;
                 }
-                return; 
+
+                return;
                 //スタン中の場合
             }
 
             if (_attackTimer >= TakeBuff(BuffType.CastingSpeed, _currentData.ChantingSpeed))
             {
                 _targetCharacter = characters;
-                GameObject attackParticle = GameObject.Instantiate(_attackParticle, _attackParticleTrans.position, _attackParticle.transform.rotation);
-                ParticleSystem attackParticleSystem = attackParticle.GetComponent<ParticleSystem>();
-                attackParticleSystem.Play();
-                _particles.Add(attackParticleSystem);
-                
+                GameObject attackParticle = GameObject.Instantiate(_handle.Result, _attackParticleTrans.position,
+                    _handle.Result.transform.rotation);
+
+                CRIAudioManager.VOICE.Play("SCP", nameof(SCP.SCP_42));
+
                 float rand = UnityEngine.Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
                 {
                     OnAttack?.Invoke();
 
                     _attackTimer = 0;
-                    
-                    ParticleCallBack particleCallBack = attackParticle.GetComponent<ParticleCallBack>();
-                    particleCallBack.OnCallBack += GiveDamage;
-                    particleCallBack.OnCallBack += () =>
+
+                    CRIAudioManager.SE.Play("SE", nameof(SE.SE_007_Cast_Attack));
+
+                    AttackEffect particleCallBack = attackParticle.GetComponent<AttackEffect>();
+                    particleCallBack.AtDestroy += GiveDamage;
+                    particleCallBack.AtDestroy += () =>
                     {
-                        _particles.Remove(attackParticleSystem);
-                        GameObject.Destroy(attackParticle);
+                        CRIAudioManager.SE.Play("SE", nameof(SE.SE_026_Magic_Fire));
                     };
 
                     OnEndAttack?.Invoke();
@@ -155,9 +174,11 @@ namespace TeamB.Develop
             //HPの更新
             _currentData.Hp -= damage;
             OnTakeDamage?.Invoke();
+            CRIAudioManager.SE.Play("SE", nameof(SE.SE_014_Damaged));
+            CRIAudioManager.VOICE.Play("SCP", nameof(SCP.SCP_43));
 
             //形態変化
-            if (_currentData.Hp <= GameStatics.Characters[(int)_characterType].Hp / GameConsts.MaxWave *
+            if (_currentData.Hp <= GameStatics.Characters[(int)_firstCharacterType].Hp / GameConsts.MaxWave *
                 (GameConsts.MaxWave - GetCurrentForm) && _currentData.Hp > 0)
             {
                 _currentForm++;
@@ -287,24 +308,15 @@ namespace TeamB.Develop
             OnTakeDamage = default;
             OnEndAttack = default;
             OnNextForm = default;
+            _handle.Release();
         }
 
         public void StartPose()
         {
-            foreach (var particle in _particles)
-            {
-                if (particle.isPlaying)
-                    particle.Pause();
-            }
         }
 
         public void EndPose()
         {
-            foreach (var particle in _particles)
-            {
-                if (particle.isPaused)
-                    particle.Play();
-            }
         }
     }
 }

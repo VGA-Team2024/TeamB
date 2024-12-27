@@ -8,42 +8,47 @@ using UnityEngine.UI;
 
 public class ResultManager : MonoBehaviour
 {
-    [Header("�|�C���g����̃e�L�X�g�{�b�N�X"),SerializeField] List<RectTransform> result_obj;
-    [Header("�|�C���g����̍���"), SerializeField] List<TextMeshProUGUI> result_text;
-    [Header("���ۂ̃e�L�X�g"), SerializeField] Image pass_Image;
+    [SerializeField] List<RectTransform> result_obj;
+    [SerializeField] List<TextMeshProUGUI> result_text;
+    [SerializeField] Image pass_Image;
     [SerializeField] Sprite pass_Sprite;
     [SerializeField] Sprite nopass_Sprite;
 
-    [Header("�e�L�X�g�{�b�N�X�̃A�j���[�V��������"), SerializeField] float textAnimTime;
-    [Header("�X�^���v�̃A�j���[�V��������"), SerializeField] float stampAnimTime;
+    [SerializeField] float textAnimTime;
+    [SerializeField] float stampAnimTime;
     //[SerializeField] float startTime;
 
     ResultData resultData;
 
-    [Header("�X�^���v"), SerializeField] GameObject result_stamp;
+    [SerializeField] GameObject result_stamp;
 
     void Start()
     {
         resultData = GameStatics.resultData;
 
-        //[��]�����_���Ɏ������o��悤�ɂ��Ă��܂��B
-        int round = Random.Range(1, 3);
-
-        if(round == 1)
+        switch (GameStatics.ExamState)
         {
-            FirstResult();
-            Result(resultData.firsttestP, resultData.firstpass);
-        }
-        else
-        {
-            SecondResult();
-            Result(resultData.secondtestP, resultData.secondpass);
+            case ExamState.Tutorial:
+                FirstResult();
+                Result(resultData.firsttestP, resultData.firstpass);
+                break;
+            case ExamState.FirstExam:
+                FirstResult();
+                Result(resultData.firsttestP, resultData.firstpass);
+                break;
+            case ExamState.SecondExam:
+                FirstResult();
+                Result(resultData.firsttestP, resultData.firstpass);
+                break;
+            case ExamState.ExamClear:
+                SecondResult();
+                Result(resultData.secondtestP, resultData.secondpass);
+                break;
         }
 
         StartCoroutine(MoveText());
 
     }
-    //1�������̃|�C���g
     void FirstResult()
     {
         resultData.firsttestP = resultData.defense + resultData.leftoverHp - resultData.hit;
@@ -52,7 +57,6 @@ public class ResultManager : MonoBehaviour
         result_text[2].text = "被弾回数 " + resultData.hit + " 回";
     }
 
-    //2�������̃|�C���g
     void SecondResult()
     {
         resultData.secondtestP = resultData.leftoverTime + resultData.leftoverHp - resultData.defense;
@@ -60,7 +64,6 @@ public class ResultManager : MonoBehaviour
         result_text[1].text = "残り体力 " + resultData.leftoverHp;
         result_text[2].text = "防御回数 " + resultData.defense + " 回";
     }
-    //���ۂ̔���
     void Result(int _point, bool _pass)
     {
         if(_point > 20)
@@ -85,7 +88,6 @@ public class ResultManager : MonoBehaviour
         var startpos = _rect.localPosition;
         var endpos = new Vector3(300, _rect.localPosition.y, _rect.localPosition.z);
 
-        // �A�j���[�V�������I������܂Ń��[�v
         while (Time.time - startTime < textAnimTime)
         {
             float time = (Time.time - startTime) / textAnimTime;
@@ -93,7 +95,6 @@ public class ResultManager : MonoBehaviour
             yield return null;
         }
 
-        //�ʒu��ݒ�
         _rect.localPosition = endpos;
     }
 
@@ -110,9 +111,10 @@ public class ResultManager : MonoBehaviour
             yield return null;
         }
 
+        CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_010_Stamp));
+
     }
 
-    //���ԂɃA�j���[�V�����̎��s
     IEnumerator MoveText()
     {
         yield return StartCoroutine(Move(result_obj[0]));

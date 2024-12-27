@@ -1,0 +1,40 @@
+﻿授業内選択肢ID,パラメータ上昇値,制限時間,会話,正解,選択肢1,選択肢1(日本語),選択肢2,選択肢2(日本語),選択肢3,選択肢3(日本語)
+ClassProblemSelectTest_01,1,30,,Open the right door,Open the right door,右の扉を開ける,Open the middle door,真ん中の扉を開ける,Open the right door,左の扉を開ける
+ClassProblemSelectTest_02,2,15,,Protect,Fight,戦う,Protect,ガードする,Cover's up ,守る
+ClassProblemSelectTest_03,34,45,,Blame,Cry,泣く,Apologise,謝る,Blame,怒る
+ClassProblemSelectTest_04,4,10,メデューサの視線を浴びると何になってしまう？,Rock,Ice,氷,Rock,石,Ash,灰
+ClassProblemSelectTest_05,5,10,ゴブリンの特徴に一致するものは？,Small and green monster,Small and green monster,小さくて緑色のモンスター,Creature flying in the sky with big wings,大きな翼で空を飛ぶ生物,Fish-like creatures that live underwater,水中で暮らす魚のような生物
+ClassProblemSelectTest_06,6,10,鷲の頭とライオンの体を持つ 魔法生物はどれ？,Griffon,Hippogriff,ヒポグリフ,Griffon,グリフォン,mermaid,マーメイド
+ClassProblemSelectTest_07,7,10,アンデットの魔法生物に効く属性魔法は？,Light,soil,土,wind,風,Light,光
+ClassProblemSelectTest_08,8,10,ヴァンパイアの弱点ではないのはどれ？,Sea  water,Garlic ,にんにく,Sea  water,海水,Sunlight,日光
+,,,,,,,,,,
+ClassProblemSelect_01,4,10,メデューサの視線を浴びると何になってしまう？,Rock,Rock,石,Ice,氷,Ash,灰
+ClassProblemSelect_02,5,10,以下の３択中ゴブリンの特徴に一致するものは？,Small and green monster,Small and green monster,小さくて緑色のモンスター,Creature flying in the sky with big wings,大きな翼で空を飛ぶ生物,Fish-like creatures that live underwater,水中で暮らす魚のような生物
+ClassProblemSelect_03,6,10,以下の３択のうち鷲の頭とライオンの体を持つ魔法生物はどれ？,Griffon,Hippogriff,ヒポグリフ,Griffon,グリフォン,Mermaid,マーメイド
+ClassProblemSelect_04,7,10,アンデットの魔法生物に効く属性魔法は？,Light,Soil,土,Wind,風,Light,光
+ClassProblemSelect_05,8,10,以下3三択中ヴァンパイアの弱点でないものはどれ？,Sea water,Garlic ,にんにく,Sea water,海水,Sunlight,日光
+ClassProblemSelect_06,4,10,「月夜の葉」はどの時間帯にもっとも効果を発揮するでしょうか？,Midnight,Daytime,昼間,Dawn,夜明け,Midnight,深夜
+ClassProblemSelect_07,5,10,「リラッ草」の成分にはどのような効果があるでしょうか？,Relieving fatigue,Wound healing effect,傷を癒す効果,Relieving fatigue,疲労を回復する効果,Headache-relieving effect,頭痛を和らげる効果
+ClassProblemSelect_08,6,10,「サンフラワー」はどんな場所で育つ薬草でしょうか？,Light steppe,Dark Cave,暗い洞窟,Desert,砂漠,Light steppe,明るい草原
+ClassProblemSelect_09,7,10,「魔除けの苔」が育つ場所として最も適しているのはどこでしょう？,Wet and dark cave,Sunny place,日当たりの良い場所,Wet and dark cave,湿った暗い洞窟,Airy highlands,風通しの良い高地
+ClassProblemSelect_10,8,10,「眠りの粉」を作るために必要な主成分はどれでしょうか？,Dreaming Flower,Dreaming Flower,「夢見花」,Nightmare grass,「悪夢草」,Moon Shadow Moss,「月影苔」
+ClassProblemSelect_11,4,10,魔法薬「リリスの眠り」を正しく調合するには、最後に何を加える必要がありますか？,Herbs bathed in moonlight,Herbs bathed in moonlight,月光を浴びせたハーブ,Scaling the Dragon,ドラゴンの鱗,Black cat hair,黒猫の毛
+ClassProblemSelect_12,5,10,「癒しのポーション」を長持ちさせるには、その容器に保存するのが最適ですか？,Enchanted metal vessel,Glass Jar,ガラス瓶,Wooden Containers,木製の容器,Enchanted metal vessel,魔法がかけられた金属の容器
+ClassProblemSelect_13,6,10,“火操の魔法薬”を調合する際に適している材料はどれでしょう？,Yang Flame Grass,Yang Flame Grass,「陽炎草」,Ice Snow Flower,「氷雪花」,Shodow moss,「影苔」
+ClassProblemSelect_14,7,10,魔法薬を調合する際、最も避けるべき行動は次のうちどれでしょう？,Mixing ingredients in the wrong order,Mixing ingredients in the wrong order,材料を混ぜる順番を間違える,Humming a song while working,作業中に歌を口ずさむ,Stirring the potion incorrectly,魔法薬をかき混ぜる回数を間違える
+ClassProblemSelect_15,8,10,「幸運のエリクサー」を作る際、成功率を上げるために調合中に行うべきことは？,Work on a glowing night in the constellations,The concoctionist sings a song,調合者が歌を歌う,Work on a glowing night in the constellations,星座の輝く夜に作業する,Mix the ingredients counterclockwise,材料を反時計回りに混ぜる
+ClassProblemSelect_16,4,10,呪文を詠唱する際、最も意識すべき点として正しくないのは次のうちどれでしょう？,How to swing a cane,Pray to the ancient god,古き神への祈り,Connecting with Your Spirits,自身の精霊との繋がり,How to swing a cane,杖の振り方
+ClassProblemSelect_17,5,10,魔法の杖を作るとき、最も適している素材はどれでしょう？,Tree,Metal,金属,Tree,木,Stone,石
+ClassProblemSelect_18,6,10,呪いを防ぐために、最も適したお守りはどれでしょう？,Obsidian ring,Silver pendant,銀のペンダント,Obsidian ring,黒曜石の指輪,Harb bags,ハーブを詰めた袋
+ClassProblemSelect_19,7,10,以下の3択中、杖のメンテナンスで最も重要なことはどれでしょう？,Cleanse regularly,Cleanse regularly,定期的に清める,Keep the magic going,魔力を込め続ける,Don't let others touch ,他人に触れさせない
+ClassProblemSelect_20,8,10,相手に祝福の魔法をかける際、最も重要とされる感情はどれでしょう？,Affection,Joy,喜び,Gratitude,感謝,Affection,愛情
+ClassProblemSelect_21,4,10,魔法界の古代文明で、「空を飛ぶ魔法」が最初に広まったのはどの国？,Windlith Empire,Kingdom of Luminaria,ルミナリア王国,Windlith Empire,ウィンドリス帝国,Federation of Astra Continents,アストラ大陸連邦
+ClassProblemSelect_22,5,10,伝説の「賢者の石」の持つ力として正しいものは？,Immortality,Immortality,不老不死,Disable magic around the world,世界中の魔法を無効化する,Enhances the magic forever,魔法を永遠に強化する
+ClassProblemSelect_23,6,10,魔法界で最初に禁止された魔法の種類は？,The magic of manipulating others,The magic of manipulating others,他人を操る魔法,The magic of stopping time,時間を止める魔法,The magic of changing the weather,天気を変える魔法
+ClassProblemSelect_24,7,10,「最初に魔法を使った」とされる生物は？,Dragon,Human ,人間,Elf,エルフ,Dragon,ドラゴン
+ClassProblemSelect_25,8,10,魔法界で「最初に作られたポーション」はどんな効果があった？,Heal injuries,Heal injuries,怪我を治す,Improves eyesight,視力を良くする,Restore the magic,魔法を回復する
+ClassProblemSelect_26,4,10,水晶玉を使った占いで、最も注目するべき変化はどれでしょう？,Patterns and shadows seen in crystals,Reflection of light in crystals,水晶の光の反射,Patterns and shadows seen in crystals,水晶の中に見える模様や影,Changes in the temperature of the crystal,水晶の温度の変化
+ClassProblemSelect_27,5,10,星占いで「占いに最も影響を与える」とされる天体は次のうちどれでしょう？,Moon,Moon,月,Mars,火星,Jupiter,木星
+ClassProblemSelect_28,6,10,夢占いで、夢の中で「鍵」を見つけた場合、何を象徴していると言われているでしょう？,Uncover secrets and new opportunities,Uncover secrets and new opportunities,秘密の解明や新しいチャンス,Indecision and confusion,迷いと混乱,Failures and warnings,失敗と警告
+ClassProblemSelect_29,7,10,「手相占い」で生命力や健康運を見る際、注目する線はどれでしょう？,Lifeline,Emotion line,感情線,Lifeline,生命線,Destiny Line,運命線
+ClassProblemSelect_30,8,10,「夢占い」において、夢の中で「雨」が降っている場合、どんな感情を象徴するとされているでしょう？,Grief or purification,Grief or purification,悲しみや浄化,Anger or confusion,怒りや混乱,Love and happiness,愛や幸福
