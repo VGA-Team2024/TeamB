@@ -18,7 +18,7 @@ namespace TeamB.SkitSystem
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
         [SerializeField] private SkitSceneButtonBase _autoButton;
-        private const float AutoDelaySpeed = 6f;
+        private const float AutoDelaySpeed = 2f;
         [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
         [SerializeField] private RectTransform _backLogTextParent;
@@ -527,6 +527,7 @@ namespace TeamB.SkitSystem
             if (CRIAudioManager.VOICE.IsPlaying) CRIAudioManager.VOICE.Stop();
             if (!string.IsNullOrEmpty(skitEntryData.VoiceFileName) && _inputType != InputType.Skip) CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
+            await UniTask.WaitUntil(() => !CRIAudioManager.VOICE.IsPlaying, cancellationToken: cancellationToken);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             skitAwaitCompletionSource?.TrySetResult();
