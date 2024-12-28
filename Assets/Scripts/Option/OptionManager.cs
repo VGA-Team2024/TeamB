@@ -67,7 +67,7 @@ public class OptionManager : MonoBehaviour
 		option_button.onClick.AddListener(
 			() =>
 			{
-				title_uiview.ClickSound();
+				title_uiview?.ClickSound();
 			});
 
 		DisplayInt();
