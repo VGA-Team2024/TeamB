@@ -233,7 +233,7 @@ namespace TeamB.SkitSystem
             foreach (var classSelectEntry in tutorialData.ClassChoices)
             {
                 var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
-                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
+                button.InitializeClassSelectButton(classSelectEntry.JapaneseChoiceName, classSelectEntry.TalkReward);
                 button.OnClick += () =>
                 {
                     awaitSelect.TrySetResult(classSelectEntry.TalkDataId);
