@@ -274,7 +274,7 @@ namespace TeamB.SkitSystem
                     if (SkitDataLoaderBase.TryGetClassSelectDataById(skitId, out var classSelectData))
                     {
                         _tutorialClassSelectData.Value = new TutorialClassSelectData(classSelectData.Id,
-                            classSelectData.Flag, classSelectData.RemainDay, classSelectData.TalkerName, classSelectData.BackgroundImageName,
+                            classSelectData.Flag, classSelectData.RemainDay, classSelectData.TalkerName, null,
                             classSelectData.Dialogue, classSelectData.ClassChoices, normDialogue);
                     }
                     else
@@ -294,7 +294,7 @@ namespace TeamB.SkitSystem
                         _tutorialChoiceData.Value = new  TutorialChoiceData(choiceData.Id, choiceData.AddPoint,choiceData.ChoiceTime,
                             choiceData.Answer, choiceData.ChoiceEntries, choiceData.JapaneseTalkDialogue,
                             choiceData.TalkCharaData, choiceData.TalkSpeaker, choiceData.EnglishTalkDialogue,
-                            choiceData.TalkBackground);
+                            null);
                     }
                     else
                     {
