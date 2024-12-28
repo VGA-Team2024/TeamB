@@ -156,6 +156,7 @@ namespace TeamB.SkitSystem
                     break;
                 case InputType.Auto:
                     var elapsedTime = 0f;
+                    await UniTask.WaitUntil(() => !CRIAudioManager.VOICE.IsPlaying, cancellationToken: cancellationToken);
                     while (elapsedTime < AutoDelaySpeed)
                     {
                         if (_inputType == InputType.Skip) return;
@@ -527,7 +528,6 @@ namespace TeamB.SkitSystem
             if (CRIAudioManager.VOICE.IsPlaying) CRIAudioManager.VOICE.Stop();
             if (!string.IsNullOrEmpty(skitEntryData.VoiceFileName) && _inputType != InputType.Skip) CRIAudioManager.VOICE.Play(SkitSoundHelper.GetVoiceCueSheetName(skitEntryData.VoiceFileName), skitEntryData.VoiceFileName);
             await ShowDialogue(skitEntryData.TalkSpeaker, skitEntryData.JapaneseTalkDialogue,  cancellationToken, skitEntryData.VoiceFileName);
-            await UniTask.WaitUntil(() => !CRIAudioManager.VOICE.IsPlaying, cancellationToken: cancellationToken);
             await GetEmptyInput(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             skitAwaitCompletionSource?.TrySetResult();

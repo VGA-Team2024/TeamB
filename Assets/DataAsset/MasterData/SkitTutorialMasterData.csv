@@ -1,5 +1,5 @@
-﻿フラグ,背景,表示データ,表示データ(English)
-Tutorial,Class_Test,あなたは精霊です。主人公に力を貸して生徒会長になる手助けをしてください。,
+フラグ,背景,表示データ,表示データ(English)
+Tutorial,Conversation_BackGround_03_Night,あなたは精霊です。主人公に力を貸して生徒会長になる手助けをしてください。,
 ,,[ClassSelect:ClassSelectTest1]授業の科目を選択してください。,
-,,[Choice:ClassProblemSelect_01]選択肢のなかから正解の選択肢を選択して下さい。,
+,,[Choice:ClassProblemSelect_06]選択肢のなかから正解の選択肢を選択して下さい。,
 ,,問題に正解するとこのように主人公のパラメータが上昇します。どんどん強く育てていきましょう！,
