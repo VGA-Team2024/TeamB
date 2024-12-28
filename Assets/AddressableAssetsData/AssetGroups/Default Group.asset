@@ -102,11 +102,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b15c8a0ad0b767947a2b2bf958ae0439
-    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf873151e9d54ff4b9cdacc5c7c194a8
     m_Address: Conversation_BackGround_02_Noon
     m_ReadOnly: 0
@@ -118,6 +113,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0abbe7f0ee5844428d2f2b1d722eed9
+    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d50bc71cbdabe56468979309c5906699
     m_Address: Conversation_MessageWindow
