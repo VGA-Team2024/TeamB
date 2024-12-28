@@ -2672,7 +2672,7 @@ MonoBehaviour:
   _isActive: 1
   _viewId: TitleUI
   _skitFlagData: {fileID: 11400000, guid: 022bf472b85a67044975a606a225d44f, type: 2}
-  _isExamSkip: 1
+  _isExamSkip: 0
 --- !u!114 &1832840616 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1685915449466432416, guid: 51902d0c495da7b4aa2f60ee559fd2cf,
