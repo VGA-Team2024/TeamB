@@ -19,7 +19,7 @@ namespace TeamB.SkitSystem
         private readonly SkitDataLoaderBase _skitDataLoaderBase;
         private readonly SkitFlagData _skitFlagData;
         private const string TitleSceneName = "Title";
-        private const string CreditSceneName = "Title";
+        private const string CreditSceneName = "Credit";
         private const string ExamSceneName = "Exam";
         private const string LastFlag = "SecondExamClear";
         private const string DefaultId = "Prologue";
