@@ -211,7 +211,8 @@ namespace TeamB.SkitSystem
             CancellationToken cancellationToken)
         {
             SetTap();
-            SetActiveFalseAllSkitViewObject();
+            SetActiveFalseAllSkitViewObject(); 
+            CRIAudioManager.VOICE.Stop();
             await SetCharacterAndBackground(tutorialData.BackgroundImageName, null, cancellationToken);
             _tutorialPanelAboutGame.SetActive(true);
             await GetEmptyInput(cancellationToken);
