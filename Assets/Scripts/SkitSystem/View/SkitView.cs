@@ -18,7 +18,7 @@ namespace TeamB.SkitSystem
         [Header("操作系")]
         [SerializeField] private SkitSceneButtonBase _skipButton;
         [SerializeField] private SkitSceneButtonBase _autoButton;
-        private const float AutoDelaySpeed = 6f;
+        private const float AutoDelaySpeed = 2f;
         [SerializeField] private SkitSceneButtonBase _backLogButton;
         [SerializeField] private SkitLogViewer _backlogView;
         [SerializeField] private RectTransform _backLogTextParent;
@@ -156,6 +156,7 @@ namespace TeamB.SkitSystem
                     break;
                 case InputType.Auto:
                     var elapsedTime = 0f;
+                    await UniTask.WaitUntil(() => !CRIAudioManager.VOICE.IsPlaying, cancellationToken: cancellationToken);
                     while (elapsedTime < AutoDelaySpeed)
                     {
                         if (_inputType == InputType.Skip) return;
@@ -233,7 +234,7 @@ namespace TeamB.SkitSystem
             foreach (var classSelectEntry in tutorialData.ClassChoices)
             {
                 var button = Instantiate(_classSelectButtonPrefab, _classSelectButtonParent);
-                button.InitializeClassSelectButton(classSelectEntry.ChoiceName, classSelectEntry.TalkReward);
+                button.InitializeClassSelectButton(classSelectEntry.JapaneseChoiceName, classSelectEntry.TalkReward);
                 button.OnClick += () =>
                 {
                     awaitSelect.TrySetResult(classSelectEntry.TalkDataId);

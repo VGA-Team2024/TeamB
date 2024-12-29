@@ -33,11 +33,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e68af2bc4b4a4540998f39890fbca8a
+    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 23c6c1efd4214f049b9e05d3c0ce9bc6
     m_Address: Battle_Weapon_01
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25774c4f07749364ab7f2a56e248b862
+    m_Address: Assets/DataAsset/MasterData/SkitTutorialMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 340ddf7f6e43ddc4c863bcf73256833f
     m_Address: Conversation_BackGround_03_Night
@@ -80,6 +90,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 736c48849dbc5b34fb137628a2c607f9
+    m_Address: Conversation_StandingPicture_01_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 79a6a65ea9ef1594cb3792d05dc595f2
     m_Address: Assets/Prefabs/Effect/Attack.prefab
     m_ReadOnly: 0
@@ -102,11 +118,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b15c8a0ad0b767947a2b2bf958ae0439
-    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf873151e9d54ff4b9cdacc5c7c194a8
     m_Address: Conversation_BackGround_02_Noon
     m_ReadOnly: 0
@@ -124,11 +135,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dad930e74d34ab543bfe14f7c9868fb4
-    m_Address: Assets/DataAsset/MasterData/SkitTutorialMasterData.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef332a0546be4114e8d99b787223f4de
     m_Address: Class_Test
