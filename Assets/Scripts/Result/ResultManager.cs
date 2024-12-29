@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TeamB.Data;
 using TeamB.GameSystem.Statics;
 using TMPro;
@@ -21,6 +22,8 @@ public class ResultManager : MonoBehaviour
     ResultData resultData;
 
     [SerializeField] GameObject result_stamp;
+    Sequence seq;
+
 
     void Start()
     {
@@ -30,25 +33,21 @@ public class ResultManager : MonoBehaviour
         {
             case ExamState.Tutorial:
                 FirstResult();
-                Result(resultData.firsttestP, resultData.firstpass);
                 break;
             case ExamState.FirstExam:
                 FirstResult();
-                Result(resultData.firsttestP, resultData.firstpass);
                 break;
             case ExamState.SecondExam:
                 FirstResult();
-                Result(resultData.firsttestP, resultData.firstpass);
                 break;
             case ExamState.ExamClear:
                 SecondResult();
-                Result(resultData.secondtestP, resultData.secondpass);
                 break;
         }
 
         StartCoroutine(MoveText());
-
     }
+
     void FirstResult()
     {
         resultData.firsttestP = resultData.defense + resultData.leftoverHp - resultData.hit;
@@ -64,27 +63,11 @@ public class ResultManager : MonoBehaviour
         result_text[1].text = "残り体力 " + resultData.leftoverHp;
         result_text[2].text = "防御回数 " + resultData.defense + " 回";
     }
-    void Result(int _point, bool _pass)
-    {
-        if(_point > 20)
-        {
-            _pass = true;
-        }
-
-        if (_pass)
-        {
-            pass_Image.sprite = pass_Sprite;
-        }
-        else
-        {
-            pass_Image.sprite = nopass_Sprite;
-        }
-    }
 
     IEnumerator Move(RectTransform _rect)
     {
         var startTime = Time.time;
-        
+
         var startpos = _rect.localPosition;
         var endpos = new Vector3(300, _rect.localPosition.y, _rect.localPosition.z);
 
@@ -100,19 +83,22 @@ public class ResultManager : MonoBehaviour
 
     IEnumerator ResultStamp()
     {
-        var startTime = 0f;
-        result_stamp.SetActive(true);
-
-        while (startTime <= stampAnimTime)
+        result_stamp.transform.rotation = new Quaternion(0, 0, 270, 0);
+        if (GameStatics.ExamResult == ExamResult.Clear)
         {
-            startTime += Time.deltaTime;
-            result_stamp.transform.localEulerAngles += new Vector3(0, 0, 0.04f);
-            result_stamp.transform.localScale += new Vector3(0.0005f, 0.0005f, 0);
-            yield return null;
+            pass_Image.sprite = pass_Sprite;
+        }
+        else
+        {
+            pass_Image.sprite = nopass_Sprite;
         }
 
-        CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_010_Stamp));
-
+        result_stamp.SetActive(true);
+        seq = DOTween.Sequence();
+        seq.Join(result_stamp.transform.DOScale(Vector3.one * 1.5f, stampAnimTime));
+        seq.Join(result_stamp.transform.DORotate(new Vector3(0, 0, 360f), stampAnimTime, RotateMode.FastBeyond360));
+        seq.OnComplete(() => { CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_010_Stamp)); });
+        yield return seq.Play();
     }
 
     IEnumerator MoveText()
@@ -126,8 +112,7 @@ public class ResultManager : MonoBehaviour
         yield return StartCoroutine(Move(result_obj[2]));
         yield return new WaitForSeconds(0.5f);
 
-        yield return StartCoroutine(ResultStamp());
+        yield return ResultStamp();
         yield return new WaitForSeconds(1);
     }
 }
-

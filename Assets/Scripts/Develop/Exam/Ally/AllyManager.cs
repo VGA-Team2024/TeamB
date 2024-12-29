@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using VOICE.Lian;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using TeamB.UI;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -126,6 +127,12 @@ namespace TeamB.Develop
         }
 
         private void OnSuccessAttack()
+        {
+            OnAttackCountUp();
+            FindObjectOfType<InExamUIView>().ScoreChange();
+        }
+
+        public void OnAttackCountUp()
         {
             _attackSuccessCount++;
         }
