@@ -33,21 +33,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1e68af2bc4b4a4540998f39890fbca8a
-    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 23c6c1efd4214f049b9e05d3c0ce9bc6
     m_Address: Battle_Weapon_01
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 25774c4f07749364ab7f2a56e248b862
-    m_Address: Assets/DataAsset/MasterData/SkitTutorialMasterData.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 340ddf7f6e43ddc4c863bcf73256833f
     m_Address: Conversation_BackGround_03_Night
@@ -90,6 +80,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6ad2ae47cb5d29a4da72c06cbc2a9f81
+    m_Address: coliseum
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 736c48849dbc5b34fb137628a2c607f9
     m_Address: Conversation_StandingPicture_01_1
     m_ReadOnly: 0
@@ -124,6 +120,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - SkitTexture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c26f3213e812b2442bf33d4ef3ebb765
+    m_Address: Assets/DataAsset/MasterData/SkitTutorialMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4dc8a0cf681f1747abe2082683c3ae0
     m_Address: Conversation_BackGround_03_Noon
     m_ReadOnly: 0
@@ -141,6 +142,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SkitTexture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f774bb4e397655e4e9ecbbebd15cba8f
+    m_Address: Assets/DataAsset/MasterData/SkitMasterData.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f7954a5e551c001488d9ecd8e2f3601d, type: 2}

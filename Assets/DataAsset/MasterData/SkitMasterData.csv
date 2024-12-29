@@ -15,10 +15,10 @@ ClassTest_02,ClassTest1,先生,,Conversation_HonorStudent_Noon,それでは授�
 ,,先生,,,第五問!,,,,,,,
 ,,先生,,,[Choice][ClassProblemSelectTest_08],,,,,,,
 ,,先生,,,以上で授業は終了です!,,,,,,,
-Prologue,Prologue,,,Conversation_BackGround_03_Night,入学して数か月。,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,Lian_52,,次の授業は......攻撃魔法の授業か。,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,Lian_53,,[Tutorial][SetFlag:Tutorial][Skit][BeforeSkitTutorial]遅刻しないためにもう行こうかな！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
-BeforeSkitTutorial,Tutorial,リアン,Lian_12,Conversation_BackGround_03_Night,あ、危ない！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
+Prologue,Prologue,,,coliseum,入学して数か月。,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,
+,,リアン,Lian_52,,次の授業は......攻撃魔法の授業か。,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,
+,,リアン,Lian_53,,[Tutorial][SetFlag:Tutorial][Skit][BeforeSkitTutorial]遅刻しないためにもう行こうかな！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,
+BeforeSkitTutorial,Tutorial,リアン,Lian_12,coliseum,あ、危ない！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,
 ,,生徒会長,SCP_55,,いや！わたくしのお気に入りのお洋服が！信じられないですわ！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
 ,,リアン,Lian_56,,すみません！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
 ,,生徒会長,SCP_57,,謝罪して許されるとお思いで！？混ざりものが！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
