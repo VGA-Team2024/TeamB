@@ -124,7 +124,9 @@ namespace TeamB.Develop
                 GameObject attackParticle = GameObject.Instantiate(_handle.Result, _attackParticleTrans.position,
                     _handle.Result.transform.rotation);
 
-                CRIAudioManager.VOICE.Play("SCP", nameof(SCP.SCP_42));
+                int ringrand = UnityEngine.Random.Range(0, 11);
+                if (ringrand > 5)
+                    CRIAudioManager.VOICE.Play("SCP", nameof(SCP.SCP_42));
 
                 float rand = UnityEngine.Random.Range(0, 100);
                 if (rand <= TakeBuff(BuffType.HitRate, _currentData.HitRate))
@@ -175,7 +177,9 @@ namespace TeamB.Develop
             _currentData.Hp -= damage;
             OnTakeDamage?.Invoke();
             CRIAudioManager.SE.Play("SE", nameof(SE.SE_014_Damaged));
-            CRIAudioManager.VOICE.Play("SCP", nameof(SCP.SCP_43));
+            int ringrand = UnityEngine.Random.Range(0, 11);
+            if (ringrand > 5)
+                CRIAudioManager.VOICE.Play("SCP", nameof(SCP.SCP_43));
 
             //形態変化
             if (_currentData.Hp <= GameStatics.Characters[(int)_firstCharacterType].Hp / GameConsts.MaxWave *

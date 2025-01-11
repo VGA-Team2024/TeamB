@@ -53,6 +53,8 @@ public class OptionManager : MonoBehaviour
 			GameStatics.AudioInfo.Voice.VolumeChange(value);
 			CRIAudioManager.VOICE.SetVolume(
 				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.Voice.GetVoiceVolume);
+			CRIAudioManager.BGM.Update();
+			CRIAudioManager.SE.Update();
 			CRIAudioManager.VOICE.Update();
 		});
 
@@ -61,7 +63,9 @@ public class OptionManager : MonoBehaviour
 			GameStatics.AudioInfo.SE.VolumeChange(value);
 			CRIAudioManager.SE.SetVolume(
 				GameStatics.AudioInfo.GetMasterVolume * GameStatics.AudioInfo.SE.GetSEVolume);
+			CRIAudioManager.BGM.Update();
 			CRIAudioManager.SE.Update();
+			CRIAudioManager.VOICE.Update();
 		});
 
 		option_button.onClick.AddListener(

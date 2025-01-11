@@ -32,7 +32,7 @@ namespace TeamB.Develop
                     CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_005_result_passed));
                     CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_09));
                     break;
-                default:
+                case ExamResult.Failed:
                     CRIAudioManager.BGM.Play("BGM", nameof(BGM.BGM_006_Result_Dropped));
                     break;
             }

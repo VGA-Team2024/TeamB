@@ -154,7 +154,7 @@ namespace TeamB.Develop
                     flagName = _examStateDatas.Data.First(x => x.CurrentState == nameof(ExamState.SecondExam))
                         .ClearState;
                     _skitFlagData.SetCurrentFlag(flagName);
-                    _winStillDirector.Play();
+                    _winDirector.Play();
                     GameStatics.resultData.secondpass = true;
                     GameStatics.ExamState = ExamState.ExamClear;
                     break;

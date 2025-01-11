@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Credit
+  m_Name: CreditLogo
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -23,21 +23,21 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -639.71
-        inSlope: 209.9219
-        outSlope: 209.9219
-        tangentMode: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.118066095
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 49.983334
-        value: 10872.95
-        inSlope: 245.23053
-        outSlope: 245.23053
-        tangentMode: 0
+        time: 10.016666
+        value: 1000
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.07772313
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -70,7 +70,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 49.983334
+    m_StopTime: 10.016666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -92,21 +92,21 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -639.71
-        inSlope: 209.9219
-        outSlope: 209.9219
-        tangentMode: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.118066095
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 49.983334
-        value: 10872.95
-        inSlope: 245.23053
-        outSlope: 245.23053
-        tangentMode: 0
+        time: 10.016666
+        value: 1000
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.07772313
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
