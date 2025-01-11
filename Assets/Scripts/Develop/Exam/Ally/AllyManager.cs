@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using VOICE.Lian;
 using TeamB.GameSystem;
 using TeamB.GameSystem.Statics;
+using TeamB.UI;
 using UnityEngine;
 
 namespace TeamB.Develop
@@ -69,14 +70,15 @@ namespace TeamB.Develop
 
         private async void OnTakeDamage()
         {
-            if (GameStatics.GetRandomNumber(2) == 0)
-            {
-                CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_15));
-            }
-            else
-            {
-                CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_16));
-            }
+            if (GameStatics.GetRandomNumber(11) > 5)
+                if (GameStatics.GetRandomNumber(2) == 0)
+                {
+                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_15));
+                }
+                else
+                {
+                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_16));
+                }
 
             foreach (var sprite in alliesPrefab.GetComponentsInChildren<SpriteRenderer>())
             {
@@ -116,7 +118,8 @@ namespace TeamB.Develop
                 sprite.color = new Color(1, 0.6f, 0, 1);
             }
 
-            CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_12));
+            if (GameStatics.GetRandomNumber(11) > 5)
+                CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_12));
             _defenceSuccessCount++;
         }
 
@@ -126,6 +129,12 @@ namespace TeamB.Develop
         }
 
         private void OnSuccessAttack()
+        {
+            OnAttackCountUp();
+            FindObjectOfType<InExamUIView>().ScoreChange();
+        }
+
+        public void OnAttackCountUp()
         {
             _attackSuccessCount++;
         }

@@ -12,7 +12,12 @@ namespace TeamB.Develop
         public event Action OnComplete;
         private void Awake()
         {
+            OnComplete += () =>
+            {
+                CRIAudioManager.VOICE.SetVolume(2f);
+            };
             CRIAudioManager.Initialize(OnComplete);
+            
         }
     }
 }

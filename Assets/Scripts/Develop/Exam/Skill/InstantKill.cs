@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TeamB.GameSystem.Statics;
+using TeamB.UI;
 using TGS2023.SE;
 using UnityEngine;
 
@@ -32,6 +33,9 @@ namespace TeamB.Develop
             {
                 character.TakeDamage(character.GetCurrentData.Hp / 100 * 50);
             }
+
+            GameObject.FindObjectOfType<AllyManager>().OnAttackCountUp();
+            GameObject.FindObjectOfType<InExamUIView>().ScoreChange();
         }
     }
 }
