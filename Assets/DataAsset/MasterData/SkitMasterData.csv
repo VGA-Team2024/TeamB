@@ -35,8 +35,11 @@ FirstExam2,FirstExamClear,リアン,Lian_64,Conversation_HonorStudent_Noon,う�
 FirstExam3,FirstExamFailure,リアン,Lian_66,Conversation_HonorStudent_Noon,やっぱり......私じゃダメなんだ......,,リアン,Middle,Conversation_StandingPicture_01_1,,,
 ,,生徒会長,SCP_67,,[SetFlag:FirstExam][Skit][FirstExam1]混血は混血らしく泥をすすって生きてればいいのよ！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
 SecondExam1,SecondExam,生徒会長,SCP_68,Conversation_HonorStudent_Noon,[SetFlag:SecondExam][ClassSelect][ClassSelectTest1]貴方、わたくしに勝てるかしら！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
-SecondExam2,SecondExamClear,生徒会長,SCP_69,Conversation_HonorStudent_Noon,理解......できないですわ......,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
-,,リアン,Lian_70,,私でも......倒せた......！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
+SecondExam2,SecondExamClear,生徒会長,SCP_69,coliseum,理解......できないですわ......,,生徒会長,Right,Conversation_StandingPicture_02,,,
+,,リアン,Lian_70,Still,私でも......倒せた......！,,リアン,Middle,,,,
+,,プレイヤー,,,やったな！リアン！,,リアン,,,,,
+,,リアン,,,本当に…合格…なんだよね？夢じゃないよね？,,リアン,,,,,
+,,プレイヤー,,,夢じゃないさ！リアンの勝利だ！,,リアン,,,,,
 SecondExam3,SecondExamFailure,生徒会長,SCP_76,Conversation_HonorStudent_Noon,貴方には、地べたを這いつくばって生きていくのがお似合いですわ！,,リアン,Left,Conversation_StandingPicture_01_1,生徒会長,Right,Conversation_StandingPicture_02
 ,,プレイヤー,,,[SetFlag:SecondExam][Skit][SecondExam1]あきらめるな！まだやれるから！,,リアン,Middle,Conversation_StandingPicture_01_1,,,
 ClassProblem_1,ClassProblem_1,先生,,Conversation_BackGround_02_Noon,それでは授業を始めます,,,,,,,

@@ -137,14 +137,18 @@ namespace TeamB.Develop
                 GameObject attackParticle = GameObject.Instantiate(_handle.Result, _attackParticleTrans.position,
                     _attackParticleTrans.rotation);
 
-                int randVoice = Random.Range(0, 2);
-                if (randVoice == 0)
+                int ringVoice = GameStatics.GetRandomNumber(11);
+                int randVoice = GameStatics.GetRandomNumber(2);
+                if (ringVoice > 5)
                 {
-                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_10));
-                }
-                else
-                {
-                    CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_11));
+                    if (randVoice == 0)
+                    {
+                        CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_10));
+                    }
+                    else
+                    {
+                        CRIAudioManager.VOICE.Play("Lian", nameof(VOICE.Lian.Lian.Lian_11));
+                    }
                 }
 
                 CRIAudioManager.SE.Play("SE", nameof(TGS2023.SE.SE.SE_007_Cast_Attack));

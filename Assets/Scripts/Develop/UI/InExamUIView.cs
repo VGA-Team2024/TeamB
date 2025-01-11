@@ -60,6 +60,7 @@ namespace TeamB.UI
                 _exam.OnExamUpdated += DefenceCoolTime;
             };
             _allyManager.GetAllies.OnSuccessDefence += ScoreChange;
+            _allyManager.GetAllies.OnEndAttack += ScoreChange;
             ScoreChange();
             SkillUI();
         }
